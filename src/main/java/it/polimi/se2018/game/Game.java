@@ -1,8 +1,9 @@
 package it.polimi.se2018.game;
 
+//singleton class
 public class Game
 {
-    private static Game instance = null;
+    private static Game instance = null;                            //used to store the only reference to the class
 
     private Player[]                player;
     private PublicObjectiveCard[]   publicCards;

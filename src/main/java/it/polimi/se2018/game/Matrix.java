@@ -9,11 +9,14 @@ public class Matrix
     public static final int ROWS  = 4;
     public static final int COLUMNS  = 5;
 
-    private Cell [][]cellMatrix;
+    private Cell[][]    cellMatrix;
+    private Die[][]     dieMatrix;
 
     public Matrix()
     {
         cellMatrix = new Cell[ROWS][COLUMNS];
+        dieMatrix = new Die[ROWS][COLUMNS];
+
         initCellMatrixFromFile("Schema1.sagradaschemecard");
     }
 
@@ -46,10 +49,7 @@ public class Matrix
     private void initCellMatrixFromFile(String filename)  //initialize the matrix reading from .sagradaschemecard file
     {
         try  ( Scanner scanner = new Scanner(new File(filename)) )
-
         {
-
-
             for (int row = 0; row < Matrix.ROWS; row++) {
                 for (int col = 0; col < Matrix.COLUMNS; col++) {
                     String buff = scanner.next();
@@ -63,12 +63,9 @@ public class Matrix
                         cellMatrix[row][col] = new Cell(Color.getColorFromString(buff));
                 }
             }
-
-
         }
         catch (FileNotFoundException e)
         {
-            System.err.println("File was not found. Make sure the file exist.");
             System.err.println("Message: " + e.getMessage());
         }
     }
@@ -79,6 +76,16 @@ public class Matrix
     {
         if(row>=0 && row < ROWS  && column>=0 && column<COLUMNS)
             return cellMatrix[row][column];
+        else
+            return null;
+    }
+
+    //return a die given its coordinates
+    // null in case of not valid coordinates values or die not present
+    public Die getDie(int row, int column)
+    {
+        if(row>=0 && row < ROWS  && column>=0 && column<COLUMNS)
+            return dieMatrix[row][column];
         else
             return null;
     }

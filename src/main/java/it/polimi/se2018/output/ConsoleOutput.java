@@ -1,6 +1,5 @@
 package it.polimi.se2018.output;
 
-import it.polimi.se2018.game.Board;
 import it.polimi.se2018.game.Game;
 import it.polimi.se2018.game.Matrix;
 
