@@ -12,7 +12,7 @@ public class ConsoleOutput extends Output
     }
 
     @Override
-    public void Refresh()
+    public void refresh()
     {
         for(int row = 0; row< Matrix.ROWS; row++)
         {

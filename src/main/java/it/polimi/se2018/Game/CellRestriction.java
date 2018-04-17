@@ -2,46 +2,46 @@ package it.polimi.se2018.Game;
 
 public class CellRestriction
 {
-    private boolean active;         //false = nessuna restrizione  true = restrizione attiva
-    private boolean type;           //false = valore               true = colore
-    private int     val;            //valore nel caso di restrizione di valore
-    private Color   col;            //colore in caso di restrizione di colore
+    private boolean active;         //false = no restriction       true = restriction active
+    private boolean type;           //false = value restriction    true = color restriction
+    private int     val;            //value stored in case of value restriction
+    private Color   col;            //color stored in case of color restriction
 
-    public CellRestriction()        //crea una restrizione non attiva (nessuna restrizione)
+    public CellRestriction()        //create a non active restriction (no restriction)
     {
         active = false;
     }
 
-    public CellRestriction(int value)        //crea una restrizione di valore
+    public CellRestriction(int value)        //create a value restriction
     {
         val = value;
-        type = false;   //restrizione di valore
+        type = false;   //value restriction
         active = true;
     }
 
-    public CellRestriction(Color color)        //crea una restrizione di colore
+    public CellRestriction(Color color)        //create a color restriction
     {
         col = color;
-        type = true;    //restrizione di colore
+        type = true;    //color restriction
         active = true;
     }
 
     public boolean getType()    {return type;}
-    public boolean isValue()    {return !type;}
-    public boolean isColor()    {return type;}
+    public boolean isValue()    {return !getType();}
+    public boolean isColor()    {return getType();}
     public boolean isActive()   {return  active;}
 
-    //restituisce il valore della restrizione oppure -1 in caso di restrizione di colore
+    //return the value of the restriction or -1 in case of color restriction
     public  int getValue()
     {
-        if(isValue())     return val; //restrizione di valore
+        if(isValue())     return val;
         else return -1;
     }
 
-    //restituisce il colore della restrizione oppure null in caso di restrizione di valore
+    //return the color of the restriction or null in case of value restriction
     public  Color getColor()
     {
-        if(isColor())     return col; //restrizione di valore
+        if(isColor())     return col; //value restriction
         else return null;
     }
 }

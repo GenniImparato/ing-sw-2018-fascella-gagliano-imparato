@@ -10,6 +10,6 @@ public class App
     {
         Board board = new Board();
         Output output = new ConsoleOutput(board);
-        output.Refresh();
+        output.refresh();
     }
 }

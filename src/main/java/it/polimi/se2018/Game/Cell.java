@@ -4,17 +4,17 @@ public class Cell
 {
     private CellRestriction restriction;
 
-    public Cell()           //crea una cella senza restrizioni
+    public Cell()           //create a cell without restriction
     {
         restriction = new CellRestriction();
     }
 
-    public Cell(int value)      //crea una cella con restrizione di valore
+    public Cell(int value)      //create a cell with a value restriction
     {
         restriction = new CellRestriction(value);
     }
 
-    public Cell(Color color)        //crea una cella con restrizione di colore
+    public Cell(Color color)        //create a cell with a color restriction
     {
         restriction = new CellRestriction(color);
     }

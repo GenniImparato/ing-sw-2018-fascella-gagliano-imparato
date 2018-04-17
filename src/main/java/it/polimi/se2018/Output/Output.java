@@ -10,7 +10,8 @@ public class Output
 
     public Output(Board board) {brd = board;}
 
-    public void Refresh()
+    //to be override
+    public void refresh()
     {
     }
 }

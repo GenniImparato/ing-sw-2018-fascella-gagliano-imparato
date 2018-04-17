@@ -25,7 +25,22 @@ public enum Color
             case 2: return Color.GREEN;
             case 3: return Color.YELLOW;
             case 4: return Color.PURPLE;
+            default: return null;
         }
+    }
+
+    static public Color getColorFromString(String string)
+    {
+        if(string.equals("red"))
+            return Color.RED;
+        else if(string.equals("blue"))
+            return Color.BLUE;
+        else if(string.equals("yellow"))
+            return Color.YELLOW;
+        else if(string.equals("purple"))
+            return Color.PURPLE;
+        else if(string.equals("green"))
+            return Color.GREEN;
 
         return null;
     }
