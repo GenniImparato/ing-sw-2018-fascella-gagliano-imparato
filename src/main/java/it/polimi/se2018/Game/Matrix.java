@@ -45,9 +45,10 @@ public class Matrix
 
     private void initCellMatrixFromFile(String filename)  //initialize the matrix reading from .sagradaschemecard file
     {
-        try
+        try  ( Scanner scanner = new Scanner(new File(filename)) )
+
         {
-            Scanner scanner = new Scanner(new File(filename));
+
 
             for (int row = 0; row < Matrix.ROWS; row++) {
                 for (int col = 0; col < Matrix.COLUMNS; col++) {
@@ -68,10 +69,6 @@ public class Matrix
         catch (FileNotFoundException e)
         {
             System.err.println("File was not found. Make sure the file exist.");
-            System.err.println("Message: " + e.getMessage());
-        }catch (IOException e)
-        {
-            System.err.println("Error in opening file.");
             System.err.println("Message: " + e.getMessage());
         }
     }
