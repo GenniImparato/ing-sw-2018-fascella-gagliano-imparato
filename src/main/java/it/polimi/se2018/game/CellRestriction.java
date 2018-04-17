@@ -1,4 +1,4 @@
-package it.polimi.se2018.Game;
+package it.polimi.se2018.game;
 
 public class CellRestriction
 {

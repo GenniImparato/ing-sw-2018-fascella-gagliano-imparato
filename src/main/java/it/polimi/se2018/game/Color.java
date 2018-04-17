@@ -1,4 +1,4 @@
-package it.polimi.se2018.Game;
+package it.polimi.se2018.game;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ public enum Color
 
     Color(String consoleString) {cString = consoleString;}
 
-    static public Color getRandomColor()
+    public static Color getRandomColor()
     {
         int rand = new Random().nextInt(5);
 
@@ -29,7 +29,7 @@ public enum Color
         }
     }
 
-    static public Color getColorFromString(String string)
+    public static Color getColorFromString(String string)
     {
         if(string.equals("red"))
             return Color.RED;

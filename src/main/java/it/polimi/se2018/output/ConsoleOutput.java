@@ -1,8 +1,7 @@
-package it.polimi.se2018.Output;
+package it.polimi.se2018.output;
 
-import it.polimi.se2018.Game.Board;
-import it.polimi.se2018.Game.Matrix;
-import it.polimi.se2018.Output.Output;
+import it.polimi.se2018.game.Board;
+import it.polimi.se2018.game.Matrix;
 
 public class ConsoleOutput extends Output
 {

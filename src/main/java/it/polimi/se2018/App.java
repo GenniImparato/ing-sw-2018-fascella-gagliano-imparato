@@ -1,7 +1,7 @@
 package it.polimi.se2018;
-import it.polimi.se2018.Game.Board;
-import it.polimi.se2018.Output.ConsoleOutput;
-import it.polimi.se2018.Output.Output;
+import it.polimi.se2018.game.Board;
+import it.polimi.se2018.output.ConsoleOutput;
+import it.polimi.se2018.output.Output;
 
 
 public class App 

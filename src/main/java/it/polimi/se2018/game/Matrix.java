@@ -1,9 +1,7 @@
-package it.polimi.se2018.Game;
+package it.polimi.se2018.game;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Random;
-import java.lang.Object;
 import java.util.Scanner;
 
 public class Matrix
@@ -11,7 +9,7 @@ public class Matrix
     public static final int ROWS  = 4;
     public static final int COLUMNS  = 5;
 
-    private Cell cellMatrix[][];
+    private Cell [][]cellMatrix;
 
     public Matrix()
     {
@@ -37,6 +35,8 @@ public class Matrix
                         break;
                     case 2:
                         cellMatrix[row][col] = new Cell(Color.getRandomColor());
+                        break;
+                    default:
                         break;
                 }
             }
@@ -64,7 +64,7 @@ public class Matrix
                 }
             }
 
-            scanner.close();
+
         }
         catch (FileNotFoundException e)
         {
