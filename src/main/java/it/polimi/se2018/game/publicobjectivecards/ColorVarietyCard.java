@@ -1,12 +1,13 @@
 package it.polimi.se2018.game.publicobjectivecards;
+
 import it.polimi.se2018.game.Matrix;
 import it.polimi.se2018.game.PublicObjectiveCard;
 
-public class RowColorVarietyCard extends PublicObjectiveCard {
+public class ColorVarietyCard extends PublicObjectiveCard{
 
-    public RowColorVarietyCard ()
+    public ColorVarietyCard ()
     {
-        super ("Row Color Variety", "Rows with no repeated colors", 6 );
+        super ("Color Variety", "Sets of one of each other anywhere", 4);
     }
 
     @Override

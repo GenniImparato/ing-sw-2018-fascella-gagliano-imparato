@@ -1,12 +1,13 @@
 package it.polimi.se2018.game.publicobjectivecards;
+
 import it.polimi.se2018.game.Matrix;
 import it.polimi.se2018.game.PublicObjectiveCard;
 
-public class RowColorVarietyCard extends PublicObjectiveCard {
+public class ColorDiagonalsCard extends PublicObjectiveCard {
 
-    public RowColorVarietyCard ()
+    public ColorDiagonalsCard ()
     {
-        super ("Row Color Variety", "Rows with no repeated colors", 6 );
+        super ("Color Diagonals", "Count of diagonally adjacent same color dice", 1);
     }
 
     @Override
