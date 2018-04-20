@@ -8,11 +8,17 @@ public class Game
     private Player[]                players;
     private PublicObjectiveCard[]   publicCards;
     private ToolCard[]              toolCards;
+    private DiceBag                 diceBag;
+    private DraftPool               draftPool;
+    private RoundTrack              roundTrack;
 
     private Game()
     {
         players = new Player[1];
         players[0] = new Player();
+        diceBag.getInstance();
+        draftPool.getInstance();
+        roundTrack.getInstance();
     }
 
     public static Game getInstance()
