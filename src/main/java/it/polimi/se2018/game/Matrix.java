@@ -17,7 +17,7 @@ public class Matrix
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
 
-        initCellMatrixFromFile("resources/windowpatterncards/1-Firmitas.sagradaschemecard");
+        initCellMatrixFromFile("resources/schemecards/1-Firmitas.sagradaschemecard");
     }
 
     private void initCellMatrixRandom()       //initialize the matrix with random restrictions
