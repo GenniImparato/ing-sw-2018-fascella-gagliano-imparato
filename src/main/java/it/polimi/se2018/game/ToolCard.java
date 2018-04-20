@@ -1,6 +1,8 @@
 package it.polimi.se2018.game;
 
-public abstract class ToolCard extends Card {
+public abstract class ToolCard extends Card
+
+{
 
     private int num;
     private int tokens;
@@ -11,4 +13,7 @@ public abstract class ToolCard extends Card {
         this.num = num;
         tokens = 0;
     }
+
+    public abstract void use (Player player);
+
 }
