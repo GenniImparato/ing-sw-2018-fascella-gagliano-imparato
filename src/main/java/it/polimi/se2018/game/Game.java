@@ -5,14 +5,14 @@ public class Game
 {
     private static Game instance = null;                            //used to store the only reference to the class
 
-    private Player[]                player;
+    private Player[]                players;
     private PublicObjectiveCard[]   publicCards;
     private ToolCard[]              toolCards;
 
     private Game()
     {
-        player = new Player[1];
-        player[0] = new Player();
+        players = new Player[1];
+        players[0] = new Player();
     }
 
     public static Game getInstance()
@@ -25,6 +25,6 @@ public class Game
 
     public Player getPlayer(int num)
     {
-        return player[num];
+        return players[num];
     }
 }
