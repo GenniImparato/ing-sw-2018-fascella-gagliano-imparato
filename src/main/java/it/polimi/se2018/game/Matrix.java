@@ -17,7 +17,21 @@ public class Matrix
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
 
-        initCellMatrixFromFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+        initCellMatrixRandom();
+    }
+
+    public Matrix(Cell[][] cellMatrix)
+    {
+        this.cellMatrix = new Cell[ROWS][COLUMNS];
+        this.dieMatrix = new Die[ROWS][COLUMNS];
+
+        for (int row = 0; row < Matrix.ROWS; row++)
+        {
+            for (int col = 0; col < Matrix.COLUMNS; col++)
+            {
+                this.cellMatrix[row][col] = new Cell(cellMatrix[row][col]);
+            }
+        }
     }
 
     private void initCellMatrixRandom()       //initialize the matrix with random restrictions
@@ -43,30 +57,6 @@ public class Matrix
                         break;
                 }
             }
-        }
-    }
-
-    private void initCellMatrixFromFile(String filename)  //initialize the matrix reading from .sagradaschemecard file
-    {
-        try  ( Scanner scanner = new Scanner(new File(filename)) )
-        {
-            for (int row = 0; row < Matrix.ROWS; row++) {
-                for (int col = 0; col < Matrix.COLUMNS; col++) {
-                    String buff = scanner.next();
-
-                    if (buff.length() == 1) {
-                        if (Integer.parseInt(buff) == 0)
-                            cellMatrix[row][col] = new Cell();
-                        else if (Integer.parseInt(buff) > 0)
-                            cellMatrix[row][col] = new Cell(Integer.parseInt(buff));
-                    } else
-                        cellMatrix[row][col] = new Cell(Color.getColorFromString(buff));
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            System.err.println("Message: " + e.getMessage());
         }
     }
 

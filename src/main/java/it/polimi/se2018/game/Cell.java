@@ -19,5 +19,14 @@ public class Cell
         restriction = new CellRestriction(color);
     }
 
+    public Cell(Cell cell)        //copy constructor
+    {
+        if(cell != null)
+            restriction = new CellRestriction(cell.getRestriction());
+        else
+            restriction = new CellRestriction();
+    }
+
+
     public CellRestriction getRestriction() {return  restriction;}
 }

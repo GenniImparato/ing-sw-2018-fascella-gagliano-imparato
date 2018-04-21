@@ -26,6 +26,14 @@ public class CellRestriction
         active = true;
     }
 
+    public CellRestriction(CellRestriction cellRestriction)        //create a clone of the cellRestriction passed by arguments
+    {
+        active = cellRestriction.active;
+        type = cellRestriction.type;
+        val = cellRestriction.val;
+        col = cellRestriction.col;
+    }
+
     public boolean getType()    {return type;}
     public boolean isValue()    {return !getType();}
     public boolean isColor()    {return getType();}
