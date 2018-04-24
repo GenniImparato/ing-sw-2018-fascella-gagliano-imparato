@@ -2,6 +2,7 @@ package it.polimi.se2018.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DiceBag
 {
@@ -17,8 +18,9 @@ public class DiceBag
 
     private DiceBag()
     {
-        dice=new ArrayList<Die>();
-        for(Color col : Color.values())
+        dice = new ArrayList<Die>();
+
+        for(Color col : Color.values())             //add 90 dice to the list (18 for each color)
         {
             for(int j=0;j<18;j++)
             {
@@ -26,8 +28,19 @@ public class DiceBag
             }
         }
     }
-    public List <Die> pullDice()
+
+    public ArrayList<Die> pullDice(int num)
     {
-        return null;
+        Random random = new Random();
+        ArrayList<Die> ret = new ArrayList<>();
+
+        for(int i=0; i<num; i++)
+        {
+            int index = random.nextInt(dice.size());        //generate a random index between 0 and the number of dice left
+            ret.add(dice.get(index));
+            dice.remove(index);
+        }
+
+        return ret;
     }
 }

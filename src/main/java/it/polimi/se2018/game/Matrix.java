@@ -1,6 +1,7 @@
 package it.polimi.se2018.game;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -64,7 +65,7 @@ public class Matrix
     // null in case of not valid coordinates values
     public Cell getCell(int row, int column)
     {
-        if(row>=0 && row < ROWS  && column>=0 && column<COLUMNS)
+        if(checkCoordinates(row, column))
             return cellMatrix[row][column];
         else
             return null;
@@ -74,9 +75,122 @@ public class Matrix
     // null in case of not valid coordinates values or die not present
     public Die getDie(int row, int column)
     {
-        if(row>=0 && row < ROWS  && column>=0 && column<COLUMNS)
+        if(checkCoordinates(row, column))
             return dieMatrix[row][column];
         else
             return null;
     }
+
+    //return the number of dice in the matrix
+    public int getNumberOfDice()
+    {
+        int num = 0;
+
+        for(int row =0; row<Matrix.ROWS; row++)
+        {
+            for(int col=0; col<Matrix.COLUMNS; col++)
+            {
+                if(getDie(row, col) != null)
+                    num++;
+            }
+        }
+
+        return num;
+    }
+
+    //check if the coordinates are in a valid range
+    private boolean checkCoordinates(int row, int column)
+    {
+        if(row <0 || row >= Matrix.ROWS || column <0 || column >= Matrix.COLUMNS)
+            return false;
+        else
+            return true;
+    }
+
+    //return true if the given coordinates are on the border
+    private boolean isOnBorder(int row, int column)
+    {
+        if(row == 0 || row == Matrix.ROWS-1)
+            return true;
+        if(column == 0 || column == Matrix.COLUMNS-1)
+            return true;
+
+        return false;
+    }
+
+    private ArrayList<Die> getOrthogonalAdjacentDice(int row, int column)
+    {
+        ArrayList<Die> ret = new ArrayList<>();
+
+        if(!checkCoordinates(row, column))
+            return ret;
+
+        for(int rowOffset = -1; rowOffset<=1; rowOffset++)
+        {
+            for(int colOffset = -1; colOffset<=1; colOffset++)
+            {
+                if(Math.abs(colOffset) != Math.abs(rowOffset))                               //select only the orthogonal adjacent cells
+                    if(getDie(row+rowOffset, column+colOffset)!=null)           //if a die is present in the cell
+                        ret.add(getDie(row+rowOffset, column+colOffset));        //add it to the return list
+            }
+        }
+        return ret;
+    }
+
+    private ArrayList<Die> getAdjacentDice(int row, int column)
+    {
+        ArrayList<Die> ret = new ArrayList<>();
+
+        if(!checkCoordinates(row, column))
+            return ret;
+
+        for(int rowOffset = -1; rowOffset<=1; rowOffset++)
+        {
+            for(int colOffset = -1; colOffset<=1; colOffset++)
+            {
+                if(!(rowOffset == 0 && colOffset == 0))                               //select all the adjacent cell (orthogonal and diagonal)
+                    if(getDie(row+rowOffset, column+colOffset)!=null)           //if a die is present in the cell
+                        ret.add(getDie(row+rowOffset, column+colOffset));    //add it to the return list
+            }
+        }
+
+        return ret;
+    }
+
+    public boolean addDie(Die die, int row, int column)
+    {
+        if(!checkCoordinates(row, column))              //check if the coordinates are valid
+            return false;
+
+        if(getCell(row, column).getRestriction().isColor())            //check if the color of the die is not equal to the restriction of the cell
+            if(getCell(row, column).getRestriction().getColor() != die.getColor())
+                return false;
+
+        if(getCell(row, column).getRestriction().isValue())         //check if the value of the die is not equal to the restriction of the cell
+            if(getCell(row, column).getRestriction().getValue() != die.getValue())
+                return false;
+
+        if(getDie(row, column) != null)     //check if the cell is free
+            return false;
+
+        if(getAdjacentDice(row, column).size() == 0)     //check if there is at least one adjacent die
+            return false;
+
+        if(getNumberOfDice() == 0)              //if the die is the first it can only be positioned on the border
+            if(!isOnBorder(row, column))
+                return false;
+
+        ArrayList<Die> orthogonalDice = getOrthogonalAdjacentDice(row, column);
+        for(int i=0; i< orthogonalDice.size(); i++)          //for every ortogonal adjacent dice, check if values or colors are the same
+        {
+            if(orthogonalDice.get(i).getColor() == die.getColor())
+                return false;
+            if(orthogonalDice.get(i).getValue() == die.getValue())
+                return false;
+        }
+
+        dieMatrix[row][column] = die;
+        return true;
+    }
+
 }

@@ -21,4 +21,9 @@ public class Die
         Random random = new Random();
         value = random.nextInt(6)+1;
     }
+
+    public void invert()
+    {
+        value = 7 - value;
+    }
 }

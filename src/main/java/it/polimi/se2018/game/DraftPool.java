@@ -17,8 +17,9 @@ public class DraftPool {
     {
     }
 
-    private void draw()
+    public void draw()
     {
+        dice = DiceBag.getInstance().pullDice(5);
     }
 
 }

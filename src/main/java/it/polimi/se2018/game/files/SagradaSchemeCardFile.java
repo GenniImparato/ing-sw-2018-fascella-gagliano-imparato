@@ -31,7 +31,7 @@ public class SagradaSchemeCardFile extends File
     //returns true if the file is valid, false if it's not
     private boolean check()
     {
-        try (Scanner scanner = new Scanner(this))
+        try (Scanner scanner = new Scanner(this)) 
         {
             int elements = 0;               //used to count the total number of elements in the file
                                             //to pass the check the file should have 4*5 + 1 = 21 elements

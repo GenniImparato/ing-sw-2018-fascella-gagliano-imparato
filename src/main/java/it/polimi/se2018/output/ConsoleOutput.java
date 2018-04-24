@@ -1,7 +1,9 @@
 package it.polimi.se2018.output;
 
+import it.polimi.se2018.game.DraftPool;
 import it.polimi.se2018.game.Game;
 import it.polimi.se2018.game.Matrix;
+import it.polimi.se2018.game.DraftPool;
 
 public class ConsoleOutput extends Output
 {
@@ -31,5 +33,8 @@ public class ConsoleOutput extends Output
 
             System.out.println();
         }
+
+        //DraftPool draft = DraftPool.getInstance();
+
     }
 }

@@ -35,8 +35,23 @@ public class CellRestriction
     }
 
     public boolean getType()    {return type;}
-    public boolean isValue()    {return !getType();}
-    public boolean isColor()    {return getType();}
+
+    public boolean isValue()    //return true in case of value restriction
+    {
+        if(isActive())
+            return !getType();
+        else                    //if the restriction is not active it's not a value restriction
+            return false;
+    }
+
+    public boolean isColor()    //return true in case of color restriction
+    {
+        if(isActive())
+            return getType();
+        else                    //if the restriction is not active it's not a color restriction
+            return false;
+    }
+
     public boolean isActive()   {return  active;}
 
     //return the value of the restriction or -1 in case of color restriction

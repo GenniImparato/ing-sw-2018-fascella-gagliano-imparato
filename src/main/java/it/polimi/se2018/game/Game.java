@@ -19,6 +19,7 @@ public class Game
         diceBag.getInstance();
         draftPool.getInstance();
         roundTrack.getInstance();
+
     }
 
     public static Game getInstance()
