@@ -4,7 +4,7 @@ public abstract class PublicObjectiveCard extends Card {
 
     private int points;
 
-    public abstract int score (Matrix matrix);
+    public abstract int score (Board board);
 
     public PublicObjectiveCard (String name, String description, int points)
     {

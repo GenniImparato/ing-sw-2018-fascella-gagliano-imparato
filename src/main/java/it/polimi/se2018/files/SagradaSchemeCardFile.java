@@ -1,12 +1,13 @@
-package it.polimi.se2018.game.files;
+package it.polimi.se2018.files;
 
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import it.polimi.se2018.game.Board;
 import it.polimi.se2018.game.Cell;
 import it.polimi.se2018.game.Color;
-import it.polimi.se2018.game.Matrix;
 
 public class SagradaSchemeCardFile extends File
 {
@@ -17,7 +18,7 @@ public class SagradaSchemeCardFile extends File
     {
         super(filename);
 
-        cellMatrix = new Cell[Matrix.ROWS][Matrix.COLUMNS];
+        cellMatrix = new Cell[Board.ROWS][Board.COLUMNS];
 
         if(!check())
         {
@@ -82,9 +83,9 @@ public class SagradaSchemeCardFile extends File
     {
         try (Scanner scanner = new Scanner(this ))
         {
-            for (int row = 0; row < Matrix.ROWS; row++)
+            for (int row = 0; row < Board.ROWS; row++)
             {
-                for (int col = 0; col < Matrix.COLUMNS; col++)
+                for (int col = 0; col < Board.COLUMNS; col++)
                 {
                     String buff = scanner.next();
                     Integer intBuff;
@@ -113,8 +114,8 @@ public class SagradaSchemeCardFile extends File
         }
     }
 
-    public Matrix generateMatrix()
+    public Board generateBoard()
     {
-        return new Matrix(cellMatrix);
+        return new Board(cellMatrix);
     }
 }

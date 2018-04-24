@@ -3,7 +3,6 @@ package it.polimi.se2018.game;
 //singleton class
 public class Game
 {
-    private static Game instance = null;                            //used to store the only reference to the class
 
     private Player[]                players;
     private PublicObjectiveCard[]   publicCards;
@@ -12,22 +11,13 @@ public class Game
     private DraftPool               draftPool;
     private RoundTrack              roundTrack;
 
-    private Game()
+    public Game()
     {
         players = new Player[1];
         players[0] = new Player();
-        diceBag.getInstance();
-        draftPool.getInstance();
-        roundTrack.getInstance();
-
-    }
-
-    public static Game getInstance()
-    {
-        if(instance == null)
-            instance = new Game();
-
-        return instance;
+        diceBag = new DiceBag();
+        draftPool = new DraftPool(diceBag);
+        roundTrack = new RoundTrack();
     }
 
     public Player getPlayer(int num)

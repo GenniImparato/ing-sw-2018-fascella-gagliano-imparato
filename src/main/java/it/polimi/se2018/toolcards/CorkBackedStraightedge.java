@@ -1,4 +1,4 @@
-package it.polimi.se2018.game.toolcards;
+package it.polimi.se2018.toolcards;
 
 import it.polimi.se2018.game.Player;
 import it.polimi.se2018.game.ToolCard;

@@ -2,24 +2,19 @@ package it.polimi.se2018.game;
 
 import java.util.ArrayList;
 
-public class DraftPool {
-    private static DraftPool instance = null;
-    ArrayList <Die> dice;
+public class DraftPool
+{
+    private ArrayList <Die> dice;
+    private DiceBag diceBag;
 
-    public static DraftPool getInstance() //Singleton
+    public DraftPool(DiceBag diceBag)
     {
-        if(instance==null)
-            instance=new DraftPool();
-        return instance;
-    }
-
-    private DraftPool()
-    {
+        this.diceBag = diceBag;
     }
 
     public void draw()
     {
-        dice = DiceBag.getInstance().pullDice(5);
+        dice = diceBag.pullDice(5);
     }
 
 }

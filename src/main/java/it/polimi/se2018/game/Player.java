@@ -1,5 +1,7 @@
 package it.polimi.se2018.game;
 
+import it.polimi.se2018.files.SagradaSchemeCardFile;
+
 public class Player
 {
     private Board                   board;              //player's board
@@ -9,7 +11,14 @@ public class Player
 
     public Player()
     {
-        board = new Board();
+        try
+        {
+            board = new SagradaSchemeCardFile("resources/schemecards/3-Water of Life.sagradaschemecard").generateBoard();
+        }
+        catch(Exception e)
+        {
+            board = new Board();
+        }
     }
 
     public Board getBoard()

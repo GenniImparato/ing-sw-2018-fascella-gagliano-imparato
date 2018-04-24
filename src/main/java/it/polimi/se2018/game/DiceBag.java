@@ -1,24 +1,16 @@
 package it.polimi.se2018.game;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class DiceBag
 {
-    private static DiceBag instance = null;
-    ArrayList<Die> dice ;
+    private ArrayList<Die> dice ;
 
-    public static DiceBag getInstance()     //Singleton
+    //create a DiceBag containing 90 dices
+    public DiceBag()
     {
-        if (instance==null)
-            instance=new DiceBag();
-        return instance;
-    }
-
-    private DiceBag()
-    {
-        dice = new ArrayList<Die>();
+        dice = new ArrayList<>();
 
         for(Color col : Color.values())             //add 90 dice to the list (18 for each color)
         {
@@ -29,6 +21,8 @@ public class DiceBag
         }
     }
 
+    //return a list containing num random dice from the DiceBag
+    //dice returned are removed from the DiceBag
     public ArrayList<Die> pullDice(int num)
     {
         Random random = new Random();

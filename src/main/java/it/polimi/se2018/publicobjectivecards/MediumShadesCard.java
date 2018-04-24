@@ -1,6 +1,6 @@
-package it.polimi.se2018.game.publicobjectivecards;
+package it.polimi.se2018.publicobjectivecards;
 
-import it.polimi.se2018.game.Matrix;
+import it.polimi.se2018.game.Board;
 import it.polimi.se2018.game.PublicObjectiveCard;
 
 public class MediumShadesCard extends PublicObjectiveCard {
@@ -12,7 +12,7 @@ public class MediumShadesCard extends PublicObjectiveCard {
     }
 
     @Override
-    public int score(Matrix matrix) {
+    public int score(Board board) {
         return 0;
     }
 }

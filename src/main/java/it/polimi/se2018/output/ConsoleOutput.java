@@ -1,40 +1,37 @@
 package it.polimi.se2018.output;
 
-import it.polimi.se2018.game.DraftPool;
-import it.polimi.se2018.game.Game;
-import it.polimi.se2018.game.Matrix;
-import it.polimi.se2018.game.DraftPool;
+import it.polimi.se2018.game.*;
 
 public class ConsoleOutput extends Output
 {
-    public ConsoleOutput() {
+    private Game game;
+
+    public ConsoleOutput(Game game)
+    {
+        this.game = game;
     }
 
     @Override
     public void refresh()
     {
-        Game game = Game.getInstance();
-        Matrix m = game.getPlayer(0).getBoard().getMatrix();
+        Board b = game.getPlayer(0).getBoard();
 
-        for(int row = 0; row< Matrix.ROWS; row++)
+        for(int row = 0; row< Board.ROWS; row++)
         {
-            for(int col=0; col<Matrix.COLUMNS; col++)
+            for(int col = 0; col< Board.COLUMNS; col++)
             {
-                if(!m.getCell(row, col).getRestriction().isActive())
+                if(!b.getCell(row, col).getRestriction().isActive())
                     System.out.print("[   ]   ");
-                else if (m.getCell(row, col).getRestriction().isValue())
-                    System.out.print("[ " +m.getCell(row, col).getRestriction().getValue()+ " ]   ");
-                else if (m.getCell(row, col).getRestriction().isColor())
+                else if (b.getCell(row, col).getRestriction().isValue())
+                    System.out.print("[ " +b.getCell(row, col).getRestriction().getValue()+ " ]   ");
+                else if (b.getCell(row, col).getRestriction().isColor())
                     System.out.print(
-                            m.getCell(row, col).getRestriction().getColor().getConsoleString()
+                            b.getCell(row, col).getRestriction().getColor().getConsoleString()
                             +"[   ]   "
                             +"\033[0m");
             }
 
             System.out.println();
         }
-
-        //DraftPool draft = DraftPool.getInstance();
-
     }
 }

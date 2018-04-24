@@ -1,5 +1,5 @@
-package it.polimi.se2018.game.publicobjectivecards;
-import it.polimi.se2018.game.Matrix;
+package it.polimi.se2018.publicobjectivecards;
+import it.polimi.se2018.game.Board;
 import it.polimi.se2018.game.PublicObjectiveCard;
 
 public class RowColorVarietyCard extends PublicObjectiveCard {
@@ -10,7 +10,7 @@ public class RowColorVarietyCard extends PublicObjectiveCard {
     }
 
     @Override
-    public int score(Matrix matrix) {
+    public int score(Board board) {
         return 0;
     }
 }
