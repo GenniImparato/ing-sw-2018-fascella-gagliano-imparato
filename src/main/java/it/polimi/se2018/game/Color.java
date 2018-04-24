@@ -29,6 +29,8 @@ public enum Color
         }
     }
 
+    //convert a string into a Color
+    //return null if the string doesn't mach any color
     public static Color getColorFromString(String string)
     {
         if(string.equals("red"))
@@ -45,5 +47,8 @@ public enum Color
         return null;
     }
 
-    public String getConsoleString() {return cString;}
+    public String getConsoleString()
+    {
+        return cString;
+    }
 }

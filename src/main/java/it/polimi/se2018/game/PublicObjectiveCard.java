@@ -1,14 +1,14 @@
 package it.polimi.se2018.game;
 
-public abstract class PublicObjectiveCard extends Card {
-
+public abstract class PublicObjectiveCard extends Card
+{
     private int points;
-
-    public abstract int score (Board board);
 
     public PublicObjectiveCard (String name, String description, int points)
     {
-        super (name, description);
+        super(name, description);
         this.points = points;
     }
+
+    public abstract int score (Board board);
 }

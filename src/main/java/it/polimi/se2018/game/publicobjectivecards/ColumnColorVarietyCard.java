@@ -1,4 +1,4 @@
-package it.polimi.se2018.publicobjectivecards;
+package it.polimi.se2018.game.publicobjectivecards;
 
 import it.polimi.se2018.game.Board;
 import it.polimi.se2018.game.PublicObjectiveCard;

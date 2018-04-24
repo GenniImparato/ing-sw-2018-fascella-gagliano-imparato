@@ -13,8 +13,15 @@ public class Die
         roll();
     }
 
-    public int getValue()   {return value;}
-    public Color getColor() {return color;}
+    public int getValue()
+    {
+        return value;
+    }
+
+    public Color getColor()
+    {
+        return color;
+    }
 
     public void roll()
     {

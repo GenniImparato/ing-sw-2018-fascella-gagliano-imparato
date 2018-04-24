@@ -4,22 +4,26 @@ public class Cell
 {
     private CellRestriction restriction;
 
-    public Cell()           //create a cell without restriction
+    //create a cell without restriction
+    public Cell()
     {
         restriction = new CellRestriction();
     }
 
-    public Cell(int value)      //create a cell with a value restriction
+    //create a cell with a value restriction
+    public Cell(int value)
     {
         restriction = new CellRestriction(value);
     }
 
-    public Cell(Color color)        //create a cell with a color restriction
+    //create a cell with a color restriction
+    public Cell(Color color)
     {
         restriction = new CellRestriction(color);
     }
 
-    public Cell(Cell cell)        //copy constructor
+    //copy constructor
+    public Cell(Cell cell)
     {
         if(cell != null)
             restriction = new CellRestriction(cell.getRestriction());
@@ -28,5 +32,8 @@ public class Cell
     }
 
 
-    public CellRestriction getRestriction() {return  restriction;}
+    public CellRestriction getRestriction()
+    {
+        return  restriction;
+    }
 }

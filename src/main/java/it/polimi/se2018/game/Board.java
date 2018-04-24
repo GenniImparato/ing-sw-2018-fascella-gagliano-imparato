@@ -3,21 +3,24 @@ package it.polimi.se2018.game;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Board {
+public class Board
+{
     public static final int ROWS = 4;
     public static final int COLUMNS = 5;
 
     private Cell[][] cellMatrix;
     private Die[][] dieMatrix;
 
-    public Board() {
+    public Board()
+    {
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
 
         initCellMatrixRandom();
     }
 
-    public Board(Cell[][] cellMatrix) {
+    public Board(Cell[][] cellMatrix)
+    {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
 
@@ -28,34 +31,10 @@ public class Board {
         }
     }
 
-    private void initCellMatrixRandom()       //initialize the matrix with random restrictions
-    {
-        Random rand = new Random();
-
-        for (int col = 0; col < COLUMNS; col++) {
-            for (int row = 0; row < ROWS; row++) {
-                int rest = rand.nextInt(3);
-
-                switch (rest) {
-                    case 0:
-                        cellMatrix[row][col] = new Cell();
-                        break;
-                    case 1:
-                        cellMatrix[row][col] = new Cell(rand.nextInt(5) + 1);
-                        break;
-                    case 2:
-                        cellMatrix[row][col] = new Cell(Color.getRandomColor());
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
     //return a cell given its coordinates
     // null in case of not valid coordinates values
-    public Cell getCell(int row, int column) {
+    public Cell getCell(int row, int column)
+    {
         if (checkCoordinates(row, column))
             return cellMatrix[row][column];
         else
@@ -64,7 +43,8 @@ public class Board {
 
     //return a die given its coordinates
     // null in case of not valid coordinates values or die not present
-    public Die getDie(int row, int column) {
+    public Die getDie(int row, int column)
+    {
         if (checkCoordinates(row, column))
             return dieMatrix[row][column];
         else
@@ -118,11 +98,38 @@ public class Board {
                 return false;
         }
 
-        dieMatrix[row][column] = die;
+        dieMatrix[row][column] = die;   //the die is added in the selected position
         return true;
     }
 
+
     //helpers methods
+
+    //initialize the matrix with random restrictions
+    private void initCellMatrixRandom()
+    {
+        Random rand = new Random();
+
+        for (int col = 0; col < COLUMNS; col++) {
+            for (int row = 0; row < ROWS; row++) {
+                int rest = rand.nextInt(3);
+
+                switch (rest) {
+                    case 0:
+                        cellMatrix[row][col] = new Cell();
+                        break;
+                    case 1:
+                        cellMatrix[row][col] = new Cell(rand.nextInt(5) + 1);
+                        break;
+                    case 2:
+                        cellMatrix[row][col] = new Cell(Color.getRandomColor());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 
     //check if the coordinates are in a valid range
     private boolean checkCoordinates(int row, int column)
@@ -134,7 +141,8 @@ public class Board {
     }
 
     //return true if the given coordinates are on the border
-    private boolean isOnBorder(int row, int column) {
+    private boolean isOnBorder(int row, int column)
+    {
         if (row == 0 || row == Board.ROWS - 1)
             return true;
         if (column == 0 || column == Board.COLUMNS - 1)
@@ -143,7 +151,8 @@ public class Board {
         return false;
     }
 
-    private ArrayList<Die> getOrthogonalAdjacentDice(int row, int column) {
+    private ArrayList<Die> getOrthogonalAdjacentDice(int row, int column)
+    {
         ArrayList<Die> ret = new ArrayList<>();
 
         if (!checkCoordinates(row, column))
@@ -161,7 +170,8 @@ public class Board {
         return ret;
     }
 
-    private ArrayList<Die> getAdjacentDice(int row, int column) {
+    private ArrayList<Die> getAdjacentDice(int row, int column)
+    {
         ArrayList<Die> ret = new ArrayList<>();
 
         if (!checkCoordinates(row, column))

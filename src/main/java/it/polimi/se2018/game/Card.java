@@ -1,7 +1,7 @@
 package it.polimi.se2018.game;
 
-public abstract class Card {
-
+public abstract class Card
+{
     private String name;
     private String description;
 

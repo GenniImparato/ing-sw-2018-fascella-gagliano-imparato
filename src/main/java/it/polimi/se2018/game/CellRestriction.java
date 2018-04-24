@@ -7,26 +7,30 @@ public class CellRestriction
     private int     val;            //value stored in case of value restriction
     private Color   col;            //color stored in case of color restriction
 
-    public CellRestriction()        //create a non active restriction (no restriction)
+    //create a non active restriction (no restriction)
+    public CellRestriction()
     {
         active = false;
     }
 
-    public CellRestriction(int value)        //create a value restriction
+    //create a value restriction
+    public CellRestriction(int value)
     {
         val = value;
         type = false;   //value restriction
         active = true;
     }
 
-    public CellRestriction(Color color)        //create a color restriction
+    //create a color restriction
+    public CellRestriction(Color color)
     {
         col = color;
         type = true;    //color restriction
         active = true;
     }
 
-    public CellRestriction(CellRestriction cellRestriction)        //create a clone of the cellRestriction passed by arguments
+    //create a clone of the cellRestriction passed by arguments
+    public CellRestriction(CellRestriction cellRestriction)
     {
         active = cellRestriction.active;
         type = cellRestriction.type;
@@ -34,9 +38,13 @@ public class CellRestriction
         col = cellRestriction.col;
     }
 
-    public boolean getType()    {return type;}
+    private boolean getType()
+    {
+        return type;
+    }
 
-    public boolean isValue()    //return true in case of value restriction
+
+    public boolean isValue()
     {
         if(isActive())
             return !getType();
@@ -44,7 +52,8 @@ public class CellRestriction
             return false;
     }
 
-    public boolean isColor()    //return true in case of color restriction
+    //return true if the restriction is active and it's a color restriction
+    public boolean isColor()
     {
         if(isActive())
             return getType();
@@ -52,17 +61,20 @@ public class CellRestriction
             return false;
     }
 
-    public boolean isActive()   {return  active;}
+    public boolean isActive()
+    {
+        return  active;
+    }
 
     //return the value of the restriction or -1 in case of color restriction
-    public  int getValue()
+    public int getValue()
     {
         if(isValue())     return val;
         else return -1;
     }
 
     //return the color of the restriction or null in case of value restriction
-    public  Color getColor()
+    public Color getColor()
     {
         if(isColor())     return col; //value restriction
         else return null;
