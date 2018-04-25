@@ -61,6 +61,11 @@ public class PlayerTurnIterator implements Iterator<Player>
         return !hasNext();
     }
 
+    public ArrayList<Player> getAllPlyers()
+    {
+        return players;
+    }
+
     //helper
     private void refreshPlayersTurns()      //refresh the list with the corrects players turn for a new round
     {

@@ -4,10 +4,15 @@ public class PrivateObjectiveCard extends Card
 {
     private Color color;
 
-    public PrivateObjectiveCard (String name, String description, Color color)
+    public PrivateObjectiveCard (Color color)
     {
-        super (name, description );
+        super ("Private card", "--" );
 
         this.color=color;
+    }
+
+    public int score (Board board)
+    {
+        return 0;
     }
 }
