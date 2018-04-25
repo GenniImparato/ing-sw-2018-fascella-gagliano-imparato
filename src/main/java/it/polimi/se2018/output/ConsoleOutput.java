@@ -14,7 +14,7 @@ public class ConsoleOutput extends Output
     @Override
     public void refresh()
     {
-        Board b = game.getPlayer(0).getBoard();
+       /* Board b = game.getCurrentPlayer().getBoard();
 
         for(int row = 0; row< Board.ROWS; row++)
         {
@@ -32,6 +32,13 @@ public class ConsoleOutput extends Output
             }
 
             System.out.println();
+        }*/
+
+       game.beginRound();
+        for(int i=0; i<25; i++)
+        {
+            game.beginPlayerTurn();
+            game.endPlayerTurn();
         }
     }
 }

@@ -8,9 +8,12 @@ public class Player
     private PrivateObjectiveCard[]  card;               //player's private objective card
     private int                     tokens;             //player's number of favor token
     private Color                   color;              //color of the player's board and the score marker
+    private String                  nickname;
 
-    public Player()
+    public Player(String nickname)
     {
+        this.nickname = nickname;
+
         try
         {
             board = new SagradaSchemeCardFile("resources/schemecards/3-Water of Life.sagradaschemecard").generateBoard();
@@ -19,6 +22,11 @@ public class Player
         {
             board = new Board();
         }
+    }
+
+    public String getNickname()
+    {
+        return nickname;
     }
 
     public Board getBoard()

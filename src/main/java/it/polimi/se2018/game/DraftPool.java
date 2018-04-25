@@ -12,9 +12,28 @@ public class DraftPool
         this.diceBag = diceBag;
     }
 
-    public void draw()
+    //draw num dice form the DiceBag
+    public void draw(int num)
     {
-        dice = diceBag.pullDice(5);
+        dice = diceBag.pullDice(num);
+    }
+
+    //return a die from the DraftPool
+    //the drafted die is removed from the DraftPool
+    public Die draftDie(int num)
+    {
+        Die die = dice.get(num);
+        dice.remove(num);
+        return die;
+    }
+
+    //return a list containing all remaining dice from the DraftPool
+    //the returned dice are removed from the DraftPool
+    public ArrayList<Die> getAllDice()
+    {
+        ArrayList<Die> ret = new ArrayList<>(dice);
+        dice.clear();
+        return ret;
     }
 
 }
