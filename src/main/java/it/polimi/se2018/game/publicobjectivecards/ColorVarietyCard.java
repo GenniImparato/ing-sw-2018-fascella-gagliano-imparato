@@ -1,6 +1,7 @@
 package it.polimi.se2018.game.publicobjectivecards;
 
 import it.polimi.se2018.game.Board;
+import it.polimi.se2018.game.BoardAnalyzer;
 import it.polimi.se2018.game.PublicObjectiveCard;
 
 public class ColorVarietyCard extends PublicObjectiveCard{
@@ -11,7 +12,10 @@ public class ColorVarietyCard extends PublicObjectiveCard{
     }
 
     @Override
-    public int score(Board board) {
-        return 0;
+    public int score(Board board)
+    {
+
+        BoardAnalyzer boardAnalyzer =  new BoardAnalyzer(board);
+        return boardAnalyzer.countSets(BoardAnalyzer.COLOR) * points;
     }
 }

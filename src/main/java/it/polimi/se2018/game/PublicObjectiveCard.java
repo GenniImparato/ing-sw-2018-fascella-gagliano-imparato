@@ -7,8 +7,8 @@ import java.util.Random;
 
 public abstract class PublicObjectiveCard extends Card
 {
-    private int                 points;
-    private static final int    NUMBER_OF_CARDS = 10;
+    protected int                 points;
+    private static final int      NUMBER_OF_CARDS = 10;
 
     public PublicObjectiveCard (String name, String description, int points)
     {

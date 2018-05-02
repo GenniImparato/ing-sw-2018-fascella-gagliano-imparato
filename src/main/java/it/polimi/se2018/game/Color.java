@@ -4,15 +4,20 @@ import java.util.Random;
 
 public enum Color
 {
-    RED ("\033[31m"),
-    BLUE ("\033[34m"),
-    GREEN ("\033[32m"),
-    YELLOW ("\033[33m"),
-    PURPLE ("\033[35m");
+    RED ("\033[31m", 0),
+    BLUE ("\033[34m", 1),
+    GREEN ("\033[32m", 2),
+    YELLOW ("\033[33m", 3),
+    PURPLE ("\033[35m", 4);
 
-    private String cString;
+    private String consoleString;
+    private int num;
 
-    Color(String consoleString) {cString = consoleString;}
+    Color(String consoleString, int num)
+    {
+        this.consoleString = consoleString;
+        this.num = num;
+    }
 
     public static Color getRandomColor()
     {
@@ -47,8 +52,13 @@ public enum Color
         return null;
     }
 
+    public int getNum()
+    {
+        return num;
+    }
+
     public String getConsoleString()
     {
-        return cString;
+        return consoleString;
     }
 }

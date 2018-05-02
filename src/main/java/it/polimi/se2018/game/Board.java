@@ -31,6 +31,35 @@ public class Board
         }
     }
 
+    //if the die is on the board returns the row, else return -1
+    public int getDieRow(Die die)
+    {
+        for(int row=0; row < Board.ROWS; row++)
+        {
+            for(int col=0; col < Board.COLUMNS; col++)
+            {
+                if(die == getDie(row,col))
+                    return row;
+            }
+        }
+        return -1;
+    }
+
+    //if the die is on the board returns the column, else return -1
+    public int getDieColumn(Die die)
+    {
+        for(int row=0; row < Board.ROWS; row++)
+        {
+            for(int col=0; col < Board.COLUMNS; col++)
+            {
+                if(die == getDie(row,col))
+                    return col;
+            }
+        }
+        return -1;
+    }
+
+
     //return a cell given its coordinates
     // null in case of not valid coordinates values
     public Cell getCell(int row, int column)
@@ -51,12 +80,43 @@ public class Board
             return null;
     }
 
+    //return an ArrayList of Dice in a row
+    //if index is out of range, return an empty ArrayList
+    public ArrayList<Die> getDiceOnRow(int row)
+    {
+        if(row < 0 || row >= Board.ROWS)
+            return new ArrayList<Die>();
+
+        ArrayList<Die> ret = new ArrayList<>();
+        for(int j=0; j<Board.COLUMNS; j++)
+            ret.add(getDie(row,j));
+
+        return ret;
+    }
+
+    //return an ArrayList of Dice in a column
+    //if index is out of range, return an empty ArrayList
+    public ArrayList<Die> getDiceOnColumn(int col)
+    {
+        if(col < 0 || col >= Board.COLUMNS)
+            return new ArrayList<Die>();
+
+        ArrayList<Die> ret = new ArrayList<>();
+        for(int j=0; j<Board.ROWS; j++)
+            ret.add(getDie(j,col));
+
+        return ret;
+    }
+
     //return the number of dice in the matrix
-    public int getNumberOfDice() {
+    public int getNumberOfDice()
+    {
         int num = 0;
 
-        for (int row = 0; row < Board.ROWS; row++) {
-            for (int col = 0; col < Board.COLUMNS; col++) {
+        for (int row = 0; row < Board.ROWS; row++)
+        {
+            for (int col = 0; col < Board.COLUMNS; col++)
+            {
                 if (getDie(row, col) != null)
                     num++;
             }
@@ -165,6 +225,25 @@ public class Board
                 if ((Math.abs(colOffset) != Math.abs(rowOffset)) &&                            //select only the orthogonal adjacent cells
                 getDie(row + rowOffset, column + colOffset) != null)           //if a die is present in the cell
                         ret.add(getDie(row + rowOffset, column + colOffset));        //add it to the return list
+            }
+        }
+        return ret;
+    }
+
+    public ArrayList<Die> getDiagonalAdjacentDice(int row, int column)
+    {
+        ArrayList<Die> ret = new ArrayList<>();
+
+        if (!checkCoordinates(row, column))
+            return ret;
+
+        for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
+        {
+            for (int colOffset = -1; colOffset <= 1; colOffset++)
+            {
+                if ((Math.abs(colOffset) == 1 && Math.abs(rowOffset) == 1) &&                            //select only the orthogonal adjacent cells
+                        getDie(row + rowOffset, column + colOffset) != null)           //if a die is present in the cell
+                    ret.add(getDie(row + rowOffset, column + colOffset));        //add it to the return list
             }
         }
         return ret;

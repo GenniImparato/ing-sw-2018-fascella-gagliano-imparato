@@ -8,7 +8,7 @@ public class PlayerTurnIterator implements Iterator<Player>
     private ArrayList<Player>           players;
     private int                         currentTurn = 0;
     private int                         firstPlayer = 0;
-    private ArrayList<Integer>          turns;                  //used to store the order of player's turns
+    private ArrayList<Integer>          turns ;                  //used to store the order of player's turns
 
     private static final int            MAX_PLAYERS_NUM =4;
 
