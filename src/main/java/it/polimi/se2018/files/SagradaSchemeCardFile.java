@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-import it.polimi.se2018.game.Board;
-import it.polimi.se2018.game.Cell;
-import it.polimi.se2018.game.Color;
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Cell;
+import it.polimi.se2018.model.Color;
 
 public class SagradaSchemeCardFile extends File
 {
