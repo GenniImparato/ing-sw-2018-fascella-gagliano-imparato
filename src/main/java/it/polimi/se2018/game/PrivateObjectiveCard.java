@@ -13,6 +13,9 @@ public class PrivateObjectiveCard extends Card
 
     public int score (Board board)
     {
-        return 0;
+        BoardAnalyzer boardAnalyzer = new BoardAnalyzer(board);
+
+        return boardAnalyzer.sumValuesOfColor(color);
+
     }
 }

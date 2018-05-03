@@ -172,4 +172,22 @@ public class BoardAnalyzer {
 
         return counter;
     }
+
+    //returns the sum of the values of the dice with the color passed by argument
+    public int sumValuesOfColor (Color color)
+    {
+        int counter = 0;
+
+        for (int row=0; row<Board.ROWS; row++)
+        {
+            for (int col=0; col<Board.COLUMNS; col++)
+            {
+                Die die = board.getDie(row,col);
+                if (die!=null && die.getColor() == color)
+                    counter += die.getValue();
+            }
+        }
+
+        return counter;
+    }
 }
