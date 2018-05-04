@@ -12,10 +12,12 @@ public class CLI extends View
 {
     private     CLIState    state;
     private     Scanner     scanner;
+    private     CLIRenderer renderer;
 
     public CLI (Game game)
     {
         super (game);
+        renderer = new CLIRenderer();
         scanner = new Scanner(System.in);
 
         System.out.println();
@@ -61,7 +63,8 @@ public class CLI extends View
 
     public void start()
     {
-        menuClientServer();
+       // menuClientServer();
+        renderer.draw();
     }
 
     private void render ()
