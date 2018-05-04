@@ -1,21 +1,43 @@
 package it.polimi.se2018.view.cli;
 import it.polimi.se2018.events.Message;
+import it.polimi.se2018.events.clievents.CLIInputParsedEvent;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.*;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class CLI extends View
 {
-
+    private     CLIState    state;
+    private     Scanner     scanner;
 
     public CLI (Game game)
     {
         super (game);
-        System.out.println("CLI creata");
-        render ();
+        scanner = new Scanner(System.in);
 
+        System.out.println();
+        System.out.print(Color.RED.getConsoleString());
+        System.out.print("S ");
+        System.out.print(Color.BLUE.getConsoleString());
+        System.out.print("A ");
+        System.out.print(Color.YELLOW.getConsoleString());
+        System.out.print("G ");
+        System.out.print(Color.GREEN.getConsoleString());
+        System.out.print("R ");
+        System.out.print(Color.PURPLE.getConsoleString());
+        System.out.print("A ");
+        System.out.print(Color.BLUE.getConsoleString());
+        System.out.print("D ");
+        System.out.print(Color.RED.getConsoleString());
+        System.out.print("A ");
+        System.out.println(Color.getResetConsoleString());
+        System.out.println("____________________");
+        System.out.println();
+        System.out.println("Select an action from the menu typing it's number.");
+        System.out.println();
     }
 
     @Override
@@ -24,10 +46,43 @@ public class CLI extends View
 
     }
 
+    public void showErrorMessage(String message)
+    {
+        System.out.print(Color.RED.getConsoleString());
+        System.out.println("Error: " + message);
+        System.out.print(Color.getResetConsoleString());
+    }
+
+    public void showMessage(String message)
+    {
+        System.out.println(message);
+    }
+
+
+    public void start()
+    {
+        menuClientServer();
+    }
+
     private void render ()
     {
         for (Player player : game.getAllPlayers())
             draw(player);
+    }
+
+    public void menuClientServer()
+    {
+        state = CLIState.MENU_CLIENT_SERVER;
+        System.out.println("1) Start a New Game (Server):");
+        System.out.println("2) Connect to a Game (Client):");
+        notify(new CLIInputParsedEvent(this, state, scanner.next()));
+    }
+
+    public void askPLayerNickname()
+    {
+        state = CLIState.MENU_ASKING_PLAYER_NICKNAME;
+        System.out.println("Insert your nickname:");
+        notify(new CLIInputParsedEvent(this, state, scanner.next()));
     }
 
     private void draw (Player player)

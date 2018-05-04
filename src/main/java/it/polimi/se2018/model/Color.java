@@ -64,6 +64,8 @@ public enum Color
         return consoleString;
     }
 
+    public static String getResetConsoleString() { return new String("\033[0m");}
+
     public char getFirstChar ()
     {
         return firstLetter;

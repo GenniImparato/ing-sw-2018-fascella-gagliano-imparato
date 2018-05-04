@@ -25,9 +25,9 @@ public class Game extends Observable <Message>
     {
         playersIterator = new PlayerTurnIterator();
 
-        addNewPlayer("Renatino");
+        /*addNewPlayer("Renatino");
         addNewPlayer("Kwx");
-        addNewPlayer("Ges");
+        addNewPlayer("Ges");*/
 
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
