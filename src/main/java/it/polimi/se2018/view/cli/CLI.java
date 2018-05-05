@@ -12,14 +12,16 @@ import java.util.concurrent.TimeUnit;
 
 public class CLI extends View
 {
-    private     CLIState    state;
-    private     Scanner     scanner;
-    private     CLIRenderer renderer;
+    private     CLIState            state;
+    private     Scanner             scanner;
+    private     CLIRendererMain     mainRenderer;
+    private     CLIRendererCards    cardsRenderer;
 
     public CLI (Game game)
     {
         super (game);
-        renderer = new CLIRenderer(game);
+        mainRenderer = new CLIRendererMain(game);
+        cardsRenderer = new CLIRendererCards(game);
         scanner = new Scanner(System.in);
 
         System.out.println();
@@ -75,6 +77,7 @@ public class CLI extends View
         beginRound();
     }
 
+    //notify the controller to tell that a new round has begun
     public void beginRound()
     {
         notify(new CLIBeginRoundEvent(this, state));
@@ -82,7 +85,7 @@ public class CLI extends View
 
     public void askPlayerForAction()
     {
-        renderGameState(CLIRenderState.NO_SELECTION);
+        renderGameState(CLIRenderMainState.NO_SELECTION);
         state = CLIState.GAME_ASK_PLAYER_FOR_ACTION;
         System.out.println("It's your turn!");
         System.out.println("Choose an action:");
@@ -93,7 +96,7 @@ public class CLI extends View
 
     public void askPlayerForDrafting()
     {
-        renderGameState(CLIRenderState.DRAFTPOOL_SELECTED);
+        renderGameState(CLIRenderMainState.DRAFTPOOL_SELECTED);
         state = CLIState.GAME_ASK_PLAYER_FOR_DRAFTING;
         System.out.println("Choose a die in the draft pool:");
         System.out.println("b) go back");
@@ -102,7 +105,7 @@ public class CLI extends View
 
     public void askPlayerForAddingDie(Die die)
     {
-        renderGameState(CLIRenderState.BOARD_SELECTED);
+        renderGameState(CLIRenderMainState.BOARD_SELECTED);
         state = CLIState.GAME_ASK_PLAYER_FOR_ADDING_DICE;
         System.out.print("You drafted a " + die.getColor().getConsoleString() + die.getColor() +" "+ Color.getResetConsoleString());
         System.out.println("die with value: " + die.getValue());
@@ -117,10 +120,10 @@ public class CLI extends View
         System.out.flush();
     }
 
-    private void renderGameState(CLIRenderState renderState)
+    private void renderGameState(CLIRenderMainState renderState)
     {
         clear();
-        renderer.render(renderState);
+        mainRenderer.render(renderState);
     }
 
     public void menuClientServer()

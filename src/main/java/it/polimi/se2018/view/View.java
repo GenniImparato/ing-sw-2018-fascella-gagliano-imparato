@@ -5,7 +5,7 @@ import it.polimi.se2018.events.*;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.observer.*;
 
-
+//every concrete view has to extend this class
 public abstract class View extends Observable implements Observer <Message>
 {
     protected Game game;

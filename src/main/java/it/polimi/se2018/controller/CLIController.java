@@ -17,11 +17,13 @@ public class CLIController extends Controller<CLIEvent>
     }
 
     @Override
+    //handle events from the view
     public void update(CLIEvent event)
     {
         if(event instanceof CLIInputEvent)
             handleEvent((CLIInputEvent)event);
-        else if(event instanceof CLIBeginRoundEvent) {
+        else if(event instanceof CLIBeginRoundEvent)
+        {
             game.beginRound();
             view.askPlayerForAction();
         }
@@ -66,7 +68,10 @@ public class CLIController extends Controller<CLIEvent>
                 if(event.getInput().equals("1"))
                     view.askPlayerForDrafting();
                 else if(event.getInput().equals("2"))
+                {
+                    view.showErrorMessage("Tool cards not yet implemeted!");
                     view.askPlayerForAction();
+                }
                 else
                 {
                     view.showErrorMessage("Not valid input!");

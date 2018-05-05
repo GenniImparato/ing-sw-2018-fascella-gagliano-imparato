@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.cli;
 
-public enum CLIRenderState
+public enum CLIRenderMainState
 {
     NO_SELECTION,
     DRAFTPOOL_SELECTED,

@@ -4,18 +4,18 @@ import it.polimi.se2018.model.*;
 
 import java.util.ArrayList;
 
-public class CLIRenderer
+//a class used to render all the elements in the CLI
+public abstract class CLIRenderer
 {
-    private char[][]            charMatrix;
-    private Color[][]           colorMatrix;
+    protected char[][]            charMatrix;
+    protected Color[][]           colorMatrix;
 
-    private Game                game;
-    private CLIRenderState      state;
+    protected Game                game;
 
-    private static final int    WIDTH = 220;
-    private static final int    HEIGHT = 35;
+    protected static final int    WIDTH = 220;
+    protected static final int    HEIGHT = 35;
 
-    private ArrayList<CLIElement> elements;
+    protected ArrayList<CLIElement> elements;
 
     public CLIRenderer(Game game)
     {
@@ -26,9 +26,9 @@ public class CLIRenderer
         this.game = game;
     }
 
-    public void render(CLIRenderState state)
+    //draws everything in the console
+    protected void render()
     {
-        this.state = state;
         refresh();
 
         for(int row=0; row < HEIGHT; row++)
@@ -48,7 +48,6 @@ public class CLIRenderer
     public void setChar(char c, int x, int y)
     {
         charMatrix[y][x] = c;
-
     }
 
     public void setColor(Color color, int x, int y)
@@ -57,7 +56,8 @@ public class CLIRenderer
     }
 
     //helper
-    private void initMatrix()
+    //fills the charMatrix with blank character
+    protected void initMatrix()
     {
         for( int row=0; row < HEIGHT; row++)
         {
@@ -68,43 +68,21 @@ public class CLIRenderer
         }
     }
 
+    //needs to be overridden
+    protected abstract void refresh ();
+
     //helper
-    private void addElement(CLIElement element)
+    protected void addElement(CLIElement element)
     {
         elements.add(element);
     }
 
     //helper
-    private void removeAllElements()
+    protected void removeAllElements()
     {
         elements.clear();
     }
 
-    //helper
-    private void refresh()
-    {
-        initMatrix();
 
-        removeAllElements();
-
-        boolean draftPoolSelected = false;
-        if(state == CLIRenderState.DRAFTPOOL_SELECTED)
-            draftPoolSelected = true;
-
-        CLIElementDraftPool cliDraftPool = new CLIElementDraftPool(this, game.getDraftPool(), 0, 0, draftPoolSelected);
-        addElement(cliDraftPool);
-
-        ArrayList<Player>   players = game.getAllPlayers();
-
-        for(int i=0; i<players.size(); i++)
-        {
-            boolean boardSelected = false;
-
-            if(players.get(i) == game.getCurrentPlayer()  &&  state == CLIRenderState.BOARD_SELECTED)
-                boardSelected = true;
-
-            addElement(new CLIElementBoard(this, players.get(i).getBoard(), i*53, cliDraftPool.getHeight()+3, boardSelected));
-        }
-    }
 
 }

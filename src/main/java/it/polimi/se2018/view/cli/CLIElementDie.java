@@ -2,11 +2,12 @@ package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.model.Die;
 
+//a CLIElement that represents a Die and can be rendered by a CLIRender on the CLI
 public class CLIElementDie extends CLIElement
 {
     private Die die;
 
-    //create a die element for the CLI at given coordinates
+    //creates a die element for the CLI at given coordinates
     public CLIElementDie(CLIRenderer renderer, Die die, int x, int y)
     {
         super(renderer, x, y, 7, 4);
@@ -14,6 +15,8 @@ public class CLIElementDie extends CLIElement
         refresh();
     }
 
+    @Override
+    //fills the Matrices and renders on the CLIRenderer
     public void refresh()
     {
         drawBorder();
@@ -22,6 +25,7 @@ public class CLIElementDie extends CLIElement
         drawOnRenderer();
     }
 
+    //fills the charMatrix to represent the border of the Die
     private void drawBorder()
     {
         charMatrix[0] = new char[] {' ', '_', '_', '_', '_', '_', ' '};
@@ -30,6 +34,7 @@ public class CLIElementDie extends CLIElement
         charMatrix[3] = new char[] {'|', '_', '_', '_', '_', '_', '|'};
     }
 
+    //fills the colorMatrix to represent the color of the Die
     private void drawColor()
     {
         for(int row=0; row < height; row++)
@@ -41,6 +46,7 @@ public class CLIElementDie extends CLIElement
         }
     }
 
+    //fills the charMatrix to represent the value of the Die
     private void drawValue()
     {
         switch(die.getValue())

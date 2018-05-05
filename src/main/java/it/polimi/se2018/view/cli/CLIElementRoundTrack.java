@@ -11,6 +11,7 @@ public class CLIElementRoundTrack extends CLIElement
         refresh();
     }
 
+    @Override
     public void refresh()
     {
         drawBorders();

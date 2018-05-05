@@ -6,6 +6,7 @@ import it.polimi.se2018.model.DraftPool;
 
 import java.util.ArrayList;
 
+//a CLIElement that represents a DraftPool and can be rendered by a CLIRender on the CLI
 public class CLIElementDraftPool extends CLIElement
 {
     private DraftPool   draftPool;
@@ -19,19 +20,22 @@ public class CLIElementDraftPool extends CLIElement
         refresh();
     }
 
+    @Override
+    //fills the matrices to draw the element and renders it on the CLIRenderer
     public void refresh()
     {
         drawBorders();
         drawTitle();
-        if(selected)
-        {
+        if(selected)                    //draws dice indices and draws wit a different color
+        {                               //if the element is selected
             drawSelectedColor();
-            drawIndex();
+            drawIndices();
         }
         drawOnRenderer();
         drawDice();
     }
 
+    //fills the charMatrix to draw the boarder of the DraftPool
     private void drawBorders()
     {
         for(int row=0; row<height; row++)
@@ -48,6 +52,7 @@ public class CLIElementDraftPool extends CLIElement
         }
     }
 
+    //changes the color to RED
     private void drawSelectedColor()
     {
         for(int row=0; row<height; row++)
@@ -59,14 +64,16 @@ public class CLIElementDraftPool extends CLIElement
         }
     }
 
+    //fills the charMatrix to draw "DRAFT POOL" on the top left of the border
     private void drawTitle()
     {
-        String title = new String("D R A F T   P O O L");
+        String title = "D R A F T   P O O L";
 
         for(int i=0; i<title.length(); i++)
             charMatrix[1][i+1] = title.charAt(i);
     }
 
+    //draws each die in the DraftPool at the correct position
     private void drawDice()
     {
         ArrayList<Die> dice = draftPool.getAllDice();
@@ -75,13 +82,14 @@ public class CLIElementDraftPool extends CLIElement
             new CLIElementDie(renderer, dice.get(i), i*8 + 2, 2);
     }
 
-    private void drawIndex()
+    //fills the matrices to draw the indices of the dice
+    private void drawIndices()
     {
         ArrayList<Die> dice = draftPool.getAllDice();
 
         for(int i = 0; i<dice.size(); i++)
         {
-            charMatrix[6][i * 8 + 5] = new Integer(i).toString().charAt(0);
+            charMatrix[6][i * 8 + 5] = Integer.toString(i).charAt(0);
             colorMatrix[6][i * 8 + 5] = null;
         }
     }

@@ -4,6 +4,8 @@ import it.polimi.se2018.model.Color;
 
 import javax.swing.*;
 
+
+//represents a single abstract element that can be displayed by a CLIRenderer on the CLI view
 public abstract class CLIElement
 {
     protected   char[][]    charMatrix;
@@ -38,6 +40,9 @@ public abstract class CLIElement
         }
     }
 
+    //needs to be overridden by each concrete CLIElement
+    //sets the char matrix and the color matrix with the right values representing the object
+    //it also should call drawOnRenderer() to actually render the element
     public abstract void refresh();
 
     public int getX()

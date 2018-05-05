@@ -59,11 +59,13 @@ public enum Color
         return num;
     }
 
+    //returns an ANSI code that has to be printed in console to set the current color
     public String getConsoleString()
     {
         return consoleString;
     }
 
+    //when it's printed in console, it resets the text to the standard color
     public static String getResetConsoleString() { return new String("\u001b[0m");}
 
     public char getFirstChar ()
