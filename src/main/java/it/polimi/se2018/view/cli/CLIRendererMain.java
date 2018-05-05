@@ -35,7 +35,7 @@ public class CLIRendererMain extends CLIRenderer
             draftPoolSelected = true;
 
         CLIElementDraftPool cliDraftPool = new CLIElementDraftPool(this, game.getDraftPool(), 0, 0, draftPoolSelected);
-
+        CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, game.getRoundTrack(), cliDraftPool.getWidth()+1, 0);
         ArrayList<Player> players = game.getAllPlayers();
 
 

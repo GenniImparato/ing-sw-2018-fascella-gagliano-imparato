@@ -10,6 +10,8 @@ public class RoundTrack
     public RoundTrack(DraftPool draftPool)
     {
         dice=new ArrayList[10];
+        for (int i=0; i<10; i++)
+            dice[i]=new ArrayList<>();
         this.drafPool = draftPool;
     }
 
@@ -17,5 +19,10 @@ public class RoundTrack
     public void addLastDice(int round)
     {
         dice[round] = drafPool.pullAllDice();
+    }
+
+    public ArrayList<Die> getDicesAtRound (int round)
+    {
+        return dice[round];
     }
 }
