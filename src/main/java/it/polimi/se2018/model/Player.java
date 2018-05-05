@@ -16,14 +16,26 @@ public class Player
         this.nickname = nickname;
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
+        board = new Board();
 
+    }
+
+    public void setBoard (Board board)
+    {
+        this.board = board;
+    }
+
+    public void loadBoardFromFile (String filename)
+    {
         try
         {
-            board = new SagradaSchemeCardFile("resources/schemecards/3-Water of Life.sagradaschemecard").generateBoard();
+            SagradaSchemeCardFile file = new SagradaSchemeCardFile(filename);
+            board = file.generateBoard();
+            tokens = file.getDifficulty();
         }
         catch(Exception e)
         {
-            board = new Board();
+
         }
     }
 
@@ -40,6 +52,11 @@ public class Player
     public int getScore()
     {
         return score;
+    }
+
+    public int getTokens ()
+    {
+        return tokens;
     }
 
     public PrivateObjectiveCard getPrivateObjectiveCard()
@@ -62,4 +79,6 @@ public class Player
     {
         score += card.score(this.getBoard());
     }
+
+
 }

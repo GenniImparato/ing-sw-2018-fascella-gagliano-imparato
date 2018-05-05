@@ -266,8 +266,4 @@ public class Board
         return ret;
     }
 
-    public void newDie(Die die, int row, int col)
-    {
-        dieMatrix[row][col] = die;
-    }
 }

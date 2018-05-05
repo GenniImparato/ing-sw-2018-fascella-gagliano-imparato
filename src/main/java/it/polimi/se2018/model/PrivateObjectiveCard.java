@@ -18,4 +18,9 @@ public class PrivateObjectiveCard extends Card
         return boardAnalyzer.sumValuesOfColor(color);
 
     }
+
+    public Color getColor ()
+    {
+        return color;
+    }
 }

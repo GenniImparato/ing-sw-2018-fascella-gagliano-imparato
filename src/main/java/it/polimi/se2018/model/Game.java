@@ -30,12 +30,17 @@ public class Game extends Observable <Message>
         try
         {
             addNewPlayer("Renatino");
-            addNewPlayer("Kwx");
+            addNewPlayer("KwX" +
+                    "" +
+                    "");
             addNewPlayer("Ges");
         }
         catch (CannotAddPlayerException e)
         { }
 
+        playersIterator.getAllPlayers().get(0).loadBoardFromFile("resources/schemecards/4-Luz Celestial.sagradaschemecard");
+        playersIterator.getAllPlayers().get(1).loadBoardFromFile("resources/schemecards/2-Shadow Thief.sagradaschemecard");
+        playersIterator.getAllPlayers().get(2).loadBoardFromFile("resources/schemecards/8-Symphony of Light.sagradaschemecard");
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);

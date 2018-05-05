@@ -13,13 +13,11 @@ public abstract class CLIRenderer
     protected Game                game;
 
     protected static final int    WIDTH = 220;
-    protected static final int    HEIGHT = 35;
+    protected static final int    HEIGHT = 37;
 
-    protected ArrayList<CLIElement> elements;
 
     public CLIRenderer(Game game)
     {
-        elements = new ArrayList<>();
         charMatrix  = new char[HEIGHT][WIDTH];
         colorMatrix = new Color[HEIGHT][WIDTH];
 
@@ -71,17 +69,6 @@ public abstract class CLIRenderer
     //needs to be overridden
     protected abstract void refresh ();
 
-    //helper
-    protected void addElement(CLIElement element)
-    {
-        elements.add(element);
-    }
-
-    //helper
-    protected void removeAllElements()
-    {
-        elements.clear();
-    }
 
 
 

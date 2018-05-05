@@ -105,6 +105,8 @@ public class SagradaSchemeCardFile extends File
                     }
                 }
             }
+
+            difficulty = Integer.parseInt(scanner.next());
             return true;
         }
         catch (IOException e)
@@ -118,4 +120,8 @@ public class SagradaSchemeCardFile extends File
     {
         return new Board(cellMatrix);
     }
+
+    public int getDifficulty() { return difficulty; }
+
+
 }
