@@ -4,11 +4,11 @@ import java.util.Random;
 
 public enum Color
 {
-    RED ("\033[31m", 0, 'R'),
-    BLUE ("\033[34m", 1, 'B'),
-    GREEN ("\033[32m", 2, 'G'),
-    YELLOW ("\033[33m", 3, 'Y'),
-    PURPLE ("\033[35m", 4, 'P');
+    RED ("\u001b[31;1m", 0, 'R'),
+    BLUE ("\u001b[34;1m", 1, 'B'),
+    GREEN ("\u001b[32;1m", 2, 'G'),
+    YELLOW ("\u001b[33;1m", 3, 'Y'),
+    PURPLE ("\u001b[35;1m", 4, 'P');
 
     private String consoleString;
     private int num;
@@ -64,7 +64,7 @@ public enum Color
         return consoleString;
     }
 
-    public static String getResetConsoleString() { return new String("\033[0m");}
+    public static String getResetConsoleString() { return new String("\u001b[0m");}
 
     public char getFirstChar ()
     {

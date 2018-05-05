@@ -6,11 +6,11 @@ import it.polimi.se2018.view.cli.CLIState;
 
 import java.util.ArrayList;
 
-public class CLIInputParsedEvent extends CLIEvent
+public class CLIInputEvent extends CLIEvent
 {
     private ArrayList<String>   inputs;
 
-    public CLIInputParsedEvent(CLI cli, CLIState state, String input)
+    public CLIInputEvent(CLI cli, CLIState state, String input)
     {
         super(cli, state);
         inputs = new ArrayList<>();

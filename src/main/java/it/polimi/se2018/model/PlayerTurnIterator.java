@@ -18,16 +18,24 @@ public class PlayerTurnIterator implements Iterator<Player>
         turns = new ArrayList<>();
     }
 
-    public void addNewPlayer(String nickname) throws TooManyPlayersException
+    //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
+    public void addNewPlayer(String nickname) throws CannotAddPlayerException
     {
-        if(getPlayerNum() < MAX_PLAYERS_NUM)
+        for(Player player : players)
+        {
+            if(player.getNickname().equals(nickname))                       //check if another player has the same nickname
+                throw new CannotAddPlayerException("There is another player with this nickname!");
+        }
+
+        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
             players.add(new Player(nickname));
         else
-            throw new TooManyPlayersException();
+            throw new CannotAddPlayerException("There are already " + MAX_PLAYERS_NUM + " players!");
 
         refreshPlayersTurns();
     }
 
+    //get the instance of the player that takes the turn next
     public Player next()
     {
         Player ret=null;
@@ -46,28 +54,34 @@ public class PlayerTurnIterator implements Iterator<Player>
         return ret;
     }
 
+    //return true if there are still players on the queue
     public boolean hasNext()
     {
         return currentTurn < getPlayerNum()*2;
     }
 
+    //return the number of players in the game
     public int  getPlayerNum()
     {
         return players.size();
     }
 
+    //return true if this is the last turn of the round
     public boolean isLastTurn()
     {
         return !hasNext();
     }
 
-    public ArrayList<Player> getAllPlyers()
+    //return an ArrayList with all the players in the game
+    public ArrayList<Player> getAllPlayers()
     {
         return players;
     }
 
     //helper
-    private void refreshPlayersTurns()      //refresh the list with the corrects players turn for a new round
+    //refresh the internal list with the correct queue of the players turns
+    //it's called at the beginning of the round
+    private void refreshPlayersTurns()
     {
         currentTurn = 0;
         turns.clear();
@@ -83,10 +97,10 @@ public class PlayerTurnIterator implements Iterator<Player>
         int iAnticlockwise;
 
         for(iAnticlockwise=iClockwise-1; iAnticlockwise>=0; iAnticlockwise--)
-            turns.add(iAnticlockwise);                       //add all the players to the turns list in clockwise mode
+            turns.add(iAnticlockwise);                       //add all the players to the turns list in anticlockwise mode
 
         for(iAnticlockwise=getPlayerNum()-1; iAnticlockwise>=firstPlayer; iAnticlockwise--)
-            turns.add(iAnticlockwise);                       //add all the players to the turns list in clockwise mode
+            turns.add(iAnticlockwise);                       //add all the players to the turns list in anticlockwise mode
     }
 
     //helper
@@ -103,10 +117,4 @@ public class PlayerTurnIterator implements Iterator<Player>
         else
             firstPlayer++;
     }
-}
-
-
-class TooManyPlayersException extends Exception
-{
-
 }

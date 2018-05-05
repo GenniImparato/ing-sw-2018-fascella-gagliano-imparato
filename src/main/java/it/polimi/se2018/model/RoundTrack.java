@@ -16,6 +16,6 @@ public class RoundTrack
     //add the remaining dice from the DraftPool to the RoundTrack at the given round
     public void addLastDice(int round)
     {
-        dice[round] = drafPool.getAllDice();
+        dice[round] = drafPool.pullAllDice();
     }
 }

@@ -10,6 +10,7 @@ public class DraftPool
     public DraftPool(DiceBag diceBag)
     {
         this.diceBag = diceBag;
+        dice = new ArrayList<>();
     }
 
     //draw num dice form the DiceBag
@@ -27,9 +28,16 @@ public class DraftPool
         return die;
     }
 
+    //get a list containing all dice in the DraftPool
+    public ArrayList<Die> getAllDice()
+    {
+        ArrayList<Die> ret = new ArrayList<>(dice);
+        return ret;
+    }
+
     //return a list containing all remaining dice from the DraftPool
     //the returned dice are removed from the DraftPool
-    public ArrayList<Die> getAllDice()
+    public ArrayList<Die> pullAllDice()
     {
         ArrayList<Die> ret = new ArrayList<>(dice);
         dice.clear();

@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
+import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.observer.Observable;
 
 
@@ -18,16 +19,22 @@ public class Game extends Observable <Message>
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
 
+    private Die                                 lastDraftedDie;
+
     private int                                 currentRound = 0;
     private static final int                    TOTAL_ROUNDS = 10;
 
-    public Game()
-    {
+    public Game() {
         playersIterator = new PlayerTurnIterator();
 
-        /*addNewPlayer("Renatino");
-        addNewPlayer("Kwx");
-        addNewPlayer("Ges");*/
+        try
+        {
+            addNewPlayer("Renatino");
+            addNewPlayer("Kwx");
+            addNewPlayer("Ges");
+        }
+        catch (CannotAddPlayerException e)
+        { }
 
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
@@ -39,22 +46,36 @@ public class Game extends Observable <Message>
 
     //add a new player to the model if the number of player is not at maximum
     //return true if the player is added, false if it's not
-    public boolean addNewPlayer(String nickname)
+    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
     {
         try
         {
             playersIterator.addNewPlayer(nickname);
-            return true;
         }
-        catch(TooManyPlayersException e)
+        catch(CannotAddPlayerException e)
         {
-            return false;
+            throw e;
         }
     }
 
     public Player getCurrentPlayer()
     {
         return currentPlayer;
+    }
+
+    public DraftPool getDraftPool()
+    {
+        return draftPool;
+    }
+
+    public RoundTrack getRoundTrack()
+    {
+        return roundTrack;
+    }
+
+    public DiceBag getDiceBag()
+    {
+        return diceBag;
     }
 
     //return the number of players in model
@@ -69,15 +90,21 @@ public class Game extends Observable <Message>
         return currentRound;
     }
 
+    public Die getLastDraftedDie()
+    {
+        return lastDraftedDie;
+    }
+
     public ArrayList<Player> getAllPlayers ()
     {
-        return playersIterator.getAllPlyers();
+        return playersIterator.getAllPlayers();
     }
 
     //draw the correct number of dice from DiceBag to the DraftPool
     public void beginRound()
     {
         draftPool.draw(getPlayerNum()*2 +1);
+        beginPlayerTurn();
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack
@@ -105,10 +132,18 @@ public class Game extends Observable <Message>
             endRound();
     }
 
+    //draft the num die from the draft pool
+    //notify the view
+    public void draftDie(int num)
+    {
+        lastDraftedDie = draftPool.draftDie(num);
+        notify(new DraftedDieMessage(this, lastDraftedDie));
+    }
+
     //update all the scores
     private void updateAllPlayersScores()
     {
-        ArrayList<Player> allPlayers = playersIterator.getAllPlyers();
+        ArrayList<Player> allPlayers = playersIterator.getAllPlayers();
 
         for(Player player : allPlayers)
         {

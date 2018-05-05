@@ -1,50 +1,36 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.*;
 
 import java.util.ArrayList;
 
 public class CLIRenderer
 {
+    private char[][]            charMatrix;
+    private Color[][]           colorMatrix;
 
-    private char[][] charMatrix;
-    private Color[][] colorMatrix;
-    private static final int WIDTH = 120;
-    private static final int HEIGHT = 80;
+    private Game                game;
+    private CLIRenderState      state;
+
+    private static final int    WIDTH = 220;
+    private static final int    HEIGHT = 35;
 
     private ArrayList<CLIElement> elements;
 
-    public CLIRenderer()
+    public CLIRenderer(Game game)
     {
         elements = new ArrayList<>();
         charMatrix  = new char[HEIGHT][WIDTH];
         colorMatrix = new Color[HEIGHT][WIDTH];
-        initMatrix();
 
-        Board b = new Board();
-        b.newDie(new Die(Color.getRandomColor()), 1, 2);
-        b.newDie(new Die(Color.getRandomColor()), 0, 0);
-        b.newDie(new Die(Color.getRandomColor()), 3, 3);
-        addElement(new CLIElementBoard(this, b, 0, 0));
-
-        Board b2 = new Board();
-        b2.newDie(new Die(Color.getRandomColor()), 3, 1);
-        addElement((new CLIElementBoard(this, b2, 55, 0)));
-
-        Board b3 = new Board();
-        b3.newDie(new Die(Color.getRandomColor()), 2, 1);
-        b3.newDie(new Die(Color.getRandomColor()), 2, 3);
-        addElement((new CLIElementBoard(this, b3, 0, 23)));
-
-        Board b4 = new Board();
-        b4.newDie(new Die(Color.getRandomColor()), 2, 1);
-        addElement((new CLIElementBoard(this, b4, 55, 23)));
+        this.game = game;
     }
 
-    public void draw()
+    public void render(CLIRenderState state)
     {
+        this.state = state;
+        refresh();
+
         for(int row=0; row < HEIGHT; row++)
         {
             for(int col=0; col < WIDTH; col++)
@@ -82,9 +68,43 @@ public class CLIRenderer
         }
     }
 
+    //helper
     private void addElement(CLIElement element)
     {
         elements.add(element);
+    }
+
+    //helper
+    private void removeAllElements()
+    {
+        elements.clear();
+    }
+
+    //helper
+    private void refresh()
+    {
+        initMatrix();
+
+        removeAllElements();
+
+        boolean draftPoolSelected = false;
+        if(state == CLIRenderState.DRAFTPOOL_SELECTED)
+            draftPoolSelected = true;
+
+        CLIElementDraftPool cliDraftPool = new CLIElementDraftPool(this, game.getDraftPool(), 0, 0, draftPoolSelected);
+        addElement(cliDraftPool);
+
+        ArrayList<Player>   players = game.getAllPlayers();
+
+        for(int i=0; i<players.size(); i++)
+        {
+            boolean boardSelected = false;
+
+            if(players.get(i) == game.getCurrentPlayer()  &&  state == CLIRenderState.BOARD_SELECTED)
+                boardSelected = true;
+
+            addElement(new CLIElementBoard(this, players.get(i).getBoard(), i*53, cliDraftPool.getHeight()+3, boardSelected));
+        }
     }
 
 }

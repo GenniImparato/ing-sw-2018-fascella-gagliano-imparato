@@ -11,21 +11,26 @@ public class CLIElementDie extends CLIElement
     {
         super(renderer, x, y, 7, 4);
         this.die = die;
-        init();
-        initColor();
-        initValue();
-        draw();
+        refresh();
     }
 
-    private void init()
+    public void refresh()
     {
-        charMatrix[0] = new char[] {' ', '_', ' ', '_', ' ', '_', ' '};
+        drawBorder();
+        drawColor();
+        drawValue();
+        drawOnRenderer();
+    }
+
+    private void drawBorder()
+    {
+        charMatrix[0] = new char[] {' ', '_', '_', '_', '_', '_', ' '};
         charMatrix[1] = new char[] {'|', ' ', ' ', ' ', ' ', ' ', '|'};
         charMatrix[2] = new char[] {'|', ' ', ' ', ' ', ' ', ' ', '|'};
-        charMatrix[3] = new char[] {'|', '_', ' ', '_', ' ', '_', '|'};
+        charMatrix[3] = new char[] {'|', '_', '_', '_', '_', '_', '|'};
     }
 
-    private void initColor()
+    private void drawColor()
     {
         for(int row=0; row < height; row++)
         {
@@ -36,11 +41,44 @@ public class CLIElementDie extends CLIElement
         }
     }
 
-    private void initValue()
+    private void drawValue()
     {
-        charMatrix[2][2] = new Integer(die.getValue()).toString().charAt(0);
-        charMatrix[2][4] = die.getColor().getFirstChar();
-
+        switch(die.getValue())
+        {
+            case 1:
+                charMatrix[2][3] = 'O';
+                break;
+            case 2:
+                charMatrix[1][3] = 'O';
+                charMatrix[3][3] = 'O';
+                break;
+            case 3:
+                charMatrix[1][3] = 'O';
+                charMatrix[2][3] = 'O';
+                charMatrix[3][3] = 'O';
+                break;
+            case 4:
+                charMatrix[1][1] = 'O';
+                charMatrix[3][1] = 'O';
+                charMatrix[3][5] = 'O';
+                charMatrix[1][5] = 'O';
+                break;
+            case 5:
+                charMatrix[1][1] = 'O';
+                charMatrix[3][1] = 'O';
+                charMatrix[3][5] = 'O';
+                charMatrix[1][5] = 'O';
+                charMatrix[2][3] = 'O';
+                break;
+            case 6:
+                charMatrix[1][1] = 'O';
+                charMatrix[3][1] = 'O';
+                charMatrix[3][5] = 'O';
+                charMatrix[1][5] = 'O';
+                charMatrix[2][1] = 'O';
+                charMatrix[2][5] = 'O';
+                break;
+        }
     }
 
 }

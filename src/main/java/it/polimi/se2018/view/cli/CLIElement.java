@@ -25,8 +25,8 @@ public abstract class CLIElement
         colorMatrix = new Color[height][width];
     }
 
-    //draw the current element on the buffer
-    public void draw()
+    //draw the current element on the buffer matrix in the renderer
+    public void drawOnRenderer()
     {
         for(int row=0; row < height; row++)
         {
@@ -36,6 +36,28 @@ public abstract class CLIElement
                 renderer.setColor(colorMatrix[row][col], x+col, y+row);
             }
         }
+    }
+
+    public abstract void refresh();
+
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
     }
 
 }

@@ -125,41 +125,40 @@ public class Board
         return num;
     }
 
-    //add a die to the board if it's possible
-    //return true if the die is added or false if it cannot be added
-    public boolean addDie(Die die, int row, int column)
+    //try to add die at the given position if its possible
+    //if the die cannot be added throws a CannotAddDieException
+    public void addDie(Die die, int row, int column) throws CannotAddDieException
     {
         if (!checkCoordinates(row, column))              //check if the coordinates are valid
-            return false;
+            throw new CannotAddDieException("Cannot add die: invalid coordinates!");
 
         if (getCell(row, column).getRestriction().isColor() &&           //check if the color of the die is not equal to the restriction of the cell
             getCell(row, column).getRestriction().getColor() != die.getColor())
-                return false;
+                throw new CannotAddDieException("Cannot add die: the selected cell requires a " + getCell(row, column).getRestriction().getColor() + " die!");
 
         if (getCell(row, column).getRestriction().isValue() &&         //check if the value of the die is not equal to the restriction of the cell
             getCell(row, column).getRestriction().getValue() != die.getValue())
-                return false;
+                throw new CannotAddDieException("Cannot add die: the selected cell requires a die with a value of " + getCell(row, column).getRestriction().getValue() + "!");
 
         if (getDie(row, column) != null)     //check if the cell is free
-            return false;
+            throw new CannotAddDieException("Cannot add die: the selected cell is not free!");
 
-        if (getAdjacentDice(row, column).size() == 0)     //check if there is at least one adjacent die
-            return false;
+        if (getAdjacentDice(row, column).size() == 0  && getNumberOfDice()>0)     //check if there is at least one adjacent die and the die is not the first
+            throw new CannotAddDieException("Cannot add die: no adjacent dice!");
 
         if ((getNumberOfDice() == 0) &&            //if the die is the first it can only be positioned on the border
             !isOnBorder(row, column))
-                return false;
+                throw new CannotAddDieException("Cannot add die: the first die must be on the border!");
 
         ArrayList<Die> orthogonalDice = getOrthogonalAdjacentDice(row, column);
         for (int i = 0; i < orthogonalDice.size(); i++)          //for every orthogonal adjacent dice, check if values or colors are the same
         {
             if (orthogonalDice.get(i).getColor() == die.getColor() ||
                orthogonalDice.get(i).getValue() == die.getValue())
-                return false;
+                throw new CannotAddDieException("Cannot add die: another die with same value or color is adjacent!");
         }
 
         dieMatrix[row][column] = die;   //the die is added in the selected position
-        return true;
     }
 
 
