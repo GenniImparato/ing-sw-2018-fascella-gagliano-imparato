@@ -6,8 +6,8 @@ import it.polimi.se2018.model.Player;
 public class CLIElementPlayer extends CLIElement
 {
 
-    boolean showObjective;
-    Player player;
+    private boolean showObjective;
+    private Player player;
 
     public CLIElementPlayer (CLIRenderer renderer, Player player, int x, int y, boolean showObjective)
     {
@@ -17,7 +17,7 @@ public class CLIElementPlayer extends CLIElement
         refresh();
     }
 
-    public void refresh ()
+    protected void refresh ()
     {
         drawBorders();
         drawNickname();

@@ -8,17 +8,16 @@ import java.util.ArrayList;
 
 public class CLIInputEvent extends CLIEvent
 {
-    private ArrayList<String>   inputs;
+    private String  input;
 
     public CLIInputEvent(CLI cli, CLIState state, String input)
     {
         super(cli, state);
-        inputs = new ArrayList<>();
-        this.inputs.add(input);
+        this.input = input;
     }
 
     public String getInput()
     {
-        return inputs.get(0);
+        return input;
     }
 }

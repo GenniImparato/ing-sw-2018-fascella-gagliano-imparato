@@ -21,7 +21,7 @@ public class CLIElementBoard extends CLIElement
 
     @Override
     //fills all the matrix and renders on the CLIRenderer
-    public void refresh()
+    protected void refresh()
     {
         drawCells();
         drawOnRenderer();

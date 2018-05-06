@@ -4,7 +4,7 @@ import it.polimi.se2018.model.Game;
 
 public abstract class Message
 {
-    protected Game game;
+    private Game game;
 
     public Message(Game game)
     {

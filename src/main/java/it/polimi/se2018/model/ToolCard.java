@@ -8,7 +8,7 @@ import java.util.Random;
 public abstract class ToolCard extends Card
 {
     private int             num;
-    private int             tokens;
+    private int             favorTokens;
 
     private static int      NUMBER_OF_CARDS=12;
 
@@ -16,7 +16,7 @@ public abstract class ToolCard extends Card
     {
         super (name, description);
         this.num = num;
-        tokens = 0;
+        favorTokens = 0;
     }
 
     //generate numOfCards different random ToolCards

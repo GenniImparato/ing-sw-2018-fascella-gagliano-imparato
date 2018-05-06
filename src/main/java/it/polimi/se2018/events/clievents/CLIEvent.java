@@ -6,8 +6,8 @@ import it.polimi.se2018.view.cli.CLIState;
 
 public abstract class CLIEvent implements Event
 {
-    protected CLI           cli;
-    protected CLIState      state;
+    private CLI           cli;
+    private CLIState      state;
 
     public CLIEvent(CLI cli, CLIState state)
     {

@@ -17,7 +17,7 @@ public class CLIElementDie extends CLIElement
 
     @Override
     //fills the Matrices and renders on the CLIRenderer
-    public void refresh()
+    protected void refresh()
     {
         drawBorder();
         drawColor();

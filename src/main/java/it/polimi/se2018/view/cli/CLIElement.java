@@ -43,7 +43,7 @@ public abstract class CLIElement
     //needs to be overridden by each concrete CLIElement
     //sets the char matrix and the color matrix with the right values representing the object
     //it also should call drawOnRenderer() to actually render the element
-    public abstract void refresh();
+    protected abstract void refresh();
 
     public int getX()
     {

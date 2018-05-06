@@ -6,7 +6,7 @@ public class Player
 {
     private Board                   board;              //player's board
     private PrivateObjectiveCard    card;               //player's private objective card
-    private int                     tokens=0;           //player's number of favor token
+    private int                     favorTokens=0;           //player's number of favor token
     private int                     score=0;
     private Color                   color;              //color of the player's board and the score marker
     private String                  nickname;
@@ -31,7 +31,7 @@ public class Player
         {
             SagradaSchemeCardFile file = new SagradaSchemeCardFile(filename);
             board = file.generateBoard();
-            tokens = file.getDifficulty();
+            favorTokens = file.getDifficulty();
         }
         catch(Exception e)
         {
@@ -56,7 +56,7 @@ public class Player
 
     public int getTokens ()
     {
-        return tokens;
+        return favorTokens;
     }
 
     public PrivateObjectiveCard getPrivateObjectiveCard()
@@ -72,7 +72,7 @@ public class Player
     public void incrementPrivateScore()
     {
         score += card.score(this.getBoard());
-        score += tokens;
+        score += favorTokens;
     }
 
     public void incrementScore(PublicObjectiveCard card)

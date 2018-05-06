@@ -19,7 +19,7 @@ public class CLIElementRoundTrack extends CLIElement
     }
 
     @Override
-    public void refresh()
+    protected void refresh()
     {
         drawBorders();
         drawTitle();

@@ -22,7 +22,7 @@ public class CLIElementDraftPool extends CLIElement
 
     @Override
     //fills the matrices to draw the element and renders it on the CLIRenderer
-    public void refresh()
+    protected void refresh()
     {
         drawBorders();
         drawTitle();
