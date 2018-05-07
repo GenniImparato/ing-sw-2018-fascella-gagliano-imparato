@@ -11,7 +11,9 @@ public class CopperFoilBurnisher extends ToolCard
     }
 
     @Override
-    public void use(Player player) {
+    public void use(Player player)
+    {
+
 
     }
 }

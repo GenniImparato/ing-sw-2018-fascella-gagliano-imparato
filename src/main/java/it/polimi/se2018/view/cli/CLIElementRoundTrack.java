@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.RoundTrack;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CLIElementRoundTrack extends CLIElement
@@ -24,8 +25,9 @@ public class CLIElementRoundTrack extends CLIElement
         drawBorders();
         drawTitle();
         drawIndices();
+        drawMultipleDice();
         drawOnRenderer();
-        drawDice();
+        drawSingleDie();
     }
 
     private void drawBorders()
@@ -54,20 +56,45 @@ public class CLIElementRoundTrack extends CLIElement
             charMatrix[1][i+1] = title.charAt(i);
     }
 
-    private void drawDice()
-    {
-        for(int i=0; i<10; i++)
-        {
-            ArrayList<Die> dice = roundTrack.getDicesAtRound(i);
-            if (dice.size()>0)
-                new CLIElementDie(renderer, dice.get(0), x+i*10+2, y+2);
-        }
-    }
-
     private void drawIndices ()
     {
         for(int i=0; i<10; i++)
             charMatrix[4][i*10+5] = Integer.toString(i).charAt(0);
     }
 
+    private void drawMultipleDice()
+    {
+        for(int round=0; round < 10; round++)
+        {
+            ArrayList<Die> dice = roundTrack.getDicesAtRound(round);
+            if (dice.size() > 1)        //draws only rounds with more than one day
+            {
+                charMatrix[4][round*10 + 5] = ' ';      //overwrites the round index
+                for (int i = 0; i < dice.size(); i++)
+                {
+                    int row;
+                    if (i < 3)
+                        row = 0;
+                    else if (i < 6)
+                        row = 1;
+                    else
+                        row = 2;
+
+                    charMatrix[row + 3][i % 3 + (i*1)%3 + round * 10 + 3] = Integer.toString(dice.get(i).getValue()).charAt(0);
+                    colorMatrix[row + 3][i % 3 + (i*1)%3 + round * 10 + 3] = dice.get(i).getColor();
+
+                }
+            }
+        }
+    }
+
+    private void drawSingleDie()
+    {
+        for(int round=0; round < 10; round++)
+        {
+            ArrayList<Die> dice = roundTrack.getDicesAtRound(round);
+            if (dice.size() == 1)
+                new CLIElementDie(renderer, dice.get(0), x + round * 10 + 2, y + 2);
+        }
+    }
 }

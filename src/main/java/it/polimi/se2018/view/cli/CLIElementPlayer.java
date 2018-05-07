@@ -65,7 +65,7 @@ public class CLIElementPlayer extends CLIElement
         {
             if (showObjective)
             {
-                charMatrix[4][j]='█';
+                charMatrix[4][j]='═';
                 colorMatrix[4][j]=player.getPrivateObjectiveCard().getColor();
             }
             else
@@ -76,7 +76,7 @@ public class CLIElementPlayer extends CLIElement
     private void drawTokens ()
     {
         for (int i=0; i<player.getTokens(); i++)
-            charMatrix[3][i*4+5] = '☻';
+            charMatrix[3][i*4+5] = 'O';
     }
 
 

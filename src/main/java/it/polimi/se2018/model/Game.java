@@ -47,6 +47,24 @@ public class Game extends Observable <Message>
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(3);
+        draftPool.draw(1);
+        roundTrack.addLastDice(0);
+        draftPool.draw(2);
+        roundTrack.addLastDice(1);
+        draftPool.draw(3);
+        roundTrack.addLastDice(2);
+        draftPool.draw(8);
+        roundTrack.addLastDice(3);
+        draftPool.draw(7);
+        roundTrack.addLastDice(5);
+        draftPool.draw(5);
+        roundTrack.addLastDice(8);
+        draftPool.draw(4);
+        roundTrack.addLastDice(9);
+        draftPool.draw(1);
+        roundTrack.addLastDice(4);
+        draftPool.draw(1);
+        roundTrack.addLastDice(6);
     }
 
     //add a new player to the model if the number of player is not at maximum
