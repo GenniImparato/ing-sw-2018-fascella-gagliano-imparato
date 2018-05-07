@@ -90,7 +90,17 @@ public class CLI extends View
         System.out.println("It's your turn!");
         System.out.println("Choose an action:");
         System.out.println("1) Draft a die");
-        System.out.println("2) Use a tool card");
+        System.out.println("2) Show cards");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void askPlayerForActionCards()
+    {
+        renderGameState(CLIRendererCardsState.NO_SELECTION);
+        state = CLIState.GAME_ASK_PLAYER_FOR_ACTION_CARDS;
+        System.out.println("Choose an action:");
+        System.out.println("1) Use a tool card");
+        System.out.println("2) Return to main view");
         notify(new CLIInputEvent(this, state, scanner.next()));
     }
 
@@ -124,6 +134,12 @@ public class CLI extends View
     {
         clear();
         mainRenderer.render(renderState);
+    }
+
+    private void renderGameState(CLIRendererCardsState renderState)
+    {
+        clear();
+        cardsRenderer.render(renderState);
     }
 
     public void menuClientServer()

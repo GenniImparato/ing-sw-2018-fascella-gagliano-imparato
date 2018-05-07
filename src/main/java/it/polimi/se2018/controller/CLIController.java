@@ -68,10 +68,22 @@ public class CLIController extends Controller<CLIEvent>
                 if(event.getInput().equals("1"))
                     view.askPlayerForDrafting();
                 else if(event.getInput().equals("2"))
+                    view.askPlayerForActionCards();
+                else
                 {
-                    view.showErrorMessage("Tool cards not yet implemeted!");
+                    view.showErrorMessage("Not valid input!");
                     view.askPlayerForAction();
                 }
+                break;
+
+            case GAME_ASK_PLAYER_FOR_ACTION_CARDS:
+                if(event.getInput().equals("1"))
+                {
+                    view.showErrorMessage("Tool cards not yet implemeted!");
+                    view.askPlayerForActionCards();
+                }
+                else if(event.getInput().equals("2"))
+                    view.askPlayerForAction();
                 else
                 {
                     view.showErrorMessage("Not valid input!");

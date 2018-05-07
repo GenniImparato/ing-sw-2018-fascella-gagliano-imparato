@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 public class CLIElementRoundTrack extends CLIElement
 {
-
+    private boolean selected;
     private RoundTrack roundTrack;
 
-    public CLIElementRoundTrack(CLIRenderer renderer, RoundTrack roundTrack, int x, int y)
+    public CLIElementRoundTrack(CLIRenderer renderer, RoundTrack roundTrack, int x, int y, boolean selected)
     {
         super(renderer, x, y, 101, 8);
         this.roundTrack=roundTrack;
+        this.selected=selected;
         refresh();
     }
 
@@ -25,7 +26,13 @@ public class CLIElementRoundTrack extends CLIElement
         drawBorders();
         drawTitle();
         drawIndices();
+        if (selected)
+        {
+            drawSelectedColor();
+            drawSelectedIndices();
+        }
         drawMultipleDice();
+
         drawOnRenderer();
         drawSingleDie();
     }
@@ -95,6 +102,27 @@ public class CLIElementRoundTrack extends CLIElement
             ArrayList<Die> dice = roundTrack.getDicesAtRound(round);
             if (dice.size() == 1)
                 new CLIElementDie(renderer, dice.get(0), x + round * 10 + 2, y + 2);
+        }
+    }
+
+    //changes the color to RED
+    private void drawSelectedColor()
+    {
+        for(int row=0; row<height; row++)
+        {
+            for(int col=0; col<width; col++)
+            {
+                colorMatrix[row][col] = Color.RED;
+            }
+        }
+    }
+
+    private void drawSelectedIndices()
+    {
+        for(int i = 0; i<10; i++)
+        {
+            charMatrix[6][i * 10 + 5] = Integer.toString(i).charAt(0);
+            colorMatrix[6][i * 10 + 5] = null;
         }
     }
 }

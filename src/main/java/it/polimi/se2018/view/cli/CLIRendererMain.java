@@ -13,7 +13,7 @@ public class CLIRendererMain extends CLIRenderer
 
     public CLIRendererMain(Game game)
     {
-        super(game);
+        super(game, 220, 37);
     }
 
 
@@ -29,27 +29,33 @@ public class CLIRendererMain extends CLIRenderer
         initMatrix();
 
 
-
+        //add the DraftPool
         boolean draftPoolSelected = false;
         if(state == CLIRenderMainState.DRAFTPOOL_SELECTED)
             draftPoolSelected = true;
-
         CLIElementDraftPool cliDraftPool = new CLIElementDraftPool(this, game.getDraftPool(), 0, 0, draftPoolSelected);
-        CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, game.getRoundTrack(), cliDraftPool.getWidth()+1, 0);
+
+        //add the RoundTrack
+        boolean roundTrackSelected = false;
+        if(state == CLIRenderMainState.ROUNDTRACK_SELECTED)
+            roundTrackSelected = true;
+        CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, game.getRoundTrack(), cliDraftPool.getWidth()+1, 0, roundTrackSelected);
+
+
         ArrayList<Player> players = game.getAllPlayers();
 
 
         for(int i=0; i<players.size(); i++)
         {
+            //add the players
             boolean showObjective = false;
-
             if(players.get(i) == game.getCurrentPlayer())
                 showObjective = true;                   //selects the board of the current player
 
             CLIElementPlayer elementPlayer = new CLIElementPlayer(this, players.get(i), i*53, cliDraftPool.getHeight()+1, showObjective);
 
+            //add the boards
             boolean boardSelected = false;
-
             if(players.get(i) == game.getCurrentPlayer()  &&  state == CLIRenderMainState.BOARD_SELECTED)
                 boardSelected = true;                   //selects the board of the current player
 

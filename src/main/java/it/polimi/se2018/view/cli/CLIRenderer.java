@@ -12,16 +12,19 @@ public abstract class CLIRenderer
 
     protected Game                game;
 
-    protected static final int    WIDTH = 220;
-    protected static final int    HEIGHT = 37;
+    protected int                 width;
+    protected int                 height;
 
 
-    public CLIRenderer(Game game)
+    public CLIRenderer(Game game, int width, int height)
     {
-        charMatrix  = new char[HEIGHT][WIDTH];
-        colorMatrix = new Color[HEIGHT][WIDTH];
+        this.width=width;
+        this.height=height;
+        charMatrix  = new char[height][width];
+        colorMatrix = new Color[height][width];
 
         this.game = game;
+
     }
 
     //draws everything in the console
@@ -29,9 +32,9 @@ public abstract class CLIRenderer
     {
         refresh();
 
-        for(int row=0; row < HEIGHT; row++)
+        for(int row=0; row < height; row++)
         {
-            for(int col=0; col < WIDTH; col++)
+            for(int col=0; col < width; col++)
             {
                 if(colorMatrix[row][col] != null)
                     System.out.print(colorMatrix[row][col].getConsoleString());
@@ -57,9 +60,9 @@ public abstract class CLIRenderer
     //fills the charMatrix with blank character
     protected void initMatrix()
     {
-        for( int row=0; row < HEIGHT; row++)
+        for( int row=0; row < height; row++)
         {
-            for(int col=0; col < WIDTH; col++)
+            for(int col=0; col < width; col++)
             {
                 charMatrix[row][col] = ' ';
             }
