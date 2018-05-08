@@ -24,7 +24,6 @@ public abstract class CLIRenderer
         colorMatrix = new Color[height][width];
 
         this.game = game;
-
     }
 
     //draws everything in the console
@@ -71,8 +70,4 @@ public abstract class CLIRenderer
 
     //needs to be overridden
     protected abstract void refresh ();
-
-
-
-
 }

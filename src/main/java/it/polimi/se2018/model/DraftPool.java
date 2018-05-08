@@ -1,8 +1,9 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DraftPool
+public class DraftPool implements Serializable
 {
     private ArrayList <Die> dice;
     private DiceBag diceBag;

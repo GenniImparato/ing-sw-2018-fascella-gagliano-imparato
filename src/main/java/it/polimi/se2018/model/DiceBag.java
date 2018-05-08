@@ -1,9 +1,10 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DiceBag
+public class DiceBag implements Serializable
 {
     private ArrayList<Die> dice ;
 

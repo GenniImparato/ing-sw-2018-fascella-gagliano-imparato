@@ -1,6 +1,8 @@
 package it.polimi.se2018.model;
 
-public class CellRestriction
+import java.io.Serializable;
+
+public class CellRestriction implements Serializable
 {
     private boolean active;         //false = no restriction       true = restriction active
     private boolean type;           //false = value restriction    true = color restriction

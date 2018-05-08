@@ -1,8 +1,9 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public enum Color
+public enum Color implements Serializable
 {
     RED ("\u001b[31;1m", 0, 'R'),
     BLUE ("\u001b[34;1m", 1, 'B'),

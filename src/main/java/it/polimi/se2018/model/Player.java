@@ -2,7 +2,9 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 
-public class Player
+import java.io.Serializable;
+
+public class Player implements Serializable
 {
     private Board                   board;              //player's board
     private PrivateObjectiveCard    card;               //player's private objective card

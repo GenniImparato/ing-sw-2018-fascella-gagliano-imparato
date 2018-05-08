@@ -2,13 +2,15 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
+import it.polimi.se2018.events.messages.PlayerAddedMessage;
 import it.polimi.se2018.observer.Observable;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //singleton class
-public class Game extends Observable <Message>
+public class Game extends Observable <Message> implements Serializable
 {
     private PlayerTurnIterator                  playersIterator;
     private Player                              currentPlayer;
@@ -26,28 +28,12 @@ public class Game extends Observable <Message>
 
     public Game() {
         playersIterator = new PlayerTurnIterator();
-
-        try
-        {
-            addNewPlayer("Renatino");
-            addNewPlayer("KwX" +
-                    "" +
-                    "");
-            addNewPlayer("Ges");
-        }
-        catch (CannotAddPlayerException e)
-        { }
-
-        playersIterator.getAllPlayers().get(0).loadBoardFromFile("resources/schemecards/4-Luz Celestial.sagradaschemecard");
-        playersIterator.getAllPlayers().get(1).loadBoardFromFile("resources/schemecards/2-Shadow Thief.sagradaschemecard");
-        playersIterator.getAllPlayers().get(2).loadBoardFromFile("resources/schemecards/8-Symphony of Light.sagradaschemecard");
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(3);
-
     }
 
     //add a new player to the model if the number of player is not at maximum
@@ -57,11 +43,13 @@ public class Game extends Observable <Message>
         try
         {
             playersIterator.addNewPlayer(nickname);
+            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
         }
-        catch(CannotAddPlayerException e)
+        catch (CannotAddPlayerException e)
         {
             throw e;
         }
+
     }
 
     public Player getCurrentPlayer()

@@ -2,9 +2,11 @@ package it.polimi.se2018.view.cli;
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.events.clievents.CLIRequestGameInstanceEvent;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.*;
+import network.Client;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -14,14 +16,9 @@ public class CLI extends View
 {
     private     CLIState            state;
     private     Scanner             scanner;
-    private     CLIRendererMain     mainRenderer;
-    private     CLIRendererCards    cardsRenderer;
 
-    public CLI (Game game)
+    public CLI ()
     {
-        super (game);
-        mainRenderer = new CLIRendererMain(game);
-        cardsRenderer = new CLIRendererCards(game);
         scanner = new Scanner(System.in);
 
         System.out.println();
@@ -48,8 +45,12 @@ public class CLI extends View
     @Override
     public void update(Message event)
     {
+        showErrorMessage("CLI NOTIFIED");
+        notify(new CLIRequestGameInstanceEvent(this, state));   //notify the controller that an updated game instance needs to be downloaded from the server
+
         if(event instanceof DraftedDieMessage)
             askPlayerForAddingDie(((DraftedDieMessage)event).getDie());
+
     }
 
     public void showErrorMessage(String message)
@@ -74,7 +75,8 @@ public class CLI extends View
 
     public void start()
     {
-        beginRound();
+        menuClientServer();
+        //beginRound();
     }
 
     //notify the controller to tell that a new round has begun
@@ -133,13 +135,13 @@ public class CLI extends View
     private void renderGameState(CLIRenderMainState renderState)
     {
         clear();
-        mainRenderer.render(renderState);
+        new CLIRendererMain(game).render(renderState);
     }
 
     private void renderGameState(CLIRendererCardsState renderState)
     {
         clear();
-        cardsRenderer.render(renderState);
+        new CLIRendererCards(game).render(renderState);
     }
 
     public void menuClientServer()
@@ -150,11 +152,29 @@ public class CLI extends View
         notify(new CLIInputEvent(this, state, scanner.next()));
     }
 
-    public void askPLayerNickname()
+    public void menuClientAskingIP()
     {
-        state = CLIState.MENU_ASKING_PLAYER_NICKNAME;
+        state = CLIState.MENU_CLIENT_ASKING_IP;
+        System.out.println("Insert IP of the Server:");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void menuClientAskingPort()
+    {
+        state = CLIState.MENU_CLIENT_ASKING_PORT;
+        System.out.println("Insert the port of the Server:");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void menuClientAskingNickname()
+    {
+        state = CLIState.MENU_CLIENT_ASKING_NICKNAME;
         System.out.println("Insert your nickname:");
         notify(new CLIInputEvent(this, state, scanner.next()));
     }
 
+    public void refresh()
+    {
+        renderGameState(CLIRenderMainState.NO_SELECTION);
+    }
 }

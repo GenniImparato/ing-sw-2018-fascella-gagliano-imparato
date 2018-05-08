@@ -9,15 +9,6 @@ public class App
 {
     public static void main( String[] args )
     {
-       Game game = new Game ();
-       CLI view = new CLI(game);
-       Controller controller = new CLIController (game, view);
-
-       game.attach(view);
-       view.attach(controller);
-
-       view.start();
-
-
+        new CLIController (new CLI());
     }
 }

@@ -1,9 +1,10 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Board
+public class Board implements Serializable
 {
     public static final int ROWS = 4;
     public static final int COLUMNS = 5;

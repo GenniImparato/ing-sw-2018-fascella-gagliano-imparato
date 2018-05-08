@@ -7,9 +7,9 @@ import it.polimi.se2018.view.View;
 
 public class GUI extends View
 {
-    public GUI(Game game)
+    public GUI()
     {
-        super(game);
+        super();
     }
 
     public void start(){}
@@ -17,6 +17,9 @@ public class GUI extends View
     public void showMessage(String message){}
     @Override
     public void update(Message event)
+    {
+    }
+    public void refresh()
     {
     }
 }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 //a concrete CLIRenderer used to render the main view of the game (the player's boards, the draftpool, the roundtrack)
 public class CLIRendererMain extends CLIRenderer
 {
-
     private CLIRenderMainState state;
 
     public CLIRendererMain(Game game)
@@ -43,7 +42,6 @@ public class CLIRendererMain extends CLIRenderer
 
 
         ArrayList<Player> players = game.getAllPlayers();
-
 
         for(int i=0; i<players.size(); i++)
         {

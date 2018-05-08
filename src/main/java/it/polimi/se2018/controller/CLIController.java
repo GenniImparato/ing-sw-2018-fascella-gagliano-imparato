@@ -1,31 +1,49 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
 import it.polimi.se2018.events.clievents.CLIEvent;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.events.clievents.CLIRequestGameInstanceEvent;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.cli.CLI;
+import network.CannotConnectToServerException;
+import network.CannotCreateServerException;
+import network.Client;
+import network.Server;
+import network.serverrequests.DownloadGameInstanceRequest;
 
-public class CLIController extends Controller<CLIEvent>
+import java.io.IOException;
+
+public class CLIController extends Controller
 {
-    CLI view;
+    private CLI         cli;
+    private String      serverIP;
+    private int         serverPort;
 
-    public CLIController(Game game, CLI view)
+    public CLIController(CLI cli)
     {
-        super(game);
-        this.view = view;
+        super(cli);
+        this.cli = cli;
+        view.attach(this);
+        cli.start();
     }
 
     @Override
     //handle events from the view
-    public void update(CLIEvent event)
+    public void update(Event event)
     {
         if(event instanceof CLIInputEvent)
             handleEvent((CLIInputEvent)event);
         else if(event instanceof CLIBeginRoundEvent)
         {
             game.beginRound();
-            view.askPlayerForAction();
+            cli.askPlayerForAction();
+        }
+        else if(event instanceof CLIRequestGameInstanceEvent)
+        {
+            cli.showErrorMessage("Game download requested");
+            //downloadLocalGameInstanceFromServer();
         }
     }
 
@@ -34,121 +52,195 @@ public class CLIController extends Controller<CLIEvent>
         switch(event.getState())
         {
             case MENU_CLIENT_SERVER:
-                if(event.getInput().equals("1"))
-                {
-                    view.showMessage("New game started!\n");
-                    view.askPLayerNickname();
-                }
-                else if(event.getInput().equals("2"))
-                {
-                    view.showErrorMessage("Cannot connect to a game!");
-                    view.menuClientServer();
-                }
-                else
-                {
-                    view.showErrorMessage("Input not valid!");
-                    view.menuClientServer();
-                }
+                controlClientServerView(event);
                 break;
 
-            case MENU_ASKING_PLAYER_NICKNAME:
-                try
-                {
-                    game.addNewPlayer(event.getInput());
-                    view.showMessage("Player " + event.getInput() + " added!");
-                    view.askPLayerNickname();
-                }
-                catch(CannotAddPlayerException e)
-                {
-                    view.showErrorMessage(e.getMessage());
-                }
+            case MENU_CLIENT_ASKING_IP:
+                controlClientAskingIPView(event);
+                break;
+
+            case MENU_CLIENT_ASKING_PORT:
+                controlClientAskingPortView(event);
+                break;
+
+            case MENU_CLIENT_ASKING_NICKNAME:
+                controlClientAskingNicknameView(event);
                 break;
 
             case GAME_ASK_PLAYER_FOR_ACTION:
-                if(event.getInput().equals("1"))
-                    view.askPlayerForDrafting();
-                else if(event.getInput().equals("2"))
-                    view.askPlayerForActionCards();
-                else
-                {
-                    view.showErrorMessage("Not valid input!");
-                    view.askPlayerForAction();
-                }
+                controlAskPlayerForActionView(event);
                 break;
 
             case GAME_ASK_PLAYER_FOR_ACTION_CARDS:
-                if(event.getInput().equals("1"))
-                {
-                    view.showErrorMessage("Tool cards not yet implemeted!");
-                    view.askPlayerForActionCards();
-                }
-                else if(event.getInput().equals("2"))
-                    view.askPlayerForAction();
-                else
-                {
-                    view.showErrorMessage("Not valid input!");
-                    view.askPlayerForAction();
-                }
+                controlAskPlayerForActionCardsView(event);
                 break;
 
             case GAME_ASK_PLAYER_FOR_DRAFTING:
-                if(event.getInput().equals("b"))
-                    view.askPlayerForAction();
-                else try
-                {
-                    Integer val = Integer.parseInt(event.getInput());
-                    if(val >= 0 && val < game.getDraftPool().getAllDice().size())
-                        game.draftDie(val);
-                    else
-                    {
-                        view.showErrorMessage("Not valid input!");
-                        view.askPlayerForDrafting();
-                    }
-                }
-                catch(NumberFormatException e)
-                {
-                    view.showErrorMessage("Not valid input!");
-                    view.askPlayerForDrafting();
-                }
+                controlAskPlayerForDraftingView(event);
                 break;
 
             case GAME_ASK_PLAYER_FOR_ADDING_DICE:
+                controlAskPlayerForAddingDiceView(event);
+                break;
+        }
+    }
+
+    private void controlClientServerView(CLIInputEvent event)
+    {
+        if(event.getInput().equals("1"))
+        {
+            Server server;
+
+            try
+            {
+                server = new Server();
+                cli.showMessage("A server has been created!");
+                cli.showMessage("Server IP: " + server.getIP());
+                cli.showMessage("Server port: " + server.getPort());
+                cli.menuClientServer();
+            }
+            catch (CannotCreateServerException e)
+            {
+                cli.showErrorMessage("Server cannot be created!\n");
+            }
+
+        }
+        else if(event.getInput().equals("2"))
+            cli.menuClientAskingIP();
+        else
+        {
+            cli.showErrorMessage("Input not valid!");
+            cli.menuClientServer();
+        }
+    }
+
+    private void controlAskPlayerForActionView(CLIInputEvent event)
+    {
+        if(event.getInput().equals("1"))
+            cli.askPlayerForDrafting();
+        else if(event.getInput().equals("2"))
+            cli.askPlayerForActionCards();
+        else
+        {
+            cli.showErrorMessage("Not valid input!");
+            cli.askPlayerForAction();
+        }
+    }
+
+    private void controlAskPlayerForActionCardsView(CLIInputEvent event)
+    {
+        if(event.getInput().equals("1"))
+        {
+            cli.showErrorMessage("Tool cards not yet implemeted!");
+            cli.askPlayerForActionCards();
+        }
+        else if(event.getInput().equals("2"))
+            cli.askPlayerForAction();
+        else
+        {
+            cli.showErrorMessage("Not valid input!");
+            cli.askPlayerForAction();
+        }
+    }
+
+    private void controlAskPlayerForDraftingView(CLIInputEvent event)
+    {
+        if(event.getInput().equals("b"))
+            cli.askPlayerForAction();
+        else try
+        {
+            Integer val = Integer.parseInt(event.getInput());
+            if(val >= 0 && val < game.getDraftPool().getAllDice().size())
+                game.draftDie(val);
+            else
+            {
+                cli.showErrorMessage("Not valid input!");
+                cli.askPlayerForDrafting();
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            cli.showErrorMessage("Not valid input!");
+            cli.askPlayerForDrafting();
+        }
+    }
+
+    private void controlAskPlayerForAddingDiceView(CLIInputEvent event)
+    {
+        try
+        {
+            Integer val = Integer.parseInt(event.getInput());
+            if(val >= 0 && val < 20)
+            {
                 try
                 {
-                    Integer val = Integer.parseInt(event.getInput());
-                    if(val >= 0 && val < 20)
-                    {
-                        try
-                        {
-                            if(val<=4)
-                                game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),0, val);
-                            else if(val<=9)
-                                game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),1, val%5);
-                            else if(val<=14)
-                                game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),2, val%10);
-                            else
-                                game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),3, val%15);
-
-                            view.askPlayerForAction();
-                        }
-                        catch (CannotAddDieException e)
-                        {
-                            view.showErrorMessage(e.getMessage());
-                            view.askPlayerForAddingDie(game.getLastDraftedDie());
-                        }
-                    }
+                    if(val<=4)
+                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),0, val);
+                    else if(val<=9)
+                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),1, val%5);
+                    else if(val<=14)
+                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),2, val%10);
                     else
-                    {
-                        view.showErrorMessage("Not valid input!");
-                        view.askPlayerForAddingDie(game.getLastDraftedDie());
-                    }
+                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),3, val%15);
+
+                    cli.askPlayerForAction();
                 }
-                catch(NumberFormatException e)
+                catch (CannotAddDieException e)
                 {
-                    view.showErrorMessage("Not valid input!");
-                    view.askPlayerForAddingDie(game.getLastDraftedDie());
+                    cli.showErrorMessage(e.getMessage());
+                    cli.askPlayerForAddingDie(game.getLastDraftedDie());
                 }
-                break;
+            }
+            else
+            {
+                cli.showErrorMessage("Not valid input!");
+                cli.askPlayerForAddingDie(game.getLastDraftedDie());
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            cli.showErrorMessage("Not valid input!");
+            cli.askPlayerForAddingDie(game.getLastDraftedDie());
+        }
+    }
+
+    private void controlClientAskingIPView(CLIInputEvent event)
+    {
+        serverIP = event.getInput();
+        cli.menuClientAskingPort();
+    }
+
+    private void controlClientAskingPortView(CLIInputEvent event)
+    {
+        try
+        {
+            serverPort = Integer.parseInt(event.getInput());
+        }
+        catch(NumberFormatException e)
+        {
+            cli.showErrorMessage("Port must be a number!");
+            cli.menuClientServer();
+        }
+        cli.menuClientAskingNickname();
+    }
+
+    private void controlClientAskingNicknameView(CLIInputEvent event)
+    {
+        try
+        {
+            cli.connectToServer(serverIP, serverPort, event.getInput());
+            downloadLocalGameInstanceFromServer();
+            cli.beginRound();
+        }
+        catch(CannotConnectToServerException e)
+        {
+            view.showErrorMessage("Cannot connect to server!");
+            cli.menuClientServer();
+        }
+        catch(CannotAddPlayerException e)
+        {
+            view.showErrorMessage(e.getMessage());
+            cli.menuClientServer();
         }
     }
 }

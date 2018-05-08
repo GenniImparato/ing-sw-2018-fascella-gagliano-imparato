@@ -1,9 +1,10 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class PlayerTurnIterator implements Iterator<Player>
+public class PlayerTurnIterator implements Iterator<Player>, Serializable
 {
     private ArrayList<Player>           players;
     private int                         currentTurn = 0;

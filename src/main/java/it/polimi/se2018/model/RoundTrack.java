@@ -1,8 +1,9 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RoundTrack
+public class RoundTrack implements Serializable
 {
     private ArrayList<Die>[] dice;
     private DraftPool drafPool;
