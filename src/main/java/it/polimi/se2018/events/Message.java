@@ -2,7 +2,9 @@ package it.polimi.se2018.events;
 
 import it.polimi.se2018.model.Game;
 
-public abstract class Message
+import java.io.Serializable;
+
+public abstract class Message implements Serializable
 {
     private Game game;
 

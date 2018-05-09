@@ -7,9 +7,9 @@ import it.polimi.se2018.view.View;
 
 public class GUI extends View
 {
-    public GUI()
+    public GUI(Game game)
     {
-        super();
+        super(game);
     }
 
     public void start(){}

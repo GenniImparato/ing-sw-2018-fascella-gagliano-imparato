@@ -2,24 +2,29 @@ package it.polimi.se2018.view.cli;
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
-import it.polimi.se2018.events.clievents.CLIRequestGameInstanceEvent;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
+import it.polimi.se2018.events.messages.PlayerAddedMessage;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.*;
-import network.Client;
 
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 
 public class CLI extends View
 {
     private     CLIState            state;
     private     Scanner             scanner;
+    private     CLIRendererMain     mainRenderer;
+    private     CLIRendererCards    cardsRenderer;
 
-    public CLI ()
+    public CLI (Game game)
     {
+        super(game);
+
         scanner = new Scanner(System.in);
+
+        mainRenderer = new CLIRendererMain(game);
+        cardsRenderer = new CLIRendererCards(game);
 
         System.out.println();
         System.out.print(Color.RED.getConsoleString());
@@ -46,10 +51,13 @@ public class CLI extends View
     public void update(Message event)
     {
         showErrorMessage("CLI NOTIFIED");
-        notify(new CLIRequestGameInstanceEvent(this, state));   //notify the controller that an updated game instance needs to be downloaded from the server
+
+        //client.sendGameInstanceToServer();
 
         if(event instanceof DraftedDieMessage)
             askPlayerForAddingDie(((DraftedDieMessage)event).getDie());
+        else if(event instanceof PlayerAddedMessage)
+            showMessage(((PlayerAddedMessage)event).getPLayer().getNickname() + "has connected to the game", Color.BLUE);
 
     }
 
@@ -64,7 +72,6 @@ public class CLI extends View
         }
         catch(InterruptedException e)
         {}
-
     }
 
     public void showMessage(String message)
@@ -72,6 +79,19 @@ public class CLI extends View
         System.out.println(message);
     }
 
+    public void showMessage(String message, Color color)
+    {
+        System.out.println(message);
+        System.out.print(color.getConsoleString());
+        System.out.println("Error: " + message);
+        System.out.print(Color.getResetConsoleString());
+        try
+        {
+            Thread.sleep(3000);
+        }
+        catch(InterruptedException e)
+        {}
+    }
 
     public void start()
     {
@@ -135,13 +155,13 @@ public class CLI extends View
     private void renderGameState(CLIRenderMainState renderState)
     {
         clear();
-        new CLIRendererMain(game).render(renderState);
+        mainRenderer.render(renderState);
     }
 
     private void renderGameState(CLIRendererCardsState renderState)
     {
         clear();
-        new CLIRendererCards(game).render(renderState);
+        cardsRenderer.render(renderState);
     }
 
     public void menuClientServer()
@@ -175,6 +195,5 @@ public class CLI extends View
 
     public void refresh()
     {
-        renderGameState(CLIRenderMainState.NO_SELECTION);
     }
 }

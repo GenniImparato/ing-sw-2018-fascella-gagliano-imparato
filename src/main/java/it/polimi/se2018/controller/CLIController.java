@@ -2,18 +2,13 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
-import it.polimi.se2018.events.clievents.CLIEvent;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
 import it.polimi.se2018.events.clievents.CLIRequestGameInstanceEvent;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.cli.CLI;
-import network.CannotConnectToServerException;
-import network.CannotCreateServerException;
-import network.Client;
-import network.Server;
-import network.serverrequests.DownloadGameInstanceRequest;
-
-import java.io.IOException;
+import it.polimi.se2018.network.CannotConnectToServerException;
+import it.polimi.se2018.network.CannotCreateServerException;
+import it.polimi.se2018.network.Server;
 
 public class CLIController extends Controller
 {
@@ -21,9 +16,9 @@ public class CLIController extends Controller
     private String      serverIP;
     private int         serverPort;
 
-    public CLIController(CLI cli)
+    public CLIController(CLI cli, Game game)
     {
-        super(cli);
+        super(cli, game);
         this.cli = cli;
         view.attach(this);
         cli.start();
@@ -43,7 +38,6 @@ public class CLIController extends Controller
         else if(event instanceof CLIRequestGameInstanceEvent)
         {
             cli.showErrorMessage("Game download requested");
-            //downloadLocalGameInstanceFromServer();
         }
     }
 
@@ -229,7 +223,15 @@ public class CLIController extends Controller
         try
         {
             cli.connectToServer(serverIP, serverPort, event.getInput());
-            downloadLocalGameInstanceFromServer();
+            try
+            {
+                game.addNewPlayer(event.getInput());
+            }
+            catch(CannotAddPlayerException e)
+            {
+                cli.showErrorMessage(e.getMessage());
+            }
+
             cli.beginRound();
         }
         catch(CannotConnectToServerException e)

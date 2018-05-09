@@ -2,10 +2,11 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.toolcards.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class ToolCard extends Card
+public abstract class ToolCard extends Card implements Serializable
 {
     private int             num;
     private int             favorTokens;

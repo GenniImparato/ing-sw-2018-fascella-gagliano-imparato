@@ -14,18 +14,12 @@ public abstract class Observable <T> implements Serializable
 
     public void attach (Observer <T> observer)
     {
-        if(!observers.contains(observer))
-            observers.add(observer);
+        observers.add(observer);
     }
 
     public void detach (Observer <T> observer)
     {
         observers.remove(observer);
-    }
-
-    public ArrayList <Observer <T>> getAllObservers()
-    {
-        return observers;
     }
 
     protected void notify (T event)

@@ -2,10 +2,11 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.publicobjectivecards.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class PublicObjectiveCard extends Card
+public abstract class PublicObjectiveCard extends Card implements Serializable
 {
     protected int                 points;
     private static final int      NUMBER_OF_CARDS = 10;

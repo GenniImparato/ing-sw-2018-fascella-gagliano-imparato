@@ -9,6 +9,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        new CLIController (new CLI());
+        Game game = new Game();
+        CLI cli = new CLI(game);
+        CLIController controller = new CLIController(cli, game);
+
+        game.attach(cli);
+        cli.attach(controller);
     }
 }

@@ -1,26 +1,23 @@
-package network;
+package it.polimi.se2018.network;
 
-import it.polimi.se2018.model.CannotAddPlayerException;
 import it.polimi.se2018.model.Game;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class Server extends Thread
 {
-    private Game                game;
-    private ServerSocket        serverSocket;
-    private ObjectInputStream   input;
-    private ObjectOutputStream  output;
+    private Game                                game;
+    private ServerSocket                        serverSocket;
+    private ArrayList<ClientConnectedHandler>   handlers;
 
     public Server() throws CannotCreateServerException
     {
-        game = new Game();
+        handlers = new ArrayList<>();
 
         try
         {
@@ -44,11 +41,10 @@ public class Server extends Thread
 
                 try
                 {
-                    new ServerRequestHandler(this, socket).start();
+                    new ClientConnectedHandler(this, socket).start();
                 }
                 catch (IOException e)
                 {
-                    System.out.println("error");
                     e.printStackTrace();
                 }
             }
@@ -60,6 +56,18 @@ public class Server extends Thread
         }
     }
 
+    public synchronized void updateGameInstance(Game game)
+    {
+        this.game = game;
+
+        for(ClientConnectedHandler handler : handlers)      //the instance has been upted by some client
+            handler.sendGameInstanceToClient();             //needs to send the updated one to every client
+    }
+
+    public Game getGameInstance()
+    {
+        return game;
+    }
 
     public String getIP()
     {
@@ -76,15 +84,5 @@ public class Server extends Thread
     public int getPort()
     {
         return serverSocket.getLocalPort();
-    }
-
-    public Game getGameInstance()
-    {
-        return game;
-    }
-
-    public void addNewPlayer(String nickname) throws CannotAddPlayerException
-    {
-        game.addNewPlayer(nickname);
     }
 }

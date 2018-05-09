@@ -1,6 +1,8 @@
 package it.polimi.se2018.model;
 
-public class PrivateObjectiveCard extends Card
+import java.io.Serializable;
+
+public class PrivateObjectiveCard extends Card implements Serializable
 {
     private Color color;
 

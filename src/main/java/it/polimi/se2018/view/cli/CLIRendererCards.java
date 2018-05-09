@@ -40,7 +40,4 @@ public class CLIRendererCards extends CLIRenderer
 
     }
 
-
-
-
 }

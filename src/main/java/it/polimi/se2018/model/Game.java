@@ -26,7 +26,8 @@ public class Game extends Observable <Message> implements Serializable
     private int                                 currentRound = 0;
     private static final int                    TOTAL_ROUNDS = 10;
 
-    public Game() {
+    public Game()
+    {
         playersIterator = new PlayerTurnIterator();
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);

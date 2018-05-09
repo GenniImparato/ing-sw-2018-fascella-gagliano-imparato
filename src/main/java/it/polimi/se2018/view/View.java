@@ -5,9 +5,8 @@ import it.polimi.se2018.events.*;
 import it.polimi.se2018.model.CannotAddPlayerException;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.observer.*;
-import network.CannotConnectToServerException;
-import network.Client;
-import network.serverrequests.DownloadGameInstanceRequest;
+import it.polimi.se2018.network.CannotConnectToServerException;
+import it.polimi.se2018.network.Client;
 
 //every concrete view has to extend this class
 public abstract class View extends Observable<Event> implements Observer <Message>
@@ -15,20 +14,14 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     protected   Game    game;
     protected   Client  client;
 
-    public View ()
+    public View (Game game)
     {
+        this.game = game;
     }
 
     public void connectToServer(String IP, int port, String nickname) throws CannotConnectToServerException, CannotAddPlayerException
     {
-        client = new Client(IP, port, nickname);
-    }
-
-    public void setLocalGameInstance(Game game)
-    {
-        this.game = game;
-        game.attach(this);
-        refresh();
+        client = new Client(game, IP, port, nickname);
     }
 
     public Client getClient()
