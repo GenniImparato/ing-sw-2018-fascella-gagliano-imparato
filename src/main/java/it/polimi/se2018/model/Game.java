@@ -4,6 +4,7 @@ import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.events.messages.GameStartedMessage;
 import it.polimi.se2018.events.messages.PlayerAddedMessage;
+import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.observer.Observable;
 
 
@@ -30,6 +31,8 @@ public class Game extends Observable <Message> implements Serializable
 
     private boolean                             gameStarted = false;
 
+    private List<GameAction>                    actionChronology;
+
     public Game()
     {
         playersIterator = new PlayerTurnIterator();
@@ -40,6 +43,8 @@ public class Game extends Observable <Message> implements Serializable
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(3);
+
+        actionChronology = new ArrayList<>();
     }
 
     //copy constructor
@@ -86,29 +91,15 @@ public class Game extends Observable <Message> implements Serializable
         this.lastDraftedDie = game.lastDraftedDie;
         this.currentRound = game.currentRound;
         this.gameStarted = game.gameStarted;
+
+        this.actionChronology = new ArrayList<>(game.actionChronology);
     }
 
-    //add a new player to the model if the number of player is not at maximum
-    //return true if the player is added, false if it's not
-    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
+    public void executeAction(GameAction action)
     {
-        try
-        {
-            playersIterator.addNewPlayer(nickname);
-            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
-        }
-        catch (CannotAddPlayerException e)
-        {
-            throw e;
-        }
-
-    }
-
-    public void startGame()
-    {
-        gameStarted = true;
-        beginRound();
-        notify(new GameStartedMessage(new Game((this))));
+        action.execute(this);
+        if(action.hasBeenExecuted())
+            actionChronology.add(action);
     }
 
     public Player getCurrentPlayer()
@@ -163,15 +154,38 @@ public class Game extends Observable <Message> implements Serializable
         return toolCards;
     }
 
+    //add a new player to the model if the number of player is not at maximum
+    //return true if the player is added, false if it's not
+    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
+    {
+        try
+        {
+            playersIterator.addNewPlayer(nickname);
+            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
+        }
+        catch (CannotAddPlayerException e)
+        {
+            throw e;
+        }
+
+    }
+
+    public void startGame()
+    {
+        gameStarted = true;
+        beginRound();
+        notify(new GameStartedMessage(new Game((this))));
+    }
+
     //draw the correct number of dice from DiceBag to the DraftPool
-    private void beginRound()
+    public void beginRound()
     {
         draftPool.draw(getPlayerNum()*2 +1);
         beginPlayerTurn();
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack
-    private void endRound()
+    public void endRound()
     {
         roundTrack.addLastDice(currentRound);
 
@@ -204,7 +218,7 @@ public class Game extends Observable <Message> implements Serializable
     }
 
     //update all the scores
-    private void updateAllPlayersScores()
+    public void updateAllPlayersScores()
     {
         List<Player> allPlayers = playersIterator.getAllPlayers();
 

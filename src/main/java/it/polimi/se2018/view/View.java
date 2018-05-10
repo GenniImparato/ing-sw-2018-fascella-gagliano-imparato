@@ -6,7 +6,7 @@ import it.polimi.se2018.model.Game;
 import it.polimi.se2018.observer.*;
 
 //every concrete view has to extend this class
-public abstract class View extends Observable<Event> implements Observer <Message>
+public abstract class View<T> extends Observable<T> implements Observer <Message>
 {
     private   Game    game;
 
@@ -28,5 +28,4 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     public abstract void start();
     public abstract void showErrorMessage(String message);
     public abstract void showMessage(String message);
-    public abstract void refresh();
 }

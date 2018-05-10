@@ -1,78 +1,31 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.controller.gameactions.*;
+import it.polimi.se2018.model.gameactions.*;
 import it.polimi.se2018.events.Event;
 import it.polimi.se2018.events.clievents.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.cli.CLI;
 
-public class CLIController extends Controller
+public class CLIController extends Controller<CLIEvent>
 {
-    private CLI         cli;
+    private CLI                 cli;
+    private CLIEventParser      parser;
 
     public CLIController(CLI cli, Game game)
     {
         super(cli, game);
         this.cli = cli;
-        view.attach(this);
+        parser = new CLIEventParser(this);
     }
 
     @Override
     //handle events from the view
-    public void update(Event event)
+    public void update(CLIEvent event)
     {
-        if(event instanceof CLIInputEvent)
-            handleEvent((CLIInputEvent)event);
-        else if(event instanceof CLIBeginGameEvent)
-        {
-            saveAction(new BeginTurnAction(game));
-            cli.askPlayerForAction();
-        }
+        event.beParsed(parser);
     }
 
-    private void handleEvent(CLIInputEvent event)
-    {
-        switch(event.getState())
-        {
-            case MENU_CLIENT_SERVER:
-                controlClientServerView(event);
-                break;
-
-            /*case MENU_NEW_PLAYER_ASKING_NICKNAME:
-                controlNewPlayerAskingNicknameView(event);
-                break;*/
-
-            case MENU_CLIENT_ASKING_IP:
-                controlClientAskingIPView(event);
-                break;
-
-            case MENU_CLIENT_ASKING_PORT:
-                controlClientAskingPortView(event);
-                break;
-
-            case MENU_CLIENT_ASKING_NICKNAME:
-                controlClientAskingNicknameView(event);
-                break;
-
-            case GAME_ASK_PLAYER_FOR_ACTION:
-                controlAskPlayerForActionView(event);
-                break;
-
-            case GAME_ASK_PLAYER_FOR_ACTION_CARDS:
-                controlAskPlayerForActionCardsView(event);
-                break;
-
-            case GAME_ASK_PLAYER_FOR_DRAFTING:
-                controlAskPlayerForDraftingView(event);
-                break;
-
-            case GAME_ASK_PLAYER_FOR_ADDING_DICE:
-                controlAskPlayerForAddingDiceView(event);
-                break;
-        }
-    }
-
-    private void controlClientServerView(CLIInputEvent event)
+    /*private void controlClientServerView(CLIInputEvent event)
     {
         if(event.getInput().equals("1"))
         {
@@ -124,7 +77,7 @@ public class CLIController extends Controller
         {
             Integer val = Integer.parseInt(event.getInput());
             if(val >= 0 && val < game.getDraftPool().getAllDice().size())
-                saveAction(new DraftDieAction(game, val));
+                game.executeAction(new DraftDieAction(val));
             else
             {
                 cli.showErrorMessage("Not valid input!");
@@ -145,27 +98,28 @@ public class CLIController extends Controller
             Integer val = Integer.parseInt(event.getInput());
             if(val >= 0 && val < 20) //checks if the input is in the range to represent a cell of the matrix
             {
-                try
-                {
-                    int row, col;
+                int row, col;
 
-                    if(val<=4)                              //converts the input (integer in [0,20] range)
+                if(val<=4)                              //converts the input (integer in [0,20] range)
                     {row  =0;   col = val;}                 //to 2 coordinates (row, col)
-                    else if(val<=9)                         //representing the selected cell coordinates
+                else if(val<=9)                         //representing the selected cell coordinates
                     {row  =1;   col = val%5;}
-                    else if(val<=14)
+                else if(val<=14)
                     {row  =2;   col = val%10;}
-                    else
+                else
                     {row  =3;   col = val%15;}
 
-                    saveAction(new AddDieToBoardAction(game, row, col));
+                GameAction action = new AddDieToBoardAction(game, row, col);
+                game.executeAction(action);
+
+                if(action.hasBeenExecuted())
                     cli.askPlayerForAction();
-                }
-                catch (CannotAddDieException e)
+                else
                 {
-                    cli.showErrorMessage(e.getMessage());
+                    cli.showErrorMessage(action.getErrorMessage());
                     cli.askPlayerForAddingDie(game.getLastDraftedDie());
                 }
+
             }
             else        //input is not in range [0,20]
             {
@@ -202,5 +156,5 @@ public class CLIController extends Controller
         }
 
         cli.beginGame();
-    }
+    }*/
 }

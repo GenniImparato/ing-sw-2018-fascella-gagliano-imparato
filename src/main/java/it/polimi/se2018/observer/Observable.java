@@ -22,7 +22,7 @@ public abstract class Observable <T> implements Serializable
         observers.remove(observer);
     }
 
-    protected void notify (T event)
+    public void notify (T event)
     {
         for (Observer<T> observer : observers)
             observer.update(event);

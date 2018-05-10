@@ -15,7 +15,7 @@ public class PlayerAddedMessage extends Message
         this.player = player;
     }
 
-    public Player getPLayer()
+    public Player getPlayer()
     {
         return player;
     }
