@@ -1,27 +1,20 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.controller.gameactions.*;
 import it.polimi.se2018.events.Event;
-import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
-import it.polimi.se2018.events.clievents.CLIInputEvent;
-import it.polimi.se2018.events.clievents.CLIRequestGameInstanceEvent;
+import it.polimi.se2018.events.clievents.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.cli.CLI;
-import it.polimi.se2018.network.CannotConnectToServerException;
-import it.polimi.se2018.network.CannotCreateServerException;
-import it.polimi.se2018.network.Server;
 
 public class CLIController extends Controller
 {
     private CLI         cli;
-    private String      serverIP;
-    private int         serverPort;
 
     public CLIController(CLI cli, Game game)
     {
         super(cli, game);
         this.cli = cli;
         view.attach(this);
-        cli.start();
     }
 
     @Override
@@ -30,14 +23,10 @@ public class CLIController extends Controller
     {
         if(event instanceof CLIInputEvent)
             handleEvent((CLIInputEvent)event);
-        else if(event instanceof CLIBeginRoundEvent)
+        else if(event instanceof CLIBeginGameEvent)
         {
-            game.beginRound();
+            saveAction(new BeginTurnAction(game));
             cli.askPlayerForAction();
-        }
-        else if(event instanceof CLIRequestGameInstanceEvent)
-        {
-            cli.showErrorMessage("Game download requested");
         }
     }
 
@@ -48,6 +37,10 @@ public class CLIController extends Controller
             case MENU_CLIENT_SERVER:
                 controlClientServerView(event);
                 break;
+
+            /*case MENU_NEW_PLAYER_ASKING_NICKNAME:
+                controlNewPlayerAskingNicknameView(event);
+                break;*/
 
             case MENU_CLIENT_ASKING_IP:
                 controlClientAskingIPView(event);
@@ -83,21 +76,7 @@ public class CLIController extends Controller
     {
         if(event.getInput().equals("1"))
         {
-            Server server;
-
-            try
-            {
-                server = new Server();
-                cli.showMessage("A server has been created!");
-                cli.showMessage("Server IP: " + server.getIP());
-                cli.showMessage("Server port: " + server.getPort());
-                cli.menuClientServer();
-            }
-            catch (CannotCreateServerException e)
-            {
-                cli.showErrorMessage("Server cannot be created!\n");
-            }
-
+            cli.showErrorMessage("Not yet implemented!");
         }
         else if(event.getInput().equals("2"))
             cli.menuClientAskingIP();
@@ -145,7 +124,7 @@ public class CLIController extends Controller
         {
             Integer val = Integer.parseInt(event.getInput());
             if(val >= 0 && val < game.getDraftPool().getAllDice().size())
-                game.draftDie(val);
+                saveAction(new DraftDieAction(game, val));
             else
             {
                 cli.showErrorMessage("Not valid input!");
@@ -164,19 +143,22 @@ public class CLIController extends Controller
         try
         {
             Integer val = Integer.parseInt(event.getInput());
-            if(val >= 0 && val < 20)
+            if(val >= 0 && val < 20) //checks if the input is in the range to represent a cell of the matrix
             {
                 try
                 {
-                    if(val<=4)
-                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),0, val);
-                    else if(val<=9)
-                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),1, val%5);
-                    else if(val<=14)
-                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),2, val%10);
-                    else
-                        game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(),3, val%15);
+                    int row, col;
 
+                    if(val<=4)                              //converts the input (integer in [0,20] range)
+                    {row  =0;   col = val;}                 //to 2 coordinates (row, col)
+                    else if(val<=9)                         //representing the selected cell coordinates
+                    {row  =1;   col = val%5;}
+                    else if(val<=14)
+                    {row  =2;   col = val%10;}
+                    else
+                    {row  =3;   col = val%15;}
+
+                    saveAction(new AddDieToBoardAction(game, row, col));
                     cli.askPlayerForAction();
                 }
                 catch (CannotAddDieException e)
@@ -185,12 +167,12 @@ public class CLIController extends Controller
                     cli.askPlayerForAddingDie(game.getLastDraftedDie());
                 }
             }
-            else
+            else        //input is not in range [0,20]
             {
                 cli.showErrorMessage("Not valid input!");
                 cli.askPlayerForAddingDie(game.getLastDraftedDie());
             }
-        }
+        }       //input is not a number
         catch(NumberFormatException e)
         {
             cli.showErrorMessage("Not valid input!");
@@ -200,21 +182,11 @@ public class CLIController extends Controller
 
     private void controlClientAskingIPView(CLIInputEvent event)
     {
-        serverIP = event.getInput();
         cli.menuClientAskingPort();
     }
 
     private void controlClientAskingPortView(CLIInputEvent event)
     {
-        try
-        {
-            serverPort = Integer.parseInt(event.getInput());
-        }
-        catch(NumberFormatException e)
-        {
-            cli.showErrorMessage("Port must be a number!");
-            cli.menuClientServer();
-        }
         cli.menuClientAskingNickname();
     }
 
@@ -222,27 +194,13 @@ public class CLIController extends Controller
     {
         try
         {
-            cli.connectToServer(serverIP, serverPort, event.getInput());
-            try
-            {
-                game.addNewPlayer(event.getInput());
-            }
-            catch(CannotAddPlayerException e)
-            {
-                cli.showErrorMessage(e.getMessage());
-            }
-
-            cli.beginRound();
-        }
-        catch(CannotConnectToServerException e)
-        {
-            view.showErrorMessage("Cannot connect to server!");
-            cli.menuClientServer();
+            game.addNewPlayer(event.getInput());
         }
         catch(CannotAddPlayerException e)
         {
-            view.showErrorMessage(e.getMessage());
-            cli.menuClientServer();
+            cli.showErrorMessage(e.getMessage());
         }
+
+        cli.beginGame();
     }
 }

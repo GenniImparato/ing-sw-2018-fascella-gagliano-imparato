@@ -1,11 +1,10 @@
 package it.polimi.se2018.view.cli;
 import it.polimi.se2018.events.Message;
-import it.polimi.se2018.events.clievents.CLIBeginRoundEvent;
-import it.polimi.se2018.events.clievents.CLIInputEvent;
-import it.polimi.se2018.events.messages.DraftedDieMessage;
-import it.polimi.se2018.events.messages.PlayerAddedMessage;
+import it.polimi.se2018.events.clievents.*;
+import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.*;
+import it.polimi.se2018.view.cli.renderer.*;
 
 import java.util.Scanner;
 
@@ -14,17 +13,12 @@ public class CLI extends View
 {
     private     CLIState            state;
     private     Scanner             scanner;
-    private     CLIRendererMain     mainRenderer;
-    private     CLIRendererCards    cardsRenderer;
 
     public CLI (Game game)
     {
         super(game);
 
         scanner = new Scanner(System.in);
-
-        mainRenderer = new CLIRendererMain(game);
-        cardsRenderer = new CLIRendererCards(game);
 
         System.out.println();
         System.out.print(Color.RED.getConsoleString());
@@ -52,12 +46,10 @@ public class CLI extends View
     {
         showErrorMessage("CLI NOTIFIED");
 
-        //client.sendGameInstanceToServer();
+        setGameInstance(event.getGame());
 
         if(event instanceof DraftedDieMessage)
             askPlayerForAddingDie(((DraftedDieMessage)event).getDie());
-        else if(event instanceof PlayerAddedMessage)
-            showMessage(((PlayerAddedMessage)event).getPLayer().getNickname() + "has connected to the game", Color.BLUE);
 
     }
 
@@ -76,14 +68,15 @@ public class CLI extends View
 
     public void showMessage(String message)
     {
+
         System.out.println(message);
     }
 
-    public void showMessage(String message, Color color)
+    public void showNotification(String message, Color color)
     {
-        System.out.println(message);
+
         System.out.print(color.getConsoleString());
-        System.out.println("Error: " + message);
+        System.out.println(message);
         System.out.print(Color.getResetConsoleString());
         try
         {
@@ -96,13 +89,41 @@ public class CLI extends View
     public void start()
     {
         menuClientServer();
-        //beginRound();
+    }
+
+    public void menuClientServer()
+    {
+        state = CLIState.MENU_CLIENT_SERVER;
+        System.out.println("1) Start a New Game (Server):");
+        System.out.println("2) Connect to a Game (Client):");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void menuClientAskingIP()
+    {
+        state = CLIState.MENU_CLIENT_ASKING_IP;
+        System.out.println("Insert IP of the Server:");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void menuClientAskingPort()
+    {
+        state = CLIState.MENU_CLIENT_ASKING_PORT;
+        System.out.println("Insert the port of the Server:");
+        notify(new CLIInputEvent(this, state, scanner.next()));
+    }
+
+    public void menuClientAskingNickname()
+    {
+        state = CLIState.MENU_CLIENT_ASKING_NICKNAME;
+        System.out.println("Insert your nickname:");
+        notify(new CLIInputEvent(this, state, scanner.next()));
     }
 
     //notify the controller to tell that a new round has begun
-    public void beginRound()
+    public void beginGame()
     {
-        notify(new CLIBeginRoundEvent(this, state));
+        notify(new CLIBeginGameEvent(this, state));
     }
 
     public void askPlayerForAction()
@@ -155,42 +176,13 @@ public class CLI extends View
     private void renderGameState(CLIRenderMainState renderState)
     {
         clear();
-        mainRenderer.render(renderState);
+        new CLIRendererMain(getGameInstance()).render(renderState);
     }
 
     private void renderGameState(CLIRendererCardsState renderState)
     {
         clear();
-        cardsRenderer.render(renderState);
-    }
-
-    public void menuClientServer()
-    {
-        state = CLIState.MENU_CLIENT_SERVER;
-        System.out.println("1) Start a New Game (Server):");
-        System.out.println("2) Connect to a Game (Client):");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingIP()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_IP;
-        System.out.println("Insert IP of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingPort()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_PORT;
-        System.out.println("Insert the port of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingNickname()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_NICKNAME;
-        System.out.println("Insert your nickname:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
+        new CLIRendererCards(getGameInstance()).render(renderState);
     }
 
     public void refresh()

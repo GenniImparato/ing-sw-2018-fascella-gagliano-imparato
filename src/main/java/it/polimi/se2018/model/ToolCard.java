@@ -2,11 +2,11 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.toolcards.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public abstract class ToolCard extends Card implements Serializable
+public abstract class ToolCard extends Card
 {
     private int             num;
     private int             favorTokens;
@@ -20,11 +20,19 @@ public abstract class ToolCard extends Card implements Serializable
         favorTokens = 0;
     }
 
-    //generate numOfCards different random ToolCards
-    public static ArrayList<ToolCard> getRandomCards(int numOfCards)
+    //copy constructor
+    public ToolCard(ToolCard card)
     {
-        ArrayList<ToolCard> ret = new ArrayList<>();
-        ArrayList<Integer>  randomList = new ArrayList<>();
+        super(card);
+        this.num = card.num;
+        this.favorTokens = card.favorTokens;
+    }
+
+    //generate numOfCards different random ToolCards
+    public static List<ToolCard> getRandomCards(int numOfCards)
+    {
+        List<ToolCard> ret = new ArrayList<>();
+        List<Integer> randomList = new ArrayList<>();
 
         for(int i=0; i<numOfCards; i++)
         {

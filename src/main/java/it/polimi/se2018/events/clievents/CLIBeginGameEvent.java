@@ -3,9 +3,9 @@ package it.polimi.se2018.events.clievents;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.CLIState;
 
-public class CLIBeginRoundEvent extends CLIEvent
+public class CLIBeginGameEvent extends CLIEvent
 {
-    public CLIBeginRoundEvent(CLI cli, CLIState state)
+    public CLIBeginGameEvent(CLI cli, CLIState state)
     {
         super(cli, state);
     }

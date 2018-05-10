@@ -1,10 +1,11 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.DraftPool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //a CLIElement that represents a DraftPool and can be rendered by a CLIRender on the CLI
 public class CLIElementDraftPool extends CLIElement
@@ -76,7 +77,7 @@ public class CLIElementDraftPool extends CLIElement
     //draws each die in the DraftPool at the correct position
     private void drawDice()
     {
-        ArrayList<Die> dice = draftPool.getAllDice();
+        List<Die> dice = draftPool.getAllDice();
 
         for(int i = 0; i<dice.size(); i++)
             new CLIElementDie(renderer, dice.get(i), i*8 + 2, 2);
@@ -85,7 +86,7 @@ public class CLIElementDraftPool extends CLIElement
     //fills the matrices to draw the indices of the dice
     private void drawIndices()
     {
-        ArrayList<Die> dice = draftPool.getAllDice();
+        List<Die> dice = draftPool.getAllDice();
 
         for(int i = 0; i<dice.size(); i++)
         {

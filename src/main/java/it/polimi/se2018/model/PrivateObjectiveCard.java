@@ -2,7 +2,7 @@ package it.polimi.se2018.model;
 
 import java.io.Serializable;
 
-public class PrivateObjectiveCard extends Card implements Serializable
+public class PrivateObjectiveCard extends Card
 {
     private Color color;
 
@@ -11,6 +11,13 @@ public class PrivateObjectiveCard extends Card implements Serializable
         super ("Private card", "--" );
 
         this.color=color;
+    }
+
+    //copy constructor
+    public PrivateObjectiveCard(PrivateObjectiveCard card)
+    {
+        super(card);
+        this.color = card.getColor();
     }
 
     public int score (Board board)

@@ -25,9 +25,30 @@ public class Board implements Serializable
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
 
-        for (int row = 0; row < Board.ROWS; row++) {
-            for (int col = 0; col < Board.COLUMNS; col++) {
+        for (int row = 0; row < Board.ROWS; row++)
+        {
+            for (int col = 0; col < Board.COLUMNS; col++)
+            {
                 this.cellMatrix[row][col] = new Cell(cellMatrix[row][col]);
+            }
+        }
+    }
+
+    //copy constructor
+    public Board(Board board)
+    {
+        this.cellMatrix = new Cell[ROWS][COLUMNS];
+        this.dieMatrix = new Die[ROWS][COLUMNS];
+
+        for (int row = 0; row < Board.ROWS; row++)
+        {
+            for (int col = 0; col < Board.COLUMNS; col++)
+            {
+                this.cellMatrix[row][col] = new Cell(board.getCell(row, col));
+
+                Die die = board.getDie(row, col);
+                if(die != null)
+                    this.dieMatrix[row][col] = new Die(die);
             }
         }
     }

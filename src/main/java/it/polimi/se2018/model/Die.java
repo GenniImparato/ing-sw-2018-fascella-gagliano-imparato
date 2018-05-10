@@ -14,6 +14,13 @@ public class Die implements Serializable
         roll();
     }
 
+    //copy constructor
+    public Die(Die die)
+    {
+        this.color = die.getColor();
+        this.value = die.getValue();
+    }
+
     public int getValue()
     {
         return value;

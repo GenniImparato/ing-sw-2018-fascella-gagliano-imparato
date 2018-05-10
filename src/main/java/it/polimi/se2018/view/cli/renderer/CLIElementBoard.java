@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.CellRestriction;

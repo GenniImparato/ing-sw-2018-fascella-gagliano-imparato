@@ -13,6 +13,13 @@ public abstract class Card implements Serializable
         this.description=description;
     }
 
+    //copy constructor
+    public Card(Card card)
+    {
+        this.name = card.getName();
+        this.description = card.getDescription();
+    }
+
     public String getName()
     {
         return name;

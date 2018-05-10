@@ -19,7 +19,16 @@ public class Player implements Serializable
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
         board = new Board();
+    }
 
+    public Player(Player player)
+    {
+        this.board = new Board(player.board);
+        this.card  = new PrivateObjectiveCard(player.card);
+        this.favorTokens = player.favorTokens;
+        this.score = player.score;
+        this.color = player.color;
+        this.nickname = player.nickname;
     }
 
     public void setBoard (Board board)

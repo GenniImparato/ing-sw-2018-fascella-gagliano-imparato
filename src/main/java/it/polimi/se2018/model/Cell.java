@@ -2,7 +2,7 @@ package it.polimi.se2018.model;
 
 import java.io.Serializable;
 
-public class Cell implements Serializable
+public class Cell
 {
     private CellRestriction restriction;
 
@@ -27,10 +27,7 @@ public class Cell implements Serializable
     //copy constructor
     public Cell(Cell cell)
     {
-        if(cell != null)
-            restriction = new CellRestriction(cell.getRestriction());
-        else
-            restriction = new CellRestriction();
+        restriction = new CellRestriction(cell.getRestriction());
     }
 
 

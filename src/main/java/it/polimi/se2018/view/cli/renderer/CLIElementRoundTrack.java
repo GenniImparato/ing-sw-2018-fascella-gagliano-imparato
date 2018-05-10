@@ -1,11 +1,11 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.RoundTrack;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CLIElementRoundTrack extends CLIElement
 {
@@ -73,7 +73,7 @@ public class CLIElementRoundTrack extends CLIElement
     {
         for(int round=0; round < 10; round++)
         {
-            ArrayList<Die> dice = roundTrack.getDicesAtRound(round);
+            List<Die> dice = roundTrack.getDicesAtRound(round);
             if (dice.size() > 1)        //draws only rounds with more than one day
             {
                 charMatrix[4][round*10 + 5] = ' ';      //overwrites the round index
@@ -99,7 +99,7 @@ public class CLIElementRoundTrack extends CLIElement
     {
         for(int round=0; round < 10; round++)
         {
-            ArrayList<Die> dice = roundTrack.getDicesAtRound(round);
+            List<Die> dice = roundTrack.getDicesAtRound(round);
             if (dice.size() == 1)
                 new CLIElementDie(renderer, dice.get(0), x + round * 10 + 2, y + 2);
         }

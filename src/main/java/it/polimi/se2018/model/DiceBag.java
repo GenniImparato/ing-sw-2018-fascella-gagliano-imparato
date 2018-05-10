@@ -2,11 +2,12 @@ package it.polimi.se2018.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class DiceBag implements Serializable
+public class DiceBag
 {
-    private ArrayList<Die> dice ;
+    private List<Die> dice ;
 
     //create a DiceBag containing 90 dices
     public DiceBag()
@@ -22,9 +23,20 @@ public class DiceBag implements Serializable
         }
     }
 
+    //copy constructor
+    public DiceBag(DiceBag diceBag)
+    {
+        this.dice = new ArrayList<>();
+
+        for(Die die : diceBag.dice)
+        {
+            dice.add(new Die(die));
+        }
+    }
+
     //return a list containing num random dice from the DiceBag
     //dice returned are removed from the DiceBag
-    public ArrayList<Die> pullDice(int num)
+    public List<Die> pullDice(int num)
     {
         Random random = new Random();
         ArrayList<Die> ret = new ArrayList<>();

@@ -2,12 +2,14 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
+import it.polimi.se2018.events.messages.GameStartedMessage;
 import it.polimi.se2018.events.messages.PlayerAddedMessage;
 import it.polimi.se2018.observer.Observable;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 //singleton class
 public class Game extends Observable <Message> implements Serializable
@@ -15,8 +17,8 @@ public class Game extends Observable <Message> implements Serializable
     private PlayerTurnIterator                  playersIterator;
     private Player                              currentPlayer;
 
-    private ArrayList<PublicObjectiveCard>      publicCards;
-    private ArrayList<ToolCard>                 toolCards;
+    private List<PublicObjectiveCard>           publicCards;
+    private List<ToolCard>                      toolCards;
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
@@ -26,15 +28,64 @@ public class Game extends Observable <Message> implements Serializable
     private int                                 currentRound = 0;
     private static final int                    TOTAL_ROUNDS = 10;
 
+    private boolean                             gameStarted = false;
+
     public Game()
     {
         playersIterator = new PlayerTurnIterator();
+
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(3);
+    }
+
+    //copy constructor
+    public Game(Game game)
+    {
+        this.playersIterator = new PlayerTurnIterator(game.playersIterator);
+        if(game.currentPlayer !=null)
+            this.currentPlayer = new Player(game.currentPlayer);
+
+        this.diceBag = new DiceBag(game.diceBag);
+        this.draftPool = new DraftPool(game.draftPool, this.diceBag);
+        this.roundTrack = new RoundTrack(game.roundTrack, this.draftPool);
+
+        this.publicCards = new ArrayList<>();
+        for(PublicObjectiveCard card : game.publicCards)
+        {
+            try
+            {
+                this.publicCards.add(card.getClass().newInstance());
+            }
+            catch(InstantiationException e)
+            {
+            }
+            catch(IllegalAccessException e)
+            {
+            }
+        }
+
+        this.toolCards = new ArrayList<>();
+        for(ToolCard card : game.toolCards)
+        {
+            try
+            {
+                this.toolCards.add(card.getClass().newInstance());
+            }
+            catch(InstantiationException e)
+            {
+            }
+            catch(IllegalAccessException e)
+            {
+            }
+        }
+
+        this.lastDraftedDie = game.lastDraftedDie;
+        this.currentRound = game.currentRound;
+        this.gameStarted = game.gameStarted;
     }
 
     //add a new player to the model if the number of player is not at maximum
@@ -51,6 +102,13 @@ public class Game extends Observable <Message> implements Serializable
             throw e;
         }
 
+    }
+
+    public void startGame()
+    {
+        gameStarted = true;
+        beginRound();
+        notify(new GameStartedMessage(new Game((this))));
     }
 
     public Player getCurrentPlayer()
@@ -90,32 +148,30 @@ public class Game extends Observable <Message> implements Serializable
         return lastDraftedDie;
     }
 
-    public ArrayList<Player> getAllPlayers ()
+    public List<Player> getAllPlayers ()
     {
         return playersIterator.getAllPlayers();
     }
 
-    public ArrayList<PublicObjectiveCard> getAllPublicObjectiveCards ()
+    public List<PublicObjectiveCard> getAllPublicObjectiveCards ()
     {
         return publicCards;
     }
 
-    public ArrayList<ToolCard> getAllToolCards ()
+    public List<ToolCard> getAllToolCards ()
     {
         return toolCards;
     }
 
-
-
     //draw the correct number of dice from DiceBag to the DraftPool
-    public void beginRound()
+    private void beginRound()
     {
         draftPool.draw(getPlayerNum()*2 +1);
         beginPlayerTurn();
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack
-    public void endRound()
+    private void endRound()
     {
         roundTrack.addLastDice(currentRound);
 
@@ -150,7 +206,7 @@ public class Game extends Observable <Message> implements Serializable
     //update all the scores
     private void updateAllPlayersScores()
     {
-        ArrayList<Player> allPlayers = playersIterator.getAllPlayers();
+        List<Player> allPlayers = playersIterator.getAllPlayers();
 
         for(Player player : allPlayers)
         {

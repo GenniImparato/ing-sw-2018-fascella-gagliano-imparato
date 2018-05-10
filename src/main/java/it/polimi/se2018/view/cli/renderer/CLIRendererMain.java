@@ -1,9 +1,10 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //a concrete CLIRenderer used to render the main view of the game (the player's boards, the draftpool, the roundtrack)
 public class CLIRendererMain extends CLIRenderer
@@ -41,7 +42,7 @@ public class CLIRendererMain extends CLIRenderer
         CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, game.getRoundTrack(), cliDraftPool.getWidth()+1, 0, roundTrackSelected);
 
 
-        ArrayList<Player> players = game.getAllPlayers();
+        List<Player> players = game.getAllPlayers();
 
         for(int i=0; i<players.size(); i++)
         {

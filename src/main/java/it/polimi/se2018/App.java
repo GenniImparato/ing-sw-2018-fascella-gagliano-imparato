@@ -10,10 +10,12 @@ public class App
     public static void main( String[] args )
     {
         Game game = new Game();
-        CLI cli = new CLI(game);
+        CLI cli = new CLI(new Game(game));
         CLIController controller = new CLIController(cli, game);
 
         game.attach(cli);
         cli.attach(controller);
+
+        cli.start();
     }
 }

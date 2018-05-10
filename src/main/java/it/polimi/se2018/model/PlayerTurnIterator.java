@@ -3,13 +3,14 @@ package it.polimi.se2018.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class PlayerTurnIterator implements Iterator<Player>, Serializable
 {
-    private ArrayList<Player>           players;
+    private List<Player>                players;
     private int                         currentTurn = 0;
     private int                         firstPlayer = 0;
-    private ArrayList<Integer>          turns ;                  //used to store the order of player's turns
+    private List<Integer>               turns ;                  //used to store the order of player's turns
 
     private static final int            MAX_PLAYERS_NUM =4;
 
@@ -17,6 +18,23 @@ public class PlayerTurnIterator implements Iterator<Player>, Serializable
     {
         players = new ArrayList<>();
         turns = new ArrayList<>();
+    }
+
+    //copy constructor
+    public PlayerTurnIterator(PlayerTurnIterator playerTurnIterator)
+    {
+        this.players = new ArrayList<>();
+
+        for(Player player : playerTurnIterator.players)
+            this.players.add(player);
+
+        this.currentTurn = playerTurnIterator.currentTurn;
+        this.firstPlayer = playerTurnIterator.firstPlayer;
+
+        this.turns = new ArrayList<>();
+
+        for(Integer turn : playerTurnIterator.turns)
+            this.turns.add(turn);
     }
 
     //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
@@ -74,7 +92,7 @@ public class PlayerTurnIterator implements Iterator<Player>, Serializable
     }
 
     //return an ArrayList with all the players in the game
-    public ArrayList<Player> getAllPlayers()
+    public List<Player> getAllPlayers()
     {
         return players;
     }

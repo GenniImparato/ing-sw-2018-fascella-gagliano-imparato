@@ -4,9 +4,10 @@ import it.polimi.se2018.model.publicobjectivecards.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public abstract class PublicObjectiveCard extends Card implements Serializable
+public abstract class PublicObjectiveCard extends Card
 {
     protected int                 points;
     private static final int      NUMBER_OF_CARDS = 10;
@@ -17,11 +18,18 @@ public abstract class PublicObjectiveCard extends Card implements Serializable
         this.points = points;
     }
 
-    //generate numOfCards different random PublicObjective cards
-    public static ArrayList<PublicObjectiveCard> getRandomCards(int numOfCards)
+    //copy constructor
+    public PublicObjectiveCard(PublicObjectiveCard card)
     {
-        ArrayList<PublicObjectiveCard> ret = new ArrayList<>();
-        ArrayList<Integer>  randomList = new ArrayList<>();
+        super(card);
+        this.points = card.points;
+    }
+
+    //generate numOfCards different random PublicObjective cards
+    public static List<PublicObjectiveCard> getRandomCards(int numOfCards)
+    {
+        List<PublicObjectiveCard> ret = new ArrayList<>();
+        List<Integer>  randomList = new ArrayList<>();
 
         for(int i=0; i<numOfCards; i++)
         {

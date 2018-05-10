@@ -1,8 +1,6 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Color;
-
-import javax.swing.*;
 
 
 //represents a single abstract element that can be displayed by a CLIRenderer on the CLI view
