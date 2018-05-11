@@ -73,7 +73,7 @@ public class CLIElementRoundTrack extends CLIElement
     {
         for(int round=0; round < 10; round++)
         {
-            List<Die> dice = roundTrack.getDicesAtRound(round);
+            List<Die> dice = roundTrack.getDiceAtRound(round);
             if (dice.size() > 1)        //draws only rounds with more than one day
             {
                 charMatrix[4][round*10 + 5] = ' ';      //overwrites the round index
@@ -99,7 +99,7 @@ public class CLIElementRoundTrack extends CLIElement
     {
         for(int round=0; round < 10; round++)
         {
-            List<Die> dice = roundTrack.getDicesAtRound(round);
+            List<Die> dice = roundTrack.getDiceAtRound(round);
             if (dice.size() == 1)
                 new CLIElementDie(renderer, dice.get(0), x + round * 10 + 2, y + 2);
         }

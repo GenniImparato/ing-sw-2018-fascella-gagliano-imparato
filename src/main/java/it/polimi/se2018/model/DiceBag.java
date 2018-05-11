@@ -5,11 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class used to represent the DiceBag
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class DiceBag
 {
     private List<Die> dice ;
 
-    //create a DiceBag containing 90 dices
+    /**
+     * Constructor that creates a DiceBag containing 90 dice (15 for each color)
+     */
     public DiceBag()
     {
         dice = new ArrayList<>();
@@ -23,7 +31,10 @@ public class DiceBag
         }
     }
 
-    //copy constructor
+    /**
+     * Copy constructor
+     * @param diceBag soruce instance to be cloned
+     */
     public DiceBag(DiceBag diceBag)
     {
         this.dice = new ArrayList<>();
@@ -34,8 +45,11 @@ public class DiceBag
         }
     }
 
-    //return a list containing num random dice from the DiceBag
-    //dice returned are removed from the DiceBag
+    /**
+     * Returns a list containing num random dice from the DiceBag,
+     * dice returned are removed from the DiceBag
+     * @param num number random dice pulled from the DiceBag
+     */
     public List<Die> pullDice(int num)
     {
         Random random = new Random();
