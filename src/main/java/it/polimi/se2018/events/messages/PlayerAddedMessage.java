@@ -4,6 +4,7 @@ import it.polimi.se2018.events.Message;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.view.cli.CLIMessageParser;
 
 public class PlayerAddedMessage extends Message
 {
@@ -12,11 +13,17 @@ public class PlayerAddedMessage extends Message
     public PlayerAddedMessage(Game game, Player player)
     {
         super(game);
-        this.player = player;
+        this.player = new Player(player);
     }
 
-    public Player getPLayer()
+    public Player getPlayer()
     {
         return player;
+    }
+
+    @Override
+    public void beParsed(CLIMessageParser parser)
+    {
+        parser.parseMessage(this);
     }
 }

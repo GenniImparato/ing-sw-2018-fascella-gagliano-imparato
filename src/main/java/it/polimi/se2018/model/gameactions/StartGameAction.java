@@ -1,12 +1,12 @@
-package it.polimi.se2018.controller.gameactions;
+package it.polimi.se2018.model.gameactions;
 
 import it.polimi.se2018.model.Game;
 
 public class StartGameAction extends GameAction
 {
-    public StartGameAction(Game game)
+    @Override
+    public void execute(Game game)
     {
-        super(game);
         game.startGame();
     }
 }

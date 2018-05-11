@@ -1,24 +1,30 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
+import it.polimi.se2018.events.messages.AddedDieMessage;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.events.messages.GameStartedMessage;
 import it.polimi.se2018.events.messages.PlayerAddedMessage;
+import it.polimi.se2018.model.gameactions.GameAction;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 import it.polimi.se2018.observer.Observable;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 //singleton class
-public class Game extends Observable <Message> implements Serializable
+public class Game extends Observable <Message>
 {
     private PlayerTurnIterator                  playersIterator;
     private Player                              currentPlayer;
 
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
+    private int                                 currentToolCard = -1;  //-1 means no tool card is being used
+
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
@@ -30,6 +36,8 @@ public class Game extends Observable <Message> implements Serializable
 
     private boolean                             gameStarted = false;
 
+    private List<GameAction>                    actionChronology;
+
     public Game()
     {
         playersIterator = new PlayerTurnIterator();
@@ -40,6 +48,8 @@ public class Game extends Observable <Message> implements Serializable
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(3);
+
+        actionChronology = new ArrayList<>();
     }
 
     //copy constructor
@@ -83,32 +93,20 @@ public class Game extends Observable <Message> implements Serializable
             }
         }
 
+        this.currentToolCard = game.currentToolCard;
+
         this.lastDraftedDie = game.lastDraftedDie;
         this.currentRound = game.currentRound;
         this.gameStarted = game.gameStarted;
+
+        this.actionChronology = new ArrayList<>(game.actionChronology);
     }
 
-    //add a new player to the model if the number of player is not at maximum
-    //return true if the player is added, false if it's not
-    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
+    public void executeAction(GameAction action)
     {
-        try
-        {
-            playersIterator.addNewPlayer(nickname);
-            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
-        }
-        catch (CannotAddPlayerException e)
-        {
-            throw e;
-        }
-
-    }
-
-    public void startGame()
-    {
-        gameStarted = true;
-        beginRound();
-        notify(new GameStartedMessage(new Game((this))));
+        action.execute(this);
+        if(action.hasBeenExecuted())
+            actionChronology.add(action);
     }
 
     public Player getCurrentPlayer()
@@ -163,15 +161,37 @@ public class Game extends Observable <Message> implements Serializable
         return toolCards;
     }
 
+    //add a new player to the model if the number of player is not at maximum
+    //return true if the player is added, false if it's not
+    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
+    {
+        try
+        {
+            playersIterator.addNewPlayer(nickname);
+            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
+        }
+        catch(CannotAddPlayerException e)
+        {
+            throw e;
+        }
+    }
+
+    public void startGame()
+    {
+        gameStarted = true;
+        beginRound();
+        notify(new GameStartedMessage(this));
+    }
+
     //draw the correct number of dice from DiceBag to the DraftPool
-    private void beginRound()
+    public void beginRound()
     {
         draftPool.draw(getPlayerNum()*2 +1);
         beginPlayerTurn();
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack
-    private void endRound()
+    public void endRound()
     {
         roundTrack.addLastDice(currentRound);
 
@@ -200,11 +220,31 @@ public class Game extends Observable <Message> implements Serializable
     public void draftDie(int num)
     {
         lastDraftedDie = draftPool.draftDie(num);
-        notify(new DraftedDieMessage(this, lastDraftedDie));
+        notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
+    }
+
+    public void addDraftedDieToBoard(int row, int col) throws CannotAddDieException
+    {
+        try
+        {
+            getCurrentPlayer().getBoard().addDie(lastDraftedDie, row, col);
+            notify(new AddedDieMessage(this, currentPlayer, row, col, lastDraftedDie));
+        }
+        catch (CannotAddDieException e)
+        {
+            throw e;
+        }
+
+    }
+
+    public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
+    {
+        currentToolCard = cardNum;
+        toolCards.get(currentToolCard).acceptVisitor(visitor);
     }
 
     //update all the scores
-    private void updateAllPlayersScores()
+    public void updateAllPlayersScores()
     {
         List<Player> allPlayers = playersIterator.getAllPlayers();
 

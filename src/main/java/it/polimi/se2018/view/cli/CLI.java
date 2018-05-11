@@ -5,20 +5,22 @@ import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
+import it.polimi.se2018.view.cli.views.CLIMenuView;
+import it.polimi.se2018.view.cli.views.CLIView;
 
 import java.util.Scanner;
 
 
-public class CLI extends View
+public class CLI extends View<CLIEvent>
 {
-    private     CLIState            state;
-    private     Scanner             scanner;
+    private Scanner             scanner;
+    private CLIMessageParser    parser;
 
-    public CLI (Game game)
+    public CLI ()
     {
-        super(game);
-
         scanner = new Scanner(System.in);
+
+        parser = new CLIMessageParser(this);
 
         System.out.println();
         System.out.print(Color.RED.getConsoleString());
@@ -44,13 +46,8 @@ public class CLI extends View
     @Override
     public void update(Message event)
     {
-        showErrorMessage("CLI NOTIFIED");
-
         setGameInstance(event.getGame());
-
-        if(event instanceof DraftedDieMessage)
-            askPlayerForAddingDie(((DraftedDieMessage)event).getDie());
-
+        event.beParsed(parser);
     }
 
     public void showErrorMessage(String message)
@@ -68,7 +65,6 @@ public class CLI extends View
 
     public void showMessage(String message)
     {
-
         System.out.println(message);
     }
 
@@ -80,7 +76,7 @@ public class CLI extends View
         System.out.print(Color.getResetConsoleString());
         try
         {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
         catch(InterruptedException e)
         {}
@@ -88,82 +84,7 @@ public class CLI extends View
 
     public void start()
     {
-        menuClientServer();
-    }
-
-    public void menuClientServer()
-    {
-        state = CLIState.MENU_CLIENT_SERVER;
-        System.out.println("1) Start a New Game (Server):");
-        System.out.println("2) Connect to a Game (Client):");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingIP()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_IP;
-        System.out.println("Insert IP of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingPort()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_PORT;
-        System.out.println("Insert the port of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingNickname()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_NICKNAME;
-        System.out.println("Insert your nickname:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    //notify the controller to tell that a new round has begun
-    public void beginGame()
-    {
-        notify(new CLIBeginGameEvent(this, state));
-    }
-
-    public void askPlayerForAction()
-    {
-        renderGameState(CLIRenderMainState.NO_SELECTION);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ACTION;
-        System.out.println("It's your turn!");
-        System.out.println("Choose an action:");
-        System.out.println("1) Draft a die");
-        System.out.println("2) Show cards");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForActionCards()
-    {
-        renderGameState(CLIRendererCardsState.NO_SELECTION);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ACTION_CARDS;
-        System.out.println("Choose an action:");
-        System.out.println("1) Use a tool card");
-        System.out.println("2) Return to main view");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForDrafting()
-    {
-        renderGameState(CLIRenderMainState.DRAFTPOOL_SELECTED);
-        state = CLIState.GAME_ASK_PLAYER_FOR_DRAFTING;
-        System.out.println("Choose a die in the draft pool:");
-        System.out.println("b) go back");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForAddingDie(Die die)
-    {
-        renderGameState(CLIRenderMainState.BOARD_SELECTED);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ADDING_DICE;
-        System.out.print("You drafted a " + die.getColor().getConsoleString() + die.getColor() +" "+ Color.getResetConsoleString());
-        System.out.println("die with value: " + die.getValue());
-        System.out.println("Choose in which cell to add the die: ");
-        notify(new CLIInputEvent(this, state, scanner.next()));
+        new CLIMenuView(this).draw();
     }
 
     public void clear()
@@ -173,19 +94,25 @@ public class CLI extends View
         System.out.flush();
     }
 
-    private void renderGameState(CLIRenderMainState renderState)
+    public String readInputFromUser()
+    {
+        return scanner.next();
+    }
+
+    public void requestView(CLIView cliView)
     {
         clear();
+        cliView.draw();
+    }
+
+    public void renderGameState(CLIRendererMainState renderState)
+    {
         new CLIRendererMain(getGameInstance()).render(renderState);
     }
 
-    private void renderGameState(CLIRendererCardsState renderState)
+    public void renderGameState(CLIRendererCardsState renderState)
     {
-        clear();
         new CLIRendererCards(getGameInstance()).render(renderState);
     }
 
-    public void refresh()
-    {
-    }
 }

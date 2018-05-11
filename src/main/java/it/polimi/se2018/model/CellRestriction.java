@@ -1,7 +1,5 @@
 package it.polimi.se2018.model;
 
-import java.io.Serializable;
-
 public class CellRestriction
 {
     private boolean active;         //false = no restriction       true = restriction active

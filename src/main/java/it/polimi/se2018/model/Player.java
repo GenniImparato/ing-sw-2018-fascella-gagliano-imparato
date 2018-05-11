@@ -1,14 +1,13 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 
-import java.io.Serializable;
-
-public class Player implements Serializable
+public class Player
 {
     private Board                   board;              //player's board
     private PrivateObjectiveCard    card;               //player's private objective card
-    private int                     favorTokens=0;           //player's number of favor token
+    private int                     favorTokens=3;           //player's number of favor token
     private int                     score=0;
     private Color                   color;              //color of the player's board and the score marker
     private String                  nickname;
@@ -29,6 +28,15 @@ public class Player implements Serializable
         this.score = player.score;
         this.color = player.color;
         this.nickname = player.nickname;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj.getClass() != this.getClass())
+            return false;
+        else
+            return this.getNickname().equals(((Player)obj).getNickname());
     }
 
     public void setBoard (Board board)

@@ -1,6 +1,7 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.model.toolcards;
 
-import it.polimi.se2018.model.toolcards.*;
+import it.polimi.se2018.model.Card;
+import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +9,15 @@ import java.util.Random;
 
 public abstract class ToolCard extends Card
 {
-    private int             num;
     private int             favorTokens;
+    private int             numOfSteps;
 
     private static int      NUMBER_OF_CARDS=12;
 
-    public ToolCard (String name, String description, int num)
+    public ToolCard (String name, String description, int numOfSteps)
     {
         super (name, description);
-        this.num = num;
+        this.numOfSteps = numOfSteps;
         favorTokens = 0;
     }
 
@@ -24,9 +25,12 @@ public abstract class ToolCard extends Card
     public ToolCard(ToolCard card)
     {
         super(card);
-        this.num = card.num;
+        this.numOfSteps = card.numOfSteps;
         this.favorTokens = card.favorTokens;
     }
+
+    //visitor
+    public abstract void acceptVisitor(ToolCardVisitor visitor);
 
     //generate numOfCards different random ToolCards
     public static List<ToolCard> getRandomCards(int numOfCards)
