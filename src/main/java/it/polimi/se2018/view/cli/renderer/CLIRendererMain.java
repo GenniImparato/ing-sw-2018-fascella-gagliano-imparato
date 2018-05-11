@@ -47,14 +47,14 @@ public class CLIRendererMain extends CLIRenderer
         {
             //add the players
             boolean showObjective = false;
-            if(players.get(i) == game.getCurrentPlayer())
+            if(players.get(i).equals(game.getCurrentPlayer()))
                 showObjective = true;                   //selects the board of the current player
 
             CLIElementPlayer elementPlayer = new CLIElementPlayer(this, players.get(i), i*53, cliDraftPool.getHeight()+1, showObjective);
 
             //add the boards
             boolean boardSelected = false;
-            if(players.get(i) == game.getCurrentPlayer()  &&  state == CLIRendererMainState.BOARD_SELECTED)
+            if(players.get(i).equals(game.getCurrentPlayer())  &&  state == CLIRendererMainState.BOARD_SELECTED)
                 boardSelected = true;                   //selects the board of the current player
 
             new CLIElementBoard(this, players.get(i).getBoard(), i*53, cliDraftPool.getHeight()+elementPlayer.getHeight()+1, boardSelected);

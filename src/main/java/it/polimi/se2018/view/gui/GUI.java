@@ -8,9 +8,8 @@ import it.polimi.se2018.view.View;
 
 public class GUI extends View<Event>
 {
-    public GUI(Game game)
+    public GUI()
     {
-        super(game);
     }
 
     public void start(){}

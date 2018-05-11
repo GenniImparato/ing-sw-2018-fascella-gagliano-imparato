@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PlayerTurnIterator implements Iterator<Player>, Serializable
+public class PlayerTurnIterator implements Iterator<Player>
 {
     private List<Player>                players;
     private int                         currentTurn = 0;
@@ -26,7 +26,7 @@ public class PlayerTurnIterator implements Iterator<Player>, Serializable
         this.players = new ArrayList<>();
 
         for(Player player : playerTurnIterator.players)
-            this.players.add(player);
+            this.players.add(new Player(player));
 
         this.currentTurn = playerTurnIterator.currentTurn;
         this.firstPlayer = playerTurnIterator.firstPlayer;
@@ -40,6 +40,9 @@ public class PlayerTurnIterator implements Iterator<Player>, Serializable
     //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
     public void addNewPlayer(String nickname) throws CannotAddPlayerException
     {
+        if(nickname.length() == 0)
+            throw new CannotAddPlayerException("Nickname cannot be empty!");
+
         for(Player player : players)
         {
             if(player.getNickname().equals(nickname))                       //check if another player has the same nickname

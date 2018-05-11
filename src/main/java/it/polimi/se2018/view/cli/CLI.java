@@ -13,14 +13,14 @@ import java.util.Scanner;
 
 public class CLI extends View<CLIEvent>
 {
-    private     CLIState            state;
-    private     Scanner             scanner;
+    private Scanner             scanner;
+    private CLIMessageParser    parser;
 
-    public CLI (Game game)
+    public CLI ()
     {
-        super(game);
-
         scanner = new Scanner(System.in);
+
+        parser = new CLIMessageParser(this);
 
         System.out.println();
         System.out.print(Color.RED.getConsoleString());
@@ -47,13 +47,7 @@ public class CLI extends View<CLIEvent>
     public void update(Message event)
     {
         setGameInstance(event.getGame());
-
-        if(event instanceof PlayerAddedMessage)
-            showNotification(((PlayerAddedMessage) event).getPlayer().getNickname() + " has joined the game!", Color.BLUE);
-        /*if(event instanceof DraftedDieMessage)
-            askPlayerForAddingDie(((DraftedDieMessage)event).getDie());
-        if(event instanceof GameStartedMessage)
-            askPlayerForAction();*/
+        event.beParsed(parser);
     }
 
     public void showErrorMessage(String message)
@@ -121,79 +115,4 @@ public class CLI extends View<CLIEvent>
         new CLIRendererCards(getGameInstance()).render(renderState);
     }
 
-
-   /* public void menuClientServer()
-    {
-        state = CLIState.MENU_CLIENT_SERVER;
-
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingIP()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_IP;
-        System.out.println("Insert IP of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingPort()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_PORT;
-        System.out.println("Insert the port of the Server:");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void menuClientAskingNickname()
-    {
-        state = CLIState.MENU_CLIENT_ASKING_NICKNAME;
-        System.out.println("Insert your nickname:");
-        scanner.nextLine();
-        notify(new CLIInputEvent(this, state, scanner.nextLine()));
-    }
-
-    //notify the controller to tell that a new round has begun
-    public void beginGame()
-    {
-        notify(new CLIStartGameEvent(this, state));
-    }
-
-    public void askPlayerForAction()
-    {
-        renderGameState(CLIRendererMainState.NO_SELECTION);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ACTION;
-        System.out.println("It's your turn!");
-        System.out.println("Choose an action:");
-        System.out.println("1) Draft a die");
-        System.out.println("2) Show cards");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForActionCards()
-    {
-        renderGameState(CLIRendererCardsState.NO_SELECTION);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ACTION_CARDS;
-        System.out.println("Choose an action:");
-        System.out.println("1) Use a tool card");
-        System.out.println("2) Return to main view");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForDrafting()
-    {
-        renderGameState(CLIRendererMainState.DRAFTPOOL_SELECTED);
-        state = CLIState.GAME_ASK_PLAYER_FOR_DRAFTING;
-        System.out.println("Choose a die in the draft pool:");
-        System.out.println("b) go back");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }
-
-    public void askPlayerForAddingDie(Die die)
-    {
-        renderGameState(CLIRendererMainState.BOARD_SELECTED);
-        state = CLIState.GAME_ASK_PLAYER_FOR_ADDING_DICE;
-        System.out.print("You drafted a " + die.getColor().getConsoleString() + die.getColor() +" "+ Color.getResetConsoleString());
-        System.out.println("die with value: " + die.getValue());
-        System.out.println("Choose in which cell to add the die: ");
-        notify(new CLIInputEvent(this, state, scanner.next()));
-    }*/
 }

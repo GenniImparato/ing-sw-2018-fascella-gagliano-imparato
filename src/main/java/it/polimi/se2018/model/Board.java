@@ -2,9 +2,10 @@ package it.polimi.se2018.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class Board implements Serializable
+public class Board
 {
     public static final int ROWS = 4;
     public static final int COLUMNS = 5;
@@ -104,12 +105,12 @@ public class Board implements Serializable
 
     //return an ArrayList of Dice in a row
     //if index is out of range, return an empty ArrayList
-    public ArrayList<Die> getDiceOnRow(int row)
+    public List<Die> getDiceOnRow(int row)
     {
         if(row < 0 || row >= Board.ROWS)
-            return new ArrayList<Die>();
+            return new ArrayList<>();
 
-        ArrayList<Die> ret = new ArrayList<>();
+        List<Die> ret = new ArrayList<>();
         for(int j=0; j<Board.COLUMNS; j++)
             ret.add(getDie(row,j));
 
@@ -118,10 +119,10 @@ public class Board implements Serializable
 
     //return an ArrayList of Dice in a column
     //if index is out of range, return an empty ArrayList
-    public ArrayList<Die> getDiceOnColumn(int col)
+    public List<Die> getDiceOnColumn(int col)
     {
         if(col < 0 || col >= Board.COLUMNS)
-            return new ArrayList<Die>();
+            return new ArrayList<>();
 
         ArrayList<Die> ret = new ArrayList<>();
         for(int j=0; j<Board.ROWS; j++)

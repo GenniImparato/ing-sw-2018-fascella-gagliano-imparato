@@ -10,9 +10,8 @@ public abstract class View<T> extends Observable<T> implements Observer <Message
 {
     private   Game    game;
 
-    public View (Game game)
+    public View ()
     {
-        setGameInstance(game);
     }
 
     public void setGameInstance(Game game)

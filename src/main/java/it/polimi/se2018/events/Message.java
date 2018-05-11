@@ -1,6 +1,8 @@
 package it.polimi.se2018.events;
 
+import it.polimi.se2018.controller.CLIEventParser;
 import it.polimi.se2018.model.Game;
+import it.polimi.se2018.view.cli.CLIMessageParser;
 
 import java.io.Serializable;
 
@@ -10,11 +12,13 @@ public abstract class Message implements Serializable
 
     public Message(Game game)
     {
-        this.game = game;
+        this.game = new Game(game);
     }
 
     public Game getGame()
     {
         return game;
     }
+
+    public abstract void beParsed(CLIMessageParser parser);
 }

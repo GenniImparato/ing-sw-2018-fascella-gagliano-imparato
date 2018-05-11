@@ -5,7 +5,8 @@ import it.polimi.se2018.model.Game;
 
 public class AddDieToBoardAction extends GameAction
 {
-    int row, col;
+    int row;
+    int col;
 
     public AddDieToBoardAction(int row, int col)
     {
@@ -18,7 +19,7 @@ public class AddDieToBoardAction extends GameAction
     {
         try
         {
-            game.getCurrentPlayer().getBoard().addDie(game.getLastDraftedDie(), row, col);
+            game.addDraftedDieToBoard(row, col);
             executed = true;
         }
         catch(CannotAddDieException e)

@@ -2,6 +2,7 @@ package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.events.clievents.CLIEndTurnEvent;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
 
@@ -21,7 +22,7 @@ public class CLIEndTurnView extends CLIView
         cli.notify(new CLIEndTurnEvent(cli, this));
     }
 
-    public void control(String input)
+    public void control(Game game, String input)
     {
     }
 }

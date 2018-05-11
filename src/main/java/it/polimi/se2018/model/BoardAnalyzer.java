@@ -1,8 +1,10 @@
 package it.polimi.se2018.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class BoardAnalyzer {
+public class BoardAnalyzer
+{
     private Board board;
     public static final boolean COLOR = true;
     public static final boolean VALUE = false;
@@ -64,7 +66,7 @@ public class BoardAnalyzer {
 
         for(int row=0; row < Board.ROWS; row++)
         {
-            ArrayList<Die> dice = board.getDiceOnRow(row);
+            List<Die> dice = board.getDiceOnRow(row);
 
             boolean noRepeated = true;
                 for (int i = 0; i < dice.size(); i++)
@@ -103,7 +105,7 @@ public class BoardAnalyzer {
 
         for(int col=0; col < Board.COLUMNS; col++)
         {
-            ArrayList<Die> dice = board.getDiceOnColumn(col);
+            List<Die> dice = board.getDiceOnColumn(col);
 
             boolean noRepeated = true;
 

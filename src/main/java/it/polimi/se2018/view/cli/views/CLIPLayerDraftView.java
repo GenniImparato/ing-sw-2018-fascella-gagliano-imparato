@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.gameactions.DraftDieAction;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
@@ -20,7 +21,7 @@ public class CLIPLayerDraftView extends CLIView
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }
 
-    public void control(String input)
+    public void control(Game game, String input)
     {
         if(input.equals("b"))
             cli.requestView(new CLIPlayerActionsMainView(cli));
@@ -29,7 +30,7 @@ public class CLIPLayerDraftView extends CLIView
             Integer val = Integer.parseInt(input);
             if(val >= 0 && val < cli.getGameInstance().getDraftPool().getAllDice().size())
             {
-                cli.getGameInstance().executeAction(new DraftDieAction(val));
+                game.executeAction(new DraftDieAction(val));
                 cli.requestView(new CLIPLayerAddDieView(cli));
             }
             else

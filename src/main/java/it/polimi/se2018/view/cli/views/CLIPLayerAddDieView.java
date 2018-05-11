@@ -3,6 +3,7 @@ package it.polimi.se2018.view.cli.views;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.gameactions.AddDieToBoardAction;
 import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.view.cli.CLI;
@@ -31,7 +32,7 @@ public class CLIPLayerAddDieView extends CLIView
 
 
     @Override
-    public void control(String input)
+    public void control(Game game, String input)
     {
         try
         {
@@ -50,7 +51,7 @@ public class CLIPLayerAddDieView extends CLIView
                 {row  =3;   col = val%15;}
 
                 GameAction action = new AddDieToBoardAction(row, col);
-                cli.getGameInstance().executeAction(action);
+                game.executeAction(action);
 
                 if(action.hasBeenExecuted())
                     cli.requestView(new CLIEndTurnView(cli));

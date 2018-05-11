@@ -2,7 +2,7 @@ package it.polimi.se2018.model;
 
 import java.io.Serializable;
 
-public abstract class Card implements Serializable
+public abstract class Card
 {
     private String name;
     private String description;

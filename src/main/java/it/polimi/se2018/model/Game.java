@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
+import it.polimi.se2018.events.messages.AddedDieMessage;
 import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.events.messages.GameStartedMessage;
 import it.polimi.se2018.events.messages.PlayerAddedMessage;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //singleton class
-public class Game extends Observable <Message> implements Serializable
+public class Game extends Observable <Message>
 {
     private PlayerTurnIterator                  playersIterator;
     private Player                              currentPlayer;
@@ -163,18 +164,17 @@ public class Game extends Observable <Message> implements Serializable
             playersIterator.addNewPlayer(nickname);
             notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
         }
-        catch (CannotAddPlayerException e)
+        catch(CannotAddPlayerException e)
         {
             throw e;
         }
-
     }
 
     public void startGame()
     {
         gameStarted = true;
         beginRound();
-        notify(new GameStartedMessage(new Game((this))));
+        notify(new GameStartedMessage(this));
     }
 
     //draw the correct number of dice from DiceBag to the DraftPool
@@ -214,7 +214,21 @@ public class Game extends Observable <Message> implements Serializable
     public void draftDie(int num)
     {
         lastDraftedDie = draftPool.draftDie(num);
-        notify(new DraftedDieMessage(this, lastDraftedDie));
+        notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
+    }
+
+    public void addDraftedDieToBoard(int row, int col) throws CannotAddDieException
+    {
+        try
+        {
+            getCurrentPlayer().getBoard().addDie(lastDraftedDie, row, col);
+            notify(new AddedDieMessage(this, currentPlayer, row, col, lastDraftedDie));
+        }
+        catch (CannotAddDieException e)
+        {
+            throw e;
+        }
+
     }
 
     //update all the scores

@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
 
@@ -21,7 +22,7 @@ public class CLIPlayerActionsMainView extends CLIView
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }
 
-    public void control(String input)
+    public void control(Game game, String input)
     {
         if(input.equals("1"))
             cli.requestView(new CLIPLayerDraftView(cli));

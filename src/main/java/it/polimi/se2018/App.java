@@ -10,7 +10,7 @@ public class App
     public static void main( String[] args )
     {
         Game game = new Game();
-        CLI cli = new CLI(new Game(game));
+        CLI cli = new CLI();
         CLIController controller = new CLIController(cli, game);
 
         game.attach(cli);

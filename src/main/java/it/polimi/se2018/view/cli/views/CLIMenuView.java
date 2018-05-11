@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.events.clievents.CLIInputEvent;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.gameactions.AddNewPlayerAction;
 import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.model.gameactions.StartGameAction;
@@ -38,7 +39,7 @@ public class CLIMenuView extends CLIView
     }
 
     @Override
-    public void control(String input)
+    public void control(Game game, String input)
     {
         if(state == CLIMenuState.ASK_NEWGAME)
         {
@@ -56,12 +57,12 @@ public class CLIMenuView extends CLIView
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             GameAction action = new AddNewPlayerAction(input);
-            cli.getGameInstance().executeAction(action);    //tries to add the player to the current game
+            game.executeAction(action);    //tries to add the player to the current game
 
             if(action.hasBeenExecuted())    //checks if the player has been added
             {
                 action = new StartGameAction();
-                cli.getGameInstance().executeAction(action);    //start the game
+                game.executeAction(action);    //start the game
 
                 cli.requestView(new CLIPlayerActionsMainView(cli));
             }
