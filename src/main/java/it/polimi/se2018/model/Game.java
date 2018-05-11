@@ -6,10 +6,12 @@ import it.polimi.se2018.events.messages.DraftedDieMessage;
 import it.polimi.se2018.events.messages.GameStartedMessage;
 import it.polimi.se2018.events.messages.PlayerAddedMessage;
 import it.polimi.se2018.model.gameactions.GameAction;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 import it.polimi.se2018.observer.Observable;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class Game extends Observable <Message>
 
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
+    private int                                 currentToolCard = -1;  //-1 means no tool card is being used
+
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
@@ -88,6 +92,8 @@ public class Game extends Observable <Message>
             {
             }
         }
+
+        this.currentToolCard = game.currentToolCard;
 
         this.lastDraftedDie = game.lastDraftedDie;
         this.currentRound = game.currentRound;
@@ -229,6 +235,12 @@ public class Game extends Observable <Message>
             throw e;
         }
 
+    }
+
+    public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
+    {
+        currentToolCard = cardNum;
+        toolCards.get(currentToolCard).acceptVisitor(visitor);
     }
 
     //update all the scores

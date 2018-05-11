@@ -16,8 +16,8 @@ public class CLIPLayerDraftView extends CLIView
     public void draw()
     {
         cli.renderGameState(CLIRendererMainState.DRAFTPOOL_SELECTED);
-        System.out.println("Choose a die in the draft pool:");
-        System.out.println("b) go back");
+        cli.showMessage("Choose a die in the draft pool:");
+        cli.showMessage("b) go back");
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }
 

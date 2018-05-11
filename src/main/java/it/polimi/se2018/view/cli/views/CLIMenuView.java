@@ -28,12 +28,12 @@ public class CLIMenuView extends CLIView
     {
         if(state == CLIMenuState.ASK_NEWGAME)
         {
-            System.out.println("1) Start a New Game:");
+            cli.showMessage("1) Start a New Game:");
             cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
-            System.out.println("Insert your nickname:");
+            cli.showMessage("Insert your nickname:");
             cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
         }
     }

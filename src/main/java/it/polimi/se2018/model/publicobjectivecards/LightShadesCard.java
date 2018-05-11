@@ -2,7 +2,6 @@ package it.polimi.se2018.model.publicobjectivecards;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.BoardAnalyzer;
-import it.polimi.se2018.model.PublicObjectiveCard;
 
 public class LightShadesCard extends PublicObjectiveCard
 {

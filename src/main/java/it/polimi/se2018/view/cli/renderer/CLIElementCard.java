@@ -1,19 +1,24 @@
 package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Card;
-import it.polimi.se2018.model.PublicObjectiveCard;
-import it.polimi.se2018.model.ToolCard;
+import it.polimi.se2018.model.Color;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.model.toolcards.ToolCard;
 
 import java.util.ArrayList;
 
 public class CLIElementCard extends CLIElement
 {
-    private Card card;
+    private Card    card;
+    private boolean selected;
+    private int     index;
 
-    public CLIElementCard (CLIRenderer renderer, Card card, int x, int y)
+    public CLIElementCard (CLIRenderer renderer, Card card, int x, int y, int index, boolean selected)
     {
         super (renderer, x, y, 30, 20);
         this.card=card;
+        this.selected = selected;
+        this.index = index;
         refresh();
 
     }
@@ -24,6 +29,11 @@ public class CLIElementCard extends CLIElement
         drawName();
         drawTitle();
         drawDescription();
+        if(selected)
+        {
+            drawSelectedColor();
+            drawIndex();
+        }
         drawOnRenderer();
     }
 
@@ -53,6 +63,23 @@ public class CLIElementCard extends CLIElement
                     charMatrix[row][col] = ' ';
             }
         }
+    }
+
+    private void drawSelectedColor()
+    {
+        for(int row=0; row<height; row++)
+        {
+            for (int col = 0; col < width; col++)
+            {
+                colorMatrix[row][col] = Color.RED;
+            }
+        }
+    }
+
+    private void drawIndex()
+    {
+        colorMatrix[18][15] = null;
+        charMatrix[18][15] = Integer.toString(index).charAt(0);
     }
 
     private void drawName()

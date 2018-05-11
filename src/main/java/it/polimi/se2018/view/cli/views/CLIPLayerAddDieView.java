@@ -23,9 +23,9 @@ public class CLIPLayerAddDieView extends CLIView
 
         Die draftedDie = cli.getGameInstance().getLastDraftedDie();
 
-        System.out.print("You drafted a " + draftedDie.getColor().getConsoleString() + draftedDie.getColor() +" "+ Color.getResetConsoleString());
-        System.out.println("die with value: " + draftedDie.getValue());
-        System.out.println("Choose in which cell to add the die: ");
+        cli.showMessage("You drafted a " + draftedDie.getColor().getConsoleString() + draftedDie.getColor() +" "+ Color.getResetConsoleString());
+        cli.showMessage("die with value: " + draftedDie.getValue());
+        cli.showMessage("Choose in which cell to add the die: ");
 
         cli.notify(new CLIInputEvent(cli,this, cli.readInputFromUser()));
     }

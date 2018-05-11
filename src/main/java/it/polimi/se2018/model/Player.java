@@ -1,8 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
-
-import java.io.Serializable;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 
 public class Player
 {

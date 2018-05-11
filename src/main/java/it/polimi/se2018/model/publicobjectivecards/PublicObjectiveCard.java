@@ -1,8 +1,8 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.model.publicobjectivecards;
 
-import it.polimi.se2018.model.publicobjectivecards.*;
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Card;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

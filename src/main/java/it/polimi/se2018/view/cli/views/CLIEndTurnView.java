@@ -17,7 +17,7 @@ public class CLIEndTurnView extends CLIView
     {
         cli.renderGameState(CLIRendererMainState.NO_SELECTION);
 
-        System.out.println("Your turn ended!");
+        cli.showMessage("Your turn ended!");
 
         cli.notify(new CLIEndTurnEvent(cli, this));
     }

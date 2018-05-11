@@ -15,10 +15,10 @@ public class CLIPlayerActionsCardsView extends CLIView
     public void draw()
     {
         cli.renderGameState(CLIRendererCardsState.NO_SELECTION);
-        System.out.println("It's your turn!");
-        System.out.println("Choose an action:");
-        System.out.println("1) Use a tool card");
-        System.out.println("2) Get back to main view");
+        cli.showMessage("It's your turn!");
+        cli.showMessage("Choose an action:");
+        cli.showMessage("1) Use a tool card");
+        cli.showMessage("2) Get back to main view");
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }
 
@@ -26,8 +26,7 @@ public class CLIPlayerActionsCardsView extends CLIView
     {
         if(input.equals("1"))
         {
-            cli.showErrorMessage("Tool cards not yet implemented");
-            cli.requestView(new CLIPlayerActionsCardsView(cli));
+            cli.requestView(new CLIPlayerUseToolCardView(cli));
         }
         else if(input.equals("2"))
             cli.requestView(new CLIPlayerActionsMainView(cli));
