@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class used to represent a Board
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class Board
 {
     public static final int ROWS = 4;
@@ -13,6 +19,10 @@ public class Board
     private Cell[][] cellMatrix;
     private Die[][] dieMatrix;
 
+    /**
+     * Constructor that creates a Board and initializes it with random restrictions
+     * @deprecated
+     */
     public Board()
     {
         cellMatrix = new Cell[ROWS][COLUMNS];
@@ -21,6 +31,10 @@ public class Board
         initCellMatrixRandom();
     }
 
+    /**
+     * Constructor that creates a Board and initializes it with values of a matrix (passed by parameter)
+     * @param cellMatrix matrix associated with the Board
+     */
     public Board(Cell[][] cellMatrix)
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
@@ -35,7 +49,10 @@ public class Board
         }
     }
 
-    //copy constructor
+    /**
+     * Copy constructor
+     * @param board source instance to be cloned
+     */
     public Board(Board board)
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
@@ -54,7 +71,11 @@ public class Board
         }
     }
 
-    //if the die is on the board returns the row, else return -1
+    /**
+     * If the Die is on the Board returns the row of the matrix associated with the Board, else returns -1
+     * @param die Die to search on the Board
+     * @return row of the matrix where the Die is placed; -1 if the Die is not placed
+     */
     public int getDieRow(Die die)
     {
         for(int row=0; row < Board.ROWS; row++)
@@ -68,7 +89,11 @@ public class Board
         return -1;
     }
 
-    //if the die is on the board returns the column, else return -1
+    /**
+     * If the Die is on the Board returns the column of the matrix associated with the Board, else return -1
+     * @param die Die to search on the Board
+     * @return column of the matrix where the Die is placed; -1 if the Die is not placed
+     */
     public int getDieColumn(Die die)
     {
         for(int row=0; row < Board.ROWS; row++)
@@ -83,8 +108,12 @@ public class Board
     }
 
 
-    //return a cell given its coordinates
-    // null in case of not valid coordinates values
+    /**
+     * Returns a Cell given its coordinates; null if the coordinates are not valid
+     * @param row row of the matrix of dice associated with the Board
+     * @param column column of the matrix of dice associated with the Board
+     * @return Cell placed in (row,column) coordinates; null if the coordinates are not valid
+     */
     public Cell getCell(int row, int column)
     {
         if (checkCoordinates(row, column))
@@ -93,8 +122,14 @@ public class Board
             return null;
     }
 
-    //return a die given its coordinates
-    // null in case of not valid coordinates values or die not present
+    /**
+     * Returns a Die given its coordinates;
+     * null if the coordinates are not valid or the Die is not present at (row,column) position
+     * @param row row of the matrix of dice associated with the Board
+     * @param column column of the matrix of dice associated with the Board
+     * @return a Die placed in (row,column) coordinates;
+     * null if the coordinates are not accepted or the Die is not placed
+     */
     public Die getDie(int row, int column)
     {
         if (checkCoordinates(row, column))
@@ -103,8 +138,13 @@ public class Board
             return null;
     }
 
-    //return an ArrayList of Dice in a row
-    //if index is out of range, return an empty ArrayList
+    /**
+     * Returns an ArrayList of dice placed in a row passed by parameter;
+     * if the index is out of range, returns an empty ArrayList
+     * @param row row of the matrix of dice associated with the Board
+     * @return an ArrayList of dice placed in the same row of the matrix of the Board;
+     * an empty ArrayList if the index is not accepted
+     */
     public List<Die> getDiceOnRow(int row)
     {
         if(row < 0 || row >= Board.ROWS)
@@ -117,8 +157,13 @@ public class Board
         return ret;
     }
 
-    //return an ArrayList of Dice in a column
-    //if index is out of range, return an empty ArrayList
+    /**
+     * Returns an ArrayList of Dice placed in a column passed by parameter;
+     * if the index is out of range, returns an empty ArrayList
+     * @param col column of the matrix of dice associated with the Board
+     * @return an ArrayList of dice placed in the same column of the matrix of the Board;
+     * an empty ArrayList if the index is not accepted
+     */
     public List<Die> getDiceOnColumn(int col)
     {
         if(col < 0 || col >= Board.COLUMNS)
@@ -131,7 +176,10 @@ public class Board
         return ret;
     }
 
-    //return the number of dice in the matrix
+    /**
+     * Returns the total number of dice that have been placed in the Board
+     * @return number of dice added in the Board
+     */
     public int getNumberOfDice()
     {
         int num = 0;
@@ -181,8 +229,14 @@ public class Board
                 throw new CannotAddDieException("Cannot place die: another die with same value or color is adjacent!");
         }
     }
-    //try to add die at the given position if its possible
-    //if the die cannot be added throws a CannotAddDieException
+
+    /**
+     * Tries to add a Die in a position decided by the given coordinates (row,column) if it is possible
+     * @param die Die that can be added to the Board
+     * @param row row of the matrix associated with the Board
+     * @param column column of the matrix associated with the Board
+     * @throws CannotAddDieException if the die cannot be added
+     */
     public void addDie(Die die, int row, int column) throws CannotAddDieException
     {
         try
@@ -238,7 +292,11 @@ public class Board
         }
     }
 
-    //check if the coordinates are in a valid range
+    /**
+     * Checks if the coordinates are in a valid range
+     * @param row row of the matrix of dice
+     * @param column column of the matrix of dice
+     */
     private boolean checkCoordinates(int row, int column)
     {
         if (row < 0 || row >= Board.ROWS || column < 0 || column >= Board.COLUMNS)
@@ -247,7 +305,10 @@ public class Board
             return true;
     }
 
-    //return true if the given coordinates are on the border
+    /**
+     * Tells if the coordinates represent a Cell placed on the border
+     * @return true if the given coordinates are on the border
+     */
     private boolean isOnBorder(int row, int column)
     {
         if (row == 0 || row == Board.ROWS - 1)
@@ -258,6 +319,12 @@ public class Board
         return false;
     }
 
+    /**
+     * Generates an ArrayList of dice placed orthogonally and adjacently to the coordinates (row,column)
+     * @param row row of the matrix of dice associated with the Board
+     * @param column column of the matrix of dice associated with the Board
+     * @return ArrayList of orthogonal and adjacent dice present in the matrix
+     */
     private ArrayList<Die> getOrthogonalAdjacentDice(int row, int column)
     {
         ArrayList<Die> ret = new ArrayList<>();
@@ -277,6 +344,12 @@ public class Board
         return ret;
     }
 
+    /**
+     * Generates an ArrayList of dice placed diagonally and adjacently to the coordinates (row,column)
+     * @param row row of the matrix of dice associated with the Board
+     * @param column column of the matrix of dice associated with the Board
+     * @return ArrayList of diagonal and adjacent dice present in the matrix
+     */
     public ArrayList<Die> getDiagonalAdjacentDice(int row, int column)
     {
         ArrayList<Die> ret = new ArrayList<>();
@@ -296,6 +369,12 @@ public class Board
         return ret;
     }
 
+    /**
+     * Generates an ArrayList of dice placed adjacently to the coordinates (row,column)
+     * @param row row of the matrix of dice associated with the Board
+     * @param column column of the matrix of dice associated with the Board
+     * @return ArrayList of adjacent dice present in the matrix
+     */
     private ArrayList<Die> getAdjacentDice(int row, int column)
     {
         ArrayList<Die> ret = new ArrayList<>();
