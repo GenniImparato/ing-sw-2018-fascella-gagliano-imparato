@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 
 public class RunningPliers extends ToolCard
@@ -16,7 +17,8 @@ public class RunningPliers extends ToolCard
     }
 
     @Override
-    public void use(Player player) {
-
+    public String action(Game game, int param1, int param2)
+    {
+        return "";
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.CLIToolCardVisitor;
 import it.polimi.se2018.events.clievents.CLIInputEvent;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.gameactions.GameAction;
+import it.polimi.se2018.model.gameactions.StartUsingToolCardAction;
 import it.polimi.se2018.model.gameactions.UseToolCardAction;
 import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 import it.polimi.se2018.view.cli.CLI;
@@ -40,7 +41,7 @@ public class CLIPlayerUseToolCardView extends CLIView
                 {
                     CLIToolCardVisitor visitor = new CLIToolCardVisitor(cli);
 
-                    GameAction action = new UseToolCardAction(val, visitor);
+                    GameAction action = new StartUsingToolCardAction(val, visitor);
                     game.executeAction(action);
 
                     cli.requestView(visitor.getCliView());

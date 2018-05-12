@@ -7,18 +7,18 @@ import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 
 public class UseToolCardAction extends GameAction
 {
-    int             cardNum;
-    ToolCardVisitor visitor;
+    int param1;
+    int param2;
 
-    public UseToolCardAction(int cardNum, ToolCardVisitor visitor)
+    public UseToolCardAction(int param1, int param2)
     {
-        this.cardNum = cardNum;
-        this.visitor = visitor;
+        this.param1 = param1;
+        this.param2 = param2;
     }
 
     @Override
     public void execute(Game game)
     {
-        game.startUsingToolCard(cardNum, visitor);
+        game.executeCurrentToolCardAction(param1, param2);
     }
 }

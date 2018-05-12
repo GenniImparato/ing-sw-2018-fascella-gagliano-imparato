@@ -1,6 +1,7 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.model.Card;
+import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ public abstract class ToolCard extends Card
 {
     private int             favorTokens;
     private int             numOfSteps;
+    private int             currentStep = 0;
+    private Game            game;
 
     private static int      NUMBER_OF_CARDS=12;
 
@@ -71,5 +74,5 @@ public abstract class ToolCard extends Card
         return ret;
     }
 
-    public abstract void use (Player player);
+    public abstract String action(Game game, int param1, int param2);
 }

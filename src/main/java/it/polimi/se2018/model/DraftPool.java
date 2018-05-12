@@ -61,6 +61,11 @@ public class DraftPool
         return die;
     }
 
+    public void addDie(Die die)
+    {
+        dice.add(die);
+    }
+
     /**
      * Returns a list of all dice present in the DraftPool
      * @return list of all dice present in the DraftPool

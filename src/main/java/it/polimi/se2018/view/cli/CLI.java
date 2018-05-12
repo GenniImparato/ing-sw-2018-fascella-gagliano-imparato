@@ -76,7 +76,7 @@ public class CLI extends View<CLIEvent>
         System.out.print(Color.getResetConsoleString());
         try
         {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }
         catch(InterruptedException e)
         {}

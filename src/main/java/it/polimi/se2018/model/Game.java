@@ -1,12 +1,10 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.events.Message;
-import it.polimi.se2018.events.messages.AddedDieMessage;
-import it.polimi.se2018.events.messages.DraftedDieMessage;
-import it.polimi.se2018.events.messages.GameStartedMessage;
-import it.polimi.se2018.events.messages.PlayerAddedMessage;
+import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.model.toolcards.GrozingPliers;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 import it.polimi.se2018.observer.Observable;
@@ -23,7 +21,7 @@ public class Game extends Observable <Message>
 
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
-    private int                                 currentToolCard = -1;  //-1 means no tool card is being used
+    private ToolCard                            currentToolCard;  //null means no tool card is being used
 
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
@@ -47,7 +45,8 @@ public class Game extends Observable <Message>
         roundTrack = new RoundTrack(draftPool);
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = ToolCard.getRandomCards(3);
+        toolCards = ToolCard.getRandomCards(2);
+        toolCards.add(new GrozingPliers());
 
         actionChronology = new ArrayList<>();
     }
@@ -223,6 +222,14 @@ public class Game extends Observable <Message>
         notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
     }
 
+    public void returnLastDraftedDie()
+    {
+        draftPool.addDie(lastDraftedDie);
+        Die die = lastDraftedDie;
+        lastDraftedDie = null;
+        notify(new ReturnedDieMessage(this, die, currentPlayer));
+    }
+
     public void addDraftedDieToBoard(int row, int col) throws CannotAddDieException
     {
         try
@@ -239,8 +246,16 @@ public class Game extends Observable <Message>
 
     public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
     {
-        currentToolCard = cardNum;
-        toolCards.get(currentToolCard).acceptVisitor(visitor);
+        currentToolCard =  toolCards.get(cardNum);
+        currentToolCard.acceptVisitor(visitor);
+        notify(new StartedUsingToolCardMessage(this, currentToolCard));
+    }
+
+    public void executeCurrentToolCardAction(int param1, int param2)
+    {
+        String message;
+        message = currentToolCard.action(this, param1, param2);
+        notify(new ToolCardActionExecutedMessage(this, message));
     }
 
     //update all the scores

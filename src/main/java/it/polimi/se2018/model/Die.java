@@ -42,14 +42,14 @@ public class Die implements Serializable
 
     public void incrementValue()
     {
-        if (this.value>1)
-            this.value--;
+        if (this.value<6)
+            this.value++;
     }
 
     public void decrementValue()
     {
-        if (this.value<6)
-            this.value++;
+        if (this.value>1)
+            this.value--;
     }
 
     /**
