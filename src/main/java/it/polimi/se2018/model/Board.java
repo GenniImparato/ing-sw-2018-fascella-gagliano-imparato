@@ -21,7 +21,6 @@ public class Board
 
     /**
      * Constructor that creates a Board and initializes it with random restrictions
-     * @deprecated
      */
     public Board()
     {

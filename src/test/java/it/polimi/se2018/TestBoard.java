@@ -76,9 +76,10 @@ public class TestBoard
     {
         Board board = new Board();
         SagradaSchemeCardFile sagradaSchemeCardFile;
-        try
+
+        try                                             //try to open a known board
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/2-Sun Catcher.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
 
@@ -87,20 +88,193 @@ public class TestBoard
             fail();
         }
 
-        Die die1 = new Die(Color.PURPLE);
 
+        Die die = new Die(Color.getRandomColor());
+        try                                             //try to add a die out of the range of the board
+        {
+            board.addDie(die, -1,-1);
+            fail();
+        }
+        catch (CannotAddDieException e)
+        {
+
+        }
+
+
+        Die die0 = new Die(Color.RED);                  //try to add a die whose color doesn't respect the cell restriction
         try
         {
-            board.addDie(die1, 0, 0);
+            board.addDie(die0, 0,1);
+            fail();
+        }
+        catch(CannotAddDieException e)
+        {
+
+        }
+
+
+        Die die1 = new Die(Color.getRandomColor());
+        die1.setValue(3);
+        try                                             //try to add a die whose value doesn't respect the cell restriction
+        {
+            board.addDie(die1, 0, 2);
+            fail();
+        }
+        catch(CannotAddDieException e)
+        {
+
+        }
+
+        Die die2 = new Die(Color.getRandomColor());     //try to add the first die not on the border of the board
+        try
+        {
+            board.addDie(die2, 1,2);
+            fail();
+        }
+        catch(CannotAddDieException e)
+        {
+
+        }
+
+
+        Die die3 = new Die(Color.PURPLE);
+        die3.setValue(6);
+        try                                             //try to add the first die in the right position
+        {
+            board.addDie(die3, 0, 0);
         }
         catch (CannotAddDieException e)
         {
             fail();
         }
 
-        assertEquals(die1, board.getDie(0,0));
+
+        Die die4 = new Die(Color.RED);
+        die4.setValue(6);
+        try                                             //try to add a die with the same value of the adjacent
+        {
+            board.addDie(die4,1,0);
+            fail();
+        }
+
+        catch (CannotAddDieException e)
+        {
+
+        }
+
+
+        Die die5 = new Die(Color.PURPLE);
+        die5.setValue(4);
+        try                                             //try to add a die with the same color of the adjacent
+        {
+            board.addDie(die5,1,0);
+            fail();
+        }
+
+        catch (CannotAddDieException e)
+        {
+
+        }
+
+        Die die6 = new Die(Color.getRandomColor());
+        try                                             //try to add a die in a position not free
+        {
+            board.addDie(die6, 0, 0);
+            fail();
+        }
+        catch(CannotAddDieException e)
+        {
+
+        }
+
+        Die die7 = new Die(Color.getRandomColor());
+        try                                             //try to add a die (that it's not the first) with an empty list of adjacent dice
+        {
+            board.addDie(die7, 3, 2);
+            fail();
+        }
+        catch (CannotAddDieException e)
+        {
+
+        }
+
+
+        Die die8 = new Die(Color.BLUE);
+        die8.setValue(5);
+        try                                             //try to add the second die on a cell with color restriction
+        {
+            board.addDie(die8, 0,1);
+        }
+        catch(CannotAddDieException e)
+        {
+            fail();
+        }
+
+        Die die9 = new Die(Color.YELLOW);
+        die9.setValue(4);
+        try                                             //try to add another die on a cell with cell restriction
+        {
+            board.addDie(die9, 1,1);
+
+        }
+        catch(CannotAddDieException e)
+        {
+            fail();
+        }
+
+
+
     }
 
+    @Test
+    public void testMoveDie()
+    {
+        Board board = new Board();
+        SagradaSchemeCardFile sagradaSchemeCardFile;
+
+        try                                             //try to open a known board
+        {
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/2-Sun Catcher.sagradaschemecard");
+            board = sagradaSchemeCardFile.generateBoard();
+        }
+
+        catch (Exception e)
+        {
+            fail();
+        }
+
+
+        Die die = new Die(Color.BLUE);
+        die.setValue(6);
+        try                                             //try to ignore the color restriction
+        {
+            board.moveDie(die, 3, 0, false, true);
+        }
+        catch(CannotAddDieException e)
+        {
+            fail();
+        }
+
+        Die die0 = new Die(Color.RED);
+        die0.setValue(2);
+        try                                             //try to ignore the value restriction
+        {
+            board.moveDie(die0,3,1,true,false);
+        }
+        catch(CannotAddDieException e)
+        {
+            fail();
+        }
+
+
+    }
+
+
+    @Test
+    public void testAddDieInRightWay()
+    {
+
+    }
     @Test
     public void testWrongCoordinates()
     {
