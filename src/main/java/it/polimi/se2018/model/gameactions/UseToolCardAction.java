@@ -20,5 +20,6 @@ public class UseToolCardAction extends GameAction
     public void execute(Game game)
     {
         game.executeCurrentToolCardAction(param1, param2);
+        executed = true;
     }
 }

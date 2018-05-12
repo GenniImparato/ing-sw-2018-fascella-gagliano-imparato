@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
+import it.polimi.se2018.model.CannotAddDieException;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 
@@ -19,6 +20,16 @@ public class EglomiseBrush extends ToolCard
     @Override
     public String action(Game game, int param1, int param2)
     {
-        return "";
+        String ret = "";
+        try
+        {
+            game.getCurrentPlayer().getBoard().moveDie(game.getSelectedDie(), param1, param2, false, true);
+        }
+        catch (CannotAddDieException e)
+        {
+            ret = e.getMessage();
+        }
+
+        return ret;
     }
 }

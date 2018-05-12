@@ -27,7 +27,7 @@ public class CLIToolCardVisitor implements ToolCardVisitor
 
     public void visit(EglomiseBrush card)
     {
-        cliView = new CLIEglimiseBrushView(cli);
+        cliView = new CLIEglomiseBrushView(cli);
     }
 
     public void visit(FluxRemover card)

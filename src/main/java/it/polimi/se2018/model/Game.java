@@ -4,6 +4,7 @@ import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.model.toolcards.EglomiseBrush;
 import it.polimi.se2018.model.toolcards.GrozingPliers;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.model.toolcards.ToolCardVisitor;
@@ -28,6 +29,7 @@ public class Game extends Observable <Message>
     private RoundTrack                          roundTrack;
 
     private Die                                 lastDraftedDie;
+    private Die                                 selectedDie;
 
     private int                                 currentRound = 0;
     private static final int                    TOTAL_ROUNDS = 10;
@@ -45,8 +47,9 @@ public class Game extends Observable <Message>
         roundTrack = new RoundTrack(draftPool);
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = ToolCard.getRandomCards(2);
+        toolCards = ToolCard.getRandomCards(1);
         toolCards.add(new GrozingPliers());
+        toolCards.add(new EglomiseBrush());
 
         actionChronology = new ArrayList<>();
     }
@@ -145,6 +148,8 @@ public class Game extends Observable <Message>
         return lastDraftedDie;
     }
 
+    public Die getSelectedDie(){ return selectedDie;}
+
     public List<Player> getAllPlayers ()
     {
         return playersIterator.getAllPlayers();
@@ -228,6 +233,12 @@ public class Game extends Observable <Message>
         Die die = lastDraftedDie;
         lastDraftedDie = null;
         notify(new ReturnedDieMessage(this, die, currentPlayer));
+    }
+
+    public boolean selectDieFromCurrentPlayerBoard(int row, int column)
+    {
+        selectedDie = currentPlayer.getBoard().getDie(row, column);
+        return (selectedDie != null);
     }
 
     public void addDraftedDieToBoard(int row, int col) throws CannotAddDieException
