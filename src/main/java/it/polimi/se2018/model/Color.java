@@ -35,6 +35,7 @@ public enum Color
             case 4: return Color.PURPLE;
             default: return null;
         }
+
     }
 
     //convert a string into a Color
