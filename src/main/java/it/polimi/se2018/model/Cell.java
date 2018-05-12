@@ -11,7 +11,7 @@ public class Cell
     private CellRestriction restriction;
 
     /**
-     * Constructor that creates a Cell without restriction
+     * Constructor that creates a Cell without restrictions
      */
     public Cell()
     {
@@ -46,7 +46,7 @@ public class Cell
     }
 
     /**
-     * Returns the restriction of the Cell
+     * Returns a cell restriction
      * @return restriction of the Cell
      */
     public CellRestriction getRestriction()
