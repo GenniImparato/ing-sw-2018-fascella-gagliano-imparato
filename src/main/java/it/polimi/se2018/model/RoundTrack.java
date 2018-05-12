@@ -3,11 +3,21 @@ package it.polimi.se2018.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to represent the RoundTrack
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class RoundTrack
 {
     private List<Die>[] dice;
     private DraftPool draftPool;
 
+    /**
+     * Constructor that creates a RoundTrack
+     * @param draftPool of the game
+     */
     public RoundTrack(DraftPool draftPool)
     {
         dice=new ArrayList[10];
@@ -18,7 +28,11 @@ public class RoundTrack
         this.draftPool = draftPool;
     }
 
-    //copy constructor
+    /**
+     * Copy constructor
+     * @param roundTrack source instance to be cloned
+     * @param draftPool of the game
+     */
     public RoundTrack(RoundTrack roundTrack, DraftPool draftPool)
     {
         this.dice = new ArrayList[10];
@@ -36,13 +50,21 @@ public class RoundTrack
         this.draftPool = draftPool;
     }
 
-    //add the remaining dice from the DraftPool to the RoundTrack at the given round
+    /**
+     * Adds the remaining dice from the DraftPool to the RoundTrack at the given round
+     * @param round is the index of the RoundTrack where the dice are added
+     */
     public void addLastDice(int round)
     {
         dice[round] = draftPool.pullAllDice();
     }
 
-    public List<Die> getDicesAtRound (int round)
+    /**
+     * Returns a list of Dice from the RoundTrack at given round
+     * @param round is the index of the RoundTrack where the dice are returned from
+     * @return list of Dice from the RoundTrack at given round
+     */
+    public List<Die> getDiceAtRound (int round)
     {
         return dice[round];
     }
