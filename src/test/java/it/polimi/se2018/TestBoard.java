@@ -88,7 +88,7 @@ public class TestBoard
         }
 
         Die die1 = new Die(Color.PURPLE);
-        die1.setValue(6);
+
         try
         {
             board.addDie(die1, 0, 0);
