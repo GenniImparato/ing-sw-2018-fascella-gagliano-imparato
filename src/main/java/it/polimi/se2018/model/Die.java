@@ -21,6 +21,24 @@ public class Die implements Serializable
         this.value = die.getValue();
     }
 
+    public void setValue(int value)
+    {
+        if (value>=1 && value<=6)
+            this.value = value;
+    }
+
+    public void incrementValue()
+    {
+        if (this.value>1)
+            this.value--;
+    }
+
+    public void decrementValue()
+    {
+        if (this.value<6)
+            this.value++;
+    }
+
     public int getValue()
     {
         return value;

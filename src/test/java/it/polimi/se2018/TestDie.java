@@ -37,15 +37,35 @@ public class TestDie
         try
         {
             die = new Die(Color.getRandomColor());
+            x = die.getValue();
+            assertNotNull(die);
+            assertNotNull(die.getColor());
         }
         catch (Exception e)
         {
             fail();
         }
 
-        x = die.getValue();
-        assertNotNull(die);
-        assertNotNull(die.getColor());
+
+    }
+
+    @Test
+    public void testClonedDie()
+    {
+
+
+        try
+        {
+            Die die = new Die (Color.RED);
+            Die clonedDie = new Die(die);
+            assertEquals(clonedDie.getColor(), die.getColor());
+            assertEquals(clonedDie.getValue(), die.getValue());
+        }
+        catch (Exception e)
+        {
+            fail();
+        }
+
     }
 
 }
