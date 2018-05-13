@@ -49,8 +49,23 @@ public class Game extends Observable <Message>
         toolCards.add(new EglomiseBrush());
         toolCards.add(new CopperFoilBurnisher());
         toolCards.add(new Lathekin());
+        toolCards.add(new LensCutter());
 
         actionChronology = new ArrayList<>();
+
+
+        draftPool.draw(1);
+        roundTrack.addLastDice(0);
+        draftPool.draw(3);
+        roundTrack.addLastDice(1);
+        draftPool.draw(2);
+        roundTrack.addLastDice(2);
+        draftPool.draw(5);
+        roundTrack.addLastDice(3);
+        draftPool.draw(1);
+        roundTrack.addLastDice(4);
+        draftPool.draw(2);
+        roundTrack.addLastDice(5);
     }
 
     //copy constructor
@@ -251,6 +266,18 @@ public class Game extends Observable <Message>
             return false;
     }
 
+    public boolean selectDieFromRoundTrack(int round, int dieNum)
+    {
+        if(roundTrack.getDiceAtRound(round).size()<=dieNum)
+            return false;
+        else
+        {
+            selectedDie = roundTrack.getDiceAtRound(round).get(dieNum);
+            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+            return true;
+        }
+    }
+
     public void addDraftedDieToBoard(int row, int col) throws CannotPlaceDieException
     {
         try
@@ -262,7 +289,6 @@ public class Game extends Observable <Message>
         {
             throw e;
         }
-
     }
 
     public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
