@@ -95,7 +95,7 @@ public class TestBoard
             board.addDie(die, -1,-1);
             fail();
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
 
         }
@@ -107,7 +107,7 @@ public class TestBoard
             board.addDie(die0, 0,1);
             fail();
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
 
         }
@@ -120,7 +120,7 @@ public class TestBoard
             board.addDie(die1, 0, 2);
             fail();
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
 
         }
@@ -131,7 +131,7 @@ public class TestBoard
             board.addDie(die2, 1,2);
             fail();
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
 
         }
@@ -143,7 +143,7 @@ public class TestBoard
         {
             board.addDie(die3, 0, 0);
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
             fail();
         }
@@ -157,7 +157,7 @@ public class TestBoard
             fail();
         }
 
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
 
         }
@@ -171,7 +171,7 @@ public class TestBoard
             fail();
         }
 
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
 
         }
@@ -182,7 +182,7 @@ public class TestBoard
             board.addDie(die6, 0, 0);
             fail();
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
 
         }
@@ -193,7 +193,7 @@ public class TestBoard
             board.addDie(die7, 3, 2);
             fail();
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
 
         }
@@ -205,7 +205,7 @@ public class TestBoard
         {
             board.addDie(die8, 0,1);
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
             fail();
         }
@@ -217,7 +217,7 @@ public class TestBoard
             board.addDie(die9, 1,1);
 
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
             fail();
         }
@@ -250,7 +250,7 @@ public class TestBoard
         {
             board.moveDie(die, 3, 0, false, true);
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
             fail();
         }
@@ -261,7 +261,7 @@ public class TestBoard
         {
             board.moveDie(die0,3,1,true,false);
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
             fail();
         }

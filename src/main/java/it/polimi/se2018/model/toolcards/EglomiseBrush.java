@@ -1,8 +1,7 @@
 package it.polimi.se2018.model.toolcards;
 
-import it.polimi.se2018.model.CannotAddDieException;
+import it.polimi.se2018.model.CannotPlaceDieException;
 import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
 
 public class EglomiseBrush extends ToolCard
 {
@@ -25,7 +24,7 @@ public class EglomiseBrush extends ToolCard
         {
             game.getCurrentPlayer().getBoard().moveDie(game.getSelectedDie(), param1, param2, false, true);
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
             ret = e.getMessage();
         }

@@ -241,14 +241,14 @@ public class Game extends Observable <Message>
         return (selectedDie != null);
     }
 
-    public void addDraftedDieToBoard(int row, int col) throws CannotAddDieException
+    public void addDraftedDieToBoard(int row, int col) throws CannotPlaceDieException
     {
         try
         {
             getCurrentPlayer().getBoard().addDie(lastDraftedDie, row, col);
             notify(new AddedDieMessage(this, currentPlayer, row, col, lastDraftedDie));
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
             throw e;
         }

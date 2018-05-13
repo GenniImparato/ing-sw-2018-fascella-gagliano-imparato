@@ -1,6 +1,6 @@
 package it.polimi.se2018.model.gameactions;
 
-import it.polimi.se2018.model.CannotAddDieException;
+import it.polimi.se2018.model.CannotPlaceDieException;
 import it.polimi.se2018.model.Game;
 
 public class AddDieToBoardAction extends GameAction
@@ -22,7 +22,7 @@ public class AddDieToBoardAction extends GameAction
             game.addDraftedDieToBoard(row, col);
             executed = true;
         }
-        catch(CannotAddDieException e)
+        catch(CannotPlaceDieException e)
         {
             errorMessage = e.getMessage();
         }

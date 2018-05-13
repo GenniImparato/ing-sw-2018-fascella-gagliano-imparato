@@ -1,10 +1,10 @@
 package it.polimi.se2018.model;
 
-public class CannotAddDieException extends Exception
+public class CannotPlaceDieException extends Exception
 {
     private String message;
 
-    public CannotAddDieException(String message)
+    public CannotPlaceDieException(String message)
     {
         this.message = message;
     }

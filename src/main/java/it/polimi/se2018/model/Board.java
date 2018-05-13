@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -108,6 +107,19 @@ public class Board
         return -1;
     }
 
+    private boolean contains(Die die)
+    {
+        for(int row=0; row < Board.ROWS; row++)
+        {
+            for(int col=0; col < Board.COLUMNS; col++)
+            {
+                if(die == getDie(row,col))
+                    return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Returns a Cell given its coordinates; null if the coordinates are not valid
@@ -197,37 +209,37 @@ public class Board
         return num;
     }
 
-    private void canDieBePlaced(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws CannotAddDieException
+    private void canDieBePlaced(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws CannotPlaceDieException
     {
         if (!checkCoordinates(row, column))              //check if the coordinates are valid
-            throw new CannotAddDieException("Cannot place die: invalid coordinates!");
+            throw new CannotPlaceDieException("Cannot place die: invalid coordinates!");
 
         if (getCell(row, column).getRestriction().isColor() &&           //check if the color of the die is not equal to the restriction of the cell
                 getCell(row, column).getRestriction().getColor() != die.getColor()
                 && !ignoreColorRestriction)
-            throw new CannotAddDieException("Cannot place die: the selected cell requires a " + getCell(row, column).getRestriction().getColor() + " die!");
+            throw new CannotPlaceDieException("Cannot place die: the selected cell requires a " + getCell(row, column).getRestriction().getColor() + " die!");
 
         if (getCell(row, column).getRestriction().isValue() &&         //check if the value of the die is not equal to the restriction of the cell
                 getCell(row, column).getRestriction().getValue() != die.getValue()
                 && !ignoreValueRestriction)
-            throw new CannotAddDieException("Cannot place die: the selected cell requires a die with a value of " + getCell(row, column).getRestriction().getValue() + "!");
+            throw new CannotPlaceDieException("Cannot place die: the selected cell requires a die with a value of " + getCell(row, column).getRestriction().getValue() + "!");
 
         if (getDie(row, column) != null)     //check if the cell is free
-            throw new CannotAddDieException("Cannot place die: the selected cell is not free!");
+            throw new CannotPlaceDieException("Cannot place die: the selected cell is not free!");
 
         if (getAdjacentDice(row, column).size() == 0  && getNumberOfDice()>0)     //check if there is at least one adjacent die and the die is not the first
-            throw new CannotAddDieException("Cannot place die: no adjacent dice!");
+            throw new CannotPlaceDieException("Cannot place die: no adjacent dice!");
 
         if ((getNumberOfDice() == 0) &&            //if the die is the first it can only be positioned on the border
                 !isOnBorder(row, column))
-            throw new CannotAddDieException("Cannot place die: the first die must be on the border!");
+            throw new CannotPlaceDieException("Cannot place die: the first die must be on the border!");
 
         ArrayList<Die> orthogonalDice = getOrthogonalAdjacentDice(row, column);
         for (int i = 0; i < orthogonalDice.size(); i++)          //for every orthogonal adjacent dice, check if values or colors are the same
         {
             if (orthogonalDice.get(i).getColor() == die.getColor() ||
                     orthogonalDice.get(i).getValue() == die.getValue())
-                throw new CannotAddDieException("Cannot place die: another die with same value or color is adjacent!");
+                throw new CannotPlaceDieException("Cannot place die: another die with same value or color is adjacent!");
         }
     }
 
@@ -236,30 +248,36 @@ public class Board
      * @param die Die that can be added to the Board
      * @param row row of the matrix associated with the Board
      * @param column column of the matrix associated with the Board
-     * @throws CannotAddDieException if the die cannot be added
+     * @throws CannotPlaceDieException if the die cannot be added
      */
-    public void addDie(Die die, int row, int column) throws CannotAddDieException
+    public void addDie(Die die, int row, int column) throws CannotPlaceDieException
     {
         try
         {
             canDieBePlaced(die, row, column, false, false);
             dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
             throw e;
         }
     }
 
-    public void moveDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws CannotAddDieException
+    public void moveDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws CannotPlaceDieException
     {
+
+        if(!contains(die))
+        {
+            throw new CannotPlaceDieException("The die is not present on the board");
+        }
+
         try
         {
             canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction);
             dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
             dieMatrix[getDieRow(die)][getDieColumn(die)] = null; //the die is removed from it's previous position
         }
-        catch (CannotAddDieException e)
+        catch (CannotPlaceDieException e)
         {
             throw e;
         }
