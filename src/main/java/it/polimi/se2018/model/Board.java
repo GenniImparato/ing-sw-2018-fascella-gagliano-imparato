@@ -106,7 +106,7 @@ public class Board
         return -1;
     }
 
-    private boolean contains(Die die)
+    public boolean contains(Die die)
     {
         for(int row=0; row < Board.ROWS; row++)
         {

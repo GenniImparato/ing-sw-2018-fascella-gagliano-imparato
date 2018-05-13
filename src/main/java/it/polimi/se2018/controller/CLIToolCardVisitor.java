@@ -67,7 +67,7 @@ public class CLIToolCardVisitor implements ToolCardVisitor
 
     public void visit(RunningPliers card)
     {
-        cliView = new CLIRunningPLiersView(cli);
+        cliView = new CLIRunningPliersView(cli);
     }
 
     public void visit(TapWheel card)
