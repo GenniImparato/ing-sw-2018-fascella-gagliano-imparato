@@ -24,6 +24,8 @@ public class CLIElementBoard extends CLIElement
     protected void refresh()
     {
         drawCells();
+        if(selected)
+            drawIndices();
         drawOnRenderer();
         drawDice();
     }
@@ -33,7 +35,7 @@ public class CLIElementBoard extends CLIElement
     //the Cell is drawn at (x,y) offset
     //num is the number displayed on the top of each Cell when the Board is selected
     //restriction is the restriction of the single cell
-    private void drawCell(int x, int y, int num, CellRestriction restriction)
+    private void drawCell(int x, int y, CellRestriction restriction)
     {
         for (int row=y; row < 6 + y; row++)
         {
@@ -62,18 +64,6 @@ public class CLIElementBoard extends CLIElement
             }
         }
 
-        if(selected)                                          //draws the index of the Cell if selected
-        {
-            charMatrix[y +1][x + 5] =  Integer.toString(num).charAt(0);     //draws the first digit
-            colorMatrix[y + 1][x + 5] = null;
-
-            if(num >= 10)
-            {
-                charMatrix[y + 1][x + 6] =  Integer.toString(num).charAt(1);        //draws the second digit
-                colorMatrix[y + 1][x + 6] = null;                                   //if there are 2 digits
-            }
-        }
-
         if(restriction.isValue()) {                            //draws the value in case of value restriction
             charMatrix[y + 1][x + 1] = Integer.toString(restriction.getValue()).charAt(0);
             colorMatrix[y + 1][x + 1] = null;
@@ -82,6 +72,32 @@ public class CLIElementBoard extends CLIElement
         {
             charMatrix[y + 1][x + 1] = restriction.getColor().getFirstChar();
             colorMatrix[y + 1][x + 1] = restriction.getColor();
+        }
+    }
+
+    private void drawIndex(int x, int y, int num)
+    {
+        charMatrix[y +5][x + 5] =  Integer.toString(num).charAt(0);     //draws the first digit
+        colorMatrix[y + 5][x + 5] = Color.RED;
+
+        if(num >= 10)
+        {
+            charMatrix[y + 5][x + 6] =  Integer.toString(num).charAt(1);        //draws the second digit
+            colorMatrix[y + 5][x + 6] = Color.RED;                                   //if there are 2 digits
+        }
+    }
+
+    private void drawIndices()
+    {
+        int cellNum = 0;
+
+        for(int row=0; row<Board.ROWS; row++)
+        {
+            for(int col=0; col<Board.COLUMNS; col++)
+            {
+                drawIndex(col*10, row*5, cellNum);
+                cellNum++;                      //increases the index passed to the next cell
+            }
         }
     }
 
@@ -94,7 +110,9 @@ public class CLIElementBoard extends CLIElement
         {
             for(int col=0; col<Board.COLUMNS; col++)
             {
-                drawCell(col*10, row*5, cellNum, board.getCell(row, col).getRestriction());
+                drawCell(col*10, row*5, board.getCell(row, col).getRestriction());
+                if(selected)
+                    drawIndex(col*10, row*5, cellNum);
                 cellNum++;                      //increases the index passed to the next cell
             }
         }

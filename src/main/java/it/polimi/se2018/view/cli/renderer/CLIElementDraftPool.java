@@ -91,7 +91,7 @@ public class CLIElementDraftPool extends CLIElement
         for(int i = 0; i<dice.size(); i++)
         {
             charMatrix[6][i * 8 + 5] = Integer.toString(i).charAt(0);
-            colorMatrix[6][i * 8 + 5] = null;
+            colorMatrix[6][i * 8 + 5] = Color.RED;
         }
     }
 

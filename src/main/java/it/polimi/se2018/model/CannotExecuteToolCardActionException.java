@@ -1,10 +1,10 @@
 package it.polimi.se2018.model;
 
-public class CannotAddPlayerException extends Exception
+public class CannotExecuteToolCardActionException extends Exception
 {
     private String message;
 
-    public CannotAddPlayerException(String message)
+    public CannotExecuteToolCardActionException(String message)
     {
         this.message = message;
     }
