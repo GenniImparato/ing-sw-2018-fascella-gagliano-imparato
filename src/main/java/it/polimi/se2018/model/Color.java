@@ -3,6 +3,10 @@ package it.polimi.se2018.model;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Enumeration used to represent colors.
+ * @author  Generoso Imparato
+ */
 public enum Color
 {
     RED ("\u001b[31;1m", 0, 'R'),
@@ -22,6 +26,10 @@ public enum Color
         this.firstLetter = firstLetter;
     }
 
+    /**
+     * Gets a random color from those saved in the enum
+     * @return random color
+     */
     public static Color getRandomColor()
     {
         int rand = new Random().nextInt(5);
@@ -38,8 +46,12 @@ public enum Color
 
     }
 
-    //convert a string into a Color
-    //return null if the string doesn't mach any color
+    /**
+     * Converts a String into a Color;
+     * returns null if the string doesn't match any color
+     * @param string String to convert into a Color
+     * @return Color obtained from the String passed by argument
+     */
     public static Color getColorFromString(String string)
     {
         if(string.equals("red"))
@@ -56,20 +68,35 @@ public enum Color
         return null;
     }
 
+    /**
+     * Returns a number associated to a Color
+     * @return an Integer representing a Color
+     */
     public int getNum()
     {
         return num;
     }
 
-    //returns an ANSI code that has to be printed in console to set the current color
+    /**
+     * Returns an ANSI code that has to be printed in console to set the current color
+     * @return String used to set the current color in the console
+     */
     public String getConsoleString()
     {
         return consoleString;
     }
 
-    //when it's printed in console, it resets the text to the standard color
+
+    /**
+     * When it's printed in console, it resets the text to the standard color
+     * @return a String needed to reset the text to the standard color in the console
+     */
     public static String getResetConsoleString() { return new String("\u001b[0m");}
 
+    /**
+     * Returns a character representing the first letter of the Color name
+     * @return character associated to the Color
+     */
     public char getFirstChar ()
     {
         return firstLetter;
