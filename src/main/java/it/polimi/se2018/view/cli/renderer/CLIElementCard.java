@@ -78,7 +78,7 @@ public class CLIElementCard extends CLIElement
 
     private void drawIndex()
     {
-        colorMatrix[18][15] = null;
+        colorMatrix[18][15] = Color.RED;
         charMatrix[18][15] = Integer.toString(index).charAt(0);
     }
 

@@ -27,6 +27,13 @@ public class CLIMessageParser
                 +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
     }
 
+    public void parseMessage(SelectedDieMessage message)
+    {
+        cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
+                +" - Die: ( " + message.getDie().getValue() + " , " + message.getDie().getColor() + " )"
+                +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
+    }
+
     public void parseMessage(ReturnedDieMessage message)
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()

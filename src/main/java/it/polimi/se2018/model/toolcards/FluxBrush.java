@@ -1,7 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
 
 public class FluxBrush extends ToolCard
 {
@@ -19,6 +18,7 @@ public class FluxBrush extends ToolCard
     @Override
     public String action(Game game, int param1, int param2)
     {
-        return "";
+        game.getDraftPool().getAllDice().get(param1).roll();
+        return "Rerolled a die!";
     }
 }

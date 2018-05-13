@@ -4,10 +4,7 @@ import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.*;
 import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
-import it.polimi.se2018.model.toolcards.EglomiseBrush;
-import it.polimi.se2018.model.toolcards.GrozingPliers;
-import it.polimi.se2018.model.toolcards.ToolCard;
-import it.polimi.se2018.model.toolcards.ToolCardVisitor;
+import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.observer.Observable;
 
 
@@ -22,7 +19,7 @@ public class Game extends Observable <Message>
 
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
-    private ToolCard                            currentToolCard;  //null means no tool card is being used
+    private int                                 currentToolCard = -1;  //null means no tool card is being used
 
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
@@ -50,8 +47,25 @@ public class Game extends Observable <Message>
         toolCards = ToolCard.getRandomCards(1);
         toolCards.add(new GrozingPliers());
         toolCards.add(new EglomiseBrush());
+        toolCards.add(new CopperFoilBurnisher());
+        toolCards.add(new Lathekin());
+        toolCards.add(new LensCutter());
 
         actionChronology = new ArrayList<>();
+
+
+        draftPool.draw(1);
+        roundTrack.addLastDice(0);
+        draftPool.draw(3);
+        roundTrack.addLastDice(1);
+        draftPool.draw(2);
+        roundTrack.addLastDice(2);
+        draftPool.draw(5);
+        roundTrack.addLastDice(3);
+        draftPool.draw(1);
+        roundTrack.addLastDice(4);
+        draftPool.draw(2);
+        roundTrack.addLastDice(5);
     }
 
     //copy constructor
@@ -95,9 +109,14 @@ public class Game extends Observable <Message>
             }
         }
 
+        if(game.selectedDie !=null)
+            this.selectedDie = new Die(game.selectedDie);
+
+        if(game.lastDraftedDie !=null)
+            this.lastDraftedDie = new Die(game.lastDraftedDie);
+
         this.currentToolCard = game.currentToolCard;
 
-        this.lastDraftedDie = game.lastDraftedDie;
         this.currentRound = game.currentRound;
         this.gameStarted = game.gameStarted;
 
@@ -238,7 +257,25 @@ public class Game extends Observable <Message>
     public boolean selectDieFromCurrentPlayerBoard(int row, int column)
     {
         selectedDie = currentPlayer.getBoard().getDie(row, column);
-        return (selectedDie != null);
+        if(selectedDie != null)
+        {
+            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean selectDieFromRoundTrack(int round, int dieNum)
+    {
+        if(roundTrack.getDiceAtRound(round).size()<=dieNum)
+            return false;
+        else
+        {
+            selectedDie = roundTrack.getDiceAtRound(round).get(dieNum);
+            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+            return true;
+        }
     }
 
     public void addDraftedDieToBoard(int row, int col) throws CannotPlaceDieException
@@ -252,21 +289,27 @@ public class Game extends Observable <Message>
         {
             throw e;
         }
-
     }
 
     public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
     {
-        currentToolCard =  toolCards.get(cardNum);
-        currentToolCard.acceptVisitor(visitor);
-        notify(new StartedUsingToolCardMessage(this, currentToolCard));
+        currentToolCard =  cardNum;
+        toolCards.get(currentToolCard).acceptVisitor(visitor);
+        notify(new StartedUsingToolCardMessage(this, toolCards.get(currentToolCard)));
     }
 
-    public void executeCurrentToolCardAction(int param1, int param2)
+    public void executeCurrentToolCardAction(int param1, int param2) throws CannotExecuteToolCardActionException
     {
-        String message;
-        message = currentToolCard.action(this, param1, param2);
-        notify(new ToolCardActionExecutedMessage(this, message));
+        try
+        {
+            String message;
+            message = toolCards.get(currentToolCard).action(this, param1, param2);
+            notify(new ToolCardActionExecutedMessage(this, message));
+        }
+        catch (CannotExecuteToolCardActionException e)
+        {
+            throw e;
+        }
     }
 
     //update all the scores

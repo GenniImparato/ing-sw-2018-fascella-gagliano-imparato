@@ -50,6 +50,23 @@ public class RoundTrack
         this.draftPool = draftPool;
     }
 
+    public Die pullDie(int round, int num)
+    {
+        if(dice[round].size() <= num)
+            return null;
+        else
+        {
+            Die ret = dice[round].get(num);
+            dice[round].remove(num);
+            return ret;
+        }
+    }
+
+    public void addDie(Die die, int round)
+    {
+        dice[round].add(die);
+    }
+
     /**
      * Adds the remaining dice from the DraftPool to the RoundTrack at the given round
      * @param round is the index of the RoundTrack where the dice are added

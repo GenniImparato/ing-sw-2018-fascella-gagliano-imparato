@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
+import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.CannotPlaceDieException;
 import it.polimi.se2018.model.Game;
 
@@ -17,18 +18,17 @@ public class EglomiseBrush extends ToolCard
     }
 
     @Override
-    public String action(Game game, int param1, int param2)
+    public String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException
     {
-        String ret = "";
         try
         {
             game.getCurrentPlayer().getBoard().moveDie(game.getSelectedDie(), param1, param2, false, true);
+            return "moved a die ( " + game.getSelectedDie().getValue() + ", " + game.getSelectedDie().getColor() + " )"
+                    + " to (row: " + param1 + ", col: " + param2 + " )";
         }
         catch (CannotPlaceDieException e)
         {
-            ret = e.getMessage();
+            throw new CannotExecuteToolCardActionException(e.getMessage());
         }
-
-        return ret;
     }
 }
