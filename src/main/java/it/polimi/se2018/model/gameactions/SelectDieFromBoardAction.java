@@ -4,8 +4,8 @@ import it.polimi.se2018.model.Game;
 
 public class SelectDieFromBoardAction extends GameAction
 {
-    int row;
-    int col;
+    private int row;
+    private int col;
 
     public SelectDieFromBoardAction(int row, int column)
     {

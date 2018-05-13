@@ -5,8 +5,8 @@ import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 
 public class StartUsingToolCardAction extends GameAction
 {
-    int             cardNum;
-    ToolCardVisitor visitor;
+    private int             cardNum;
+    private ToolCardVisitor visitor;
 
     public StartUsingToolCardAction(int cardNum, ToolCardVisitor visitor)
     {

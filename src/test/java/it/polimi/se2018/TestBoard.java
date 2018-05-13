@@ -27,22 +27,44 @@ public class TestBoard
 
     @Test
     //test if the cells of the board built with a given parameter is initialized
-    public void testBoard()
+    public void testCloneBoard()
     {
+        SagradaSchemeCardFile sagradaSchemeCardFile;
+        Board board = new Board();
+        Cell [][] cellMatrix = new Cell[Board.ROWS][Board.COLUMNS];
 
-        Cell [][] charMatrix = new Cell[Board.ROWS][Board.COLUMNS];
+        try
+        {
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+            board = sagradaSchemeCardFile.generateBoard();
+        }
+        catch (Exception e)
+        {
+            fail();
+        }
+
+
 
         for (int i=0; i<Board.ROWS; i++)
         {
             for (int j=0; j<Board.COLUMNS; j++)
             {
-                charMatrix[i][j] = firstBoard.getCell(i,j);
-                assertNotNull(firstBoard.getCell(i,j));
-
+                cellMatrix[i][j] = board.getCell(i,j);
             }
         }
 
-        Board secondBoard = new Board (charMatrix);     //the input of the constructor is generated random before
+
+        Die die = new Die(Color.RED);           //add a die in the board tha will be cloned, to test if it will be added
+        die.setValue(6);                        //also in the cloned one.
+        try
+        {
+            board.addDie(die, 3, 0);
+        }
+        catch (CannotPlaceDieException e)
+        {
+            fail();
+        }
+        Board secondBoard = new Board (board);     //the input of the constructor is the board of the known one
         {
             for (int i=0; i<Board.ROWS; i++)
             {
@@ -51,16 +73,17 @@ public class TestBoard
                     assertNotNull(secondBoard.getCell(i,j));
                 }
             }
+
+            assertNotNull(secondBoard.getDie(3,0));
         }
 
 
     }
 
     @Test
-    public void testCloneBoard()
+    public void testBoard()
     {
         Board board = new Board ();
-        Board clonedBoard = new Board(board);
 
         for (int i=0; i<Board.ROWS; i++)
         {
@@ -226,7 +249,7 @@ public class TestBoard
 
     }
 
-    @Test
+    /*@Test
     public void testMoveDie()
     {
         Board board = new Board();
@@ -267,7 +290,7 @@ public class TestBoard
         }
 
 
-    }
+    }*/
 
 
     @Test

@@ -5,8 +5,8 @@ import it.polimi.se2018.model.Game;
 
 public class AddDieToBoardAction extends GameAction
 {
-    int row;
-    int col;
+    private int row;
+    private int col;
 
     public AddDieToBoardAction(int row, int col)
     {

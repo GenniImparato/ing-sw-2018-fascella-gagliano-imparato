@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.views.toolcardviews.*;
 
 public class CLIToolCardVisitor implements ToolCardVisitor
 {
-    CLIView cliView;
-    CLI     cli;
+    private CLIView cliView;
+    private CLI     cli;
 
     public CLIToolCardVisitor(CLI cli)
     {

@@ -26,7 +26,6 @@ public class Board
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
 
-        dieMatrix[0][1] = new Die(Color.getRandomColor());
 
         initCellMatrixRandom();
     }

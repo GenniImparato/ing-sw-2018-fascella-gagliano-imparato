@@ -7,8 +7,8 @@ import it.polimi.se2018.model.toolcards.ToolCardVisitor;
 
 public class UseToolCardAction extends GameAction
 {
-    int param1;
-    int param2;
+    private int param1;
+    private int param2;
 
     public UseToolCardAction(int param1, int param2)
     {
