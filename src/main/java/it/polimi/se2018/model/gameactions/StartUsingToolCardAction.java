@@ -18,5 +18,6 @@ public class StartUsingToolCardAction extends GameAction
     public void execute(Game game)
     {
         game.startUsingToolCard(cardNum, visitor);
+        executed = true;
     }
 }
