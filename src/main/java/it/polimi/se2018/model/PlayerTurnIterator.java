@@ -124,6 +124,18 @@ public class PlayerTurnIterator implements Iterator<Player>
         return !hasNext();
     }
 
+    public boolean isCurrentPlayerSecondTurn()
+    {
+        int currentPlayer = turns.get(currentTurn);
+        boolean ret = true;
+
+        for(int i = currentPlayer+1; i<turns.size(); i++)
+            if(turns.get(i) == currentPlayer)
+                ret = false;
+
+        return ret;
+    }
+    //return an ArrayList with all the players in the game
     /**
      * Returns an ArrayList with all the players in the game
      * @return ArrayList of all the players present in the game

@@ -4,9 +4,9 @@ import it.polimi.se2018.model.Game;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.views.CLIView;
 
-public class CLIRunningPLiersView extends CLIView
+public class CLIRunningPliersView extends CLIView
 {
-    public CLIRunningPLiersView(CLI cli)
+    public CLIRunningPliersView(CLI cli)
     {
         super(cli);
     }

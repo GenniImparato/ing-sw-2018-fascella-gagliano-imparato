@@ -4,7 +4,7 @@ import it.polimi.se2018.model.Game;
 
 public class DraftDieAction extends GameAction
 {
-    int dieNum;
+    private int dieNum;
 
     public DraftDieAction(int dieNum)
     {

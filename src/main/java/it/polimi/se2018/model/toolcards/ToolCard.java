@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
+import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
@@ -74,5 +75,5 @@ public abstract class ToolCard extends Card
         return ret;
     }
 
-    public abstract String action(Game game, int param1, int param2);
+    public abstract String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException;
 }

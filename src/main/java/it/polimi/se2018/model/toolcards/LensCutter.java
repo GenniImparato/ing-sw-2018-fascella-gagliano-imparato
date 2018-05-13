@@ -1,5 +1,7 @@
 package it.polimi.se2018.model.toolcards;
 
+import it.polimi.se2018.model.CannotExecuteToolCardActionException;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Game;
 import it.polimi.se2018.model.Player;
 
@@ -17,8 +19,17 @@ public class LensCutter extends ToolCard
     }
 
     @Override
-    public String action(Game game, int param1, int param2)
+    public String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException
     {
-        return "";
+        Die roundTrackDie = game.getRoundTrack().pullDie(param1, param2);
+        if(roundTrackDie == null)
+        {
+            throw new CannotExecuteToolCardActionException("The selected die is not present in the round track!");
+        }
+
+        game.getDraftPool().addDie(roundTrackDie);
+        game.getRoundTrack().addDie(game.getLastDraftedDie(), param1);
+
+        return "Swapped dice with the round track";
     }
 }

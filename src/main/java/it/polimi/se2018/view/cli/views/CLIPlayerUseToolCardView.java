@@ -44,7 +44,8 @@ public class CLIPlayerUseToolCardView extends CLIView
                     GameAction action = new StartUsingToolCardAction(val, visitor);
                     game.executeAction(action);
 
-                    cli.requestView(visitor.getCliView());
+                    if(visitor.getCliView() !=null)
+                        cli.requestView(visitor.getCliView());
                 }
                 else        //input is a number but not in range
                 {

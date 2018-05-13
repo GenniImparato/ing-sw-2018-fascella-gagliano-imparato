@@ -35,8 +35,8 @@ public class CLIEglomiseBrushView extends CLIView
             cli.renderGameState(CLIRendererMainState.BOARD_SELECTED);
             Die selectedDie = cli.getGameInstance().getSelectedDie();
 
-            //cli.showMessage("You selected a " + selectedDie.getColor().getConsoleString() + selectedDie.getColor() +" "+ Color.getResetConsoleString());
-            //cli.showMessage("die with value: " + selectedDie.getValue());
+            cli.showMessage("You selected a " + selectedDie.getColor().getConsoleString() + selectedDie.getColor() +" "+ Color.getResetConsoleString()
+                            + "die with value: " + selectedDie.getValue());
             cli.showMessage("Choose where to move the die");
             cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
         }
