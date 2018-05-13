@@ -45,7 +45,7 @@ public class Game extends Observable <Message>
 
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(1);
-        toolCards.add(new GrozingPliers());
+        toolCards.add(new GlazingHammer());
         toolCards.add(new EglomiseBrush());
         toolCards.add(new CopperFoilBurnisher());
         toolCards.add(new Lathekin());
@@ -182,6 +182,11 @@ public class Game extends Observable <Message>
     public List<ToolCard> getAllToolCards ()
     {
         return toolCards;
+    }
+
+    public boolean isCurrentPlayerSecondTurn()
+    {
+        return playersIterator.isCurrentPlayerSecondTurn();
     }
 
     //add a new player to the model if the number of player is not at maximum
