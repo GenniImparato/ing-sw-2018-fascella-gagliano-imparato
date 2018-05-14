@@ -1,4 +1,4 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testcards;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.Board;
