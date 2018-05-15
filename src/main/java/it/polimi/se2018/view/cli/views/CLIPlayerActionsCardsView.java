@@ -17,14 +17,17 @@ public class CLIPlayerActionsCardsView extends CLIView
         cli.renderGameState(CLIRendererCardsState.NO_SELECTION);
         cli.showMessage("It's your turn!");
         cli.showMessage("Choose an action:");
-        cli.showMessage("1) Use a tool card");
+        if(!cli.getGameInstance().canCurrentPlayerUseCard())
+            cli.showMessage("- (Tool card already used)");
+        else
+            cli.showMessage("1) Use a tool card");
         cli.showMessage("2) Get back to main view");
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }
 
     public void control(Game game, String input)
     {
-        if(input.equals("1"))
+        if(input.equals("1") && game.canCurrentPlayerUseCard())
         {
             cli.requestView(new CLIPlayerUseToolCardView(cli));
         }

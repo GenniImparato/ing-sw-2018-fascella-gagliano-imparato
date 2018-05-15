@@ -17,6 +17,9 @@ public class Game extends Observable <Message>
     private PlayerTurnIterator                  playersIterator;
     private Player                              currentPlayer;
 
+    private boolean                             cardUsed = false;
+    private boolean                             dieAdded = false;
+
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
     private int                                 currentToolCard = -1;  //null means no tool card is being used
@@ -74,6 +77,9 @@ public class Game extends Observable <Message>
         this.playersIterator = new PlayerTurnIterator(game.playersIterator);
         if(game.currentPlayer !=null)
             this.currentPlayer = new Player(game.currentPlayer);
+
+        this.cardUsed = game.cardUsed;
+        this.dieAdded = game.dieAdded;
 
         this.diceBag = new DiceBag(game.diceBag);
         this.draftPool = new DraftPool(game.draftPool, this.diceBag);
@@ -189,6 +195,10 @@ public class Game extends Observable <Message>
         return playersIterator.isCurrentPlayerSecondTurn();
     }
 
+    public boolean canCurrentPlayerUseCard() {return !cardUsed;}
+
+    public boolean canCurrentPlayerAddDie() {return !dieAdded;}
+
     //add a new player to the model if the number of player is not at maximum
     //return true if the player is added, false if it's not
     public void addNewPlayer(String nickname) throws  CannotAddPlayerException
@@ -235,6 +245,8 @@ public class Game extends Observable <Message>
     public void beginPlayerTurn()
     {
         currentPlayer = playersIterator.next();
+        cardUsed = false;
+        dieAdded = false;
     }
 
     public void endPlayerTurn()
@@ -288,6 +300,7 @@ public class Game extends Observable <Message>
         try
         {
             getCurrentPlayer().getBoard().addDie(lastDraftedDie, row, col);
+            dieAdded = true;
             notify(new AddedDieMessage(this, currentPlayer, row, col, lastDraftedDie));
         }
         catch (CannotPlaceDieException e)
@@ -296,11 +309,18 @@ public class Game extends Observable <Message>
         }
     }
 
-    public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
+    public boolean startUsingToolCard(int cardNum, ToolCardVisitor visitor)
     {
-        currentToolCard =  cardNum;
-        toolCards.get(currentToolCard).acceptVisitor(visitor);
-        notify(new StartedUsingToolCardMessage(this, toolCards.get(currentToolCard)));
+        if(!cardUsed)
+        {
+            currentToolCard = cardNum;
+            toolCards.get(currentToolCard).acceptVisitor(visitor);
+            notify(new StartedUsingToolCardMessage(this, toolCards.get(currentToolCard)));
+            return true;
+        }
+        else
+            return false;
+
     }
 
     public void executeCurrentToolCardAction(int param1, int param2) throws CannotExecuteToolCardActionException
@@ -309,6 +329,7 @@ public class Game extends Observable <Message>
         {
             String message;
             message = toolCards.get(currentToolCard).action(this, param1, param2);
+            cardUsed = true;
             notify(new ToolCardActionExecutedMessage(this, message));
         }
         catch (CannotExecuteToolCardActionException e)

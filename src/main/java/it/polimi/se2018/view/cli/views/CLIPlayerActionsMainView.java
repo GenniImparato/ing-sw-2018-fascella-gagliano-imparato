@@ -17,7 +17,10 @@ public class CLIPlayerActionsMainView extends CLIView
         cli.renderGameState(CLIRendererMainState.NO_SELECTION);
         cli.showMessage("It's your turn!");
         cli.showMessage("Choose an action:");
-        cli.showMessage("1) Draft a die");
+        if(cli.getGameInstance().canCurrentPlayerAddDie())
+            cli.showMessage("1) Draft a die");
+        else
+            cli.showMessage("- (");
         cli.showMessage("2) Show cards");
         cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
     }

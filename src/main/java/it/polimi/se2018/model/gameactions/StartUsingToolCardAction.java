@@ -17,7 +17,13 @@ public class StartUsingToolCardAction extends GameAction
     @Override
     public void execute(Game game)
     {
-        game.startUsingToolCard(cardNum, visitor);
-        executed = true;
+        if(game.startUsingToolCard(cardNum, visitor))
+            executed = true;
+        else
+        {
+            executed = false;
+            errorMessage = "You can only use one tool card per turn!";
+        }
+
     }
 }
