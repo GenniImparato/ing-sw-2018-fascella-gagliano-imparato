@@ -2,29 +2,30 @@ package it.polimi.se2018.view;
 
 
 import it.polimi.se2018.events.*;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.observer.*;
+import it.polimi.se2018.model.Model;
+import it.polimi.se2018.utils.*;
 
 //every concrete view has to extend this class
-public abstract class View<T> extends Observable<T> implements Observer <Message>
+public abstract class View extends Observable<Event> implements Observer <Message>
 {
-    private   Game    game;
+    private Model model;
 
     public View ()
     {
     }
 
-    public void setGameInstance(Game game)
+    public void setModel(Model model)
     {
-        this.game = game;
+        this.model = model;
     }
-
-    public Game getGameInstance()
+    public Model getModel()
     {
-        return game;
+        return model;
     }
 
     public abstract void start();
     public abstract void showErrorMessage(String message);
     public abstract void showMessage(String message);
+
+    public abstract void showMenu();
 }

@@ -17,7 +17,7 @@ public class DraftPool
 
     /**
      * Constructor that creates a DraftPool able to draw to pull dice from the DiceBag passed by parameter
-     * @param diceBag of the game
+     * @param diceBag of the model
      */
     public DraftPool(DiceBag diceBag)
     {

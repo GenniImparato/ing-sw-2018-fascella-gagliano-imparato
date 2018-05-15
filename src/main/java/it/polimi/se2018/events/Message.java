@@ -1,23 +1,22 @@
 package it.polimi.se2018.events;
 
-import it.polimi.se2018.controller.CLIEventParser;
-import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.view.cli.CLIMessageParser;
 
 import java.io.Serializable;
 
 public abstract class Message implements Serializable
 {
-    private Game game;
+    private Model model;
 
-    public Message(Game game)
+    public Message(Model model)
     {
-        this.game = new Game(game);
+        this.model = new Model(model);
     }
 
-    public Game getGame()
+    public Model getModel()
     {
-        return game;
+        return model;
     }
 
     public abstract void beParsed(CLIMessageParser parser);

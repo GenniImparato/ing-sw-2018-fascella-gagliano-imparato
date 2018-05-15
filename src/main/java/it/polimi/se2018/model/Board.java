@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.utils.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

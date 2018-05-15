@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.events.messages.*;
-import it.polimi.se2018.model.Color;
+import it.polimi.se2018.utils.Color;
 
 public class CLIMessageParser
 {
@@ -46,7 +46,7 @@ public class CLIMessageParser
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName(), Color.BLUE);
     }
 
-    public void parseMessage(PlayerAddedMessage message)
+    public void parseMessage(AddedPlayerMessage message)
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
                                 +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);

@@ -2,8 +2,7 @@ package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.CannotPlaceDieException;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Model;
 
 public class CopperFoilBurnisher extends ToolCard
 {
@@ -19,17 +18,8 @@ public class CopperFoilBurnisher extends ToolCard
     }
 
     @Override
-    public String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException
+    public String action(Model model, int param1, int param2) throws CannotExecuteToolCardActionException
     {
-        try
-        {
-            game.getCurrentPlayer().getBoard().moveDie(game.getSelectedDie(), param1, param2, true, false);
-            return "moved a die ( " + game.getSelectedDie().getValue() + ", " + game.getSelectedDie().getColor() + " )"
-                    + " to (row: " + param1 + ", col: " + param2 + " )";
-        }
-        catch (CannotPlaceDieException e)
-        {
-            throw new CannotExecuteToolCardActionException(e.getMessage());
-        }
+        return "";
     }
 }

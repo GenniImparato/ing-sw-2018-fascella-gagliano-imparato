@@ -1,16 +1,16 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Message;
-import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.view.cli.CLIMessageParser;
 
 public class ToolCardActionExecutedMessage extends Message
 {
     private String message;
 
-    public ToolCardActionExecutedMessage(Game game, String message)
+    public ToolCardActionExecutedMessage(Model model, String message)
     {
-        super(game);
+        super(model);
         this.message = message;
     }
 

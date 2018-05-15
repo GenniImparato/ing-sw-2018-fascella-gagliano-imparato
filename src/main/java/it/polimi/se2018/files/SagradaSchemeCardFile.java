@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Cell;
-import it.polimi.se2018.model.Color;
+import it.polimi.se2018.utils.Color;
 
 public class SagradaSchemeCardFile extends File
 {

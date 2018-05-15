@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.toolcards;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Model;
 
 public class GrozingPliers extends ToolCard
 {
@@ -20,23 +19,8 @@ public class GrozingPliers extends ToolCard
     //param1 = 0  -> decrement die value by 1
     //param1 = 1  -> increment die value by 1
     //param2 not used
-    public String action(Game game, int param1, int param2)
+    public String action(Model model, int param1, int param2)
     {
-        String messageRet = "";
-
-        if(param1 == 0)
-        {
-            game.getLastDraftedDie().decrementValue();
-            messageRet = "die value changed to " + game.getLastDraftedDie().getValue();
-        }
-        else if(param1 == 1)
-        {
-            game.getLastDraftedDie().incrementValue();
-            messageRet = "die value changed to " + game.getLastDraftedDie().getValue();
-        }
-
-        game.returnLastDraftedDie();
-
-        return messageRet;
+        return "";
     }
 }

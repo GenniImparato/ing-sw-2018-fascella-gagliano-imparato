@@ -2,8 +2,7 @@ package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Model;
 
 public class GlazingHammer extends ToolCard
 {
@@ -20,16 +19,8 @@ public class GlazingHammer extends ToolCard
     }
 
     @Override
-    public String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException
+    public String action(Model model, int param1, int param2) throws CannotExecuteToolCardActionException
     {
-        if(game.isCurrentPlayerSecondTurn())
-            throw new CannotExecuteToolCardActionException("Glazing Hammer can be used only in your second turn!");
-        else
-        {
-            for(Die die : game.getDraftPool().getAllDice())
-                die.roll();
-
-            return "Re-rolled all dice in the draft pool.";
-        }
+        return "";
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.cli.renderer;
 
-import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.ToolCard;
 
@@ -10,9 +10,9 @@ public class CLIRendererCards extends CLIRenderer
 {
     private CLIRendererCardsState state;
 
-    public CLIRendererCards(Game game)
+    public CLIRendererCards(Model model)
     {
-        super(game, 220, 41);
+        super(model, 220, 41);
     }
 
 
@@ -27,12 +27,12 @@ public class CLIRendererCards extends CLIRenderer
         initMatrix();
 
 
-        List<PublicObjectiveCard> publicCards = game.getAllPublicObjectiveCards();
+        /*List<PublicObjectiveCard> publicCards = model.getAllPublicObjectiveCards();
 
         for(int i=0; i<publicCards.size(); i++)
             new CLIElementCard(this, publicCards.get(i), 35*i, 0 , i, false);
 
-        List<ToolCard> toolCards = game.getAllToolCards();
+        List<ToolCard> toolCards = model.getAllToolCards();
 
 
         boolean selectedTools = false;
@@ -40,7 +40,7 @@ public class CLIRendererCards extends CLIRenderer
             selectedTools = true;
 
         for(int i=0; i<toolCards.size(); i++)
-            new CLIElementCard(this, toolCards.get(i), 35*i, 20 , i, selectedTools);
+            new CLIElementCard(this, toolCards.get(i), 35*i, 20 , i, selectedTools);*/
 
     }
 

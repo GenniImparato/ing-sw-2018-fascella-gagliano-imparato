@@ -3,7 +3,7 @@ package it.polimi.se2018.events.messages;
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.view.cli.CLIMessageParser;
 
@@ -15,9 +15,9 @@ public class AddedDieMessage extends Message
     private int     col;
     private Die     die;
 
-    public AddedDieMessage(Game game, Player player, int row, int col, Die die)
+    public AddedDieMessage(Model model, Player player, int row, int col, Die die)
     {
-        super(game);
+        super(model);
         this.player = new Player(player);
         this.row = row;
         this.col = col;

@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
-import java.io.Serializable;
+import it.polimi.se2018.controller.BoardAnalyzer;
+import it.polimi.se2018.utils.Color;
 
 /**
  * Class used to represent a PrivateObjectiveCard

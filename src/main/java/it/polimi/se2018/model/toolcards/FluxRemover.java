@@ -1,8 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
-import it.polimi.se2018.model.CannotExecuteToolCardActionException;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Model;
 
 public class FluxRemover extends ToolCard
 {
@@ -18,7 +16,7 @@ public class FluxRemover extends ToolCard
     }
 
     @Override
-    public String action(Game game, int param1, int param2)
+    public String action(Model model, int param1, int param2)
     {
         return "";
     }

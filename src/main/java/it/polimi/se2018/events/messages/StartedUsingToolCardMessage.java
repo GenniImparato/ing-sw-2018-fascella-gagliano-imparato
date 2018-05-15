@@ -1,7 +1,7 @@
 package it.polimi.se2018.events.messages;
 
 import it.polimi.se2018.events.Message;
-import it.polimi.se2018.model.Game;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.view.cli.CLIMessageParser;
 
@@ -9,9 +9,9 @@ public class StartedUsingToolCardMessage extends Message
 {
     ToolCard card;
 
-    public StartedUsingToolCardMessage(Game game, ToolCard card)
+    public StartedUsingToolCardMessage(Model model, ToolCard card)
     {
-        super(game);
+        super(model);
 
         try
         {

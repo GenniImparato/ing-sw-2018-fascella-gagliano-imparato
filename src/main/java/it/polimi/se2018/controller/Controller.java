@@ -1,34 +1,56 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.events.clievents.CLIEvent;
-import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.events.Event;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.observer.*;
+import it.polimi.se2018.model.CannotAddPlayerException;
+import it.polimi.se2018.model.Model;
+import it.polimi.se2018.utils.*;
 import it.polimi.se2018.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class Controller<T> implements Observer<T>
+public class Controller implements Observer<Event>
 {
-    protected                       Game game;
-    protected                       View view;
+    private Model               model;
+    private View                view;
 
-    public Controller (View view, Game game)
+    private EventParser         parser;
+
+    private PlayerTurnIterator  playerTurnIterator;
+
+    public Controller(View view, Model model)
     {
         this.view = view;
-        this.game = game;
+        this.model = model;
+
+        parser = new EventParser(this);
+
+        playerTurnIterator = new PlayerTurnIterator(this);
     }
 
-    public Game getGame()
+    @Override
+    public void update(Event event)
     {
-        return game;
+        event.acceptVisitor(parser);
+    }
+
+    public Model getModel()
+    {
+        return model;
     }
 
     public View getView()
     {
         return view;
+    }
+
+    protected void addNewPlayer(String nickname)
+    {
+        try
+        {
+            model.addNewPlayer(nickname);
+        }
+        catch(CannotAddPlayerException e)
+        {
+            view.showErrorMessage(e.getMessage());
+        }
     }
 }
 

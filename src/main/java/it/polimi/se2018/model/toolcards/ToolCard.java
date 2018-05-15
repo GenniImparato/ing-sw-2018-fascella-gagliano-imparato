@@ -2,8 +2,7 @@ package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.Card;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public abstract class ToolCard extends Card
     private int             favorTokens;
     private int             numOfSteps;
     private int             currentStep = 0;
-    private Game            game;
+    private Model model;
 
     private static int      NUMBER_OF_CARDS=12;
 
@@ -75,5 +74,5 @@ public abstract class ToolCard extends Card
         return ret;
     }
 
-    public abstract String action(Game game, int param1, int param2) throws CannotExecuteToolCardActionException;
+    public abstract String action(Model model, int param1, int param2) throws CannotExecuteToolCardActionException;
 }

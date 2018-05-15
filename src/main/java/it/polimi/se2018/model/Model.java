@@ -1,22 +1,24 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.PlayerTurnIterator;
 import it.polimi.se2018.events.Message;
 import it.polimi.se2018.events.messages.*;
-import it.polimi.se2018.model.gameactions.GameAction;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.*;
-import it.polimi.se2018.observer.Observable;
+import it.polimi.se2018.utils.Observable;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 //singleton class
-public class Game extends Observable <Message>
+public class Model extends Observable <Message>
 {
-    private PlayerTurnIterator                  playersIterator;
-    private Player                              currentPlayer;
+    private List<Player>                        players;
+    private static final int                    MAX_PLAYERS_NUM = 4;
 
+    /*private boolean                             cardUsed = false;
+    private boolean                             dieAdded = false;
     private List<PublicObjectiveCard>           publicCards;
     private List<ToolCard>                      toolCards;
     private int                                 currentToolCard = -1;  //null means no tool card is being used
@@ -31,15 +33,13 @@ public class Game extends Observable <Message>
     private int                                 currentRound = 0;
     private static final int                    TOTAL_ROUNDS = 10;
 
-    private boolean                             gameStarted = false;
+    private boolean                             gameStarted = false;*/
 
-    private List<GameAction>                    actionChronology;
-
-    public Game()
+    public Model()
     {
-        playersIterator = new PlayerTurnIterator();
+        players = new ArrayList<>();
 
-        diceBag = new DiceBag();
+        /*diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);
 
@@ -50,9 +50,6 @@ public class Game extends Observable <Message>
         toolCards.add(new CopperFoilBurnisher());
         toolCards.add(new Lathekin());
         toolCards.add(new LensCutter());
-
-        actionChronology = new ArrayList<>();
-
 
         draftPool.draw(1);
         roundTrack.addLastDice(0);
@@ -65,22 +62,27 @@ public class Game extends Observable <Message>
         draftPool.draw(1);
         roundTrack.addLastDice(4);
         draftPool.draw(2);
-        roundTrack.addLastDice(5);
+        roundTrack.addLastDice(5);*/
     }
 
     //copy constructor
-    public Game(Game game)
+    public Model(Model model)
     {
-        this.playersIterator = new PlayerTurnIterator(game.playersIterator);
-        if(game.currentPlayer !=null)
-            this.currentPlayer = new Player(game.currentPlayer);
+        /*this.cardUsed = model.cardUsed;
+        this.dieAdded = model.dieAdded;
 
+<<<<<<< Updated upstream:src/main/java/it/polimi/se2018/model/Game.java
         this.diceBag = new DiceBag(game.diceBag);
         this.draftPool = new DraftPool(game.draftPool, this.diceBag);
         this.roundTrack = new RoundTrack(game.roundTrack, this.draftPool);
+=======
+        this.diceBag = new DiceBag(model.diceBag);
+        this.draftPool = new DraftPool(model.draftPool, this.diceBag);
+        this.roundTrack = new RoundTrack(model.roundTrack, this.draftPool);
+>>>>>>> Stashed changes:src/main/java/it/polimi/se2018/model/Model.java
 
         this.publicCards = new ArrayList<>();
-        for(PublicObjectiveCard card : game.publicCards)
+        for(PublicObjectiveCard card : model.publicCards)
         {
             try
             {
@@ -95,7 +97,7 @@ public class Game extends Observable <Message>
         }
 
         this.toolCards = new ArrayList<>();
-        for(ToolCard card : game.toolCards)
+        for(ToolCard card : model.toolCards)
         {
             try
             {
@@ -109,28 +111,50 @@ public class Game extends Observable <Message>
             }
         }
 
-        if(game.selectedDie !=null)
-            this.selectedDie = new Die(game.selectedDie);
+        if(model.selectedDie !=null)
+            this.selectedDie = new Die(model.selectedDie);
 
-        if(game.lastDraftedDie !=null)
-            this.lastDraftedDie = new Die(game.lastDraftedDie);
+        if(model.lastDraftedDie !=null)
+            this.lastDraftedDie = new Die(model.lastDraftedDie);
 
-        this.currentToolCard = game.currentToolCard;
+        this.currentToolCard = model.currentToolCard;
 
-        this.currentRound = game.currentRound;
-        this.gameStarted = game.gameStarted;
-
-        this.actionChronology = new ArrayList<>(game.actionChronology);
+        this.currentRound = model.currentRound;
+        this.gameStarted = model.gameStarted;*/
     }
 
-    public void executeAction(GameAction action)
+    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
     {
-        action.execute(this);
-        if(action.hasBeenExecuted())
-            actionChronology.add(action);
+        if(nickname.length() == 0)
+            throw new CannotAddPlayerException("Nickname cannot be empty!");
+
+        for(Player player : players)
+        {
+            if(player.getNickname().equals(nickname))                       //check if another player has the same nickname
+                throw new CannotAddPlayerException("There is another player with this nickname!");
+        }
+
+        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
+            players.add(new Player(nickname));
+        else
+            throw new CannotAddPlayerException("There are already " + MAX_PLAYERS_NUM + " players!");
+
+        notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
     }
 
-    public Player getCurrentPlayer()
+
+    //return the number of players in model
+    public int getPlayerNum()
+    {
+        return players.size();
+    }
+
+    public List<Player> getPlayers()
+    {
+        return players;
+    }
+
+    /*public Player getCurrentPlayer()
     {
         return currentPlayer;
     }
@@ -148,12 +172,6 @@ public class Game extends Observable <Message>
     public DiceBag getDiceBag()
     {
         return diceBag;
-    }
-
-    //return the number of players in model
-    public int getPlayerNum()
-    {
-        return playersIterator.getPlayerNum();
     }
 
     //return an int from 0 to 9 that representing the current turn
@@ -191,18 +209,7 @@ public class Game extends Observable <Message>
 
     //add a new player to the model if the number of player is not at maximum
     //return true if the player is added, false if it's not
-    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
-    {
-        try
-        {
-            playersIterator.addNewPlayer(nickname);
-            notify(new PlayerAddedMessage(this, playersIterator.getAllPlayers().get(getPlayerNum()-1))); //notify the view that a new player has been added
-        }
-        catch(CannotAddPlayerException e)
-        {
-            throw e;
-        }
-    }
+
 
     public void startGame()
     {
@@ -223,13 +230,11 @@ public class Game extends Observable <Message>
     {
         roundTrack.addLastDice(currentRound);
 
-        if(currentRound+1 < Game.TOTAL_ROUNDS)
+        if(currentRound+1 < Model.TOTAL_ROUNDS)
         {
             currentRound++;
             beginRound();
         }
-        else
-            updateAllPlayersScores();
     }
 
     public void beginPlayerTurn()
@@ -315,22 +320,6 @@ public class Game extends Observable <Message>
         {
             throw e;
         }
-    }
-
-    //update all the scores
-    public void updateAllPlayersScores()
-    {
-        List<Player> allPlayers = playersIterator.getAllPlayers();
-
-        for(Player player : allPlayers)
-        {
-            player.incrementPrivateScore();
-
-            for(PublicObjectiveCard card : publicCards)
-                player.incrementScore(card);
-        }
-
-    }
-
+    }*/
 
 }

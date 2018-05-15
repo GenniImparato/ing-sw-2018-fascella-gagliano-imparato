@@ -16,7 +16,7 @@ public class RoundTrack
 
     /**
      * Constructor that creates a RoundTrack
-     * @param draftPool of the game
+     * @param draftPool of the model
      */
     public RoundTrack(DraftPool draftPool)
     {
@@ -31,7 +31,7 @@ public class RoundTrack
     /**
      * Copy constructor
      * @param roundTrack source instance to be cloned
-     * @param draftPool of the game
+     * @param draftPool of the model
      */
     public RoundTrack(RoundTrack roundTrack, DraftPool draftPool)
     {

@@ -1,7 +1,7 @@
 package it.polimi.se2018.model.publicobjectivecards;
 
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.BoardAnalyzer;
+import it.polimi.se2018.controller.BoardAnalyzer;
 
 public class ColorVarietyCard extends PublicObjectiveCard{
 
@@ -11,10 +11,8 @@ public class ColorVarietyCard extends PublicObjectiveCard{
     }
 
     @Override
-    public int score(Board board)
+    public int acceptVisitor(PublicObjectiveCardVisitor visitor)
     {
-
-        BoardAnalyzer boardAnalyzer =  new BoardAnalyzer(board);
-        return boardAnalyzer.countSets(BoardAnalyzer.COLOR) * points;
+        return visitor.visit(this);
     }
 }

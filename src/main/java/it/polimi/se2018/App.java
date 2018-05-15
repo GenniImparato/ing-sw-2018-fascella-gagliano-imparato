@@ -1,7 +1,6 @@
 package it.polimi.se2018;
-import it.polimi.se2018.controller.*;
+import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.*;
 
 
@@ -9,11 +8,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        Game game = new Game();
+        Model model = new Model();
         CLI cli = new CLI();
-        CLIController controller = new CLIController(cli, game);
+        Controller controller = new Controller(cli, model);
 
-        game.attach(cli);
+        model.attach(cli);
         cli.attach(controller);
 
         cli.start();

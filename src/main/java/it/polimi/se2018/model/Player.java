@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.utils.Color;
 
 /**
  * Class used to represent a Player.
@@ -15,7 +16,7 @@ public class Player
     private PrivateObjectiveCard    card;               //player's private objective card
     private int                     favorTokens=3;           //player's number of favor token
     private int                     score=0;
-    private Color                   color;              //color of the player's board and the score marker
+    private Color color;              //color of the player's board and the score marker
     private String                  nickname;
 
     /**
@@ -150,16 +151,6 @@ public class Player
     {
         score += card.score(this.getBoard());
         score += favorTokens;
-    }
-
-    /**
-     * It increments the score of the Player because of the public objectives cards
-     * @param card PublicObjectiveCard needed to calculate
-     * the score of the Player due to the public objectives
-     */
-    public void incrementScore(PublicObjectiveCard card)
-    {
-        score += card.score(this.getBoard());
     }
 
 

@@ -1,6 +1,5 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.utils;
 
-import java.io.Serializable;
 import java.util.Random;
 
 public enum Color

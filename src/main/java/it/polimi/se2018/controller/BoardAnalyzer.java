@@ -1,4 +1,8 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.controller;
+
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.utils.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +23,8 @@ public class BoardAnalyzer
      * Constructor that creates a BoardAnalyzer related to the a Board passed by parameter
      * @param board Board to analyze
      */
-    public BoardAnalyzer(Board board) {
+    public BoardAnalyzer(Board board)
+    {
         this.board = board;
     }
 
@@ -30,7 +35,8 @@ public class BoardAnalyzer
      * @param val2 second element to count
      * @return total number of sets of (val1,val2)
      */
-    public int countSets(int val1, int val2) {
+    public int countSets(int val1, int val2)
+    {
         int counterVa11 = 0;
         int counterVal2 = 0;
 
@@ -56,7 +62,8 @@ public class BoardAnalyzer
      * @param type is used to choose between colors or values
      * @return the number of sets of different colors or values
      */
-    public int countSets(boolean type) {
+    public int countSets(boolean type)
+    {
         int[] counters = new int[6];
 
         for (int i = 0; i < Board.ROWS; i++) {

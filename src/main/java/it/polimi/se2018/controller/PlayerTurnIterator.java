@@ -1,59 +1,30 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.controller;
 
-import java.io.Serializable;
+import it.polimi.se2018.model.CannotAddPlayerException;
+import it.polimi.se2018.model.Player;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class PlayerTurnIterator implements Iterator<Player>
 {
-    private List<Player>                players;
+    private Controller                  controller;
     private int                         currentTurn = 0;
     private int                         firstPlayer = 0;
     private List<Integer>               turns ;                  //used to store the order of player's turns
 
     private static final int            MAX_PLAYERS_NUM =4;
 
-    public PlayerTurnIterator()
+    public PlayerTurnIterator(Controller controller)
     {
-        players = new ArrayList<>();
+        this.controller = controller;
         turns = new ArrayList<>();
-    }
-
-    //copy constructor
-    public PlayerTurnIterator(PlayerTurnIterator playerTurnIterator)
-    {
-        this.players = new ArrayList<>();
-
-        for(Player player : playerTurnIterator.players)
-            this.players.add(new Player(player));
-
-        this.currentTurn = playerTurnIterator.currentTurn;
-        this.firstPlayer = playerTurnIterator.firstPlayer;
-
-        this.turns = new ArrayList<>();
-
-        for(Integer turn : playerTurnIterator.turns)
-            this.turns.add(turn);
     }
 
     //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
     public void addNewPlayer(String nickname) throws CannotAddPlayerException
     {
-        if(nickname.length() == 0)
-            throw new CannotAddPlayerException("Nickname cannot be empty!");
-
-        for(Player player : players)
-        {
-            if(player.getNickname().equals(nickname))                       //check if another player has the same nickname
-                throw new CannotAddPlayerException("There is another player with this nickname!");
-        }
-
-        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
-            players.add(new Player(nickname));
-        else
-            throw new CannotAddPlayerException("There are already " + MAX_PLAYERS_NUM + " players!");
-
         refreshPlayersTurns();
     }
 
@@ -69,7 +40,7 @@ public class PlayerTurnIterator implements Iterator<Player>
         }
 
         if(hasNext())
-            ret = players.get(turns.get(currentTurn));
+            ret = controller.getModel().getPlayers().get(turns.get(currentTurn));
 
         incrementTurn();
 
@@ -82,10 +53,10 @@ public class PlayerTurnIterator implements Iterator<Player>
         return currentTurn < getPlayerNum()*2;
     }
 
-    //return the number of players in the game
-    public int  getPlayerNum()
+    //return the number of players in the model
+    private int  getPlayerNum()
     {
-        return players.size();
+        return controller.getModel().getPlayerNum();
     }
 
     //return true if this is the last turn of the round
@@ -104,11 +75,6 @@ public class PlayerTurnIterator implements Iterator<Player>
                 ret = false;
 
         return ret;
-    }
-    //return an ArrayList with all the players in the game
-    public List<Player> getAllPlayers()
-    {
-        return players;
     }
 
     //helper

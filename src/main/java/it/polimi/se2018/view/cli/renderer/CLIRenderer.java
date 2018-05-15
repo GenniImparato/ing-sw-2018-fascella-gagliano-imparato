@@ -1,8 +1,7 @@
 package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.*;
-
-import java.util.ArrayList;
+import it.polimi.se2018.utils.Color;
 
 //a class used to render all the elements in the CLI
 public abstract class CLIRenderer
@@ -10,20 +9,20 @@ public abstract class CLIRenderer
     protected char[][]            charMatrix;
     protected Color[][]           colorMatrix;
 
-    protected Game                game;
+    protected Model model;
 
     protected int                 width;
     protected int                 height;
 
 
-    public CLIRenderer(Game game, int width, int height)
+    public CLIRenderer(Model model, int width, int height)
     {
         this.width=width;
         this.height=height;
         charMatrix  = new char[height][width];
         colorMatrix = new Color[height][width];
 
-        this.game = game;
+        this.model = model;
     }
 
     //draws everything in the console

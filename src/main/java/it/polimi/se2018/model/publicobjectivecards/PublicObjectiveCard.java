@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class PublicObjectiveCard extends Card
+public abstract class PublicObjectiveCard extends Card implements PublicObjectiveCardVisitable
 {
     protected int                 points;
     private static final int      NUMBER_OF_CARDS = 10;
@@ -24,6 +24,13 @@ public abstract class PublicObjectiveCard extends Card
         super(card);
         this.points = card.points;
     }
+
+    public int getPoints()
+    {
+        return points;
+    }
+
+    public abstract int acceptVisitor(PublicObjectiveCardVisitor visitor);
 
     //generate numOfCards different random PublicObjective cards
     public static List<PublicObjectiveCard> getRandomCards(int numOfCards)
@@ -61,6 +68,4 @@ public abstract class PublicObjectiveCard extends Card
 
         return ret;
     }
-
-    public abstract int score (Board board);
 }

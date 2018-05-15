@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.utils.Color;
+
 /**
  * Class used to represent a Cell of the Player's Board
  * @author Matteo Gagliano

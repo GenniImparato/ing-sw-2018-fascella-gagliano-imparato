@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Card;
-import it.polimi.se2018.model.Color;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.ToolCard;
 

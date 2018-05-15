@@ -1,4 +1,7 @@
 package it.polimi.se2018.model;
+
+import it.polimi.se2018.utils.Color;
+
 /**
  * Class used to represent the restriction of each Cell
  * @author Matteo Gagliano
@@ -10,7 +13,7 @@ public class CellRestriction
     private boolean active;         //false = no restriction       true = restriction active
     private boolean type;           //false = value restriction    true = color restriction
     private int     val;            //value stored in case of value restriction
-    private Color   col;            //color stored in case of color restriction
+    private Color col;            //color stored in case of color restriction
 
     /**
      * Constructor that creates a non active restriction (no restriction)

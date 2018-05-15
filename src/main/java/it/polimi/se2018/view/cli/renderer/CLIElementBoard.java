@@ -2,7 +2,7 @@ package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.CellRestriction;
-import it.polimi.se2018.model.Color;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.Die;
 
 //a CLIElement that represents a Board and can be rendered by a CLIRender on the CLI

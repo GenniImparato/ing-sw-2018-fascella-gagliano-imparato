@@ -1,7 +1,6 @@
 package it.polimi.se2018;
 import it.polimi.se2018.model.Cell;
-import it.polimi.se2018.model.CellRestriction;
-import it.polimi.se2018.model.Color;
+import it.polimi.se2018.utils.Color;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

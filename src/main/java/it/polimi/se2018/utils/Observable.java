@@ -1,4 +1,4 @@
-package it.polimi.se2018.observer;
+package it.polimi.se2018.utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;

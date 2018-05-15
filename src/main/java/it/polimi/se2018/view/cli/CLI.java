@@ -1,8 +1,6 @@
 package it.polimi.se2018.view.cli;
 import it.polimi.se2018.events.Message;
-import it.polimi.se2018.events.clievents.*;
-import it.polimi.se2018.events.messages.*;
-import it.polimi.se2018.model.*;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
 import it.polimi.se2018.view.cli.views.CLIMenuView;
@@ -11,7 +9,7 @@ import it.polimi.se2018.view.cli.views.CLIView;
 import java.util.Scanner;
 
 
-public class CLI extends View<CLIEvent>
+public class CLI extends View
 {
     private Scanner             scanner;
     private CLIMessageParser    parser;
@@ -19,7 +17,6 @@ public class CLI extends View<CLIEvent>
     public CLI ()
     {
         scanner = new Scanner(System.in);
-
         parser = new CLIMessageParser(this);
 
         System.out.println();
@@ -44,10 +41,10 @@ public class CLI extends View<CLIEvent>
     }
 
     @Override
-    public void update(Message event)
+    public void update(Message message)
     {
-        setGameInstance(event.getGame());
-        event.beParsed(parser);
+        setModel(message.getModel());
+        message.beParsed(parser);
     }
 
     public void showErrorMessage(String message)
@@ -107,12 +104,17 @@ public class CLI extends View<CLIEvent>
 
     public void renderGameState(CLIRendererMainState renderState)
     {
-        new CLIRendererMain(getGameInstance()).render(renderState);
+        new CLIRendererMain(getModel()).render(renderState);
     }
 
     public void renderGameState(CLIRendererCardsState renderState)
     {
-        new CLIRendererCards(getGameInstance()).render(renderState);
+        new CLIRendererCards(getModel()).render(renderState);
     }
 
+    @Override
+    public void showMenu()
+    {
+        new CLIMenuView(this).draw();
+    }
 }

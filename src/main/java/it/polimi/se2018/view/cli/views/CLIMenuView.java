@@ -1,10 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
-import it.polimi.se2018.events.clievents.CLIInputEvent;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.gameactions.AddNewPlayerAction;
-import it.polimi.se2018.model.gameactions.GameAction;
-import it.polimi.se2018.model.gameactions.StartGameAction;
+import it.polimi.se2018.events.events.AddPlayerEvent;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.view.cli.CLI;
 
 public class CLIMenuView extends CLIView
@@ -29,17 +26,17 @@ public class CLIMenuView extends CLIView
         if(state == CLIMenuState.ASK_NEWGAME)
         {
             cli.showMessage("1) Start a New Game:");
-            cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
+            parseInput(cli.readInputFromUser());
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.showMessage("Insert your nickname:");
-            cli.notify(new CLIInputEvent(cli, this, cli.readInputFromUser()));
+            parseInput(cli.readInputFromUser());
         }
     }
 
     @Override
-    public void control(Game game, String input)
+    public void parseInput(String input)
     {
         if(state == CLIMenuState.ASK_NEWGAME)
         {
@@ -56,21 +53,7 @@ public class CLIMenuView extends CLIView
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
-            GameAction action = new AddNewPlayerAction(input);
-            game.executeAction(action);    //tries to add the player to the current game
-
-            if(action.hasBeenExecuted())    //checks if the player has been added
-            {
-                action = new StartGameAction();
-                game.executeAction(action);    //start the game
-
-                cli.requestView(new CLIPlayerActionsMainView(cli));
-            }
-            else
-            {
-                cli.showErrorMessage(action.getErrorMessage());
-                draw();
-            }
+            cli.notify(new AddPlayerEvent(cli, input));
         }
     }
 }
