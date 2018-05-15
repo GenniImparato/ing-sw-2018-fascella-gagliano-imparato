@@ -72,7 +72,7 @@ public class BoardAnalyzer
                 if (die != null) {
                     if (type == VALUE)
                         counters[die.getValue() - 1]++;
-                    else if (type == COLOR)
+                    else
                         counters[die.getColor().getNum()]++;
                 }
             }

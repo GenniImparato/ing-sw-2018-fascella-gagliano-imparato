@@ -28,9 +28,8 @@ public class Board
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
 
-        initCellMatrixRandom();
 
-        dieMatrix[0][0] = new Die(Color.getRandomColor());
+        initCellMatrixRandom();
     }
 
     /**
@@ -109,7 +108,7 @@ public class Board
         return -1;
     }
 
-    private boolean contains(Die die)
+    public boolean contains(Die die)
     {
         for(int row=0; row < Board.ROWS; row++)
         {
@@ -273,20 +272,14 @@ public class Board
             throw new CannotPlaceDieException("The die is not present on the board");
         }
 
-        int currentRow = getDieRow(die);
-        int currentCol = getDieColumn(die);
-
-        dieMatrix[currentRow][currentCol] = null; //the die is removed from it's previous position
-
         try
         {
             canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction);
             dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
-
+            dieMatrix[getDieRow(die)][getDieColumn(die)] = null; //the die is removed from it's previous position
         }
         catch (CannotPlaceDieException e)
         {
-            dieMatrix[currentRow][currentCol] = die; //add the deleted die in the previous position because it cannot be moved
             throw e;
         }
     }

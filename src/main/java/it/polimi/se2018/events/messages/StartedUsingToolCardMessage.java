@@ -7,7 +7,7 @@ import it.polimi.se2018.view.cli.CLIMessageParser;
 
 public class StartedUsingToolCardMessage extends Message
 {
-    ToolCard card;
+    private ToolCard card;
 
     public StartedUsingToolCardMessage(Model model, ToolCard card)
     {
