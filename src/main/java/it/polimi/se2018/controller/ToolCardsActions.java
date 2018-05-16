@@ -5,29 +5,17 @@ import it.polimi.se2018.model.toolcards.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToolCardsAction implements ToolCardVisitor
+public class ToolCardsActions implements ToolCardVisitor
 {
     private Controller          controller;
     private int                 step;
 
-    private int                 param1;
-    private int                 param2;
-
-    public ToolCardsAction(Controller controller)
+    public ToolCardsActions(Controller controller)
     {
         this.controller = controller;
         step = 0;
     }
 
-    public void setParameter1(int value)
-    {
-        this.param1 = value;
-    }
-
-    public void setParameter2(int value)
-    {
-        this.param2 = value;
-    }
 
     public void visit(CopperFoilBurnisher card)
     {
@@ -69,11 +57,17 @@ public class ToolCardsAction implements ToolCardVisitor
         switch(step)
         {
             case 0:
-                controller.getView().showPlayerToolCardDraftDie();
                 step++;
-            break;
+                controller.getView().showDraft();
+                break;
             case 1:
-
+                step++;
+                controller.getView().showToolCardIncrementDie();
+                break;
+            case 2:
+                controller.getView().showAddDie();
+                controller.endToolCardActions();
+                break;
         }
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.mvc_comunication.messages.MessageVisitor;
+import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.utils.Color;
 
@@ -28,7 +28,7 @@ public class CLIMessageParser implements MessageVisitor
     public void visit(StartedGameMessage message)
     {
         cli.showNotification("The game started!", Color.BLUE);
-        cli.showPlayerTurn();
+        cli.showTurn();
     }
 
     public void visit(DraftedDieMessage message)
@@ -58,6 +58,21 @@ public class CLIMessageParser implements MessageVisitor
         notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
                 + " die with value " + message.getDie().getValue()
                 + " to position: (" + message.getRow() + ", " + message.getCol() +")!");
+
+        cli.showNotification(notification, Color.BLUE);
+    }
+
+    public void visit(ChangedDraftedDieMessage message)
+    {
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+            notification = "You changed the drafted die to (";
+        else
+            notification = message.getPlayer().getNickname() + " changed the drafted die to (";
+
+        notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
+                + ",  " + message.getDie().getValue() + ")!");
 
         cli.showNotification(notification, Color.BLUE);
     }

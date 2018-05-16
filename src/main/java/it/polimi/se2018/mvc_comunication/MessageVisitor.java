@@ -1,4 +1,6 @@
-package it.polimi.se2018.mvc_comunication.messages;
+package it.polimi.se2018.mvc_comunication;
+
+import it.polimi.se2018.mvc_comunication.messages.*;
 
 public interface MessageVisitor
 {
@@ -10,4 +12,5 @@ public interface MessageVisitor
     void visit(StartedGameMessage message);
     void visit(UsingToolCardMessage message);
     void visit(ToolCardActionExecutedMessage message);
+    void visit(ChangedDraftedDieMessage message);
 }

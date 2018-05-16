@@ -1,6 +1,6 @@
-package it.polimi.se2018.mvc_comunication.events;
+package it.polimi.se2018.mvc_comunication;
 
-import it.polimi.se2018.mvc_comunication.events.tool_cards_events.ToolCardEvent;
+import it.polimi.se2018.mvc_comunication.events.*;
 
 public interface EventVisitor
 {
@@ -9,5 +9,5 @@ public interface EventVisitor
     void visit(DraftDieEvent event);
     void visit(AddDraftedDieEvent event);
     void visit(UseToolCardEvent event);
-    void visit(ToolCardEvent event);
+    void visit(ToolCardIncrementDraftedDieEvent event);
 }

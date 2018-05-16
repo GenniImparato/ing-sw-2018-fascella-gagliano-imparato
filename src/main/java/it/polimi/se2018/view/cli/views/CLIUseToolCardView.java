@@ -4,9 +4,9 @@ import it.polimi.se2018.mvc_comunication.events.UseToolCardEvent;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererCardsState;
 
-public class CLIPlayerUseToolCardView extends CLIView
+public class CLIUseToolCardView extends CLIView
 {
-    public CLIPlayerUseToolCardView(CLI cli)
+    public CLIUseToolCardView(CLI cli)
     {
         super(cli);
     }
@@ -27,7 +27,7 @@ public class CLIPlayerUseToolCardView extends CLIView
         if(input.equals("b"))
         {
             cli.clear();
-            cli.showView(new CLIPlayerCardsActionsView(cli));
+            cli.showView(new CLICardsActionsView(cli));
         }
         else
         {

@@ -1,8 +1,8 @@
 package it.polimi.se2018.view;
 
 
-import it.polimi.se2018.mvc_comunication.events.Event;
-import it.polimi.se2018.mvc_comunication.messages.Message;
+import it.polimi.se2018.mvc_comunication.Event;
+import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.utils.*;
 
@@ -42,9 +42,9 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     public abstract void showMessage(String message);
 
     public abstract void showMenu();
-    public abstract void showPlayerTurn();
-    public abstract void showPlayerDraft();
-    public abstract void showPlayerAddDie();
-    public abstract void showPlayerToolCardDraftDie();
+    public abstract void showTurn();
+    public abstract void showDraft();
+    public abstract void showAddDie();
+    public abstract void showToolCardIncrementDie();
     public abstract void reShowCurrentView();
 }

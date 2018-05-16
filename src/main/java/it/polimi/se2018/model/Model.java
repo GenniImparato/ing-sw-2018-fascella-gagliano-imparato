@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.mvc_comunication.messages.Message;
+import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
@@ -29,22 +29,7 @@ public class Model extends Observable <Message>
 
     private boolean                             gameStarted = false;
 
-    private Die                                 lastDraftedDie;
-
-    /*private boolean                             cardUsed = false;
-    private boolean                             dieAdded = false;
-
-    private int                                 currentToolCard = -1;  //null means no tool card is being used
-
-
-
-    private Die                                 lastDraftedDie;
-    private Die                                 selectedDie;
-
-    private int                                 currentRound = 0;
-    private static final int                    TOTAL_ROUNDS = 10;
-
-    private boolean                             gameStarted = false;*/
+    private Die                                 draftedDie;
 
     public Model()
     {
@@ -123,14 +108,14 @@ public class Model extends Observable <Message>
         }
 
         //copy the lastDrafted if it's not null
-        if(model.lastDraftedDie != null)
-            this.lastDraftedDie = new Die(model.lastDraftedDie);
+        if(model.draftedDie != null)
+            this.draftedDie = new Die(model.draftedDie);
 /*
         if(model.selectedDie !=null)
             this.selectedDie = new Die(model.selectedDie);
 
-        if(model.lastDraftedDie !=null)
-            this.lastDraftedDie = new Die(model.lastDraftedDie);
+        if(model.draftedDie !=null)
+            this.draftedDie = new Die(model.draftedDie);
 
         this.currentToolCard = model.currentToolCard;
 
@@ -179,9 +164,9 @@ public class Model extends Observable <Message>
         return gameStarted;
     }
 
-    public Die getLastDraftedDie()
+    public Die getDraftedDie()
     {
-        return lastDraftedDie;
+        return draftedDie;
     }
 
     public void setCurrentPlayer(Player player)
@@ -242,8 +227,8 @@ public class Model extends Observable <Message>
 
     public void draftDie(int dieNum) throws ChangeModelStateException
     {
-        lastDraftedDie = draftPool.draftDie(dieNum);
-        notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
+        draftedDie = draftPool.draftDie(dieNum);
+        notify(new DraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
     public void drawFromDiceBag()
@@ -251,10 +236,31 @@ public class Model extends Observable <Message>
         draftPool.draw(getPlayerNum()*2 + 1);
     }
 
-    public void addLastDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
+    public void addDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
     {
-        player.getBoard().addDie(lastDraftedDie, row, column);
-        notify(new AddedDieMessage(this, player, lastDraftedDie, row, column));
+        if(draftedDie == null)
+            throw new ChangeModelStateException("No drafted die!");
+
+        player.getBoard().addDie(draftedDie, row, column);
+        notify(new AddedDieMessage(this, player, draftedDie, row, column));
+    }
+
+    public void incrementDraftedDie() throws ChangeModelStateException
+    {
+        if(draftedDie == null)
+            throw new ChangeModelStateException("No drafted die!");
+
+        draftedDie.incrementValue();
+        notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
+    }
+
+    public void decrementDraftedDie() throws ChangeModelStateException
+    {
+        if(draftedDie == null)
+            throw new ChangeModelStateException("No drafted die!");
+
+        draftedDie.decrementValue();
+        notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
 
@@ -271,9 +277,9 @@ public class Model extends Observable <Message>
         return currentRound;
     }
 
-    public Die getLastDraftedDie()
+    public Die getDraftedDie()
     {
-        return lastDraftedDie;
+        return draftedDie;
     }
 
     public Die getSelectedDie(){ return selectedDie;}
@@ -343,15 +349,15 @@ public class Model extends Observable <Message>
     //notify the view
     public void draftDie(int num)
     {
-        lastDraftedDie = draftPool.draftDie(num);
-        notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
+        draftedDie = draftPool.draftDie(num);
+        notify(new DraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
     public void returnLastDraftedDie()
     {
-        draftPool.addDie(lastDraftedDie);
-        Die die = lastDraftedDie;
-        lastDraftedDie = null;
+        draftPool.addDie(draftedDie);
+        Die die = draftedDie;
+        draftedDie = null;
         notify(new ReturnedDieMessage(this, die, currentPlayer));
     }
 
@@ -383,8 +389,8 @@ public class Model extends Observable <Message>
     {
         try
         {
-            getCurrentPlayer().getBoard().addDie(lastDraftedDie, row, col);
-            notify(new AddedDieMessage(this, currentPlayer, row, col, lastDraftedDie));
+            getCurrentPlayer().getBoard().addDie(draftedDie, row, col);
+            notify(new AddedDieMessage(this, currentPlayer, row, col, draftedDie));
         }
         catch (CannotPlaceDieException e)
         {

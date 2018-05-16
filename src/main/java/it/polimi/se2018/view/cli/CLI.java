@@ -1,10 +1,10 @@
 package it.polimi.se2018.view.cli;
-import it.polimi.se2018.mvc_comunication.messages.Message;
+import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
 import it.polimi.se2018.view.cli.views.*;
-import it.polimi.se2018.view.cli.views.tool_cards_views.CLIPlayerToolCardDraftDieView;
+import it.polimi.se2018.view.cli.views.CLIToolCardIncrementDieView;
 
 import java.util.Scanner;
 
@@ -120,27 +120,27 @@ public class CLI extends View
     }
 
     @Override
-    public void showPlayerDraft()
+    public void showDraft()
     {
-        showView(new CLIPlayerDraftDieView(this));
+        showView(new CLIDraftDieView(this));
     }
 
     @Override
-    public void showPlayerTurn()
+    public void showTurn()
     {
-        showView(new CLIPlayerMainActionsView(this));
+        showView(new CLIMainActionsView(this));
     }
 
     @Override
-    public void showPlayerAddDie()
+    public void showAddDie()
     {
-        showView(new CLIPlayerAddDieView(this));
+        showView(new CLIAddDieView(this));
     }
 
     @Override
-    public void showPlayerToolCardDraftDie()
+    public void showToolCardIncrementDie()
     {
-        showView(new CLIPlayerToolCardDraftDieView(this));
+        showView(new CLIToolCardIncrementDieView(this));
     }
 
     @Override

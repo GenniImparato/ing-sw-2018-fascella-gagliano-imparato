@@ -6,12 +6,12 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 
-public class SelectedDieMessage extends Message
+public class ChangedDraftedDieMessage extends Message
 {
     private Die die;
     private Player player;
 
-    public SelectedDieMessage(Model model, Die die, Player player)
+    public ChangedDraftedDieMessage(Model model, Die die, Player player)
     {
         super(model);
         this.die = new Die(die);

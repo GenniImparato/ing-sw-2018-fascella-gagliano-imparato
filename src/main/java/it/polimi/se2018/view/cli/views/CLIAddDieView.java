@@ -6,9 +6,9 @@ import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
 
-public class CLIPlayerAddDieView extends CLIView
+public class CLIAddDieView extends CLIView
 {
-    public CLIPlayerAddDieView(CLI cli)
+    public CLIAddDieView(CLI cli)
     {
         super(cli);
     }
@@ -19,7 +19,7 @@ public class CLIPlayerAddDieView extends CLIView
         cli.clear();
         cli.renderGameState(CLIRendererMainState.BOARD_SELECTED);
 
-        Die draftedDie = cli.getModel().getLastDraftedDie();
+        Die draftedDie = cli.getModel().getDraftedDie();
 
         cli.showMessage("Drafted die: (" + draftedDie.getColor().getConsoleString() + draftedDie.getColor() + Color.getResetConsoleString()
                         + ", " + draftedDie.getValue() + ").");

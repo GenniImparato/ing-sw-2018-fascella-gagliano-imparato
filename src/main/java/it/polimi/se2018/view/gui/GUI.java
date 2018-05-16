@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.gui;
 
-import it.polimi.se2018.mvc_comunication.messages.Message;
+import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.view.View;
 
 public class GUI extends View
@@ -27,25 +27,25 @@ public class GUI extends View
     }
 
     @Override
-    public void showPlayerTurn()
+    public void showTurn()
     {
 
     }
 
     @Override
-    public void showPlayerDraft()
+    public void showDraft()
     {
 
     }
 
     @Override
-    public void showPlayerAddDie()
+    public void showAddDie()
     {
 
     }
 
     @Override
-    public void showPlayerToolCardDraftDie()
+    public void showToolCardIncrementDie()
     {
 
     }

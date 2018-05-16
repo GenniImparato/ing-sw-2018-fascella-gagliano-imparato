@@ -1,4 +1,4 @@
-package it.polimi.se2018.mvc_comunication.events;
+package it.polimi.se2018.mvc_comunication;
 
 public interface EventVisitable
 {

@@ -1,6 +1,6 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.mvc_comunication.events.Event;
+import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.*;
@@ -14,7 +14,7 @@ public class Controller implements Observer<Event>
     private EventParser         parser;
 
     private PlayerTurnIterator  playerTurnIterator;
-    private ToolCardsAction     toolCardsAction;
+    private ToolCardsActions    toolCardsActions;
 
     private boolean             usingToolCard = false;
 
@@ -72,17 +72,17 @@ public class Controller implements Observer<Event>
 
     protected void addDraftedDie(int row, int column) throws ChangeModelStateException
     {
-        model.addLastDraftedDieToBoard(model.getCurrentPlayer(), row, column);
+        model.addDraftedDieToBoard(model.getCurrentPlayer(), row, column);
     }
 
-    protected void useToolCard(int cardNum, View view) throws ChangeModelStateException
+    protected void beginToolCardActions(int cardNum) throws ChangeModelStateException
     {
         try
         {
             model.setCurrentToolCard(cardNum);
             usingToolCard = true;
-            toolCardsAction = new ToolCardsAction(this);
-            model.getCurrentToolCard().acceptVisitor(toolCardsAction);
+            toolCardsActions = new ToolCardsActions(this);
+            model.getCurrentToolCard().acceptVisitor(toolCardsActions);
         }
         catch (ChangeModelStateException e)
         {
@@ -90,9 +90,15 @@ public class Controller implements Observer<Event>
         }
     }
 
+    protected void endToolCardActions()
+    {
+        usingToolCard = false;
+        view.showTurn();
+    }
+
     protected void nextToolCardStep()
     {
-        model.getCurrentToolCard().acceptVisitor(toolCardsAction);
+        model.getCurrentToolCard().acceptVisitor(toolCardsActions);
     }
 
     public boolean isToolCardBeingUsed()

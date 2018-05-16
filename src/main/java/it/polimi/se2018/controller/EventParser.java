@@ -1,19 +1,16 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.mvc_comunication.events.*;
-import it.polimi.se2018.mvc_comunication.events.EventVisitor;
+import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.mvc_comunication.events.tool_cards_events.ToolCardEvent;
 
 public class EventParser implements EventVisitor
 {
     Controller controller;
-    ToolCardEventParser toolCardEventParser;
 
     public EventParser(Controller controller)
     {
         this.controller = controller;
-        toolCardEventParser = new ToolCardEventParser(controller);
     }
 
     @Override
@@ -50,7 +47,11 @@ public class EventParser implements EventVisitor
         try
         {
             controller.draftDie(event.getDieNum());
-            event.getView().showPlayerAddDie();
+
+            if(!controller.isToolCardBeingUsed())
+                event.getView().showAddDie();
+            else
+                controller.nextToolCardStep();
         }
         catch(ChangeModelStateException e)
         {
@@ -65,7 +66,7 @@ public class EventParser implements EventVisitor
         try
         {
             controller.addDraftedDie(event.getRow(), event.getColumn());
-            event.getView().showPlayerTurn();
+            event.getView().showTurn();
         }
         catch(ChangeModelStateException e)
         {
@@ -79,7 +80,7 @@ public class EventParser implements EventVisitor
     {
         try
         {
-            controller.useToolCard(event.getCardNum(), event.getView());
+            controller.beginToolCardActions(event.getCardNum());
         }
         catch(ChangeModelStateException e)
         {
@@ -89,8 +90,21 @@ public class EventParser implements EventVisitor
     }
 
     @Override
-    public void visit(ToolCardEvent event)
+    public void visit(ToolCardIncrementDraftedDieEvent event)
     {
-        event.acceptVisitor(toolCardEventParser);
+        try
+        {
+            if(event.isIncrement())
+                controller.getModel().incrementDraftedDie();
+            else
+                controller.getModel().decrementDraftedDie();
+
+            controller.nextToolCardStep();
+        }
+        catch (ChangeModelStateException e)
+        {
+            event.getView().showErrorMessage(e.getMessage());
+            event.getView().reShowCurrentView();
+        }
     }
 }
