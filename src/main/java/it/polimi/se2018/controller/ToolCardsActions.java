@@ -2,9 +2,6 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.toolcards.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ToolCardsActions implements ToolCardVisitor
 {
     private Controller          controller;
@@ -19,7 +16,19 @@ public class ToolCardsActions implements ToolCardVisitor
 
     public void visit(CopperFoilBurnisher card)
     {
-
+        switch(step)
+        {
+            case 0:
+                step++;
+                controller.getView().showSelectDieFromBoard();
+                break;
+            case 1:
+                step++;
+                controller.setMoveDieOptions(false, true);
+                controller.getView().showMoveDie();
+                controller.endToolCardActions();
+                break;
+        }
     }
 
     public void  visit(CorkBackedStraightedge card)
@@ -29,7 +38,19 @@ public class ToolCardsActions implements ToolCardVisitor
 
     public void visit(EglomiseBrush card)
     {
-
+        switch(step)
+        {
+            case 0:
+                step++;
+                controller.getView().showSelectDieFromBoard();
+                break;
+            case 1:
+                step++;
+                controller.setMoveDieOptions(true, false);
+                controller.getView().showMoveDie();
+                controller.endToolCardActions();
+                break;
+        }
     }
 
     public void visit(FluxRemover card)
@@ -62,7 +83,7 @@ public class ToolCardsActions implements ToolCardVisitor
                 break;
             case 1:
                 step++;
-                controller.getView().showToolCardIncrementDie();
+                controller.getView().showIncrementDie();
                 break;
             case 2:
                 controller.getView().showAddDie();

@@ -18,6 +18,9 @@ public class Controller implements Observer<Event>
 
     private boolean             usingToolCard = false;
 
+    private boolean             ignoreValueRestriction;
+    private boolean             ignoreColorRestriction;
+
     public Controller(Model model)
     {
         setModel(model);
@@ -75,6 +78,16 @@ public class Controller implements Observer<Event>
         model.addDraftedDieToBoard(model.getCurrentPlayer(), row, column);
     }
 
+    protected void selectDieFromBoard(int row, int column) throws ChangeModelStateException
+    {
+        model.selectDieFromBoard(model.getCurrentPlayer(), row, column);
+    }
+
+    protected void moveSelectedDie(int row, int column) throws ChangeModelStateException
+    {
+        model.moveSelectedDie(model.getCurrentPlayer(), row, column, ignoreValueRestriction, ignoreColorRestriction);
+    }
+
     protected void beginToolCardActions(int cardNum) throws ChangeModelStateException
     {
         try
@@ -105,6 +118,14 @@ public class Controller implements Observer<Event>
     {
         return usingToolCard;
     }
+
+    //used by the moveSelectedDie
+    protected void setMoveDieOptions(boolean ignoreColorRestriction, boolean ignoreValueRestriction)
+    {
+        this.ignoreColorRestriction = ignoreColorRestriction;
+        this.ignoreValueRestriction = ignoreValueRestriction;
+    }
+
 
     private void beginRound()
     {

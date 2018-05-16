@@ -45,6 +45,8 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     public abstract void showTurn();
     public abstract void showDraft();
     public abstract void showAddDie();
-    public abstract void showToolCardIncrementDie();
+    public abstract void showSelectDieFromBoard();
+    public abstract void showMoveDie();
+    public abstract void showIncrementDie();
     public abstract void reShowCurrentView();
 }

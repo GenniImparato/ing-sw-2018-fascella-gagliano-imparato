@@ -76,6 +76,36 @@ public class EventParser implements EventVisitor
     }
 
     @Override
+    public void visit(MoveDieEvent event)
+    {
+        try
+        {
+            controller.moveSelectedDie(event.getRow(), event.getColumn());
+            controller.nextToolCardStep();
+        }
+        catch(ChangeModelStateException e)
+        {
+            event.getView().showErrorMessage(e.getMessage());
+            event.getView().reShowCurrentView();
+        }
+    }
+
+    @Override
+    public void visit(SelectDieFromBoardEvent event)
+    {
+        try
+        {
+            controller.selectDieFromBoard(event.getRow(), event.getColumn());
+            controller.nextToolCardStep();
+        }
+        catch(ChangeModelStateException e)
+        {
+            event.getView().showErrorMessage(e.getMessage());
+            event.getView().reShowCurrentView();
+        }
+    }
+
+    @Override
     public void visit(UseToolCardEvent event)
     {
         try
@@ -90,7 +120,7 @@ public class EventParser implements EventVisitor
     }
 
     @Override
-    public void visit(ToolCardIncrementDraftedDieEvent event)
+    public void visit(IncrementDraftedDieEvent event)
     {
         try
         {

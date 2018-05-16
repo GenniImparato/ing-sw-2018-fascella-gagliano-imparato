@@ -45,7 +45,19 @@ public class GUI extends View
     }
 
     @Override
-    public void showToolCardIncrementDie()
+    public void showIncrementDie()
+    {
+
+    }
+
+    @Override
+    public void showSelectDieFromBoard()
+    {
+
+    }
+
+    @Override
+    public void showMoveDie()
     {
 
     }

@@ -273,14 +273,18 @@ public class Board
             throw new ChangeModelStateException("The die is not present on the board");
         }
 
+        int oldRow = getDieRow(die);
+        int oldCol = getDieColumn(die);
+
         try
         {
-            canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction);
-            dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
-            dieMatrix[getDieRow(die)][getDieColumn(die)] = null; //the die is removed from it's previous position
+            dieMatrix[oldRow][oldCol] = null; //remove the die from it's current position
+            canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction);  //check if the die can be placed in the new position
+            dieMatrix[row][column] = die;   //add the die in the selected position if it can be placed
         }
         catch (ChangeModelStateException e)
         {
+            dieMatrix[oldRow][oldCol] = die; //if the die cannot be moved it's added again to it's old position
             throw e;
         }
     }

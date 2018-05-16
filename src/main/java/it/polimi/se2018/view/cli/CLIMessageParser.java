@@ -57,7 +57,23 @@ public class CLIMessageParser implements MessageVisitor
 
         notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
                 + " die with value " + message.getDie().getValue()
-                + " to position: (" + message.getRow() + ", " + message.getCol() +")!");
+                + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
+
+        cli.showNotification(notification, Color.BLUE);
+    }
+
+    public void visit(MovedDieMessage message)
+    {
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+            notification = "You moved a ";
+        else
+            notification = message.getPlayer().getNickname() + " moved a ";
+
+        notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
+                + " die with value " + message.getDie().getValue()
+                + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
 
         cli.showNotification(notification, Color.BLUE);
     }
@@ -79,9 +95,17 @@ public class CLIMessageParser implements MessageVisitor
 
     public void visit(SelectedDieMessage message)
     {
-        cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
-                +" - Die: ( " + message.getDie().getValue() + " , " + message.getDie().getColor() + " )"
-                +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+            notification = "You selected a ";
+        else
+            notification = message.getPlayer().getNickname() + " selected a ";
+
+        notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
+                + " die with value " + message.getDie().getValue() + "!");
+
+        cli.showNotification(notification, Color.BLUE);
     }
 
     public void visit(ReturnedDieMessage message)

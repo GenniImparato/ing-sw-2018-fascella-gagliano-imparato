@@ -4,7 +4,7 @@ import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
 import it.polimi.se2018.view.cli.views.*;
-import it.polimi.se2018.view.cli.views.CLIToolCardIncrementDieView;
+import it.polimi.se2018.view.cli.views.CLIIncrementDieView;
 
 import java.util.Scanner;
 
@@ -138,9 +138,21 @@ public class CLI extends View
     }
 
     @Override
-    public void showToolCardIncrementDie()
+    public void showIncrementDie()
     {
-        showView(new CLIToolCardIncrementDieView(this));
+        showView(new CLIIncrementDieView(this));
+    }
+
+    @Override
+    public void showSelectDieFromBoard()
+    {
+        showView(new CLISelectDieFromBoard(this));
+    }
+
+    @Override
+    public void showMoveDie()
+    {
+        showView(new CLIMoveDieView(this));
     }
 
     @Override

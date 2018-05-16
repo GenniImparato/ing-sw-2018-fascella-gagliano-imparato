@@ -1,14 +1,14 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.mvc_comunication.events.ToolCardIncrementDraftedDieEvent;
+import it.polimi.se2018.mvc_comunication.events.IncrementDraftedDieEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
 
-public class CLIToolCardIncrementDieView extends CLIView
+public class CLIIncrementDieView extends CLIView
 {
-    public CLIToolCardIncrementDieView(CLI cli)
+    public CLIIncrementDieView(CLI cli)
     {
         super(cli);
     }
@@ -32,11 +32,11 @@ public class CLIToolCardIncrementDieView extends CLIView
     {
         if(input.equals("1"))
         {
-            cli.notify(new ToolCardIncrementDraftedDieEvent(cli, ToolCardIncrementDraftedDieEvent.INCREMENT));
+            cli.notify(new IncrementDraftedDieEvent(cli, IncrementDraftedDieEvent.INCREMENT));
         }
         else if(input.equals("2"))
         {
-            cli.notify(new ToolCardIncrementDraftedDieEvent(cli, ToolCardIncrementDraftedDieEvent.DECREMENT));
+            cli.notify(new IncrementDraftedDieEvent(cli, IncrementDraftedDieEvent.DECREMENT));
         }
         else
         {

@@ -30,6 +30,7 @@ public class Model extends Observable <Message>
     private boolean                             gameStarted = false;
 
     private Die                                 draftedDie;
+    private Die                                 selectedDie;
 
     public Model()
     {
@@ -110,6 +111,10 @@ public class Model extends Observable <Message>
         //copy the lastDrafted if it's not null
         if(model.draftedDie != null)
             this.draftedDie = new Die(model.draftedDie);
+
+        //copy the lastDrafted if it's not null
+        if(model.selectedDie != null)
+            this.selectedDie = new Die(model.selectedDie);
 /*
         if(model.selectedDie !=null)
             this.selectedDie = new Die(model.selectedDie);
@@ -168,6 +173,8 @@ public class Model extends Observable <Message>
     {
         return draftedDie;
     }
+
+    public Die getSelectedDie() { return selectedDie;}
 
     public void setCurrentPlayer(Player player)
     {
@@ -245,6 +252,16 @@ public class Model extends Observable <Message>
         notify(new AddedDieMessage(this, player, draftedDie, row, column));
     }
 
+    public void selectDieFromBoard(Player player, int row, int column) throws ChangeModelStateException
+    {
+        selectedDie = player.getBoard().getDie(row, column);
+
+        if(selectedDie == null)
+            throw new ChangeModelStateException("The selected cell doesn't contain any die!");
+        else
+            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+    }
+
     public void incrementDraftedDie() throws ChangeModelStateException
     {
         if(draftedDie == null)
@@ -261,6 +278,12 @@ public class Model extends Observable <Message>
 
         draftedDie.decrementValue();
         notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
+    }
+
+    public void moveSelectedDie(Player player, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws ChangeModelStateException
+    {
+        player.getBoard().moveDie(selectedDie, row, column, ignoreValueRestriction, ignoreColorRestriction);
+        notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
     }
 
 

@@ -1,27 +1,25 @@
 package it.polimi.se2018.mvc_comunication.messages;
 
-import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 
-public class AddedDieMessage extends Message
+public class MovedDieMessage extends Message
 {
-    private Player  player;
-    private Board   board;
-    private int     row;
-    private int     col;
-    private Die     die;
+    private Die die;
+    private Player player;
+    private int row;
+    private int col;
 
-    public AddedDieMessage(Model model, Player player, Die die, int row, int col)
+    public MovedDieMessage(Model model, Die die, Player player, int row, int column)
     {
         super(model);
+        this.die = new Die(die);
         this.player = new Player(player);
         this.row = row;
-        this.col = col;
-        this.die = new Die(die);
+        this.col = column;
     }
 
     public Player getPlayer()
@@ -29,14 +27,9 @@ public class AddedDieMessage extends Message
         return player;
     }
 
-    public Board getBoard()
+    public Die getDie()
     {
-        return board;
-    }
-
-    public int getColumn()
-    {
-        return col;
+        return die;
     }
 
     public int getRow()
@@ -44,9 +37,9 @@ public class AddedDieMessage extends Message
         return row;
     }
 
-    public Die getDie()
+    public int getColumn()
     {
-        return die;
+        return col;
     }
 
     @Override

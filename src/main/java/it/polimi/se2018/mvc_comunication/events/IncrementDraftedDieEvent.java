@@ -5,14 +5,14 @@ import it.polimi.se2018.mvc_comunication.EventVisitor;
 
 import it.polimi.se2018.view.View;
 
-public class ToolCardIncrementDraftedDieEvent extends Event
+public class IncrementDraftedDieEvent extends Event
 {
     private boolean type;
 
     public static final boolean INCREMENT = true;
     public static final boolean DECREMENT = false;
 
-    public ToolCardIncrementDraftedDieEvent(View view, boolean type)
+    public IncrementDraftedDieEvent(View view, boolean type)
     {
         super(view);
         this.type = type;
