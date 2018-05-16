@@ -1,21 +1,10 @@
 package it.polimi.se2018.testcards;
 
-import it.polimi.se2018.files.SagradaSchemeCardFile;
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.CannotPlaceDieException;
-import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.publicobjectivecards.ColorVarietyCard;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
-import it.polimi.se2018.model.publicobjectivecards.ShadeVarietyCard;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 import static org.junit.Assert.fail;
 
 public class TestShadeVarietyCard
 {
-    @Test
+    /*@Test
     public void testScore()
     {
         PublicObjectiveCard card = new ShadeVarietyCard();
@@ -63,5 +52,5 @@ public class TestShadeVarietyCard
         }
 
         assertEquals(5,card.score(board));
-    }
+    }*/
 }

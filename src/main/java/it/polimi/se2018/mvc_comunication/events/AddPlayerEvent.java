@@ -1,7 +1,5 @@
-package it.polimi.se2018.events.events;
+package it.polimi.se2018.mvc_comunication.events;
 
-import it.polimi.se2018.events.Event;
-import it.polimi.se2018.events.EventVisitor;
 import it.polimi.se2018.view.View;
 
 public class AddPlayerEvent extends Event

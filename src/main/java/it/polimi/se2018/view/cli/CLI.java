@@ -1,10 +1,10 @@
 package it.polimi.se2018.view.cli;
-import it.polimi.se2018.events.Message;
+import it.polimi.se2018.mvc_comunication.messages.Message;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
-import it.polimi.se2018.view.cli.views.CLIMenuView;
-import it.polimi.se2018.view.cli.views.CLIView;
+import it.polimi.se2018.view.cli.views.*;
+import it.polimi.se2018.view.cli.views.tool_cards_views.CLIPlayerToolCardDraftDieView;
 
 import java.util.Scanner;
 
@@ -13,6 +13,7 @@ public class CLI extends View
 {
     private Scanner             scanner;
     private CLIMessageParser    parser;
+    private CLIView             currentView;
 
     public CLI ()
     {
@@ -44,7 +45,7 @@ public class CLI extends View
     public void update(Message message)
     {
         setModel(message.getModel());
-        message.beParsed(parser);
+        message.acceptVisitor(parser);
     }
 
     public void showErrorMessage(String message)
@@ -54,7 +55,7 @@ public class CLI extends View
         System.out.print(Color.getResetConsoleString());
         try
         {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         }
         catch(InterruptedException e)
         {}
@@ -73,7 +74,7 @@ public class CLI extends View
         System.out.print(Color.getResetConsoleString());
         try
         {
-            Thread.sleep(500);
+            Thread.sleep(2000);
         }
         catch(InterruptedException e)
         {}
@@ -96,25 +97,55 @@ public class CLI extends View
         return scanner.next();
     }
 
-    public void requestView(CLIView cliView)
+    public void showView(CLIView cliView)
     {
-        clear();
+        currentView = cliView;
         cliView.draw();
     }
 
     public void renderGameState(CLIRendererMainState renderState)
     {
-        new CLIRendererMain(getModel()).render(renderState);
+        new CLIRendererMain(this, getModel()).render(renderState);
     }
 
     public void renderGameState(CLIRendererCardsState renderState)
     {
-        new CLIRendererCards(getModel()).render(renderState);
+        new CLIRendererCards(this, getModel()).render(renderState);
     }
 
     @Override
     public void showMenu()
     {
-        new CLIMenuView(this).draw();
+        showView(new CLIMenuView(this));
+    }
+
+    @Override
+    public void showPlayerDraft()
+    {
+        showView(new CLIPlayerDraftDieView(this));
+    }
+
+    @Override
+    public void showPlayerTurn()
+    {
+        showView(new CLIPlayerMainActionsView(this));
+    }
+
+    @Override
+    public void showPlayerAddDie()
+    {
+        showView(new CLIPlayerAddDieView(this));
+    }
+
+    @Override
+    public void showPlayerToolCardDraftDie()
+    {
+        showView(new CLIPlayerToolCardDraftDieView(this));
+    }
+
+    @Override
+    public void reShowCurrentView()
+    {
+        currentView.draw();
     }
 }

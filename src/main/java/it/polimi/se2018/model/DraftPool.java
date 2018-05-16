@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +55,12 @@ public class DraftPool
      * Returns a die from the DraftPool; the drafted die is removed from the DraftPool
      * @param num is an index of the Die in the DraftPool
      * @return the selected Die
+     * @throws ChangeModelStateException if num is negative or greater than the total number of dice in the DraftPool
      */
-    public Die draftDie(int num)
+    public Die draftDie(int num) throws ChangeModelStateException
     {
+        if(num < 0  || num >= dice.size())
+            throw new ChangeModelStateException("There are less then " + num + " dice in the draft pool!");
         Die die = dice.get(num);
         dice.remove(num);
         return die;

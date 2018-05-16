@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -61,7 +62,7 @@ public class TestBoard
         {
             board.addDie(die, 3, 0);
         }
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
             fail();
         }
@@ -119,7 +120,7 @@ public class TestBoard
             board.addDie(die, -1,-1);
             fail();
         }
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
 
         }
@@ -131,7 +132,7 @@ public class TestBoard
             board.addDie(die0, 0,1);
             fail();
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
 
         }
@@ -144,7 +145,7 @@ public class TestBoard
             board.addDie(die1, 0, 2);
             fail();
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
 
         }
@@ -155,7 +156,7 @@ public class TestBoard
             board.addDie(die2, 1,2);
             fail();
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
 
         }
@@ -167,7 +168,7 @@ public class TestBoard
         {
             board.addDie(die3, 0, 0);
         }
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
             fail();
         }
@@ -181,7 +182,7 @@ public class TestBoard
             fail();
         }
 
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
 
         }
@@ -195,7 +196,7 @@ public class TestBoard
             fail();
         }
 
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
 
         }
@@ -206,7 +207,7 @@ public class TestBoard
             board.addDie(die6, 0, 0);
             fail();
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
 
         }
@@ -217,7 +218,7 @@ public class TestBoard
             board.addDie(die7, 3, 2);
             fail();
         }
-        catch (CannotPlaceDieException e)
+        catch (ChangeModelStateException e)
         {
 
         }
@@ -229,7 +230,7 @@ public class TestBoard
         {
             board.addDie(die8, 0,1);
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
             fail();
         }
@@ -241,7 +242,7 @@ public class TestBoard
             board.addDie(die9, 1,1);
 
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
             fail();
         }

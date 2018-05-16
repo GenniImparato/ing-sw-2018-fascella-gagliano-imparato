@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
-import it.polimi.se2018.events.events.AddPlayerEvent;
-import it.polimi.se2018.model.Model;
+import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.mvc_comunication.events.StartGameEvent;
 import it.polimi.se2018.view.cli.CLI;
 
 public class CLIMenuView extends CLIView
@@ -53,7 +53,9 @@ public class CLIMenuView extends CLIView
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
+            cli.setAssociatedPlayerNickname(input);
             cli.notify(new AddPlayerEvent(cli, input));
+            cli.notify(new StartGameEvent(cli));
         }
     }
 }

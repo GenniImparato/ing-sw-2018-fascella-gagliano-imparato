@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.toolcards;
 
-import it.polimi.se2018.model.CannotExecuteToolCardActionException;
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Model;
 
@@ -8,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class ToolCard extends Card
+public abstract class ToolCard extends Card implements ToolCardVisitable
 {
     private int             favorTokens;
     private int             numOfSteps;
     private int             currentStep = 0;
-    private Model model;
+    private Model           model;
 
     private static int      NUMBER_OF_CARDS=12;
 
@@ -31,9 +30,6 @@ public abstract class ToolCard extends Card
         this.numOfSteps = card.numOfSteps;
         this.favorTokens = card.favorTokens;
     }
-
-    //visitor
-    public abstract void acceptVisitor(ToolCardVisitor visitor);
 
     //generate numOfCards different random ToolCards
     public static List<ToolCard> getRandomCards(int numOfCards)
@@ -73,6 +69,4 @@ public abstract class ToolCard extends Card
 
         return ret;
     }
-
-    public abstract String action(Model model, int param1, int param2) throws CannotExecuteToolCardActionException;
 }

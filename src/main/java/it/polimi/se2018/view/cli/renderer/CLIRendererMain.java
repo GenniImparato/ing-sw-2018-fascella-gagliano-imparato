@@ -2,6 +2,7 @@ package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.view.cli.CLI;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class CLIRendererMain extends CLIRenderer
 {
     private CLIRendererMainState state;
 
-    public CLIRendererMain(Model model)
+    public CLIRendererMain(CLI cli, Model model)
     {
-        super(model, 220, 37);
+        super(cli, model, 220, 37);
     }
 
 
@@ -27,7 +28,7 @@ public class CLIRendererMain extends CLIRenderer
     {
         initMatrix();
 
-/*
+
         //add the DraftPool
         boolean draftPoolSelected = false;
         if(state == CLIRendererMainState.DRAFTPOOL_SELECTED)
@@ -41,23 +42,23 @@ public class CLIRendererMain extends CLIRenderer
         CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, model.getRoundTrack(), cliDraftPool.getWidth()+1, 0, roundTrackSelected);
 
 
-        List<Player> players = model.getAllPlayers();
+        List<Player> players = model.getPlayers();
 
         for(int i=0; i<players.size(); i++)
         {
             //add the players
             boolean showObjective = false;
-            if(players.get(i).equals(model.getCurrentPlayer()))
+            if(players.get(i).getNickname().equals(cli.getAssociatedPlayerNickname()))
                 showObjective = true;                   //selects the board of the current player
 
             CLIElementPlayer elementPlayer = new CLIElementPlayer(this, players.get(i), i*53, cliDraftPool.getHeight()+1, showObjective);
 
             //add the boards
             boolean boardSelected = false;
-            if(players.get(i).equals(model.getCurrentPlayer())  &&  state == CLIRendererMainState.BOARD_SELECTED)
+            if(players.get(i).getNickname().equals(cli.getAssociatedPlayerNickname())  &&  state == CLIRendererMainState.BOARD_SELECTED)
                 boardSelected = true;                   //selects the board of the current player
 
             new CLIElementBoard(this, players.get(i).getBoard(), i*53, cliDraftPool.getHeight()+elementPlayer.getHeight()+1, boardSelected);
-        }*/
+        }
     }
 }

@@ -1,8 +1,6 @@
-package it.polimi.se2018.events.messages;
+package it.polimi.se2018.mvc_comunication.messages;
 
-import it.polimi.se2018.events.Message;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.view.cli.CLIMessageParser;
 
 public class ToolCardActionExecutedMessage extends Message
 {
@@ -20,8 +18,8 @@ public class ToolCardActionExecutedMessage extends Message
     }
 
     @Override
-    public void beParsed(CLIMessageParser parser)
+    public void acceptVisitor(MessageVisitor visitor)
     {
-        parser.parseMessage(this);
+        visitor.visit(this);
     }
 }

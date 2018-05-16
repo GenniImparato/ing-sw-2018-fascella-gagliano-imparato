@@ -14,10 +14,4 @@ public class FluxBrush extends ToolCard
     {
         visitor.visit(this);
     }
-
-    @Override
-    public String action(Model model, int param1, int param2)
-    {
-        return "Rerolled a die!";
-    }
 }

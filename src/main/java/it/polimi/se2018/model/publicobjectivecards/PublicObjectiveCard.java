@@ -30,8 +30,6 @@ public abstract class PublicObjectiveCard extends Card implements PublicObjectiv
         return points;
     }
 
-    public abstract int acceptVisitor(PublicObjectiveCardVisitor visitor);
-
     //generate numOfCards different random PublicObjective cards
     public static List<PublicObjectiveCard> getRandomCards(int numOfCards)
     {

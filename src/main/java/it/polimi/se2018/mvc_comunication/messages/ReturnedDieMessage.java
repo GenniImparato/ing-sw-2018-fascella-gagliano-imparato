@@ -1,17 +1,15 @@
-package it.polimi.se2018.events.messages;
+package it.polimi.se2018.mvc_comunication.messages;
 
-import it.polimi.se2018.events.Message;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.Player;
-import it.polimi.se2018.view.cli.CLIMessageParser;
 
-public class SelectedDieMessage extends Message
+public class ReturnedDieMessage extends Message
 {
     private Die die;
     private Player player;
 
-    public SelectedDieMessage(Model model, Die die, Player player)
+    public ReturnedDieMessage(Model model, Die die, Player player)
     {
         super(model);
         this.die = new Die(die);
@@ -29,8 +27,8 @@ public class SelectedDieMessage extends Message
     }
 
     @Override
-    public void beParsed(CLIMessageParser parser)
+    public void acceptVisitor(MessageVisitor visitor)
     {
-        parser.parseMessage(this);
+        visitor.visit(this);
     }
 }

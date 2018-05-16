@@ -14,13 +14,4 @@ public class GrozingPliers extends ToolCard
     {
         visitor.visit(this);
     }
-
-    @Override
-    //param1 = 0  -> decrement die value by 1
-    //param1 = 1  -> increment die value by 1
-    //param2 not used
-    public String action(Model model, int param1, int param2)
-    {
-        return "";
-    }
 }

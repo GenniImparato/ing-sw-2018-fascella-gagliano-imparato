@@ -1,7 +1,7 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.model.CannotAddPlayerException;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,9 +12,9 @@ public class PlayerTurnIterator implements Iterator<Player>
     private Controller                  controller;
     private int                         currentTurn = 0;
     private int                         firstPlayer = 0;
-    private List<Integer>               turns ;                  //used to store the order of player's turns
+    private boolean                     nextCalled = false;
 
-    private static final int            MAX_PLAYERS_NUM =4;
+    private List<Integer>               turns ;                  //used to store the order of player's turns
 
     public PlayerTurnIterator(Controller controller)
     {
@@ -23,7 +23,7 @@ public class PlayerTurnIterator implements Iterator<Player>
     }
 
     //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
-    public void addNewPlayer(String nickname) throws CannotAddPlayerException
+    public void addNewPlayer(String nickname) throws ChangeModelStateException
     {
         refreshPlayersTurns();
     }
@@ -32,6 +32,9 @@ public class PlayerTurnIterator implements Iterator<Player>
     public Player next()
     {
         Player ret=null;
+
+        if(isFirstNextCall())
+            refreshPlayersTurns();
 
         if(isLastTurn())
         {
@@ -75,6 +78,17 @@ public class PlayerTurnIterator implements Iterator<Player>
                 ret = false;
 
         return ret;
+    }
+
+    private boolean isFirstNextCall()
+    {
+        if(!nextCalled)
+        {
+            nextCalled = true;
+            return true;
+        }
+        else
+            return false;
     }
 
     //helper

@@ -1,8 +1,8 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.controller.PlayerTurnIterator;
-import it.polimi.se2018.events.Message;
-import it.polimi.se2018.events.messages.*;
+import it.polimi.se2018.mvc_comunication.messages.Message;
+import it.polimi.se2018.mvc_comunication.messages.*;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.utils.Observable;
@@ -16,16 +16,27 @@ public class Model extends Observable <Message>
 {
     private List<Player>                        players;
     private static final int                    MAX_PLAYERS_NUM = 4;
-
-    /*private boolean                             cardUsed = false;
-    private boolean                             dieAdded = false;
-    private List<PublicObjectiveCard>           publicCards;
-    private List<ToolCard>                      toolCards;
-    private int                                 currentToolCard = -1;  //null means no tool card is being used
+    private static final int                    MIN_PLAYERS_NUM = 1;
+    private Player                              currentPlayer;
 
     private DiceBag                             diceBag;
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
+
+    private List<PublicObjectiveCard>           publicCards;
+    private List<ToolCard>                      toolCards;
+    private ToolCard                            currentToolCard;
+
+    private boolean                             gameStarted = false;
+
+    private Die                                 lastDraftedDie;
+
+    /*private boolean                             cardUsed = false;
+    private boolean                             dieAdded = false;
+
+    private int                                 currentToolCard = -1;  //null means no tool card is being used
+
+
 
     private Die                                 lastDraftedDie;
     private Die                                 selectedDie;
@@ -37,80 +48,84 @@ public class Model extends Observable <Message>
 
     public Model()
     {
+        //init players array
         players = new ArrayList<>();
 
-        /*diceBag = new DiceBag();
+        //init dice bag, draft pool and round track
+        diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);
 
+        //init cards
         publicCards = PublicObjectiveCard.getRandomCards(3);
         toolCards = ToolCard.getRandomCards(1);
-        toolCards.add(new GlazingHammer());
+        toolCards.add(new GrozingPliers());
         toolCards.add(new EglomiseBrush());
         toolCards.add(new CopperFoilBurnisher());
         toolCards.add(new Lathekin());
         toolCards.add(new LensCutter());
-
-        draftPool.draw(1);
-        roundTrack.addLastDice(0);
-        draftPool.draw(3);
-        roundTrack.addLastDice(1);
-        draftPool.draw(2);
-        roundTrack.addLastDice(2);
-        draftPool.draw(5);
-        roundTrack.addLastDice(3);
-        draftPool.draw(1);
-        roundTrack.addLastDice(4);
-        draftPool.draw(2);
-        roundTrack.addLastDice(5);*/
     }
 
     //copy constructor
     public Model(Model model)
     {
-        /*this.cardUsed = model.cardUsed;
-        this.dieAdded = model.dieAdded;
+        this.players = new ArrayList<>();
+        //create a copy of every player of the source model to copy
+        for(Player player : model.getPlayers())
+            players.add(new Player(player));
 
-<<<<<<< Updated upstream:src/main/java/it/polimi/se2018/model/Game.java
-        this.diceBag = new DiceBag(game.diceBag);
-        this.draftPool = new DraftPool(game.draftPool, this.diceBag);
-        this.roundTrack = new RoundTrack(game.roundTrack, this.draftPool);
-=======
+        //creates a copy current player only if it's not nulòl in the source model
+        if(model.currentPlayer !=null)
+            this.currentPlayer = new Player(model.currentPlayer);
+
         this.diceBag = new DiceBag(model.diceBag);
         this.draftPool = new DraftPool(model.draftPool, this.diceBag);
         this.roundTrack = new RoundTrack(model.roundTrack, this.draftPool);
->>>>>>> Stashed changes:src/main/java/it/polimi/se2018/model/Model.java
 
+        //copy public cards
         this.publicCards = new ArrayList<>();
         for(PublicObjectiveCard card : model.publicCards)
         {
             try
             {
+                //create a copy of the runtime type of every public card
                 this.publicCards.add(card.getClass().newInstance());
             }
-            catch(InstantiationException e)
-            {
-            }
-            catch(IllegalAccessException e)
+            catch(InstantiationException | IllegalAccessException e)
             {
             }
         }
 
+        //copy tool cards
         this.toolCards = new ArrayList<>();
         for(ToolCard card : model.toolCards)
         {
             try
             {
+                //create a copy of the runtime type of every tool card
                 this.toolCards.add(card.getClass().newInstance());
             }
-            catch(InstantiationException e)
-            {
-            }
-            catch(IllegalAccessException e)
+            catch(InstantiationException | IllegalAccessException e)
             {
             }
         }
 
+        //copy the currentToolCard if it's not null
+        if(model.currentToolCard != null)
+        {
+            try
+            {
+                this.currentToolCard = model.currentToolCard.getClass().newInstance();
+            }
+            catch(InstantiationException | IllegalAccessException e)
+            {
+            }
+        }
+
+        //copy the lastDrafted if it's not null
+        if(model.lastDraftedDie != null)
+            this.lastDraftedDie = new Die(model.lastDraftedDie);
+/*
         if(model.selectedDie !=null)
             this.selectedDie = new Die(model.selectedDie);
 
@@ -123,26 +138,6 @@ public class Model extends Observable <Message>
         this.gameStarted = model.gameStarted;*/
     }
 
-    public void addNewPlayer(String nickname) throws  CannotAddPlayerException
-    {
-        if(nickname.length() == 0)
-            throw new CannotAddPlayerException("Nickname cannot be empty!");
-
-        for(Player player : players)
-        {
-            if(player.getNickname().equals(nickname))                       //check if another player has the same nickname
-                throw new CannotAddPlayerException("There is another player with this nickname!");
-        }
-
-        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
-            players.add(new Player(nickname));
-        else
-            throw new CannotAddPlayerException("There are already " + MAX_PLAYERS_NUM + " players!");
-
-        notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
-    }
-
-
     //return the number of players in model
     public int getPlayerNum()
     {
@@ -152,11 +147,6 @@ public class Model extends Observable <Message>
     public List<Player> getPlayers()
     {
         return players;
-    }
-
-    /*public Player getCurrentPlayer()
-    {
-        return currentPlayer;
     }
 
     public DraftPool getDraftPool()
@@ -173,6 +163,107 @@ public class Model extends Observable <Message>
     {
         return diceBag;
     }
+
+    public List<ToolCard> getToolCards()
+    {
+        return toolCards;
+    }
+
+    public List<PublicObjectiveCard> getPublicObjectiveCards()
+    {
+        return publicCards;
+    }
+
+    public boolean isGameStarded()
+    {
+        return gameStarted;
+    }
+
+    public Die getLastDraftedDie()
+    {
+        return lastDraftedDie;
+    }
+
+    public void setCurrentPlayer(Player player)
+    {
+        this.currentPlayer = player;
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
+    public void setCurrentToolCard(int cardNum) throws ChangeModelStateException
+    {
+        if(cardNum < 0  || cardNum >= toolCards.size())
+            throw new ChangeModelStateException("Invalid tool card index!");
+        else
+        {
+            currentToolCard = toolCards.get(cardNum);
+            notify(new UsingToolCardMessage(this, currentToolCard, currentPlayer));
+        }
+    }
+
+    public ToolCard getCurrentToolCard()
+    {
+        return currentToolCard;
+    }
+
+    public void addNewPlayer(String nickname) throws ChangeModelStateException
+    {
+        if(nickname.length() == 0)
+            throw new ChangeModelStateException("Nickname cannot be empty!");
+
+        for(Player player : players)
+        {
+            if(player.getNickname().equals(nickname))                       //check if another player has the same nickname
+                throw new ChangeModelStateException("There is another player with this nickname!");
+        }
+
+        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
+            players.add(new Player(nickname));
+        else
+            throw new ChangeModelStateException("There are already " + MAX_PLAYERS_NUM + " players!");
+
+        notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
+    }
+
+    public void startGame() throws ChangeModelStateException
+    {
+        if(getPlayerNum() >= MIN_PLAYERS_NUM)
+        {
+            gameStarted = true;
+            notify(new StartedGameMessage(this));
+        }
+        else
+            throw new ChangeModelStateException("Not enough players to start the game!");
+    }
+
+    public void draftDie(int dieNum) throws ChangeModelStateException
+    {
+        lastDraftedDie = draftPool.draftDie(dieNum);
+        notify(new DraftedDieMessage(this, lastDraftedDie, currentPlayer));
+    }
+
+    public void drawFromDiceBag()
+    {
+        draftPool.draw(getPlayerNum()*2 + 1);
+    }
+
+    public void addLastDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
+    {
+        player.getBoard().addDie(lastDraftedDie, row, column);
+        notify(new AddedDieMessage(this, player, lastDraftedDie, row, column));
+    }
+
+
+    /*public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
+
 
     //return an int from 0 to 9 that representing the current turn
     public int getCurrentRoundNum()
@@ -305,7 +396,7 @@ public class Model extends Observable <Message>
     {
         currentToolCard =  cardNum;
         toolCards.get(currentToolCard).acceptVisitor(visitor);
-        notify(new StartedUsingToolCardMessage(this, toolCards.get(currentToolCard)));
+        notify(new UsingToolCardMessage(this, toolCards.get(currentToolCard)));
     }
 
     public void executeCurrentToolCardAction(int param1, int param2) throws CannotExecuteToolCardActionException

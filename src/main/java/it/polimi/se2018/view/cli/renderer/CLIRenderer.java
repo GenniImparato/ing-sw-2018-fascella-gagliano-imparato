@@ -2,6 +2,7 @@ package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.view.cli.CLI;
 
 //a class used to render all the elements in the CLI
 public abstract class CLIRenderer
@@ -9,20 +10,22 @@ public abstract class CLIRenderer
     protected char[][]            charMatrix;
     protected Color[][]           colorMatrix;
 
-    protected Model model;
+    protected Model               model;
+    protected CLI                 cli;
 
     protected int                 width;
     protected int                 height;
 
 
-    public CLIRenderer(Model model, int width, int height)
+    public CLIRenderer(CLI cli, Model model, int width, int height)
     {
-        this.width=width;
-        this.height=height;
+        this.width = width;
+        this.height = height;
         charMatrix  = new char[height][width];
         colorMatrix = new Color[height][width];
 
         this.model = model;
+        this.cli = cli;
     }
 
     //draws everything in the console
