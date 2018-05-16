@@ -39,7 +39,7 @@ public class CLIRendererMain extends CLIRenderer
         boolean roundTrackSelected = false;
         if(state == CLIRendererMainState.ROUNDTRACK_SELECTED)
             roundTrackSelected = true;
-        CLIElementRoundTrack cliRoundTrack = new CLIElementRoundTrack(this, model.getRoundTrack(), cliDraftPool.getWidth()+1, 0, roundTrackSelected);
+        new CLIElementRoundTrack(this, model.getRoundTrack(), cliDraftPool.getWidth()+1, 0, roundTrackSelected);
 
 
         List<Player> players = model.getPlayers();

@@ -2,7 +2,6 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

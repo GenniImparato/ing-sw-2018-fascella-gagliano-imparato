@@ -129,7 +129,7 @@ public class CLIElementBoard extends CLIElement
 
                 if(die != null)
                 {
-                    CLIElementDie dieElem = new CLIElementDie(renderer, die, (2 + col * 10) + x, (1 + row * 5) + y);
+                    new CLIElementDie(renderer, die, (2 + col * 10) + x, (1 + row * 5) + y);
                 }
             }
         }

@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.cli.views;
 
-import it.polimi.se2018.model.Model;
 import it.polimi.se2018.view.cli.CLI;
 
 public abstract class CLIView

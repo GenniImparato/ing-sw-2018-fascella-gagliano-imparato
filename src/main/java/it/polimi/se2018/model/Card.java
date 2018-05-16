@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-import java.io.Serializable;
 
 /**
  * Abstract class used to represent a generic card.

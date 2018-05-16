@@ -90,7 +90,7 @@ public enum Color
      * When it's printed in console, it resets the text to the standard color
      * @return a String needed to reset the text to the standard color in the console
      */
-    public static String getResetConsoleString() { return new String("\u001b[0m");}
+    public static String getResetConsoleString() { return "\u001b[0m";}
 
     /**
      * Returns a character representing the first letter of the Color name

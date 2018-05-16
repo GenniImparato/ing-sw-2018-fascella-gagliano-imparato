@@ -2,7 +2,7 @@ package it.polimi.se2018.utils;
 
 public abstract class GeneralMessageException extends Exception
 {
-    private String message;
+    private final String message;
 
     public GeneralMessageException(String message)
     {

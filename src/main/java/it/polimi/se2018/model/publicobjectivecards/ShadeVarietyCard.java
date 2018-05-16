@@ -1,8 +1,5 @@
 package it.polimi.se2018.model.publicobjectivecards;
 
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.controller.BoardAnalyzer;
-
 /**
  * Class used to represent the shade variety public objective card.
  * @author Matteo Gagliano

@@ -4,7 +4,6 @@ import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.utils.Color;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -190,7 +189,7 @@ public class BoardAnalyzer
                 Die die = board.getDie(row, col);
                 if (die != null)
                 {
-                    ArrayList<Die> diagonalDice = board.getDiagonalAdjacentDice(row,col);
+                    List<Die> diagonalDice = board.getDiagonalAdjacentDice(row,col);
                     for(int j=0; j < diagonalDice.size(); j++)
                     {
                         if(die.getColor() == diagonalDice.get(j).getColor())

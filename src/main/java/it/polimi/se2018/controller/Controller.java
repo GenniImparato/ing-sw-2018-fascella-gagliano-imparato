@@ -90,17 +90,11 @@ public class Controller implements Observer<Event>
 
     protected void beginToolCardActions(int cardNum) throws ChangeModelStateException
     {
-        try
-        {
-            model.setCurrentToolCard(cardNum);
-            usingToolCard = true;
-            toolCardsActions = new ToolCardsActions(this);
-            model.getCurrentToolCard().acceptVisitor(toolCardsActions);
-        }
-        catch (ChangeModelStateException e)
-        {
-            throw e;
-        }
+        model.setCurrentToolCard(cardNum);
+        usingToolCard = true;
+        toolCardsActions = new ToolCardsActions(this);
+        model.getCurrentToolCard().acceptVisitor(toolCardsActions);
+
     }
 
     protected void endToolCardActions()

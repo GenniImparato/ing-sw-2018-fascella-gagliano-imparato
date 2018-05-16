@@ -1,7 +1,6 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.mvc_comunication.events.AddDraftedDieEvent;
 import it.polimi.se2018.mvc_comunication.events.MoveDieEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.CLI;

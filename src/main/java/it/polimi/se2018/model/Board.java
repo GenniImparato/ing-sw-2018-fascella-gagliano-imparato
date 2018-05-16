@@ -236,7 +236,7 @@ public class Board
                 !isOnBorder(row, column))
             throw new ChangeModelStateException("Cannot place die: the first die must be on the border!");
 
-        ArrayList<Die> orthogonalDice = getOrthogonalAdjacentDice(row, column);
+        List<Die> orthogonalDice = getOrthogonalAdjacentDice(row, column);
         for (int i = 0; i < orthogonalDice.size(); i++)          //for every orthogonal adjacent dice, check if values or colors are the same
         {
             if (orthogonalDice.get(i).getColor() == die.getColor() ||
@@ -254,15 +254,8 @@ public class Board
      */
     public void addDie(Die die, int row, int column) throws ChangeModelStateException
     {
-        try
-        {
-            canDieBePlaced(die, row, column, false, false);
-            dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
-        }
-        catch (ChangeModelStateException e)
-        {
-            throw e;
-        }
+        canDieBePlaced(die, row, column, false, false);
+        dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
     }
 
     public void moveDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws ChangeModelStateException
@@ -350,9 +343,9 @@ public class Board
      * @param column column of the matrix of dice associated with the Board
      * @return ArrayList of orthogonal and adjacent dice present in the matrix
      */
-    private ArrayList<Die> getOrthogonalAdjacentDice(int row, int column)
+    private List<Die> getOrthogonalAdjacentDice(int row, int column)
     {
-        ArrayList<Die> ret = new ArrayList<>();
+        List<Die> ret = new ArrayList<>();
 
         if (!checkCoordinates(row, column))
             return ret;
@@ -375,9 +368,9 @@ public class Board
      * @param column column of the matrix of dice associated with the Board
      * @return ArrayList of diagonal and adjacent dice present in the matrix
      */
-    public ArrayList<Die> getDiagonalAdjacentDice(int row, int column)
+    public List<Die> getDiagonalAdjacentDice(int row, int column)
     {
-        ArrayList<Die> ret = new ArrayList<>();
+        List<Die> ret = new ArrayList<>();
 
         if (!checkCoordinates(row, column))
             return ret;
@@ -400,9 +393,9 @@ public class Board
      * @param column column of the matrix of dice associated with the Board
      * @return ArrayList of adjacent dice present in the matrix
      */
-    private ArrayList<Die> getAdjacentDice(int row, int column)
+    private List<Die> getAdjacentDice(int row, int column)
     {
-        ArrayList<Die> ret = new ArrayList<>();
+        List<Die> ret = new ArrayList<>();
 
         if (!checkCoordinates(row, column))
             return ret;

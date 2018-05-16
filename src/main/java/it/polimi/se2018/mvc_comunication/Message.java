@@ -15,6 +15,4 @@ public abstract class Message implements MessageVisitable
     {
         return model;
     }
-
-    public abstract void acceptVisitor(MessageVisitor parser);
 }

@@ -1,7 +1,5 @@
 package it.polimi.se2018.model.publicobjectivecards;
 
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.controller.BoardAnalyzer;
 
 /**
  * Class used to represent the column color variety public objective card.

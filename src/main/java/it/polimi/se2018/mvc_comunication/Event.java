@@ -15,6 +15,4 @@ public abstract class Event implements EventVisitable
     {
         return view;
     }
-
-    public abstract void acceptVisitor(EventVisitor visitor);
 }

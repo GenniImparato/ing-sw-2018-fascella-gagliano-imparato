@@ -1,6 +1,5 @@
 package it.polimi.se2018.model.toolcards;
 
-import it.polimi.se2018.model.Model;
 
 public class FluxRemover extends ToolCard
 {

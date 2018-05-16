@@ -11,9 +11,6 @@ public abstract class ToolCard extends Card implements ToolCardVisitable
 {
     private int             favorTokens;
     private int             numOfSteps;
-    private int             currentStep = 0;
-    private Model           model;
-
     private static int      NUMBER_OF_CARDS=12;
 
     public ToolCard (String name, String description, int numOfSteps)

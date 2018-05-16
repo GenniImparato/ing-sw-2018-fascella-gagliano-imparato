@@ -31,7 +31,7 @@ public class TestCellRestriction
         assertEquals(true, cell.getRestriction().isValue());
         assertEquals(false, cell.getRestriction().isColor());
         assertEquals(null, cell.getRestriction().getColor());
-        assertEquals(cell.getRestriction().getValue(), 3);
+        assertEquals(3, cell.getRestriction().getValue());
 
 
     }

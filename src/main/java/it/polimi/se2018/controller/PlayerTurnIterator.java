@@ -22,12 +22,6 @@ public class PlayerTurnIterator implements Iterator<Player>
         turns = new ArrayList<>();
     }
 
-    //try to add a player, throws an exception if there is another player with same nickname or if there are already all players!
-    public void addNewPlayer(String nickname) throws ChangeModelStateException
-    {
-        refreshPlayersTurns();
-    }
-
     //get the instance of the player that takes the turn next
     public Player next()
     {

@@ -1,9 +1,8 @@
 package it.polimi.se2018.utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Observable <T> implements Serializable
+public abstract class Observable <T>
 {
     private ArrayList <Observer <T>> observers;
 
