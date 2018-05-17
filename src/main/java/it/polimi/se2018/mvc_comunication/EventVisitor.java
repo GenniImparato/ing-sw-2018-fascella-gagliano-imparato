@@ -1,9 +1,11 @@
 package it.polimi.se2018.mvc_comunication;
 
 import it.polimi.se2018.mvc_comunication.events.*;
+import it.polimi.se2018.mvc_comunication.messages.SelectedPlayerSchemeCardsMessage;
 
 public interface EventVisitor
 {
+    void visit(SelectSchemeCardEvent event);
     void visit(AddPlayerEvent event);
     void visit(StartGameEvent event);
     void visit(DraftDieEvent event);

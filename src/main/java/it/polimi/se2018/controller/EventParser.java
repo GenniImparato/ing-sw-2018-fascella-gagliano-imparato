@@ -1,5 +1,7 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
@@ -11,6 +13,25 @@ public class EventParser implements EventVisitor
     public EventParser(Controller controller)
     {
         this.controller = controller;
+    }
+
+    @Override
+    public void visit(SelectSchemeCardEvent event)
+    {
+        try
+        {
+            Player player = controller.getModel().findPlayer(event.getPLayerNickame());
+            controller.chosePlayerSchemeCard(player, event.getChoice());
+        }
+        catch(NoElementException e)
+        {
+            event.getView().showErrorMessage("Player is not present in the game");
+        }
+        catch(ChangeModelStateException e)
+        {
+            event.getView().showErrorMessage(e.getMessage());
+            event.getView().reShowCurrentView();
+        }
     }
 
     @Override
@@ -32,12 +53,12 @@ public class EventParser implements EventVisitor
     {
         try
         {
-            controller.startGame();
+            controller.startGameSetup();
         }
         catch(ChangeModelStateException e)
         {
             event.getView().showErrorMessage(e.getMessage());
-            event.getView().showMenu();
+            System.exit(0);
         }
     }
 

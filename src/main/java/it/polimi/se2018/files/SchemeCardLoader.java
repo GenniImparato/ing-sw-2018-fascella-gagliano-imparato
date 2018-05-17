@@ -17,12 +17,12 @@ public class SchemeCardLoader
     private Logger          logger;
 
     private List<String>    schemeCardFileNames;
-    private List<Board>     generatedBoard;
+    private List<Board>     generatedBoards;
 
     public SchemeCardLoader(String directoryPath, Logger logger) throws LoadingFilesException
     {
         schemeCardFileNames = new ArrayList<>();
-        generatedBoard = new ArrayList<>();
+        generatedBoards = new ArrayList<>();
 
         this.directoryPath = directoryPath;
         this.logger = logger;
@@ -40,7 +40,7 @@ public class SchemeCardLoader
 
         logger.logMessage("");
         logger.logMessage("File loading finished.");
-        logger.logMessage("Generated " + generatedBoard.size() + " scheme boards.");
+        logger.logMessage("Generated " + generatedBoards.size() + " scheme boards.");
     }
 
     private void findAllFilesInDirectory() throws LoadingFilesException
@@ -50,12 +50,12 @@ public class SchemeCardLoader
         if(!directory.exists())
         {
             logger.logErrorMessage("Error in loading files: " + directoryPath + " doesn't exist!");
-            throw new LoadingFilesException("Error in loading files: " + directoryPath + " doesn't exist!");
+            throw new LoadingFilesException();
         }
         if(!directory.isDirectory())
         {
             logger.logErrorMessage("Error in loading files: " + directoryPath + " is not a directory!");
-            throw new LoadingFilesException("Error in loading files: " + directoryPath + " is not a directory!");
+            throw new LoadingFilesException();
         }
 
         String[] files = directory.list();
@@ -80,7 +80,7 @@ public class SchemeCardLoader
                 logger.logMessage("File is valid.");
                 logger.logMessage("File read correctly.");
 
-                generatedBoard.add(schemeCardFile.generateBoard());
+                generatedBoards.add(schemeCardFile.generateBoard());
 
                 logger.logMessage("Scheme board generated.");
                 logger.logMessage("");
@@ -109,5 +109,15 @@ public class SchemeCardLoader
             extension = filename.substring(i+1);
 
         return extension.equals("sagradaschemecard");
+    }
+
+    public List<Board> getGeneratedBoards()
+    {
+        List<Board> retBoards = new ArrayList<>();
+
+        for(Board board : generatedBoards)
+            retBoards.add(new Board(board));
+
+        return retBoards;
     }
 }

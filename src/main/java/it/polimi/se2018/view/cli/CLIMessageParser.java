@@ -3,6 +3,7 @@ package it.polimi.se2018.view.cli;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.view.cli.views.CLIChooseSchemeCardView;
 
 public class CLIMessageParser implements MessageVisitor
 {
@@ -13,6 +14,16 @@ public class CLIMessageParser implements MessageVisitor
         this.cli = cli;
     }
 
+    @Override
+    public void visit(SelectedPlayerSchemeCardsMessage event)
+    {
+        if(event.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+        {
+            cli.showView(new CLIChooseSchemeCardView(cli, event.getFirstSchemeBoard(), event.getSecondSchemeBoard()));
+        }
+    }
+
+    @Override
     public void visit(AddedPlayerMessage message)
     {
         String notification;
@@ -25,12 +36,14 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(StartedGameMessage message)
     {
         cli.showNotification("The game started!", Color.BLUE);
         cli.showTurn();
     }
 
+    @Override
     public void visit(DraftedDieMessage message)
     {
         String notification;
@@ -46,6 +59,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(AddedDieMessage message)
     {
         String notification;
@@ -62,6 +76,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(MovedDieMessage message)
     {
         String notification;
@@ -78,6 +93,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(ChangedDraftedDieMessage message)
     {
         String notification;
@@ -93,6 +109,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(SelectedDieMessage message)
     {
         String notification;
@@ -108,6 +125,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(ReturnedDieMessage message)
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
@@ -115,6 +133,7 @@ public class CLIMessageParser implements MessageVisitor
                 +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
     }
 
+    @Override
     public void visit(UsingToolCardMessage message)
     {
         String notification;
@@ -129,6 +148,7 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
     }
 
+    @Override
     public void visit(ToolCardActionExecutedMessage message)
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()

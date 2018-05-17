@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
@@ -10,6 +11,8 @@ import it.polimi.se2018.utils.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
 
 //singleton class
 public class Model extends Observable <Message>
@@ -31,6 +34,8 @@ public class Model extends Observable <Message>
 
     private Die                                 draftedDie;
     private Die                                 selectedDie;
+
+    private List<Board>                         schemeCards;
 
     public Model()
     {
@@ -186,6 +191,31 @@ public class Model extends Observable <Message>
         return currentPlayer;
     }
 
+    public Player findPlayer(String nickname) throws NoElementException
+    {
+        for(Player player : players)
+            if(player.getNickname().equals(nickname))
+                return player;
+
+        throw new NoElementException();
+    }
+
+    public void setSchemeCards(List<Board> schemeCards)
+    {
+        this.schemeCards = schemeCards;
+    }
+
+    public void setPlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
+    {
+        if(choice != 1 && choice != 2)
+            throw new ChangeModelStateException("Not valid choice");
+
+        if(choice == 1)
+            player.setBoard(schemeCards.get(player.getFirstSchemeCardIndex()));
+        else
+            player.setBoard(schemeCards.get(player.getSecondSchemeCardIndex()));
+    }
+
     public void setCurrentToolCard(int cardNum) throws ChangeModelStateException
     {
         if(cardNum < 0  || cardNum >= toolCards.size())
@@ -230,6 +260,37 @@ public class Model extends Observable <Message>
         }
         else
             throw new ChangeModelStateException("Not enough players to start the game!");
+    }
+
+    public void selectRandomSchemeCardsForPlayers() throws ChangeModelStateException
+    {
+        if(schemeCards.size() < getPlayerNum()*2)
+            throw new ChangeModelStateException("Not enough scheme cards loaded for all the players!");
+
+        //generates an array with indices from 0 to the scheme cards loaded number
+        List<Integer> schemeCardsIndices = new ArrayList<>();
+        for(int i=0; i<schemeCards.size(); i++)
+            schemeCardsIndices.add(i);
+
+
+        for(Player player : players)
+        {
+            int firstIndex;
+            int secondIndex;
+
+            //get 2 random indices
+            //every time and index is randomly generated it's removed from the list
+            //this ensures that every random index is different from the others
+            firstIndex = schemeCardsIndices.remove(new Random().nextInt(schemeCardsIndices.size()));
+            secondIndex = schemeCardsIndices.remove(new Random().nextInt(schemeCardsIndices.size()));
+
+            player.setFirstSchemeCardIndex(firstIndex);
+            player.setSecondSchemeCardIndex(secondIndex);
+
+            //notify the view that 2 random scheme cards have been selected
+            //so the view(user) can choose on of them
+            notify(new SelectedPlayerSchemeCardsMessage(this, player, schemeCards.get(firstIndex), schemeCards.get(secondIndex)));
+        }
     }
 
     public void draftDie(int dieNum) throws ChangeModelStateException

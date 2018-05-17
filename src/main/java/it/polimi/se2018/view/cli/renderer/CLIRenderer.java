@@ -29,7 +29,7 @@ public abstract class CLIRenderer
     }
 
     //draws everything in the console
-    protected void render()
+    public void render()
     {
         refresh();
 

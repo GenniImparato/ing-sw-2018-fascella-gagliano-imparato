@@ -19,6 +19,10 @@ public class Player
     private Color color;              //color of the player's board and the score marker
     private String                  nickname;
 
+    private boolean                 schemeCardChosen = false;
+    private int                     firstSchemeCardIndex;
+    private int                     secondSchemeCardIndex;
+
     /**
      * Constructor that creates a Player and sets his nickname
      * @param nickname nickname of the Player
@@ -45,20 +49,29 @@ public class Player
         this.nickname = player.nickname;
     }
 
-    /**
-     * If the parameter obj is a Player and his nickname is the same of this instance of Player
-     * returns true, false otherwise
-     * @param obj instance to compare to this Player
-     * @return true if two nicknames are the same, false if two object are not comparable
-     * or the nicknames are different.
-     */
-    @Override
-    public boolean equals(Object obj)
+    public boolean hasChoosenSchemeCard()
     {
-        if(obj.getClass() != this.getClass())
-            return false;
-        else
-            return this.getNickname().equals(((Player)obj).getNickname());
+        return schemeCardChosen;
+    }
+
+    public void setFirstSchemeCardIndex(int index)
+    {
+        this.firstSchemeCardIndex = index;
+    }
+
+    public void setSecondSchemeCardIndex(int index)
+    {
+        this.secondSchemeCardIndex = index;
+    }
+
+    public int getFirstSchemeCardIndex()
+    {
+        return firstSchemeCardIndex;
+    }
+
+    public int getSecondSchemeCardIndex()
+    {
+        return secondSchemeCardIndex;
     }
 
     /**
@@ -68,24 +81,7 @@ public class Player
     public void setBoard (Board board)
     {
         this.board = board;
-    }
-
-    /**
-     * Loads a Board that has been previously saved in a file
-     * @param filename name of the file of the Board to load
-     */
-    public void loadBoardFromFile (String filename)
-    {
-        try
-        {
-            SagradaSchemeCardFile file = new SagradaSchemeCardFile(filename);
-            board = file.generateBoard();
-            favorTokens = file.getDifficulty();
-        }
-        catch(Exception e)
-        {
-
-        }
+        schemeCardChosen = true;
     }
 
     /**
