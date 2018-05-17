@@ -78,7 +78,7 @@ public class BoardAnalyzer
         }
 
         int ret = counters[0];
-        for (int i = 1; (i < 6 && type == VALUE) || (i < 5 && type == COLOR); i++) {
+        for (int i = 1; (i < 6 && type == VALUE) || i < 5; i++) {               //the case i<5 implies that type==COLOR
             ret = Math.min(ret, counters[i]);
         }
 

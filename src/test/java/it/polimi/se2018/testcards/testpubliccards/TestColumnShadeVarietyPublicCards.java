@@ -1,25 +1,30 @@
-package it.polimi.se2018.testcards;
+package it.polimi.se2018.testcards.testpubliccards;
 
+import it.polimi.se2018.controller.PublicObjectiveCardScorer;
+import it.polimi.se2018.files.SagradaSchemeCardFile;
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.model.publicobjectivecards.ColumnShadeVarietyCard;
+import it.polimi.se2018.utils.Color;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class TestColumnShadeVariety
+public class TestColumnShadeVarietyPublicCards
 {
     @Test
     public void testScore()
     {
-       /* SagradaSchemeCardFile sagradaSchemeCardFile;
+        PublicObjectiveCardScorer scorer;
+        SagradaSchemeCardFile sagradaSchemeCardFile;
         Board board = new Board();
-        PublicObjectiveCard card = new ColumnShadeVarietyCard();
 
-        try
+        try                         //try to add some dice on the board to verify if the method score returns the right value
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
-        catch(Exception e)
-        {
-            fail();
-        }
+        catch(Exception e) {fail();}
 
         Die die0 = new Die(Color.PURPLE);                       //dice in the first column (different values)
         die0.setValue(3);
@@ -39,6 +44,9 @@ public class TestColumnShadeVariety
         Die die7 = new Die(Color.GREEN);
         die7.setValue(1);
 
+        Die die8 = new Die(Color.RED);                          //one single die on the third column to test one column not completed
+        die8.setValue(5);
+
         try
         {
             board.addDie(die0,0,0);
@@ -50,12 +58,16 @@ public class TestColumnShadeVariety
             board.addDie(die5,1,1);
             board.addDie(die6,2,1);
             board.addDie(die7,3,1);
+
+            board.addDie(die8,0,2);
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
             fail();
         }
 
-        assertEquals(4,card.score(board));*/
+        scorer = new PublicObjectiveCardScorer(board);
+
+        assertEquals(4, new ColumnShadeVarietyCard().acceptVisitor(scorer));
     }
 }

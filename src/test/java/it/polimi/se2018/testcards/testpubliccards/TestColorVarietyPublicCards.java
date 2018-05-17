@@ -1,24 +1,31 @@
-package it.polimi.se2018.testcards;
+package it.polimi.se2018.testcards.testpubliccards;
 
+import it.polimi.se2018.controller.PublicObjectiveCardScorer;
+import it.polimi.se2018.files.SagradaSchemeCardFile;
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.model.publicobjectivecards.ColorVarietyCard;
+import it.polimi.se2018.utils.Color;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class TestColorVarietyCard
+public class TestColorVarietyPublicCards
 {
+
     @Test
     public void testScore()
     {
-        /*PublicObjectiveCard card = new ColorVarietyCard();
+        PublicObjectiveCardScorer scorer;
         SagradaSchemeCardFile sagradaSchemeCardFile;
         Board board = new Board();
-        try
+
+        try                         //try to add some dice on the board to verify if the method score returns the right value
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
-        catch(Exception e)
-        {
-            fail();
-        }
+        catch(Exception e) {fail();}
 
         Die die0 = new Die(Color.PURPLE);
         die0.setValue(2);
@@ -43,12 +50,14 @@ public class TestColorVarietyCard
             board.addDie(die4,0,1);
             board.addDie(die5,1,1);
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
         {
             fail();
         }
 
-        assertEquals(4, card.score(board));*/
+        scorer = new PublicObjectiveCardScorer(board);
+
+        assertEquals(4, new ColorVarietyCard().acceptVisitor(scorer));
 
     }
 
