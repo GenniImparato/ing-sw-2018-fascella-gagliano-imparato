@@ -1,5 +1,7 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.files.SchemeCardLoader;
+import it.polimi.se2018.files.exceptions.LoadingFilesException;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
@@ -55,6 +57,23 @@ public class Controller implements Observer<Event>
     public void setModel(Model model)
     {
         this.model = model;
+    }
+
+    public void start()
+    {
+        loadSchemeCardFiles();
+        view.start();
+    }
+
+    protected void loadSchemeCardFiles()
+    {
+        try
+        {
+            SchemeCardLoader loader = new SchemeCardLoader("resources/schemecards/", view.getLogger());
+        }
+        catch(LoadingFilesException e)
+        {
+        }
     }
 
     protected void addNewPlayer(String nickname) throws ChangeModelStateException

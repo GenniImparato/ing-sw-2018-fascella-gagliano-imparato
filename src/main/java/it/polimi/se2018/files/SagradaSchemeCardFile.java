@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import it.polimi.se2018.files.exceptions.CannotReadFileException;
+import it.polimi.se2018.files.exceptions.FileNotReadException;
+import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Cell;
 import it.polimi.se2018.utils.Color;
@@ -14,23 +17,21 @@ public class SagradaSchemeCardFile extends File
     private int         difficulty;
     private Cell[][]    cellMatrix;
 
-    public SagradaSchemeCardFile(String filename) throws Exception
+    private boolean     hasBeenRead = false;
+
+    public SagradaSchemeCardFile(String filename) throws InvalidFileException, CannotReadFileException
     {
         super(filename);
 
         cellMatrix = new Cell[Board.ROWS][Board.COLUMNS];
 
-        if(!check())
-        {
-            System.err.println(filename + " is not a valid file!");
-            throw new Exception();
-        }
-        if(!read())
-            throw new Exception();
+        check();
+        read();
+        hasBeenRead = true;
     }
 
     //returns true if the file is valid, false if it's not
-    private boolean check()
+    private void check() throws CannotReadFileException, InvalidFileException
     {
         try (Scanner scanner = new Scanner(this)) 
         {
@@ -41,7 +42,7 @@ public class SagradaSchemeCardFile extends File
             {
                 elements++;
                 if(elements>21)             //too many elements, file is not valid
-                    return false;
+                    throw new InvalidFileException("File not valid: found more than 21 many elements");
 
 
                 String buff = scanner.next();
@@ -52,7 +53,7 @@ public class SagradaSchemeCardFile extends File
                     intBuff = Integer.parseInt(buff);
 
                     if (!(intBuff >= 0 && intBuff <= 6))      //if the number is not in range the file is not valid
-                        return false;
+                        throw new InvalidFileException("File not valid: found value restrictions not in range [0, 6]");
                 }
                 catch(NumberFormatException e)              //else if the element is not a number it has to be a valid color
                 {
@@ -63,23 +64,22 @@ public class SagradaSchemeCardFile extends File
                             buff.equals("yellow") ||
                             buff.equals("blue"))
                        )
-                        return false;
+                        throw new InvalidFileException("File not valid: found string not representing a color");
                 }
             }
 
             if(elements != 21)              //if the file doesn't contain exactly  21 elements it's not valid
-                return false;
-            else                            //the file has passed all the checks, it is valid
-                return true;
+                throw new InvalidFileException("File not valid: found less than 21 elements");
+
+            //the file has passed all the checks, it is valid
         }
         catch (IOException e)
         {
-            System.err.println("Message: " + e.getMessage());
-            return false;
+            throw new CannotReadFileException();
         }
     }
 
-    private boolean read()
+    private void read() throws CannotReadFileException
     {
         try (Scanner scanner = new Scanner(this ))
         {
@@ -107,21 +107,28 @@ public class SagradaSchemeCardFile extends File
             }
 
             difficulty = Integer.parseInt(scanner.next());
-            return true;
         }
         catch (IOException e)
         {
-            System.err.println("Message: " + e.getMessage());
-            return false;
+            throw new CannotReadFileException();
         }
     }
 
-    public Board generateBoard()
+    public Board generateBoard() throws FileNotReadException
     {
+        if(!hasBeenRead)
+            throw new FileNotReadException();
+
         return new Board(cellMatrix);
     }
 
-    public int getDifficulty() { return difficulty; }
+    public int getDifficulty() throws FileNotReadException
+    {
+        if(!hasBeenRead)
+            throw new FileNotReadException();
+
+        return difficulty;
+    }
 
 
 }

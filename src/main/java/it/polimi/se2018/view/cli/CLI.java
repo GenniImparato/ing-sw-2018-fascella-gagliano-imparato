@@ -15,30 +15,11 @@ public class CLI extends View
     private CLIMessageParser    parser;
     private CLIView             currentView;
 
-    public CLI ()
+    public CLI(boolean loggerActive)
     {
         scanner = new Scanner(System.in);
         parser = new CLIMessageParser(this);
-
-        System.out.println();
-        System.out.print(Color.RED.getConsoleString());
-        System.out.print("S ");
-        System.out.print(Color.BLUE.getConsoleString());
-        System.out.print("A ");
-        System.out.print(Color.YELLOW.getConsoleString());
-        System.out.print("G ");
-        System.out.print(Color.GREEN.getConsoleString());
-        System.out.print("R ");
-        System.out.print(Color.PURPLE.getConsoleString());
-        System.out.print("A ");
-        System.out.print(Color.BLUE.getConsoleString());
-        System.out.print("D ");
-        System.out.print(Color.RED.getConsoleString());
-        System.out.print("A ");
-        System.out.println(Color.getResetConsoleString());
-        System.out.println("____________________");
-        System.out.println();
-        System.out.println();
+        logger = new CLILogger(this, loggerActive);
     }
 
     @Override
@@ -66,6 +47,13 @@ public class CLI extends View
         System.out.println(message);
     }
 
+    public void showMessage(String message, Color color)
+    {
+        System.out.print(color.getConsoleString());
+        System.out.println(message);
+        System.out.print(Color.getResetConsoleString());
+    }
+
     public void showNotification(String message, Color color)
     {
 
@@ -82,6 +70,27 @@ public class CLI extends View
 
     public void start()
     {
+        System.out.println();
+        System.out.println();
+        System.out.print(Color.RED.getConsoleString());
+        System.out.print("S ");
+        System.out.print(Color.BLUE.getConsoleString());
+        System.out.print("A ");
+        System.out.print(Color.YELLOW.getConsoleString());
+        System.out.print("G ");
+        System.out.print(Color.GREEN.getConsoleString());
+        System.out.print("R ");
+        System.out.print(Color.PURPLE.getConsoleString());
+        System.out.print("A ");
+        System.out.print(Color.BLUE.getConsoleString());
+        System.out.print("D ");
+        System.out.print(Color.RED.getConsoleString());
+        System.out.print("A ");
+        System.out.println(Color.getResetConsoleString());
+        System.out.println("____________________");
+        System.out.println();
+        System.out.println();
+
         new CLIMenuView(this).draw();
     }
 

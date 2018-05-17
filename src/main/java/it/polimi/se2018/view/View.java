@@ -12,7 +12,9 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     private Model       model;
     private String      playerNickname;
 
-    public View ()
+    protected Logger      logger;
+
+    public View()
     {
     }
 
@@ -34,6 +36,11 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     public void setModel(Model model)
     {
         this.model = model;
+    }
+
+    public Logger getLogger()
+    {
+        return logger;
     }
 
 
