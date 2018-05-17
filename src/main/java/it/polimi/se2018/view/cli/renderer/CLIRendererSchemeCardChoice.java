@@ -25,6 +25,6 @@ public class CLIRendererSchemeCardChoice extends CLIRenderer
         initMatrix();
 
         new CLIElementBoard(this, firstSchemeBoard, 0, 0, false);
-        new CLIElementBoard(this, secondSchemeBoard, 53, 0, false);
+        new CLIElementBoard(this, secondSchemeBoard, 55, 0, false);
     }
 }
