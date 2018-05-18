@@ -1,11 +1,15 @@
 package it.polimi.se2018.network.socket.client;
 
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.network.socket.ClientInterface;
 import it.polimi.se2018.network.socket.server.ServerInterface;
+import it.polimi.se2018.view.cli.CLI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Socket;
 
 public class NetworkHandler extends Thread implements ServerInterface
@@ -14,9 +18,12 @@ public class NetworkHandler extends Thread implements ServerInterface
     private ClientInterface client;
     private BufferedReader in;
 
+    private ClientNetworkMessageAnalyzer messageAnalyzer;
+
     public NetworkHandler(String host, int port, ClientInterface client)
     {
         this.client = client;
+        messageAnalyzer = new ClientNetworkMessageAnalyzer(this);
 
         try
         {
@@ -35,16 +42,32 @@ public class NetworkHandler extends Thread implements ServerInterface
         {
             try
             {
-
                 String inputString = in.readLine();
-                client.sendToClient(inputString);
+                messageAnalyzer.analyzeMessage(inputString);
             }
             catch (IOException e) {e.printStackTrace();}
         }
     }
 
     @Override
-    public synchronized void sendToServer(Message message){
+    public synchronized void sendToServer(Message message)
+    {
 
+    }
+
+    public synchronized ClientInterface getClient() {
+        return client;
+    }
+
+    private synchronized void parseString(String message)
+    {
+        try
+        {
+            Method method = client.getClass().getMethod(message);
+            method.invoke(client);
+        }
+        catch(IllegalAccessException|IllegalArgumentException|InvocationTargetException e)
+            {e.printStackTrace();}
+        catch(NoSuchMethodException e) {e.printStackTrace();}
     }
 }

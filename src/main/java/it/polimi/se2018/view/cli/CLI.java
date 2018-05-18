@@ -175,9 +175,4 @@ public class CLI extends View
         currentView.draw();
     }
 
-    @Override
-    public void sendToClient(String message)
-    {
-        showNotification(message,Color.PURPLE);
-    }
 }

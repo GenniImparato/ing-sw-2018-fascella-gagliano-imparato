@@ -4,7 +4,7 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.network.socket.client.ClientInterface;
+import it.polimi.se2018.network.socket.ClientInterface;
 import it.polimi.se2018.utils.*;
 
 //every concrete view has to extend this class
@@ -44,17 +44,4 @@ public abstract class View extends Observable<Event> implements Observer <Messag
         return logger;
     }
 
-
-    public abstract void start();
-    public abstract void showErrorMessage(String message);
-    public abstract void showMessage(String message);
-
-    public abstract void showMenu();
-    public abstract void showTurn();
-    public abstract void showDraft();
-    public abstract void showAddDie();
-    public abstract void showSelectDieFromBoard();
-    public abstract void showMoveDie();
-    public abstract void showIncrementDie();
-    public abstract void reShowCurrentView();
 }

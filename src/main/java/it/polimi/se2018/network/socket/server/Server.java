@@ -1,5 +1,5 @@
 package it.polimi.se2018.network.socket.server;
-import it.polimi.se2018.network.socket.client.ClientInterface;
+import it.polimi.se2018.network.socket.ClientInterface;
 
 import java.io.IOException;
 import java.net.*;
