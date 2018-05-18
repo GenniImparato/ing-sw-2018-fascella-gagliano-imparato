@@ -15,7 +15,9 @@ import it.polimi.se2018.utils.Color;
 public class SagradaSchemeCardFile extends File
 {
     private int         difficulty;
+    private String      schemeName;
     private Cell[][]    cellMatrix;
+
 
     private boolean     hasBeenRead = false;
 
@@ -27,6 +29,9 @@ public class SagradaSchemeCardFile extends File
 
         check();
         read();
+
+        this. schemeName = getSchemeName(filename);
+
         hasBeenRead = true;
     }
 
@@ -114,12 +119,17 @@ public class SagradaSchemeCardFile extends File
         }
     }
 
+    private String getSchemeName(String filename)
+    {
+        return filename.replaceAll(".*[\\\\/]|\\.[^\\.]*$","");
+    }
+
     public Board generateBoard() throws FileNotReadException
     {
         if(!hasBeenRead)
             throw new FileNotReadException();
 
-        return new Board(cellMatrix);
+        return new Board(cellMatrix, schemeName);
     }
 
     public int getDifficulty() throws FileNotReadException
