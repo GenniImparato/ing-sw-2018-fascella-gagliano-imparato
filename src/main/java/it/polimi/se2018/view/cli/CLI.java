@@ -1,5 +1,7 @@
 package it.polimi.se2018.view.cli;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.network.socket.client.NetworkHandler;
+import it.polimi.se2018.network.socket.server.Server;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
@@ -20,6 +22,9 @@ public class CLI extends View
         scanner = new Scanner(System.in);
         parser = new CLIMessageParser(this);
         logger = new CLILogger(this, loggerActive);
+
+        new Server();
+        new NetworkHandler("localhost", 1111, this);
     }
 
     @Override
@@ -168,5 +173,11 @@ public class CLI extends View
     public void reShowCurrentView()
     {
         currentView.draw();
+    }
+
+    @Override
+    public void sendToClient(String message)
+    {
+        showNotification(message,Color.PURPLE);
     }
 }

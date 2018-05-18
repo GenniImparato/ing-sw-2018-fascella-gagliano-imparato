@@ -4,10 +4,11 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.network.socket.client.ClientInterface;
 import it.polimi.se2018.utils.*;
 
 //every concrete view has to extend this class
-public abstract class View extends Observable<Event> implements Observer <Message>
+public abstract class View extends Observable<Event> implements Observer <Message>, ClientInterface
 {
     private Model       model;
     private String      playerNickname;

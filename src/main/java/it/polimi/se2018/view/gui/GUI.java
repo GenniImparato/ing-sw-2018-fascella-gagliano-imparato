@@ -67,4 +67,9 @@ public class GUI extends View
     {
 
     }
+
+    @Override
+    public void sendToClient(String message) {
+
+    }
 }
