@@ -251,7 +251,7 @@ public class TestBoard
 
     }
 
-    /*@Test
+    @Test
     public void testMoveDie()
     {
         Board board = new Board();
@@ -259,7 +259,7 @@ public class TestBoard
 
         try                                             //try to open a known board
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Sun Catcher.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Aurora Sagradis.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
 
@@ -269,42 +269,121 @@ public class TestBoard
         }
 
 
-        Die die = new Die(Color.BLUE);
+        Die die = new Die(Color.RED);
         die.setValue(6);
-        try                                             //try to ignore the color restriction
+        Die die1 = new Die(Color.YELLOW);
+        die1.setValue(2);
+        Die die2 = new Die(Color.getRandomColor());
+
+        try                                             //try to add two dice on the board
         {
-            board.moveDie(die, 3, 0, false, true);
+            board.addDie(die,0,0);
+            board.addDie(die1,0,1);
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
+        {
+            fail();
+        }
+
+
+        try                                             //try to move the die ignoring the color restriction
+        {
+            board.moveDie(die, 0, 2, false, true);
+        }
+        catch(ChangeModelStateException e)
         {
             fail();
         }
 
         Die die0 = new Die(Color.RED);
         die0.setValue(2);
-        try                                             //try to ignore the value restriction
+        try                                             //try to move the die ignoring the value restriction
         {
-            board.moveDie(die0,3,1,true,false);
+            board.moveDie(die,1,0,true,false);
         }
-        catch(CannotPlaceDieException e)
+        catch(ChangeModelStateException e)
+        {
+            fail();
+        }
+
+        try                                             //try to move a die in a cell already occupied
+        {
+            board.moveDie(die,0,1,true,false);
+            fail();
+        }
+        catch(ChangeModelStateException e)
+        {
+
+        }
+
+        try                                         //try to move a die that is not on the board
+        {
+            board.moveDie(die2, 0,3, true, true);
+            fail();
+        }
+        catch(ChangeModelStateException e)
+        {
+
+        }
+
+
+    }
+
+
+    @Test
+    public void testGetString()
+    {
+        SagradaSchemeCardFile sagradaSchemeCardFile;
+
+        try                                             //try to open a known board
+        {
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Aurora Sagradis.sagradaschemecard");
+
+            assertEquals("Aurora Sagradis", sagradaSchemeCardFile.generateBoard().getSchemeCardName());
+        }
+
+        catch (Exception e)
         {
             fail();
         }
 
 
-    }*/
-
-
-    @Test
-    public void testAddDieInRightWay()
-    {
-
     }
+
     @Test
     public void testWrongCoordinates()
     {
         Board board = new Board();
-        assertEquals(null, firstBoard.getCell(-1,-8));
+
+        assertEquals(null, board.getCell(-1,-8));          //wrong range
+
+        assertEquals(0, board.getDiceOnRow(-1).size());                 //test if the size of the array
+                                                                                 //of the dice on a row/column
+        assertEquals(0, board.getDiceOnRow(9).size());                  //over the range, is empty
+
+        assertEquals(0, board.getDiceOnColumn(-4).size());
+
+        assertEquals(0, board.getDiceOnColumn(8).size());
+
+        assertEquals(0, board.getDiagonalAdjacentDice(-1,-3).size());
+
+
+
+
+
+
+
+    }
+
+    @Test
+    public void testDieNotPlaced()
+    {
+        Die die = new Die(Color.getRandomColor());
+        Board board = new Board();
+
+        assertEquals(-1, board.getDieRow(die));
+        assertEquals(-1, board.getDieColumn(die));
+
 
     }
 

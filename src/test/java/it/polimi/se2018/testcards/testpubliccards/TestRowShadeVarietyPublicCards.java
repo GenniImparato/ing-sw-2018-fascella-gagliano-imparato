@@ -24,7 +24,7 @@ public class TestRowShadeVarietyPublicCards
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch(Exception e) {fail();}
