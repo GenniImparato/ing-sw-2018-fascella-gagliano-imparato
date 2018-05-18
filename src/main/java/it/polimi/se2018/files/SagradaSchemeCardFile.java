@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import it.polimi.se2018.files.exceptions.CannotReadFileException;
-import it.polimi.se2018.files.exceptions.FileNotReadException;
 import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Cell;
@@ -124,19 +123,13 @@ public class SagradaSchemeCardFile extends File
         return filename.replaceAll(".*[\\\\/]|\\.[^\\.]*$","");
     }
 
-    public Board generateBoard() throws FileNotReadException
+    public Board generateBoard()
     {
-        if(!hasBeenRead)
-            throw new FileNotReadException();
-
         return new Board(cellMatrix, schemeName);
     }
 
-    public int getDifficulty() throws FileNotReadException
+    public int getDifficulty()
     {
-        if(!hasBeenRead)
-            throw new FileNotReadException();
-
         return difficulty;
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.se2018.files;
 
 import it.polimi.se2018.files.exceptions.CannotReadFileException;
-import it.polimi.se2018.files.exceptions.FileNotReadException;
 import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.files.exceptions.LoadingFilesException;
 import it.polimi.se2018.model.Board;
@@ -91,7 +90,7 @@ public class SchemeCardLoader
                 logger.logMessage("File ignored!");
                 logger.logMessage("");
             }
-            catch(CannotReadFileException|FileNotReadException e)
+            catch(CannotReadFileException e)
             {
                 logger.logErrorMessage("Cannot read file!");
                 logger.logMessage("File ignored");
