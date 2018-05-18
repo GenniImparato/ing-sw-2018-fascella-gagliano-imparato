@@ -76,6 +76,7 @@ public class Player
     public void setBoard (Board board)
     {
         this.board = board;
+        this.favorTokens = board.getDifficulty();
         schemeCardChosen = true;
     }
 

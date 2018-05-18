@@ -18,6 +18,7 @@ public class CLIElementPlayer extends CLIElement
 
     protected void refresh ()
     {
+        initMatrix();
         drawBorders();
         drawNickname();
         drawPrivateObjectiveCard();
@@ -75,7 +76,7 @@ public class CLIElementPlayer extends CLIElement
     private void drawTokens ()
     {
         for (int i=0; i<player.getTokens(); i++)
-            charMatrix[3][i*4+5] = 'O';
+            charMatrix[3][i*4+5] = 'Ø';
     }
 
 

@@ -63,7 +63,8 @@ public class Board
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
-        this.schemeCardName = "";
+        this.schemeCardName = board.schemeCardName;
+        this.difficulty = board.difficulty;
 
         for (int row = 0; row < Board.ROWS; row++)
         {

@@ -24,6 +24,7 @@ public class CLIElementDraftPool extends CLIElement
     //fills the matrices to draw the element and renders it on the CLIRenderer
     protected void refresh()
     {
+        initMatrix();
         drawBorders();
         drawTitle();
         if(selected)                    //draws dice indices and draws wit a different color

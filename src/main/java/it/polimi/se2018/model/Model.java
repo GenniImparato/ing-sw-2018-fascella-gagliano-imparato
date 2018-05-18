@@ -208,9 +208,10 @@ public class Model extends Observable <Message>
     public void setPlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         if(choice < 0 || choice > 3)
-            throw new ChangeModelStateException("Not valid choice");
+            throw new ChangeModelStateException("Not valid choice!");
 
         player.setBoard(schemeCards.get(player.getSchemeCardIndex(choice)));
+        notify(new ChosenSchemeCardMessage(this, player, player.getBoard()));
     }
 
     public void setCurrentToolCard(int cardNum) throws ChangeModelStateException

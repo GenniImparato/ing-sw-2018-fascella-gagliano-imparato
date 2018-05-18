@@ -4,7 +4,8 @@ import it.polimi.se2018.mvc_comunication.messages.*;
 
 public interface MessageVisitor
 {
-    void visit(SelectedPlayerSchemeCardsMessage event);
+    void visit(SelectedPlayerSchemeCardsMessage message);
+    void visit(ChosenSchemeCardMessage message);
     void visit(AddedDieMessage message);
     void visit(AddedPlayerMessage message);
     void visit(DraftedDieMessage message);

@@ -13,7 +13,7 @@ public class CLIRendererSchemeCardChoice extends CLIRenderer
 
     public CLIRendererSchemeCardChoice(CLI cli, Model model, Board[] schemeCards)
     {
-        super(cli, model, 150, 50);
+        super(cli, model, 250, 28);
         this.schemeCards = schemeCards;
     }
 
@@ -22,9 +22,9 @@ public class CLIRendererSchemeCardChoice extends CLIRenderer
     {
         initMatrix();
 
-        new CLIElementBoard(this, schemeCards[0], 0, 0, false);
-        new CLIElementBoard(this, schemeCards[1], 57, 0, false);
-        new CLIElementBoard(this, schemeCards[2], 0, 25, false);
-        new CLIElementBoard(this, schemeCards[3], 57, 25, false);
+        new CLIElementSchemeCard(this, schemeCards[0], 0, 0);
+        new CLIElementSchemeCard(this, schemeCards[1], 55, 0);
+        new CLIElementSchemeCard(this, schemeCards[2], 110, 0);
+        new CLIElementSchemeCard(this, schemeCards[3], 165, 0);
     }
 }

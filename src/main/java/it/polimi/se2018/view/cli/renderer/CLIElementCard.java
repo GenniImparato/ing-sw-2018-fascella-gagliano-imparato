@@ -25,6 +25,7 @@ public class CLIElementCard extends CLIElement
 
     protected void refresh ()
     {
+        initMatrix();
         drawBorders();
         drawName();
         drawTitle();

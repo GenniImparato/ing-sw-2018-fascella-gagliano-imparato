@@ -22,6 +22,7 @@ public class CLIElementRoundTrack extends CLIElement
     @Override
     protected void refresh()
     {
+        initMatrix();
         drawBorders();
         drawTitle();
         drawIndices();

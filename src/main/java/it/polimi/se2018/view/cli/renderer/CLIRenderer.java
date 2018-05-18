@@ -31,6 +31,7 @@ public abstract class CLIRenderer
     //draws everything in the console
     public void render()
     {
+        initMatrix();
         refresh();
 
         for(int row=0; row < height; row++)

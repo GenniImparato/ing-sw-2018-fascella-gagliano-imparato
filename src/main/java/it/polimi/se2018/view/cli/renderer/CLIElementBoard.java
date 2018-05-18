@@ -23,6 +23,7 @@ public class CLIElementBoard extends CLIElement
     //fills all the matrix and renders on the CLIRenderer
     protected void refresh()
     {
+        initMatrix();
         drawCells();
         if(selected)
             drawIndices();
@@ -134,5 +135,4 @@ public class CLIElementBoard extends CLIElement
             }
         }
     }
-
 }

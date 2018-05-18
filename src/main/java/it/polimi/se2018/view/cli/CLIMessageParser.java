@@ -24,6 +24,21 @@ public class CLIMessageParser implements MessageVisitor
     }
 
     @Override
+    public void visit(ChosenSchemeCardMessage message)
+    {
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+            notification = "You chosen ";
+        else
+            notification = message.getPlayer().getNickname() + " has chosen ";
+
+        notification += message.getSchemeBoards().getSchemeCardName();
+
+        cli.showNotification(notification, Color.BLUE);
+    }
+
+    @Override
     public void visit(AddedPlayerMessage message)
     {
         String notification;

@@ -43,6 +43,19 @@ public abstract class CLIElement
     //it also should call drawOnRenderer() to actually render the element
     protected abstract void refresh();
 
+    //helper
+    //fills the charMatrix with blank character
+    protected void initMatrix()
+    {
+        for( int row=0; row < height; row++)
+        {
+            for(int col=0; col < width; col++)
+            {
+                charMatrix[row][col] = ' ';
+            }
+        }
+    }
+
     public int getX()
     {
         return x;

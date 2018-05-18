@@ -20,24 +20,21 @@ public class CLIChooseSchemeCardView extends CLIView
         cli.clear();
         new CLIRendererSchemeCardChoice(cli, cli.getModel(), schemeCards).render();
         cli.showMessage("Choose a scheme card to play with:");
-        cli.showMessage("1) Select first scheme.");
-        cli.showMessage("2) Select second scheme.");
+        for(int i=0; i<4; i++)
+            cli.showMessage(i + ") Choose " + schemeCards[i].getSchemeCardName());
         parseInput(cli.readInputFromUser());
     }
 
     public void parseInput(String input)
     {
-        if(input.equals("1"))
+        try
         {
-            cli.notify(new SelectSchemeCardEvent(cli, cli.getAssociatedPlayerNickname(), 1));
+            Integer choice = Integer.parseInt(input);
+            cli.notify(new SelectSchemeCardEvent(cli, cli.getAssociatedPlayerNickname(), choice));
         }
-        else if(input.equals("2"))
+        catch(NumberFormatException e)
         {
-            cli.notify(new SelectSchemeCardEvent(cli, cli.getAssociatedPlayerNickname(), 2));
-        }
-        else
-        {
-            cli.showErrorMessage("Not valid input!");
+            cli.showErrorMessage("Input must be a number!");
             cli.reShowCurrentView();
         }
     }

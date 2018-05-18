@@ -19,6 +19,7 @@ public class CLIElementDie extends CLIElement
     //fills the Matrices and renders on the CLIRenderer
     protected void refresh()
     {
+        initMatrix();
         drawBorder();
         drawColor();
         drawValue();
