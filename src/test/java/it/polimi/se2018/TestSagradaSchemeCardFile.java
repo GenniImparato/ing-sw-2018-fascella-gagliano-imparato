@@ -1,8 +1,8 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
+
 import it.polimi.se2018.files.exceptions.CannotReadFileException;
-import it.polimi.se2018.files.exceptions.FileNotReadException;
 import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.model.Board;
 import org.junit.Before;
@@ -148,7 +148,7 @@ public class TestSagradaSchemeCardFile
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
-            x=sagradaSchemeCardFile.getDifficulty();
+            x=sagradaSchemeCardFile.generateBoard().getDifficulty();
 
         }
         catch(InvalidFileException e)
@@ -159,24 +159,11 @@ public class TestSagradaSchemeCardFile
         {
             fail();
         }
-        catch(FileNotReadException e)
-        {
-            fail();
-        }
+
 
         assertEquals(5, x);
 
     }
 
-    /*@Test
-    public void testWrongGetDifficulty()
-    {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
-
-
-        assertEquals(null, sagradaSchemeCardFile.getDifficulty());
-
-    }*/
 
 }

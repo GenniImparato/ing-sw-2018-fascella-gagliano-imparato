@@ -362,9 +362,6 @@ public class Board
     {
         List<Die> ret = new ArrayList<>();
 
-        if (!checkCoordinates(row, column))
-            return ret;
-
         for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
         {
             for (int colOffset = -1; colOffset <= 1; colOffset++)
@@ -411,9 +408,6 @@ public class Board
     private List<Die> getAdjacentDice(int row, int column)
     {
         List<Die> ret = new ArrayList<>();
-
-        if (!checkCoordinates(row, column))
-            return ret;
 
         for (int rowOffset = -1; rowOffset <= 1; rowOffset++) {
             for (int colOffset = -1; colOffset <= 1; colOffset++) {

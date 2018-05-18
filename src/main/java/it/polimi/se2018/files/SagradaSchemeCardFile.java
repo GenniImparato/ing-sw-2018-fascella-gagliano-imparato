@@ -100,7 +100,7 @@ public class SagradaSchemeCardFile extends File
 
                         if(intBuff == 0)
                             cellMatrix[row][col] = new Cell();
-                        else if(intBuff > 0)
+                        else
                             cellMatrix[row][col] = new Cell(intBuff);
                     }
                     catch(NumberFormatException e)
