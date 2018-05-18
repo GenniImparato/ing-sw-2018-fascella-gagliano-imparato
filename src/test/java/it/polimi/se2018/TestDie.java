@@ -68,4 +68,50 @@ public class TestDie
 
     }
 
+    @Test
+    public void testIncrementDie()
+    {
+        Die die = new Die(Color.YELLOW);
+        die.setValue(4);
+        die.incrementValue();
+
+        assertEquals(5, die.getValue());
+
+        Die die1 = new Die(Color.PURPLE);
+        die1.setValue(6);
+        die1.incrementValue();
+
+        assertEquals(6, die1.getValue());
+    }
+
+    @Test
+    public void testDecrementDie()
+    {
+        Die die = new Die(Color.YELLOW);
+        die.setValue(3);
+        die.decrementValue();
+
+        assertEquals(2, die.getValue());
+
+        Die die1 = new Die(Color.GREEN);
+        die1.setValue(1);
+        die1.decrementValue();
+
+        assertEquals(1, die1.getValue());
+    }
+
+    @Test
+    public void testWrongSetValue()
+    {
+        Die die = new Die(Color.GREEN);
+        die.setValue(3);
+        assertEquals(3, die.getValue());
+
+        die.setValue(-10);
+        assertEquals(3, die.getValue());
+
+        die.setValue(8);
+        assertEquals(3, die.getValue());
+    }
+
 }

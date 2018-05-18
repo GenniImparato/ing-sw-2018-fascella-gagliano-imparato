@@ -7,17 +7,29 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.ColumnShadeVarietyCard;
 import it.polimi.se2018.utils.Color;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestColumnShadeVarietyPublicCards
 {
-    @Test
-    public void testScore()
+    private static PublicObjectiveCardScorer scorer;
+    private static SagradaSchemeCardFile sagradaSchemeCardFile;
+    private static Board board;
+    private static Die die0;
+    private static Die die1;
+    private static Die die2;
+    private static Die die3;
+    private static Die die4;
+    private static Die die5;
+    private static Die die6;
+    private static Die die7;
+
+    @BeforeClass
+    public static void setUpClass()
     {
-        PublicObjectiveCardScorer scorer;
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
+        board = new Board();
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
@@ -26,22 +38,22 @@ public class TestColumnShadeVarietyPublicCards
         }
         catch(Exception e) {fail();}
 
-        Die die0 = new Die(Color.PURPLE);                       //dice in the first column (different values)
+        die0 = new Die(Color.PURPLE);                       //dice in the first column (different values)
         die0.setValue(3);
-        Die die1 = new Die(Color.RED);
+        die1 = new Die(Color.RED);
         die1.setValue(5);
-        Die die2 = new Die(Color.GREEN);
+        die2 = new Die(Color.GREEN);
         die2.setValue(1);
-        Die die3 = new Die(Color.PURPLE);
+        die3 = new Die(Color.PURPLE);
         die3.setValue(4);
 
-        Die die4 = new Die(Color.BLUE);                         //dice in the second column (two with the same value)
+        die4 = new Die(Color.BLUE);                         //dice in the second column (two with the same value)
         die4.setValue(6);
-        Die die5 = new Die(Color.PURPLE);
+        die5 = new Die(Color.PURPLE);
         die5.setValue(1);
-        Die die6 = new Die(Color.BLUE);
+        die6 = new Die(Color.BLUE);
         die6.setValue(2);
-        Die die7 = new Die(Color.GREEN);
+        die7 = new Die(Color.GREEN);
         die7.setValue(1);
 
         Die die8 = new Die(Color.RED);                          //one single die on the third column to test one column not completed
@@ -65,9 +77,16 @@ public class TestColumnShadeVarietyPublicCards
         {
             fail();
         }
+    }
 
+    @Before
+    public void setUp()
+    {
         scorer = new PublicObjectiveCardScorer(board);
-
+    }
+    @Test
+    public void testScore()
+    {
         assertEquals(4, new ColumnShadeVarietyCard().acceptVisitor(scorer));
     }
 }

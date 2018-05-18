@@ -8,17 +8,25 @@ import it.polimi.se2018.model.PrivateObjectiveCard;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TestPrivateObjectiveCards
 {
-    @Test
-    public void testScore()
+    private static SagradaSchemeCardFile sagradaSchemeCardFile;
+    private static Board board;
+    private Die die0;
+    private Die die1;
+    private Die die2;
+    private PrivateObjectiveCard privateObjectiveCard;
+    private PrivateObjectiveCard privateCard;
+
+    @BeforeClass
+    public static void setUpClass()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
+        board = new Board();
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
@@ -26,14 +34,19 @@ public class TestPrivateObjectiveCards
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch(Exception e) {fail();}
+    }
 
-        Die die0 = new Die(Color.PURPLE);
+
+    @Before
+    public void setUp()
+    {
+        die0 = new Die(Color.PURPLE);
         die0.setValue(2);
 
-        Die die1 = new Die(Color.GREEN);
+        die1 = new Die(Color.GREEN);
         die1.setValue(5);
 
-        Die die2 = new Die(Color.PURPLE);
+        die2 = new Die(Color.PURPLE);
         die2.setValue(1);
 
         try
@@ -44,8 +57,14 @@ public class TestPrivateObjectiveCards
         }
         catch(ChangeModelStateException e)
         {
-            fail();
         }
+
+
+    }
+    @Test
+    public void testScore()
+    {
+
 
         assertEquals(3, new PrivateObjectiveCard(Color.PURPLE).score(board));
 
@@ -53,6 +72,7 @@ public class TestPrivateObjectiveCards
 
         assertEquals(0, new PrivateObjectiveCard(Color.YELLOW).score(board));       //test with color of dice not on the board
     }
+
 
     @Test
     public void testGetColor()
@@ -63,11 +83,16 @@ public class TestPrivateObjectiveCards
     }
 
 
+    @Before
+    public void setUp1()
+    {
+        privateObjectiveCard = new PrivateObjectiveCard(Color.RED);
+        privateCard = new PrivateObjectiveCard(privateObjectiveCard);
+    }
     @Test
     public void testCloneCard()
     {
-        PrivateObjectiveCard privateObjectiveCard = new PrivateObjectiveCard(Color.RED);
-        PrivateObjectiveCard privateCard = new PrivateObjectiveCard(privateObjectiveCard);
+
 
         assertEquals(privateObjectiveCard.getName(), privateCard.getName());
         assertEquals(privateObjectiveCard.getDescription(), privateCard.getDescription());

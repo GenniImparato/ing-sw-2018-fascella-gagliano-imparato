@@ -7,6 +7,8 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.MediumShadesCard;
 import it.polimi.se2018.utils.Color;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,12 +17,18 @@ import static org.junit.Assert.fail;
 public class TestMediumShadesPublicCards
 {
 
-    @Test
-    public void testScore()
+    private static PublicObjectiveCardScorer scorer;
+    private static SagradaSchemeCardFile sagradaSchemeCardFile;
+    private static Board board;
+    private static Die die0;
+    private static Die die1;
+    private static Die die2;
+    private static Die die3;
+
+    @BeforeClass
+    public static void setUpClass()
     {
-        PublicObjectiveCardScorer scorer;
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
+        board = new Board();
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
@@ -29,13 +37,13 @@ public class TestMediumShadesPublicCards
         }
         catch(Exception e) {fail();}
 
-        Die die0 = new Die(Color.PURPLE);
+        die0 = new Die(Color.PURPLE);
         die0.setValue(3);
-        Die die1 = new Die(Color.PURPLE);
+        die1 = new Die(Color.PURPLE);
         die1.setValue(4);
-        Die die2 = new Die(Color.PURPLE);
+        die2 = new Die(Color.PURPLE);
         die2.setValue(3);
-        Die die3 = new Die(Color.PURPLE);
+        die3 = new Die(Color.PURPLE);
         die3.setValue(1);
 
 
@@ -52,11 +60,17 @@ public class TestMediumShadesPublicCards
         {
             fail();
         }
+    }
 
+    @Before
+    public void setUp()
+    {
         scorer = new PublicObjectiveCardScorer(board);
+    }
+
+    @Test
+    public void testScore()
+    {
         assertEquals(2, new MediumShadesCard().acceptVisitor(scorer));
-
-
-
     }
 }

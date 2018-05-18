@@ -8,20 +8,32 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.RowColorVarietyCard;
 import it.polimi.se2018.utils.Color;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 
 public class TestRowColorVarietyPublicCards
 {
+    private static PublicObjectiveCardScorer scorer;
+    private static SagradaSchemeCardFile sagradaSchemeCardFile;
+    private static Board board;
+    private static Die die0;
+    private static Die die1;
+    private static Die die2;
+    private static Die die3;
+    private static Die die4;
+    private static Die die5;
+    private static Die die6;
+    private static Die die7;
+    private static Die die8;
+    private static Die die9;
 
-    @Test
-    public void testScore()
+    @BeforeClass
+    public static void setUpClass()
     {
-
-        PublicObjectiveCardScorer scorer;
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
+        board = new Board();
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
@@ -30,26 +42,26 @@ public class TestRowColorVarietyPublicCards
         }
         catch(Exception e) {fail();}
 
-        Die die0 = new Die(Color.PURPLE);
+        die0 = new Die(Color.PURPLE);
         die0.setValue(1);
-        Die die1 = new Die(Color.GREEN);
+        die1 = new Die(Color.GREEN);
         die1.setValue(6);
-        Die die2 = new Die(Color.RED);
+        die2 = new Die(Color.RED);
         die2.setValue(2);
-        Die die3 = new Die(Color.YELLOW);
+        die3 = new Die(Color.YELLOW);
         die3.setValue(4);
-        Die die4 = new Die(Color.BLUE);
+        die4 = new Die(Color.BLUE);
         die4.setValue(3);
 
-        Die die5 = new Die(Color.GREEN);
+        die5 = new Die(Color.GREEN);
         die5.setValue(5);
-        Die die6 = new Die(Color.PURPLE);
+        die6 = new Die(Color.PURPLE);
         die6.setValue(1);
-        Die die7 = new Die(Color.GREEN);
+        die7 = new Die(Color.GREEN);
         die7.setValue(3);
-        Die die8 = new Die(Color.RED);
+        die8 = new Die(Color.RED);
         die8.setValue(2);
-        Die die9 = new Die(Color.YELLOW);
+        die9 = new Die(Color.YELLOW);
         die9.setValue(4);
 
 
@@ -71,9 +83,16 @@ public class TestRowColorVarietyPublicCards
         {
             fail();
         }
+    }
 
+    @Before
+    public void setUp()
+    {
         scorer = new PublicObjectiveCardScorer(board);
+    }
+    @Test
+    public void testScore()
+    {
         assertEquals(6, new RowColorVarietyCard().acceptVisitor(scorer));
-
     }
 }

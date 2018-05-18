@@ -3,105 +3,21 @@ import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestBoard
 {
-    private Board firstBoard = new Board();
+    private Board board;
+    private SagradaSchemeCardFile sagradaSchemeCardFile;
 
-    @Test
-    //test if the cells of the board are initialized
-    public void testRandomBoard ()
+
+    @Before
+    public void setUp()
     {
-        Board board = new Board();
-
-        for (int i=0; i<Board.ROWS; i++)
-        {
-            for (int j=0; j<Board.COLUMNS; j++)
-            {
-                assertNotNull(board.getCell(i,j));
-                assertEquals(null, board.getDie(i,j));
-            }
-        }
-
-    }
-
-    @Test
-    //test if the cells of the board built with a given parameter is initialized
-    public void testCloneBoard()
-    {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
-        Cell [][] cellMatrix = new Cell[Board.ROWS][Board.COLUMNS];
-
-        try
-        {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
-            board = sagradaSchemeCardFile.generateBoard();
-        }
-        catch (Exception e)
-        {
-            fail();
-        }
-
-
-
-        for (int i=0; i<Board.ROWS; i++)
-        {
-            for (int j=0; j<Board.COLUMNS; j++)
-            {
-                cellMatrix[i][j] = board.getCell(i,j);
-            }
-        }
-
-
-        Die die = new Die(Color.RED);           //add a die in the board tha will be cloned, to test if it will be added
-        die.setValue(6);                        //also in the cloned one.
-        try
-        {
-            board.addDie(die, 3, 0);
-        }
-        catch (ChangeModelStateException e)
-        {
-            fail();
-        }
-        Board secondBoard = new Board (board);     //the input of the constructor is the board of the known one
-        {
-            for (int i=0; i<Board.ROWS; i++)
-            {
-                for (int j=0; j<Board.COLUMNS; j++)
-                {
-                    assertNotNull(secondBoard.getCell(i,j));
-                }
-            }
-
-            assertNotNull(secondBoard.getDie(3,0));
-        }
-
-
-    }
-
-    @Test
-    public void testBoard()
-    {
-        Board board = new Board ();
-
-        for (int i=0; i<Board.ROWS; i++)
-        {
-            for (int j=0; j<Board.COLUMNS; j++)
-            {
-                assertNotNull(board.getCell(i,j));
-            }
-        }
-    }
-
-    @Test
-    public void testAddDie()
-    {
-        Board board = new Board();
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try                                             //try to open a known board
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Sun Catcher.sagradaschemecard");
@@ -112,6 +28,13 @@ public class TestBoard
         {
             fail();
         }
+
+    }
+
+
+    @Test
+    public void testAddDie()
+    {
 
 
         Die die = new Die(Color.getRandomColor());
@@ -251,34 +174,110 @@ public class TestBoard
 
     }
 
+
     @Test
-    public void testMoveDie()
+    //test if the cells of the board are initialized
+    public void testRandomBoard ()
     {
         Board board = new Board();
-        SagradaSchemeCardFile sagradaSchemeCardFile;
 
-        try                                             //try to open a known board
+        for (int i=0; i<Board.ROWS; i++)
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Aurora Sagradis.sagradaschemecard");
-            board = sagradaSchemeCardFile.generateBoard();
+            for (int j=0; j<Board.COLUMNS; j++)
+            {
+                assertNotNull(board.getCell(i,j));
+                assertEquals(null, board.getDie(i,j));
+            }
         }
 
+    }
+
+    @Test
+    //test if the cells of the board built with a given parameter is initialized
+    public void testCloneBoard()
+    {
+        SagradaSchemeCardFile sagradaSchemeCardFile;
+        Board board = new Board();
+        Cell [][] cellMatrix = new Cell[Board.ROWS][Board.COLUMNS];
+
+        try
+        {
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
+            board = sagradaSchemeCardFile.generateBoard();
+        }
         catch (Exception e)
         {
             fail();
         }
 
 
-        Die die = new Die(Color.RED);
+
+        for (int i=0; i<Board.ROWS; i++)
+        {
+            for (int j=0; j<Board.COLUMNS; j++)
+            {
+                cellMatrix[i][j] = board.getCell(i,j);
+            }
+        }
+
+
+        Die die = new Die(Color.RED);           //add a die in the board tha will be cloned, to test if it will be added
+        die.setValue(6);                        //also in the cloned one.
+        try
+        {
+            board.addDie(die, 3, 0);
+        }
+        catch (ChangeModelStateException e)
+        {
+            fail();
+        }
+        Board secondBoard = new Board (board);     //the input of the constructor is the board of the known one
+        {
+            for (int i=0; i<Board.ROWS; i++)
+            {
+                for (int j=0; j<Board.COLUMNS; j++)
+                {
+                    assertNotNull(secondBoard.getCell(i,j));
+                }
+            }
+
+            assertNotNull(secondBoard.getDie(3,0));
+        }
+
+
+    }
+
+    @Test
+    public void testBoard()
+    {
+        Board board = new Board ();
+
+        for (int i=0; i<Board.ROWS; i++)
+        {
+            for (int j=0; j<Board.COLUMNS; j++)
+            {
+                assertNotNull(board.getCell(i,j));
+            }
+        }
+    }
+
+
+
+
+    @Test
+    public void testMoveDie()
+    {
+
+        Die die = new Die(Color.BLUE);
         die.setValue(6);
-        Die die1 = new Die(Color.YELLOW);
+        Die die1 = new Die(Color.RED);
         die1.setValue(2);
         Die die2 = new Die(Color.getRandomColor());
 
         try                                             //try to add two dice on the board
         {
-            board.addDie(die,0,0);
-            board.addDie(die1,0,1);
+            board.addDie(die,0,1);
+            board.addDie(die1,0,2);
         }
         catch(ChangeModelStateException e)
         {
@@ -288,7 +287,7 @@ public class TestBoard
 
         try                                             //try to move the die ignoring the color restriction
         {
-            board.moveDie(die, 0, 2, false, true);
+            board.moveDie(die, 1, 3, false, true);
         }
         catch(ChangeModelStateException e)
         {
@@ -299,7 +298,7 @@ public class TestBoard
         die0.setValue(2);
         try                                             //try to move the die ignoring the value restriction
         {
-            board.moveDie(die,1,0,true,false);
+            board.moveDie(die,1,1,true,false);
         }
         catch(ChangeModelStateException e)
         {
@@ -308,7 +307,7 @@ public class TestBoard
 
         try                                             //try to move a die in a cell already occupied
         {
-            board.moveDie(die,0,1,true,false);
+            board.moveDie(die1,0,1,true,false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -333,8 +332,6 @@ public class TestBoard
     @Test
     public void testGetString()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try                                             //try to open a known board
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Aurora Sagradis.sagradaschemecard");
@@ -350,10 +347,11 @@ public class TestBoard
 
     }
 
+
     @Test
     public void testWrongCoordinates()
     {
-        Board board = new Board();
+
 
         assertEquals(null, board.getCell(-1,-8));          //wrong range
 
@@ -374,6 +372,7 @@ public class TestBoard
 
 
     }
+
 
     @Test
     public void testDieNotPlaced()
