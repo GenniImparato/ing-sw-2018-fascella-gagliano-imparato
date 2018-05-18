@@ -65,7 +65,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range.sagradaschemecard 2");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range 2.sagradaschemecard");
             fail();
         }
         catch(InvalidFileException e)
@@ -147,7 +147,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             x=sagradaSchemeCardFile.getDifficulty();
 
         }
