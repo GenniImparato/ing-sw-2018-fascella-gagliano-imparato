@@ -7,20 +7,18 @@ import it.polimi.se2018.view.cli.renderer.CLIRendererSchemeCardChoice;
 
 public class CLIChooseSchemeCardView extends CLIView
 {
-    private Board firstSchemeBoard;
-    private Board secondSchemeBoard;
+    private Board[] schemeCards;
 
-    public CLIChooseSchemeCardView(CLI cli, Board firstSchemeBoard, Board secondSchemeBoard)
+    public CLIChooseSchemeCardView(CLI cli, Board[] schemeCards)
     {
         super(cli);
-        this.firstSchemeBoard = firstSchemeBoard;
-        this.secondSchemeBoard = secondSchemeBoard;
+        this.schemeCards = schemeCards;
     }
 
     public void draw()
     {
         cli.clear();
-        new CLIRendererSchemeCardChoice(cli, cli.getModel(), firstSchemeBoard, secondSchemeBoard).render();
+        new CLIRendererSchemeCardChoice(cli, cli.getModel(), schemeCards).render();
         cli.showMessage("Choose a scheme card to play with:");
         cli.showMessage("1) Select first scheme.");
         cli.showMessage("2) Select second scheme.");

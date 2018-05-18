@@ -15,13 +15,14 @@ import java.util.Random;
  */
 public class Board
 {
-    public static final int ROWS = 4;
-    public static final int COLUMNS = 5;
+    public static final int     ROWS = 4;
+    public static final int     COLUMNS = 5;
 
-    private Cell[][] cellMatrix;
-    private Die[][] dieMatrix;
+    private Cell[][]            cellMatrix;
+    private Die[][]             dieMatrix;
 
-    private String     schemeCardName;
+    private String              schemeCardName = "";
+    private int                 difficulty = 0;
 
     /**
      * Constructor that creates a Board and initializes it with random restrictions
@@ -30,7 +31,6 @@ public class Board
     {
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
-        this.schemeCardName = "";
 
         initCellMatrixRandom();
     }
@@ -39,11 +39,12 @@ public class Board
      * Constructor that creates a Board and initializes it with values of a matrix (passed by parameter)
      * @param cellMatrix matrix associated with the Board
      */
-    public Board(Cell[][] cellMatrix, String schemeCardName)
+    public Board(Cell[][] cellMatrix, String schemeCardName, int difficulty)
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
         this.schemeCardName = schemeCardName;
+        this.difficulty = difficulty;
 
         for (int row = 0; row < Board.ROWS; row++)
         {
@@ -77,10 +78,14 @@ public class Board
         }
     }
 
-
     public String getSchemeCardName()
     {
         return this.schemeCardName;
+    }
+
+    public int getDifficulty()
+    {
+        return difficulty;
     }
 
     /**

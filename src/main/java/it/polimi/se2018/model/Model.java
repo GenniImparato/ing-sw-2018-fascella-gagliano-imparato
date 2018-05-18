@@ -207,13 +207,10 @@ public class Model extends Observable <Message>
 
     public void setPlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
-        if(choice != 1 && choice != 2)
+        if(choice < 0 || choice > 3)
             throw new ChangeModelStateException("Not valid choice");
 
-        if(choice == 1)
-            player.setBoard(schemeCards.get(player.getFirstSchemeCardIndex()));
-        else
-            player.setBoard(schemeCards.get(player.getSecondSchemeCardIndex()));
+        player.setBoard(schemeCards.get(player.getSchemeCardIndex(choice)));
     }
 
     public void setCurrentToolCard(int cardNum) throws ChangeModelStateException
@@ -275,21 +272,22 @@ public class Model extends Observable <Message>
 
         for(Player player : players)
         {
-            int firstIndex;
-            int secondIndex;
+            Board selectedSchemeCards[] = new Board[4];
 
-            //get 2 random indices
+            //get 4 random indices
             //every time and index is randomly generated it's removed from the list
             //this ensures that every random index is different from the others
-            firstIndex = schemeCardsIndices.remove(new Random().nextInt(schemeCardsIndices.size()));
-            secondIndex = schemeCardsIndices.remove(new Random().nextInt(schemeCardsIndices.size()));
+            for(int i=0; i<4; i++)
+            {
+                int randomIndex = schemeCardsIndices.remove(new Random().nextInt(schemeCardsIndices.size()));
+                player.setSchemeCardIndex(i, randomIndex);
+                selectedSchemeCards[i] = schemeCards.get(randomIndex);
+            }
 
-            player.setFirstSchemeCardIndex(firstIndex);
-            player.setSecondSchemeCardIndex(secondIndex);
 
-            //notify the view that 2 random scheme cards have been selected
+            //notify the view that 4 random scheme cards have been selected for a player
             //so the view(user) can choose on of them
-            notify(new SelectedPlayerSchemeCardsMessage(this, player, schemeCards.get(firstIndex), schemeCards.get(secondIndex)));
+            notify(new SelectedPlayerSchemeCardsMessage(this, player, selectedSchemeCards));
         }
     }
 

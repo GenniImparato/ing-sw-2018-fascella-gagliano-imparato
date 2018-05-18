@@ -125,13 +125,7 @@ public class SagradaSchemeCardFile extends File
 
     public Board generateBoard()
     {
-        return new Board(cellMatrix, schemeName);
+        return new Board(cellMatrix, schemeName, difficulty);
     }
-
-    public int getDifficulty()
-    {
-        return difficulty;
-    }
-
 
 }

@@ -9,14 +9,12 @@ import java.util.List;
 
 public class CLIRendererSchemeCardChoice extends CLIRenderer
 {
-    private Board firstSchemeBoard;
-    private Board secondSchemeBoard;
+    private Board[] schemeCards;
 
-    public CLIRendererSchemeCardChoice(CLI cli, Model model, Board firstSchemeBoard, Board secondSchemeBoard)
+    public CLIRendererSchemeCardChoice(CLI cli, Model model, Board[] schemeCards)
     {
-        super(cli, model, 150, 23);
-        this.firstSchemeBoard = firstSchemeBoard;
-        this.secondSchemeBoard = secondSchemeBoard;
+        super(cli, model, 150, 50);
+        this.schemeCards = schemeCards;
     }
 
     //helper
@@ -24,7 +22,9 @@ public class CLIRendererSchemeCardChoice extends CLIRenderer
     {
         initMatrix();
 
-        new CLIElementBoard(this, firstSchemeBoard, 0, 0, false);
-        new CLIElementBoard(this, secondSchemeBoard, 55, 0, false);
+        new CLIElementBoard(this, schemeCards[0], 0, 0, false);
+        new CLIElementBoard(this, schemeCards[1], 57, 0, false);
+        new CLIElementBoard(this, schemeCards[2], 0, 25, false);
+        new CLIElementBoard(this, schemeCards[3], 57, 25, false);
     }
 }

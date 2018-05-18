@@ -19,7 +19,7 @@ public class CLIMessageParser implements MessageVisitor
     {
         if(event.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
         {
-            cli.showView(new CLIChooseSchemeCardView(cli, event.getFirstSchemeBoard(), event.getSecondSchemeBoard()));
+            cli.showView(new CLIChooseSchemeCardView(cli, event.getSchemeBoards()));
         }
     }
 

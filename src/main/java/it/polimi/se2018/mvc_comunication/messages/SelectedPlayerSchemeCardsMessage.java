@@ -8,16 +8,16 @@ import it.polimi.se2018.mvc_comunication.MessageVisitor;
 
 public class SelectedPlayerSchemeCardsMessage extends Message
 {
-    private Player player;
-    private Board  firstScheme;
-    private Board  secondScheme;
+    private Player  player;
+    private Board[] schemeCards;
 
-    public SelectedPlayerSchemeCardsMessage(Model model, Player player, Board firstScheme, Board secondScheme)
+    public SelectedPlayerSchemeCardsMessage(Model model, Player player, Board[] schemeCards)
     {
         super(model);
         this.player = new Player(player);
-        this.firstScheme = new Board(firstScheme);
-        this.secondScheme = new Board(secondScheme);
+        this.schemeCards = new Board[4];
+        for(int i=0; i<4; i++)
+            this.schemeCards[i] = new Board(schemeCards[i]);
     }
 
     public Player getPlayer()
@@ -25,14 +25,9 @@ public class SelectedPlayerSchemeCardsMessage extends Message
         return player;
     }
 
-    public Board getFirstSchemeBoard()
+    public Board[] getSchemeBoards()
     {
-        return firstScheme;
-    }
-
-    public Board getSecondSchemeBoard()
-    {
-        return secondScheme;
+        return schemeCards;
     }
 
     @Override

@@ -20,8 +20,7 @@ public class Player
     private String                  nickname;
 
     private boolean                 schemeCardChosen = false;
-    private int                     firstSchemeCardIndex;
-    private int                     secondSchemeCardIndex;
+    private int[]                   schemeCardIndices;
 
     /**
      * Constructor that creates a Player and sets his nickname
@@ -30,6 +29,7 @@ public class Player
     public Player(String nickname)
     {
         this.nickname = nickname;
+        this.schemeCardIndices = new int[4];
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
         board = new Board();
@@ -47,6 +47,8 @@ public class Player
         this.score = player.score;
         this.color = player.color;
         this.nickname = player.nickname;
+        this.schemeCardChosen = player.schemeCardChosen;
+        this.schemeCardIndices = player.schemeCardIndices;
     }
 
     public boolean hasChoosenSchemeCard()
@@ -54,24 +56,17 @@ public class Player
         return schemeCardChosen;
     }
 
-    public void setFirstSchemeCardIndex(int index)
+    public void setSchemeCardIndex(int num, int schemeIndex)
     {
-        this.firstSchemeCardIndex = index;
+        if(num >= 0 && num <= 3)
+            this.schemeCardIndices[num] = schemeIndex;
     }
 
-    public void setSecondSchemeCardIndex(int index)
+    public int getSchemeCardIndex(int num)
     {
-        this.secondSchemeCardIndex = index;
-    }
-
-    public int getFirstSchemeCardIndex()
-    {
-        return firstSchemeCardIndex;
-    }
-
-    public int getSecondSchemeCardIndex()
-    {
-        return secondSchemeCardIndex;
+        if(num >= 0 && num <=3)
+            return this.schemeCardIndices[num];
+        else return -1;
     }
 
     /**
