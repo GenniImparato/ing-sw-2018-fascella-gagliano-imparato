@@ -21,6 +21,8 @@ public class Board
     private Cell[][] cellMatrix;
     private Die[][] dieMatrix;
 
+    private String     schemeCardName;
+
     /**
      * Constructor that creates a Board and initializes it with random restrictions
      */
@@ -28,7 +30,7 @@ public class Board
     {
         cellMatrix = new Cell[ROWS][COLUMNS];
         dieMatrix = new Die[ROWS][COLUMNS];
-
+        this.schemeCardName = "";
 
         initCellMatrixRandom();
     }
@@ -37,10 +39,11 @@ public class Board
      * Constructor that creates a Board and initializes it with values of a matrix (passed by parameter)
      * @param cellMatrix matrix associated with the Board
      */
-    public Board(Cell[][] cellMatrix)
+    public Board(Cell[][] cellMatrix, String schemeCardName)
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
+        this.schemeCardName = schemeCardName;
 
         for (int row = 0; row < Board.ROWS; row++)
         {
@@ -59,6 +62,7 @@ public class Board
     {
         this.cellMatrix = new Cell[ROWS][COLUMNS];
         this.dieMatrix = new Die[ROWS][COLUMNS];
+        this.schemeCardName = "";
 
         for (int row = 0; row < Board.ROWS; row++)
         {
@@ -71,6 +75,12 @@ public class Board
                     this.dieMatrix[row][col] = new Die(die);
             }
         }
+    }
+
+
+    public String getSchemeCardName()
+    {
+        return this.schemeCardName;
     }
 
     /**
