@@ -25,7 +25,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/22 elem");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/22 elem.sagradaschemecard");
             fail();
         }
         catch(InvalidFileException e)
@@ -45,12 +45,12 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/out of range");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range.sagradaschemecard");
             fail();
         }
         catch(InvalidFileException e)
         {
-            System.out.println("This board has a value out of range");
+            System.out.println("This board has a value out of range.sagradaschemecard");
         }
         catch(CannotReadFileException e)
         {
@@ -65,12 +65,12 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/out of range 2");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range.sagradaschemecard 2");
             fail();
         }
         catch(InvalidFileException e)
         {
-            System.out.println("This board has a value out of range");
+            System.out.println("This board has a value out of range.sagradaschemecard");
         }
         catch(CannotReadFileException e)
         {
@@ -85,7 +85,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/20 elem");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/20 elem.sagradaschemecard");
             fail();
         }
         catch(InvalidFileException e)
@@ -105,7 +105,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/wrong color");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/wrong color.sagradaschemecard");
             fail();
         }
         catch(InvalidFileException e)
@@ -125,7 +125,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/zuzulus");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/zuzulus");
             fail();
         }
         catch(InvalidFileException e)
@@ -147,13 +147,13 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/Firmitas.sagradaschemecard");
             x=sagradaSchemeCardFile.getDifficulty();
 
         }
         catch(InvalidFileException e)
         {
-            System.out.println("This board has a value out of range");
+            System.out.println("This board has a value out of range.sagradaschemecard");
         }
         catch(CannotReadFileException e)
         {

@@ -37,7 +37,7 @@ public class TestBoard
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/1-Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch (Exception e)
@@ -104,7 +104,7 @@ public class TestBoard
 
         try                                             //try to open a known board
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/2-Sun Catcher.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Sun Catcher.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
 
@@ -259,7 +259,7 @@ public class TestBoard
 
         try                                             //try to open a known board
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/2-Sun Catcher.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Sun Catcher.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
 

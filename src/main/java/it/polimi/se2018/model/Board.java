@@ -155,7 +155,7 @@ public class Board
 
     /**
      * Returns an ArrayList of dice placed in a row passed by parameter;
-     * if the index is out of range, returns an empty ArrayList
+     * if the index is out of range.sagradaschemecard, returns an empty ArrayList
      * @param row row of the matrix of dice associated with the Board
      * @return an ArrayList of dice placed in the same row of the matrix of the Board;
      * an empty ArrayList if the index is not accepted
@@ -174,7 +174,7 @@ public class Board
 
     /**
      * Returns an ArrayList of Dice placed in a column passed by parameter;
-     * if the index is out of range, returns an empty ArrayList
+     * if the index is out of range.sagradaschemecard, returns an empty ArrayList
      * @param col column of the matrix of dice associated with the Board
      * @return an ArrayList of dice placed in the same column of the matrix of the Board;
      * an empty ArrayList if the index is not accepted
