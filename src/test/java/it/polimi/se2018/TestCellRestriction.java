@@ -1,14 +1,20 @@
 package it.polimi.se2018;
 import it.polimi.se2018.model.Cell;
 import it.polimi.se2018.utils.Color;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
+/**
+ * Class used to test the methods of the class CellRestriction
+ * @author Carmelo Fascella
+ */
 public class TestCellRestriction
 {
+    /**
+     *Tests if the cell without restrictions complies with our convention
+     */
 
-    //tests if the cell without restrictions complies with our convention
     @Test
     public void testNoRestrictions()
     {
@@ -21,7 +27,10 @@ public class TestCellRestriction
 
     }
 
-    //tests if the cell with value restriction complies with our convention
+    /**
+     *Tests if the cell with value restriction complies with our convention
+     */
+
     @Test
     public void testValueRestriction()
     {
@@ -36,7 +45,10 @@ public class TestCellRestriction
 
     }
 
-    //tests if the cell with color restriction complies with our convention
+    /**
+     *Tests if the cell with color restriction complies with our convention
+     */
+
     @Test
     public void testColorRestriction()
     {
@@ -50,7 +62,10 @@ public class TestCellRestriction
 
     }
 
-    //tests the values of the cloned cell restriction
+    /**
+     *Tests the construction of a cloned Cell, and tests if the values of the cloned cell restriction match with the original ones
+     */
+
     @Test
     public void testCloneCellRestriction ()
     {

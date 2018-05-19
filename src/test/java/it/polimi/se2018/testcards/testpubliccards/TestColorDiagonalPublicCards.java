@@ -12,6 +12,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Class used to test the methods of the class ColorDiagonalPublicCard
+ * @author Carmelo Fascella
+ */
 public class TestColorDiagonalPublicCards
 {
     private static PublicObjectiveCardScorer scorer;
@@ -25,6 +29,9 @@ public class TestColorDiagonalPublicCards
     private static Die die5;
 
 
+    /**
+     * Tries to add some dice on the board to verify if the scorer calculates the right value
+     */
     @BeforeClass
     public static void setUpClass()
     {
@@ -70,11 +77,18 @@ public class TestColorDiagonalPublicCards
 
 
     }
+    /**
+     * Creates the scorer with the board just created before
+     */
     @Before
     public void setUp()
     {
-        scorer = new PublicObjectiveCardScorer(board);          //creates the scorer with the board just created before
+        scorer = new PublicObjectiveCardScorer(board);
     }
+
+    /**
+     * Tests if the scorer counts all the purple dice on the diagonals
+     */
     @Test
     public void testScore()
     {

@@ -1,51 +1,110 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.utils.Color;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Class used to test the methods of the class Color
+ * @author Carmelo Fascella
+ */
 public class TestColor
 {
+    private Color colorRed;
+    private Color colorBlue;
+    private Color colorPurple;
+    private Color colorGreen;
+    private Color colorYellow;
 
-    @Test
-    //tests the parameters of all possible instance of the color with the getters
-    public void testColorParameters()
+    /**
+     *Sets Up the Color that will be used to test
+     */
+    @Before
+    public void setUp()
     {
-        Color colorRed = Color.RED;
+        colorRed = Color.RED;
+        colorBlue = Color.BLUE;
+        colorGreen = Color.GREEN;
+        colorYellow = Color.YELLOW;
+        colorPurple = Color.PURPLE;
+    }
+
+    /**
+     * Test all the values of a Color.RED
+     */
+    @Test
+    public void testRedColor()
+    {
+
         assertEquals(colorRed, Color.getColorFromString("red"));
         assertEquals("\u001b[31;1m", colorRed.getConsoleString());
         assertEquals('R', colorRed.getFirstChar());
         assertEquals(0, colorRed.getNum());
+    }
 
-        Color colorBlue = Color.BLUE;
+    /**
+     * Test all the values of a Color.BLUE
+     */
+    @Test
+    public void testBlueColor()
+    {
+
         assertEquals(colorBlue, Color.getColorFromString("blue"));
         assertEquals("\u001b[34;1m", colorBlue.getConsoleString());
         assertEquals('B', colorBlue.getFirstChar());
         assertEquals(1, colorBlue.getNum());
+    }
 
-        Color colorGreen = Color.GREEN;
+    /**
+     * Test all the values of a Color.GREEN
+     */
+    @Test
+    public void testGreenColor()
+    {
         assertEquals(colorGreen, Color.getColorFromString("green"));
         assertEquals("\u001b[32;1m", colorGreen.getConsoleString());
         assertEquals('G', colorGreen.getFirstChar());
         assertEquals(2, colorGreen.getNum());
+    }
 
-        Color colorYellow = Color.YELLOW;
+    /**
+     * Test all the values of a Color.YELLOW
+     */
+    @Test
+    public void testYellowColor()
+    {
+
         assertEquals(colorYellow, Color.getColorFromString("yellow"));
         assertEquals("\u001b[33;1m", colorYellow.getConsoleString());
         assertEquals('Y', colorYellow.getFirstChar());
         assertEquals(3, colorYellow.getNum());
+    }
 
-        Color colorPurple = Color.PURPLE;
+    /**
+     * Test all the values of a Color.PURPLE
+     */
+    @Test
+    public void testPurpleColor()
+    {
         assertEquals(colorPurple, Color.getColorFromString("purple"));
         assertEquals("\u001b[35;1m", colorPurple.getConsoleString());
         assertEquals('P', colorPurple.getFirstChar());
         assertEquals(4, colorPurple.getNum());
-
-
-        assertEquals(null, Color.getColorFromString("zorba"));
-
     }
 
+    /**
+     * Test the value of a null Color
+     */
+    @Test
+    public void testNullColor()
+    {
+        assertEquals(null, Color.getColorFromString("zorba"));
+    }
+
+    /**
+     * Test the value of a Color.RED
+     */
     @Test
     public void testBlankColor()
     {

@@ -12,7 +12,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
+/**
+ * Class used to test the methods of the class ColumnColorVarietyPublicCard
+ * @author Carmelo Fascella
+ */
 public class TestColumnColorVarietyPublicCards
 {
     private static PublicObjectiveCardScorer scorer;
@@ -27,12 +30,15 @@ public class TestColumnColorVarietyPublicCards
     private static Die die6;
     private static Die die7;
 
+    /**
+     * Tries to add some dice on the board to verify if the scorer calculates the right value
+     */
     @BeforeClass
     public static void setUpClass()
     {
         board = new Board();
 
-        try                         //try to add some dice on the board to verify if the method score returns the right value
+        try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
@@ -77,11 +83,18 @@ public class TestColumnColorVarietyPublicCards
 
     }
 
+    /**
+     * Creates the scorer with the board just created before
+     */
     @Before
     public void setUp()
     {
         scorer = new PublicObjectiveCardScorer(board);
     }
+
+    /**
+     * Test if the scorer calculates the score related to one column with all different colors
+     */
     @Test
     public void testScore()
     {
