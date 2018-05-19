@@ -3,9 +3,7 @@ import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
