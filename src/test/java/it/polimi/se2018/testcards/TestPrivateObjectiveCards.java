@@ -13,6 +13,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class used to test the methods of the class PrivateObjectiveCard
+ * @author Carmelo Fascella
+ */
 public class TestPrivateObjectiveCards
 {
     private static SagradaSchemeCardFile sagradaSchemeCardFile;
@@ -23,12 +27,15 @@ public class TestPrivateObjectiveCards
     private PrivateObjectiveCard privateObjectiveCard;
     private PrivateObjectiveCard privateCard;
 
+    /**
+     * Tries to creats a board in order to be used in the test methods
+     */
     @BeforeClass
     public static void setUpClass()
     {
         board = new Board();
 
-        try                         //try to add some dice on the board to verify if the method score returns the right value
+        try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
@@ -37,6 +44,9 @@ public class TestPrivateObjectiveCards
     }
 
 
+    /**
+     * Tries to add some dice on the board to test the method score of the PrivateObjectiveCard.
+     */
     @Before
     public void setUp()
     {
@@ -61,6 +71,10 @@ public class TestPrivateObjectiveCards
 
 
     }
+
+    /**
+     * Tests if the method score of the PrivateObjectiveCard calculates the sum of the values of the dice added on the board that match with the color of the card
+     */
     @Test
     public void testScore()
     {
@@ -74,6 +88,9 @@ public class TestPrivateObjectiveCards
     }
 
 
+    /**
+     * Test if the getter of the PrivateObjectiveCard returns its proper color
+     */
     @Test
     public void testGetColor()
     {
@@ -83,12 +100,19 @@ public class TestPrivateObjectiveCards
     }
 
 
+    /**
+     * Sets up two cards in order to be tested in testCloneCard()
+     * */
     @Before
     public void setUp1()
     {
         privateObjectiveCard = new PrivateObjectiveCard(Color.RED);
         privateCard = new PrivateObjectiveCard(privateObjectiveCard);
     }
+
+    /**
+     * Test the generation of cloned card
+     */
     @Test
     public void testCloneCard()
     {

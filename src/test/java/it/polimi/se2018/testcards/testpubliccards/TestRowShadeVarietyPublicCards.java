@@ -13,6 +13,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class used to test the methods of the class RowShadeVarietyPublicCard
+ * @author Carmelo Fascella
+ */
 public class TestRowShadeVarietyPublicCards
 {
     private static PublicObjectiveCardScorer scorer;
@@ -30,6 +34,9 @@ public class TestRowShadeVarietyPublicCards
     private static Die die9;
     private static Die die10;
 
+    /**
+     * Tries to add some dice on the board to verify if the scorer calculates the right value
+     */
     @BeforeClass
     public static void setUpClass()
     {
@@ -87,12 +94,18 @@ public class TestRowShadeVarietyPublicCards
         }
     }
 
+    /**
+     * Creates the scorer with the board just created before
+     */
     @Before
     public void setUp()
     {
         scorer = new PublicObjectiveCardScorer(board);
     }
 
+    /**
+     * Test if the scorer calculates the score related to one column with all different values
+     */
     @Test
     public void testScore()
     {

@@ -15,17 +15,28 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * Class used to test the methods of the class PublicObjectiveCard
+ * @author Carmelo Fascella
+ */
 public class TestPublicObjectiveCards {
 
     private PublicObjectiveCard card;
     private List<PublicObjectiveCard> ret;
 
+    /**
+     * Sets up the cards that will be used in the following tests
+     */
     @Before
     public void setUp()
     {
         card = new ColorDiagonalsCard();
+        ret = PublicObjectiveCard.getRandomCards(10);
     }
+
+    /**
+     * Test the getter of the publicObjectiveCard
+     */
     @Test
     public void testGetter()
     {
@@ -34,11 +45,9 @@ public class TestPublicObjectiveCards {
         assertEquals("Count of diagonally adjacent same color dice", card.getDescription());
     }
 
-    @Before
-    public void setUp1()
-    {
-        ret = PublicObjectiveCard.getRandomCards(10);
-    }
+    /**
+     * Test the generation of a set of 10 public cards
+     */
     @Test
     public void testRandomGeneration()
     {

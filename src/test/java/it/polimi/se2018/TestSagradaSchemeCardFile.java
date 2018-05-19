@@ -15,13 +15,21 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 
+/**
+ * Class used to test the methods of the class SagradaSchemeCardFile
+ * @author Carmelo Fascella
+ */
 public class TestSagradaSchemeCardFile
 {
+    private SagradaSchemeCardFile sagradaSchemeCardFile;
 
+    /**
+     * Tests if a file with more than 21 elements catches the InvalidFileException
+     */
     @Test
-    public void testTooElements()           //test if a file with more than 21 elements catch the InvalidFileException
+    public void testTooElements()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
+
 
         try
         {
@@ -38,11 +46,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * //Tests the case where a file contains a value >6
+     */
     @Test
-    public void testElementTooBig()     //test if a file contains a value >6
+    public void testElementTooBig()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range.sagradaschemecard");
@@ -58,11 +67,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * Tests the case where a file contains a value <0
+     */
     @Test
-    public void testElementTooLow()     //test if a file contains a value <0
+    public void testElementTooLow()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/out of range 2.sagradaschemecard");
@@ -78,11 +88,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * //Tests the case where a file contains less than 21 elements
+     */
     @Test
-    public void testFewElements()           //test if a file contains less than 21 elements
+    public void testFewElements()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/20 elem.sagradaschemecard");
@@ -98,11 +109,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * Tests the case where a file contains a string that doesn't match with a color
+     */
     @Test
-    public void testWrongColorName()        //test if a file contains a string that doesn't match with a color
+    public void testWrongColorName()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/wrong color.sagradaschemecard");
@@ -118,11 +130,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * Test the case where the name of the file that you try to open is not valid
+     */
     @Test
     public void testNotValidName()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-
         try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("test_resources/schemecards/zuzulus");
@@ -138,11 +151,12 @@ public class TestSagradaSchemeCardFile
         }
     }
 
+    /**
+     * Tests if the getter of the difficulty of a Board returns the last value of the file opened.
+     */
     @Test
     public void testGetDifficulty()
     {
-        SagradaSchemeCardFile sagradaSchemeCardFile;
-        Board board = new Board();
         int x = 0;
 
         try
@@ -153,7 +167,7 @@ public class TestSagradaSchemeCardFile
         }
         catch(InvalidFileException e)
         {
-            System.out.println("This board has a value out of range.sagradaschemecard");
+
         }
         catch(CannotReadFileException e)
         {

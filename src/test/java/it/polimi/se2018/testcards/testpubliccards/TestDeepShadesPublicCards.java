@@ -12,6 +12,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Class used to test the methods of the class DeepShadesPublicCard
+ * @author Carmelo Fascella
+ */
 public class TestDeepShadesPublicCards
 {
     private static PublicObjectiveCardScorer scorer;
@@ -22,12 +26,15 @@ public class TestDeepShadesPublicCards
     private static Die die2;
     private static Die die3;
 
+    /**
+     * Tries to add some dice on the board to verify if the scorer calculates the right value
+     */
     @BeforeClass
     public static void setUpClass()
     {
         board = new Board();
 
-        try                         //try to add some dice on the board to verify if the method score returns the right value
+        try
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
@@ -59,11 +66,18 @@ public class TestDeepShadesPublicCards
         }
     }
 
+    /**
+     * Creates the scorer with the board just created before
+     */
     @Before
     public void setUp()
     {
         scorer = new PublicObjectiveCardScorer(board);
     }
+
+    /**
+     * Test if the scorer calculates the score related to one single set formed by one 6-die and one 5-die
+     */
     @Test
     public void testScore()
     {
