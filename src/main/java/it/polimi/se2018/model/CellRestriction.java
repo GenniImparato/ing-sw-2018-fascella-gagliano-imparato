@@ -2,13 +2,15 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.utils.Color;
 
+import java.io.Serializable;
+
 /**
  * Class used to represent the restriction of each Cell
  * @author Matteo Gagliano
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public class CellRestriction
+public class CellRestriction implements Serializable
 {
     private boolean active;         //false = no restriction       true = restriction active
     private boolean type;           //false = value restriction    true = color restriction

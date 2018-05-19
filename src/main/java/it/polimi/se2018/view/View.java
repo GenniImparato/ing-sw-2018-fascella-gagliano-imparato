@@ -7,13 +7,15 @@ import it.polimi.se2018.model.Model;
 import it.polimi.se2018.network.socket.ClientInterface;
 import it.polimi.se2018.utils.*;
 
-//every concrete view has to extend this class
-public abstract class View extends Observable<Event> implements Observer <Message>, ClientInterface
-{
-    private Model       model;
-    private String      playerNickname;
+import java.io.Serializable;
 
-    protected Logger      logger;
+//every concrete view has to extend this class
+public abstract class View extends Observable<Event> implements Observer <Message>, ClientInterface, Serializable
+{
+    private transient   Model       model;
+    private             String      playerNickname;
+
+    protected transient Logger      logger;
 
     public View()
     {

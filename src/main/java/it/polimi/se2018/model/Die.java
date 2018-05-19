@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.utils.Color;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Random;
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public class Die
+public class Die implements Serializable
 {
     private Color color;
     private int         value;

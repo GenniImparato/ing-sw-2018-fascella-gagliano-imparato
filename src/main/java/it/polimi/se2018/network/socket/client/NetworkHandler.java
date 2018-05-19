@@ -1,38 +1,43 @@
 package it.polimi.se2018.network.socket.client;
 
+import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.network.socket.ClientInterface;
-import it.polimi.se2018.network.socket.server.ServerInterface;
-import it.polimi.se2018.view.cli.CLI;
+import it.polimi.se2018.network.socket.NetworkMessage;
+import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.utils.Observer;
+import it.polimi.se2018.view.View;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class NetworkHandler extends Thread implements ServerInterface
+public class NetworkHandler extends Observable<Message> implements Observer<Event>, Runnable
 {
     private Socket socketToServer;
-    private ClientInterface client;
-    private BufferedReader in;
+    private ClientInterface clientView;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     private ClientNetworkMessageAnalyzer messageAnalyzer;
 
-    public NetworkHandler(String host, int port, ClientInterface client)
+    public NetworkHandler(String host, int port, View clientView)
     {
-        this.client = client;
+        this.clientView = clientView;
+        clientView.attach(this);
+        this.attach(clientView);
         messageAnalyzer = new ClientNetworkMessageAnalyzer(this);
 
         try
         {
             socketToServer = new Socket(host,port);
-            this.in = new BufferedReader(new InputStreamReader(socketToServer.getInputStream()));
+            this.in = new ObjectInputStream(socketToServer.getInputStream());
+            this.out = new ObjectOutputStream(socketToServer.getOutputStream());
         }
         catch(IOException e){e.printStackTrace();}
-        start();
 
+        new Thread(this).start();
     }
 
     @Override
@@ -42,32 +47,29 @@ public class NetworkHandler extends Thread implements ServerInterface
         {
             try
             {
-                String inputString = in.readLine();
-                messageAnalyzer.analyzeMessage(inputString);
+                NetworkMessage message = (NetworkMessage)in.readObject();
+                messageAnalyzer.analyzeMessage(message);
             }
-            catch (IOException e) {e.printStackTrace();}
+            catch (IOException|ClassNotFoundException e) {e.printStackTrace();}
         }
     }
 
-    @Override
-    public synchronized void sendToServer(Message message)
-    {
-
-    }
-
-    public synchronized ClientInterface getClient() {
-        return client;
-    }
-
-    private synchronized void parseString(String message)
+    private synchronized void sendToServer(Event event)
     {
         try
         {
-            Method method = client.getClass().getMethod(message);
-            method.invoke(client);
+            out.writeObject(new NetworkMessage(event));
         }
-        catch(IllegalAccessException|IllegalArgumentException|InvocationTargetException e)
-            {e.printStackTrace();}
-        catch(NoSuchMethodException e) {e.printStackTrace();}
+        catch(IOException e) {e.printStackTrace();}
+    }
+
+    public synchronized ClientInterface getClient() {
+        return clientView;
+    }
+
+    @Override
+    public void update(Event event)
+    {
+        sendToServer(event);
     }
 }

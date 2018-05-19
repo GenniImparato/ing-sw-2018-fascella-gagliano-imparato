@@ -1,35 +1,34 @@
 package it.polimi.se2018.network.socket.server;
 
+import it.polimi.se2018.model.*;
+import it.polimi.se2018.mvc_comunication.Event;
+import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.mvc_comunication.messages.AddedDieMessage;
 import it.polimi.se2018.network.socket.ClientInterface;
+import it.polimi.se2018.network.socket.NetworkMessage;
+import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.utils.Observer;
 
 import java.io.*;
 import java.net.Socket;
 
-public class VirtualView extends Thread implements ClientInterface
+public class VirtualView extends Observable<Event> implements ClientInterface, Runnable, Observer<Message>
 {
     private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public VirtualView(Socket clientSocket)
     {
         this.clientSocket = clientSocket;
         try
         {
-            this.out = new PrintWriter(clientSocket.getOutputStream(), true);
+            this.out = new ObjectOutputStream(clientSocket.getOutputStream());
         }
         catch(IOException e) { e.printStackTrace();}
 
-        start();
-
-        showMessage("MESSAGGIO DI ERRORE");
-        showMessage("MESSAGGIO DI ERRORE 2");
-        showMessage("MESSAGGIO DI ERRORE 3");
-        showMessage("MESSAGGIO DI ERRORE 4");
-        showMessage("MESSAGGIO DI ERRORE 5");
-        showMessage("MESSAGGIO DI ERRORE 6");
-        showMessage("MESSAGGIO DI ERRORE 7");
-        showMessage("MESSAGGIO DI ERRORE 8");
+        showErrorMessage("coffa");
     }
 
     @Override
@@ -37,88 +36,103 @@ public class VirtualView extends Thread implements ClientInterface
     public void run()
     {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            in = new ObjectInputStream(clientSocket.getInputStream());
 
-            while (true)
+            while(true)
             {
-                in.readLine();
-
+                NetworkMessage message = (NetworkMessage)in.readObject();
+                analyzeMessage(message);
             }
-        }catch(IOException e){e.printStackTrace();}
+        }catch(IOException|ClassNotFoundException e){e.printStackTrace();}
     }
 
+    @Override
+    public void start()
+    {
+        sendToClient(new NetworkMessage("start"));
+    }
 
     @Override
     public synchronized void showErrorMessage(String message)
     {
-        sendToClient("StartMethodInvocation");
-        sendToClient("showErrorMessage");
-        sendToClient(message);
-        sendToClient("EndMethodInvocation");
+        sendToClient(new NetworkMessage("showErrorMessage", message));
     }
 
     @Override
     public synchronized void showMessage(String message)
     {
-        sendToClient("StartMethodInvocation");
-        sendToClient("showMessage");
-        sendToClient(message);
-        sendToClient("EndMethodInvocation");
-
-
+        sendToClient(new NetworkMessage("showMessage", message));
     }
 
     @Override
     public synchronized void showMenu()
     {
-        sendToClient("showMenu");
+        sendToClient(new NetworkMessage("showMenu"));
     }
 
     @Override
     public synchronized void showTurn()
     {
-        sendToClient("showTurn");
+        sendToClient(new NetworkMessage("showTurn"));
     }
 
     @Override
     public synchronized void showDraft()
     {
-        sendToClient("showDraft");
+        sendToClient(new NetworkMessage("showDraft"));
     }
 
     @Override
     public synchronized void showAddDie()
     {
-        sendToClient("showAddDie");
+        sendToClient(new NetworkMessage("showAddDie"));
     }
 
     @Override
     public synchronized  void showSelectDieFromBoard()
     {
-        sendToClient("showSelectDieFromBoard");
+        sendToClient(new NetworkMessage("showSelectDieFromBoard"));
     }
 
     @Override
     public synchronized  void showMoveDie()
     {
-        sendToClient("showMoveDie");
+        sendToClient(new NetworkMessage("showMoveDie"));
     }
 
     @Override
     public synchronized void showIncrementDie()
     {
-        sendToClient("showIncrementDie");
+        sendToClient(new NetworkMessage("showIncrementDie"));
     }
 
     @Override
     public synchronized void reShowCurrentView()
     {
-        sendToClient("reShowCurrentView");
+
+        sendToClient(new NetworkMessage("reShowCurrentView"));
     }
 
     //Writes a message to the client socket
-    private synchronized void sendToClient(String message)
+    private synchronized void sendToClient(NetworkMessage message)
     {
-        out.println(message);
+        try
+        {
+            out.writeObject(message);
+        }
+        catch(IOException e) {e.printStackTrace();}
+    }
+
+    private synchronized void analyzeMessage(NetworkMessage message)
+    {
+        if(message.isEvent())
+            notify(message.getEvent());
+    }
+
+    @Override
+
+    public void update(Message message)
+    {
+        sendToClient(new NetworkMessage(message));
     }
 }

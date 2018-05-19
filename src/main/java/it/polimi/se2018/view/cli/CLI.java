@@ -13,18 +13,15 @@ import java.util.Scanner;
 
 public class CLI extends View
 {
-    private Scanner             scanner;
-    private CLIMessageParser    parser;
-    private CLIView             currentView;
+    private transient   Scanner             scanner;
+    private transient   CLIMessageParser    parser;
+    private transient   CLIView             currentView;
 
     public CLI(boolean loggerActive)
     {
         scanner = new Scanner(System.in);
         parser = new CLIMessageParser(this);
         logger = new CLILogger(this, loggerActive);
-
-        new Server();
-        new NetworkHandler("localhost", 1111, this);
     }
 
     @Override

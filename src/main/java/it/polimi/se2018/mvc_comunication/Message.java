@@ -2,7 +2,9 @@ package it.polimi.se2018.mvc_comunication;
 
 import it.polimi.se2018.model.Model;
 
-public abstract class Message implements MessageVisitable
+import java.io.Serializable;
+
+public abstract class Message implements MessageVisitable, Serializable
 {
     private Model model;
 

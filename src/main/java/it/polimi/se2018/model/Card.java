@@ -1,13 +1,15 @@
 package it.polimi.se2018.model;
 
 
+import java.io.Serializable;
+
 /**
  * Abstract class used to represent a generic card.
  * @author Matteo Gagliano
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public abstract class Card
+public abstract class Card implements Serializable
 {
     private String name;
     private String description;

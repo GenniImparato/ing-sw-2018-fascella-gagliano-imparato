@@ -1,4 +1,6 @@
 package it.polimi.se2018.network.socket.server;
+import it.polimi.se2018.controller.Controller;
+import it.polimi.se2018.model.Model;
 import it.polimi.se2018.network.socket.ClientInterface;
 
 import java.io.IOException;
@@ -11,6 +13,9 @@ public class Server
     private static final int PORT = 1111;
     private ServerSocket serverSocket;
     private List<ClientInterface> clients;
+
+    private Model       model;
+    private Controller  controller;
 
     public Server()
     {
@@ -25,8 +30,10 @@ public class Server
         //Creates a ClientManager on this server and
         //runs it in a different thread
         new ClientManager(this);
-    }
 
+        model = new Model();
+        controller = new Controller(model);
+    }
 
     public synchronized ServerSocket getServerSocket()
     {
@@ -36,12 +43,9 @@ public class Server
     public synchronized void addClient(Socket clientSocket)
     {
         VirtualView vView = new VirtualView(clientSocket);
+        vView.attach(controller);   //register the controller as an observer of the created virtual view
+        model.attach((vView));      //register the virtual view as an observer of the model
+        new Thread(vView).start();
         clients.add(vView);
-
     }
-
-
-
-
-
 }

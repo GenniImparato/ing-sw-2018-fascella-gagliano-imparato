@@ -9,12 +9,13 @@ import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.utils.Observable;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 //singleton class
-public class Model extends Observable <Message>
+public class Model extends Observable <Message> implements Serializable
 {
     private List<Player>                        players;
     private static final int                    MAX_PLAYERS_NUM = 4;

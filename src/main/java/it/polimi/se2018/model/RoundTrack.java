@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public class RoundTrack
+public class RoundTrack implements Serializable
 {
     private List<Die>[] dice;
     private DraftPool draftPool;

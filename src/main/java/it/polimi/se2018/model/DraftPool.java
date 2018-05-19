@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Carmelo Facella
  * @author Generoso Imparato
  */
-public class DraftPool
+public class DraftPool implements Serializable
 {
     private List <Die> dice;
     private DiceBag diceBag;

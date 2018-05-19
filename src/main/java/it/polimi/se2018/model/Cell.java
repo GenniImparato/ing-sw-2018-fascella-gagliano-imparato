@@ -2,13 +2,15 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.utils.Color;
 
+import java.io.Serializable;
+
 /**
  * Class used to represent a Cell of the Player's Board
  * @author Matteo Gagliano
  * @author Carmelo Fascello
  * @author Generoso Imperato
  */
-public class Cell
+public class Cell implements Serializable
 {
     private CellRestriction restriction;
 

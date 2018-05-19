@@ -2,7 +2,9 @@ package it.polimi.se2018.mvc_comunication;
 
 import it.polimi.se2018.view.View;
 
-public abstract class Event implements EventVisitable
+import java.io.Serializable;
+
+public abstract class Event implements EventVisitable, Serializable
 {
     private View    view;
 

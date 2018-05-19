@@ -12,14 +12,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        Model model = new Model();
         View cli = new CLI(false);
-        Controller controller = new Controller(model);
-        controller.setView(cli);
-
-        model.attach(cli);
-        cli.attach(controller);
-
-        controller.start();
+        cli.start();
     }
 }

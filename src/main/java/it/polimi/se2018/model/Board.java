@@ -3,6 +3,7 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +14,7 @@ import java.util.Random;
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public class Board
+public class Board implements Serializable
 {
     public static final int     ROWS = 4;
     public static final int     COLUMNS = 5;

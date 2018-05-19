@@ -4,13 +4,15 @@ import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.utils.Color;
 
+import java.io.Serializable;
+
 /**
  * Class used to represent a Player.
  * @author Matteo Gagliano
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public class Player
+public class Player implements Serializable
 {
     private Board                   board;              //player's board
     private PrivateObjectiveCard    card;               //player's private objective card
