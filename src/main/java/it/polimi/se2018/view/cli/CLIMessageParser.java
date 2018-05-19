@@ -170,4 +170,16 @@ public class CLIMessageParser implements MessageVisitor
                 +" - Message: " + message.getMessage(), Color.BLUE);
     }
 
+    @Override
+    public void visit(BegunTurnMessage message)
+    {
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+            notification = "Your turn begun! ";
+        else
+            notification = message.getPlayer().getNickname() + "'s turn begun! ";
+
+        cli.showNotification(notification, Color.BLUE);
+    }
 }

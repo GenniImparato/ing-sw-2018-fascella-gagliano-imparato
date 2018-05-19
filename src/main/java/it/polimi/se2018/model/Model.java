@@ -11,7 +11,6 @@ import it.polimi.se2018.utils.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 //singleton class
@@ -184,6 +183,7 @@ public class Model extends Observable <Message>
     public void setCurrentPlayer(Player player)
     {
         this.currentPlayer = player;
+        notify(new BegunTurnMessage(this, currentPlayer));
     }
 
     public Player getCurrentPlayer()
@@ -249,15 +249,29 @@ public class Model extends Observable <Message>
         notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
     }
 
+    public boolean hasEveryPlayerChosenSchemeCard()
+    {
+        for(Player player : players)
+        {
+            if(!player.hasChoosenSchemeCard())
+                return false;
+        }
+
+        return true;
+    }
+
     public void startGame() throws ChangeModelStateException
     {
-        if(getPlayerNum() >= MIN_PLAYERS_NUM)
-        {
-            gameStarted = true;
-            notify(new StartedGameMessage(this));
-        }
-        else
+        if(getPlayerNum() < MIN_PLAYERS_NUM)
             throw new ChangeModelStateException("Not enough players to start the game!");
+
+        if(!hasEveryPlayerChosenSchemeCard())
+            throw new ChangeModelStateException("Not every player has chosen a scheme card!");
+
+
+        gameStarted = true;
+        notify(new StartedGameMessage(this));
+
     }
 
     public void selectRandomSchemeCardsForPlayers() throws ChangeModelStateException
@@ -303,6 +317,11 @@ public class Model extends Observable <Message>
         draftPool.draw(getPlayerNum()*2 + 1);
     }
 
+    public void addLastDiceToRoundTrack(int round)
+    {
+        roundTrack.addLastDice(round);
+    }
+
     public void addDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
     {
         if(draftedDie == null)
@@ -346,160 +365,5 @@ public class Model extends Observable <Message>
         notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
     }
 
-
-    /*public Player getCurrentPlayer()
-    {
-        return currentPlayer;
-    }
-
-
-
-    //return an int from 0 to 9 that representing the current turn
-    public int getCurrentRoundNum()
-    {
-        return currentRound;
-    }
-
-    public Die getDraftedDie()
-    {
-        return draftedDie;
-    }
-
-    public Die getSelectedDie(){ return selectedDie;}
-
-    public List<Player> getAllPlayers ()
-    {
-        return playersIterator.getAllPlayers();
-    }
-
-    public List<PublicObjectiveCard> getAllPublicObjectiveCards ()
-    {
-        return publicCards;
-    }
-
-    public List<ToolCard> getAllToolCards ()
-    {
-        return toolCards;
-    }
-
-    public boolean isCurrentPlayerSecondTurn()
-    {
-        return playersIterator.isCurrentPlayerSecondTurn();
-    }
-
-    //add a new player to the model if the number of player is not at maximum
-    //return true if the player is added, false if it's not
-
-
-    public void startGame()
-    {
-        gameStarted = true;
-        beginRound();
-        notify(new GameStartedMessage(this));
-    }
-
-    //draw the correct number of dice from DiceBag to the DraftPool
-    public void beginRound()
-    {
-        draftPool.draw(getPlayerNum()*2 +1);
-        beginPlayerTurn();
-    }
-
-    //add the remaining dice in the DraftPool to the RoundTrack
-    public void endRound()
-    {
-        roundTrack.addLastDice(currentRound);
-
-        if(currentRound+1 < Model.TOTAL_ROUNDS)
-        {
-            currentRound++;
-            beginRound();
-        }
-    }
-
-    public void beginPlayerTurn()
-    {
-        currentPlayer = playersIterator.next();
-    }
-
-    public void endPlayerTurn()
-    {
-        if(playersIterator.isLastTurn())
-            endRound();
-    }
-
-    //draft the num die from the draft pool
-    //notify the view
-    public void draftDie(int num)
-    {
-        draftedDie = draftPool.draftDie(num);
-        notify(new DraftedDieMessage(this, draftedDie, currentPlayer));
-    }
-
-    public void returnLastDraftedDie()
-    {
-        draftPool.addDie(draftedDie);
-        Die die = draftedDie;
-        draftedDie = null;
-        notify(new ReturnedDieMessage(this, die, currentPlayer));
-    }
-
-    public boolean selectDieFromCurrentPlayerBoard(int row, int column)
-    {
-        selectedDie = currentPlayer.getBoard().getDie(row, column);
-        if(selectedDie != null)
-        {
-            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public boolean selectDieFromRoundTrack(int round, int dieNum)
-    {
-        if(roundTrack.getDiceAtRound(round).size()<=dieNum)
-            return false;
-        else
-        {
-            selectedDie = roundTrack.getDiceAtRound(round).get(dieNum);
-            notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
-            return true;
-        }
-    }
-
-    public void addDraftedDieToBoard(int row, int col) throws CannotPlaceDieException
-    {
-        try
-        {
-            getCurrentPlayer().getBoard().addDie(draftedDie, row, col);
-            notify(new AddedDieMessage(this, currentPlayer, row, col, draftedDie));
-        }
-        catch (CannotPlaceDieException e)
-        {
-            throw e;
-        }
-    }
-
-    public void startUsingToolCard(int cardNum, ToolCardVisitor visitor)
-    {
-        currentToolCard =  cardNum;
-        toolCards.get(currentToolCard).acceptVisitor(visitor);
-        notify(new UsingToolCardMessage(this, toolCards.get(currentToolCard)));
-    }
-
-    public void executeCurrentToolCardAction(int param1, int param2) throws CannotExecuteToolCardActionException
-    {
-        try
-        {
-            String message;
-            message = toolCards.get(currentToolCard).action(this, param1, param2);
-            notify(new ToolCardActionExecutedMessage(this, message));
-        }
-        catch (CannotExecuteToolCardActionException e)
-        {
-            throw e;
-        }
-    }*/
 
 }

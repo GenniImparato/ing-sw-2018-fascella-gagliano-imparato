@@ -16,4 +16,5 @@ public interface MessageVisitor
     void visit(ToolCardActionExecutedMessage message);
     void visit(ChangedDraftedDieMessage message);
     void visit(MovedDieMessage message);
+    void visit(BegunTurnMessage message);
 }

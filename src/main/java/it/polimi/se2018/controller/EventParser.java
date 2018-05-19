@@ -49,6 +49,12 @@ public class EventParser implements EventVisitor
     }
 
     @Override
+    public void visit(EndTurnEvent event)
+    {
+        controller.endPlayerTurn();
+    }
+
+    @Override
     public void visit(StartGameEvent event)
     {
         try

@@ -24,6 +24,9 @@ public class Controller implements Observer<Event>
     private boolean             ignoreValueRestriction;
     private boolean             ignoreColorRestriction;
 
+    private int                 currentRound;
+    private static final int    TOTAL_ROUNDS = 10;
+
     public Controller(Model model)
     {
         setModel(model);
@@ -88,7 +91,8 @@ public class Controller implements Observer<Event>
     protected void chosePlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         model.setPlayerSchemeCard(player, choice);
-        startGame();
+        if(model.hasEveryPlayerChosenSchemeCard())
+            startGame();
     }
 
     protected void startGameSetup() throws ChangeModelStateException
@@ -98,6 +102,7 @@ public class Controller implements Observer<Event>
 
     protected void startGame() throws ChangeModelStateException
     {
+        currentRound = 0;
         beginRound();
         model.startGame();
     }
@@ -164,6 +169,24 @@ public class Controller implements Observer<Event>
     private void beginPlayerTurn()
     {
         model.setCurrentPlayer(playerTurnIterator.next());
+    }
+
+    public void endPlayerTurn()
+    {
+        if(playerTurnIterator.isLastTurn())
+            endRound();
+    }
+
+    //add the remaining dice in the DraftPool to the RoundTrack
+    public void endRound()
+    {
+        model.addLastDiceToRoundTrack(currentRound);
+
+        if(currentRound+1 < TOTAL_ROUNDS)
+        {
+            currentRound++;
+            beginRound();
+        }
     }
 }
 
