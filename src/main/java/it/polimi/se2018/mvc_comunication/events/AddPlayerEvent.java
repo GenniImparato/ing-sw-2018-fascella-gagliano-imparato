@@ -3,12 +3,13 @@ package it.polimi.se2018.mvc_comunication.events;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.ViewInterface;
 
 public class AddPlayerEvent extends Event
 {
     private String nickname;
 
-    public AddPlayerEvent(View view, String nickname)
+    public AddPlayerEvent(ViewInterface view, String nickname)
     {
         super(view);
         this.nickname = nickname;

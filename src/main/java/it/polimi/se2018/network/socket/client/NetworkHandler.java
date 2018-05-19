@@ -2,7 +2,7 @@ package it.polimi.se2018.network.socket.client;
 
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
-import it.polimi.se2018.network.socket.ClientInterface;
+import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.Observer;
@@ -16,7 +16,7 @@ import java.net.Socket;
 public class NetworkHandler extends Observable<Message> implements Observer<Event>, Runnable
 {
     private Socket socketToServer;
-    private ClientInterface clientView;
+    private ViewInterface clientView;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -63,12 +63,12 @@ public class NetworkHandler extends Observable<Message> implements Observer<Even
         catch(IOException e) {e.printStackTrace();}
     }
 
-    public synchronized ClientInterface getClient() {
+    public synchronized ViewInterface getClient() {
         return clientView;
     }
 
     @Override
-    public void update(Event event)
+    public synchronized void update(Event event)
     {
         sendToServer(event);
     }

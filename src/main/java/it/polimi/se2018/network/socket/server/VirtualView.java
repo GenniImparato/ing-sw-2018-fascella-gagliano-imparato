@@ -1,19 +1,16 @@
 package it.polimi.se2018.network.socket.server;
 
-import it.polimi.se2018.model.*;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
-import it.polimi.se2018.mvc_comunication.messages.AddedDieMessage;
-import it.polimi.se2018.network.socket.ClientInterface;
+import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
-import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.Observer;
 
 import java.io.*;
 import java.net.Socket;
 
-public class VirtualView extends Observable<Event> implements ClientInterface, Runnable, Observer<Message>
+public class VirtualView extends Observable<Event> implements ViewInterface, Runnable, Observer<Message>
 {
     private Socket clientSocket;
     private ObjectOutputStream out;
@@ -47,7 +44,7 @@ public class VirtualView extends Observable<Event> implements ClientInterface, R
     }
 
     @Override
-    public void start()
+    public synchronized void start()
     {
         sendToClient(new NetworkMessage("start"));
     }
@@ -126,12 +123,15 @@ public class VirtualView extends Observable<Event> implements ClientInterface, R
     private synchronized void analyzeMessage(NetworkMessage message)
     {
         if(message.isEvent())
+        {
+            message.getEvent().setView(this);
+        }
             notify(message.getEvent());
     }
 
     @Override
 
-    public void update(Message message)
+    public synchronized void update(Message message)
     {
         sendToClient(new NetworkMessage(message));
     }

@@ -6,13 +6,13 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.utils.*;
-import it.polimi.se2018.view.View;
 
 public class Controller implements Observer<Event>
 {
     private Model               model;
-    private View                view;
+    private ViewInterface       view;
 
     private EventParser         parser;
 
@@ -34,6 +34,8 @@ public class Controller implements Observer<Event>
         parser = new EventParser(this);
 
         playerTurnIterator = new PlayerTurnIterator(this);
+
+        start();
     }
 
     @Override
@@ -48,12 +50,12 @@ public class Controller implements Observer<Event>
         return model;
     }
 
-    public View getView()
+    public ViewInterface getView()
     {
         return view;
     }
 
-    public void setView(View view)
+    public void setView(ViewInterface view)
     {
         this.view = view;
     }
@@ -66,14 +68,23 @@ public class Controller implements Observer<Event>
     public void start()
     {
         loadSchemeCardFiles();
-        view.start();
     }
 
     protected void loadSchemeCardFiles()
     {
         try
         {
-            SchemeCardLoader loader = new SchemeCardLoader("resources/schemecards/", view.getLogger());
+            SchemeCardLoader loader = new SchemeCardLoader("resources/schemecards/", new Logger() {
+                @Override
+                public void logMessage(String message) {
+
+                }
+
+                @Override
+                public void logErrorMessage(String message) {
+
+                }
+            });
             model.setSchemeCards(loader.getGeneratedBoards());
         }
         catch(LoadingFilesException e)

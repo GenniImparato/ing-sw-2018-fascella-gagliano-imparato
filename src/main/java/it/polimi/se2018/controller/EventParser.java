@@ -25,12 +25,12 @@ public class EventParser implements EventVisitor
         }
         catch(NoElementException e)
         {
-            event.getView().showErrorMessage("Player is not present in the game");
+            controller.getView().showErrorMessage("Player is not present in the game");
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -43,8 +43,8 @@ public class EventParser implements EventVisitor
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -63,7 +63,7 @@ public class EventParser implements EventVisitor
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
+            controller.getView().showErrorMessage(e.getMessage());
             System.exit(0);
         }
     }
@@ -76,14 +76,14 @@ public class EventParser implements EventVisitor
             controller.draftDie(event.getDieNum());
 
             if(!controller.isToolCardBeingUsed())
-                event.getView().showAddDie();
+                controller.getView().showAddDie();
             else
                 controller.nextToolCardStep();
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -93,12 +93,12 @@ public class EventParser implements EventVisitor
         try
         {
             controller.addDraftedDie(event.getRow(), event.getColumn());
-            event.getView().showTurn();
+            controller.getView().showTurn();
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -112,8 +112,8 @@ public class EventParser implements EventVisitor
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -127,8 +127,8 @@ public class EventParser implements EventVisitor
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -141,8 +141,8 @@ public class EventParser implements EventVisitor
         }
         catch(ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 
@@ -160,8 +160,8 @@ public class EventParser implements EventVisitor
         }
         catch (ChangeModelStateException e)
         {
-            event.getView().showErrorMessage(e.getMessage());
-            event.getView().reShowCurrentView();
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
         }
     }
 }

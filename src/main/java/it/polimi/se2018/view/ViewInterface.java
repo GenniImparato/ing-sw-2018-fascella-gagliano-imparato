@@ -1,10 +1,10 @@
-package it.polimi.se2018.network.socket;
+package it.polimi.se2018.view;
 
 import it.polimi.se2018.mvc_comunication.Message;
 
 import java.util.Observer;
 
-public interface ClientInterface
+public interface ViewInterface
 {
      void start();
      void showErrorMessage(String message);

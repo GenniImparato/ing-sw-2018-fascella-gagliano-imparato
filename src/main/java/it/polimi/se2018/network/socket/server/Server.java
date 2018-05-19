@@ -1,7 +1,7 @@
 package it.polimi.se2018.network.socket.server;
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.network.socket.ClientInterface;
+import it.polimi.se2018.view.ViewInterface;
 
 import java.io.IOException;
 import java.net.*;
@@ -12,7 +12,7 @@ public class Server
 {
     private static final int PORT = 1111;
     private ServerSocket serverSocket;
-    private List<ClientInterface> clients;
+    private List<ViewInterface> clients;
 
     private Model       model;
     private Controller  controller;

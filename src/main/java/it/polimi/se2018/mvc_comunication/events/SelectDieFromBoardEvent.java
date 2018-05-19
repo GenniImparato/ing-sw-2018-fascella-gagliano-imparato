@@ -3,13 +3,14 @@ package it.polimi.se2018.mvc_comunication.events;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.ViewInterface;
 
 public class SelectDieFromBoardEvent extends Event
 {
     private int row;
     private int col;
 
-    public SelectDieFromBoardEvent(View view, int row, int column)
+    public SelectDieFromBoardEvent(ViewInterface view, int row, int column)
     {
         super(view);
         this.row = row;

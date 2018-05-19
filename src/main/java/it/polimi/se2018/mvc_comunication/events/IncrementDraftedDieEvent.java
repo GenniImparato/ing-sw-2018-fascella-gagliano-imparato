@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.ViewInterface;
 
 public class IncrementDraftedDieEvent extends Event
 {
@@ -12,7 +13,7 @@ public class IncrementDraftedDieEvent extends Event
     public static final boolean INCREMENT = true;
     public static final boolean DECREMENT = false;
 
-    public IncrementDraftedDieEvent(View view, boolean type)
+    public IncrementDraftedDieEvent(ViewInterface view, boolean type)
     {
         super(view);
         this.type = type;
