@@ -1,16 +1,15 @@
 package it.polimi.se2018.network.socket.server;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ClientManager extends Thread
+public class SocketClientManager extends Thread
 {
-    private Server server;
+    private SocketServer socketServer;
 
-    public ClientManager(Server server)
+    public SocketClientManager(SocketServer socketServer)
     {
-        this.server = server;
+        this.socketServer = socketServer;
         start();
     }
 
@@ -21,8 +20,8 @@ public class ClientManager extends Thread
         {
             try
             {
-                Socket clientSocket = server.getServerSocket().accept();
-                server.addClient(clientSocket);
+                Socket clientSocket = socketServer.getServerSocket().accept();
+                socketServer.addClient(clientSocket);
             }
             catch(IOException e){e.printStackTrace();}
 

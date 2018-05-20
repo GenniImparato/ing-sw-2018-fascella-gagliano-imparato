@@ -11,7 +11,7 @@ it.polimi.se2018.mvc_comunication.events
 it.polimi.se2018.mvc_comunication.messages
 it.polimi.se2018.network.socket
 it.polimi.se2018.network.socket.client
-it.polimi.se2018.network.socket.server
+it.polimi.se2018.network.socket.socketServer
 it.polimi.se2018.testcards
 it.polimi.se2018.testcards.testpubliccards
 it.polimi.se2018.utils

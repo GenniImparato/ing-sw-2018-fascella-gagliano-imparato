@@ -15,7 +15,7 @@ public class CLILobbyView extends CLIView
     public void draw()
     {
         cli.clear();
-        cli.showMessage("Server is waiting for players...");
+        cli.showMessage("SocketServer is waiting for players...");
         cli.showMessage("Players connected:");
         cli.showMessage("");
 

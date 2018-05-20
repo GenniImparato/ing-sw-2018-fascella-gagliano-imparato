@@ -10,13 +10,13 @@ import it.polimi.se2018.utils.Observer;
 import java.io.*;
 import java.net.Socket;
 
-public class VirtualView extends Observable<Event> implements ViewInterface, Runnable, Observer<Message>
+public class SocketVirtualView extends Observable<Event> implements ViewInterface, Runnable, Observer<Message>
 {
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
-    public VirtualView(Socket clientSocket)
+    public SocketVirtualView(Socket clientSocket)
     {
         this.clientSocket = clientSocket;
         try
@@ -27,7 +27,7 @@ public class VirtualView extends Observable<Event> implements ViewInterface, Run
     }
 
     @Override
-    //This method waits for messages from Server
+    //This method waits for messages from SocketServer
     public void run()
     {
         try {

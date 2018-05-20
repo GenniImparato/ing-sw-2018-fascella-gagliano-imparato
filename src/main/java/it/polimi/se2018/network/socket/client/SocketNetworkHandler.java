@@ -13,21 +13,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class NetworkHandler extends Observable<Message> implements Observer<Event>, Runnable
+public class SocketNetworkHandler extends Observable<Message> implements Observer<Event>, Runnable
 {
     private Socket socketToServer;
     private ViewInterface clientView;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    private ClientNetworkMessageAnalyzer messageAnalyzer;
+    private SocketNetworkMessageAnalyzer messageAnalyzer;
 
-    public NetworkHandler(String host, int port, View clientView)
+    public SocketNetworkHandler(String host, int port, View clientView)
     {
         this.clientView = clientView;
-        clientView.attach(this);
-        this.attach(clientView);
-        messageAnalyzer = new ClientNetworkMessageAnalyzer(this);
+        clientView.attach(this); //The network handler is observer of the view
+        this.attach(clientView);        //the network handler is observable from the view
+        messageAnalyzer = new SocketNetworkMessageAnalyzer(this);
 
         try
         {
