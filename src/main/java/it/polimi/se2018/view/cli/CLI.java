@@ -8,22 +8,27 @@ import it.polimi.se2018.view.cli.views.CLIIncrementDieView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
 
 
 public class CLI extends View
 {
-    protected   transient   BufferedReader      reader;
+    protected   transient   Scanner             scanner;
+    protected               String              input;
     private     transient   CLIReaderTask       readerTask;
 
     private     transient   CLIMessageParser    parser;
     protected   transient   CLIView             currentView;
+
+
 
     public CLI(boolean loggerActive)
     {
         parser = new CLIMessageParser(this);
         logger = new CLILogger(this, loggerActive);
 
-        reader = new BufferedReader(new InputStreamReader(System.in));
+        scanner = new Scanner(System.in);
     }
 
     @Override
@@ -110,13 +115,16 @@ public class CLI extends View
 
     public void readInputFromUser()
     {
+        cancelInputReading();
         readerTask = new CLIReaderTask(this);
-        readerTask.start();
     }
 
     private void cancelInputReading()
     {
-        readerTask.cancel();
+        if(readerTask != null)
+        {
+            readerTask.cancelReading();
+        }
     }
 
     public void showView(CLIView cliView)

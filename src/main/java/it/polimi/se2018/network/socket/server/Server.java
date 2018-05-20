@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Server
 {
-    private static final int PORT = 1111;
+    private static final int PORT = 12345;
     private ServerSocket serverSocket;
     private List<ViewInterface> clients;
 
@@ -26,6 +26,7 @@ public class Server
         try
         {
             serverSocket = new ServerSocket(PORT);
+            System.out.println(InetAddress.getLocalHost().getHostAddress());
         }
         catch (IOException e){e.printStackTrace();}
 

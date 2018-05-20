@@ -1,48 +1,47 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.view.cli.CLI;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.concurrent.Callable;
+import java.io.InputStreamReader;
 
 public class CLIReaderTask extends Thread
 {
-    BufferedReader  reader;
-    boolean         reading;
-    CLI             cli;
+    CLI cli;
+    boolean running;
 
     public CLIReaderTask(CLI cli)
     {
-        this.reader = cli.reader;
-        this.cli    = cli;
+        this.cli = cli;
+        running = true;
+        start();
     }
 
-    public void cancel()
+    public void cancelReading()
     {
-        reading = false;
+        interrupt();
     }
 
     @Override
     public void run()
     {
-        reading = true;
+        BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+        String msg;
 
-        try
+        while(!isInterrupted())
         {
-            while(reading)
+            try
             {
-                if(reader.ready())
+                if(stdin.ready())
                 {
-                    if(cli.currentView != null)
-                        cli.currentView.parseInput(reader.readLine());
-                    cancel();
+                    msg = stdin.readLine();
+                    cli.currentView.parseInput(msg);
+                    cancelReading();
                 }
             }
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }

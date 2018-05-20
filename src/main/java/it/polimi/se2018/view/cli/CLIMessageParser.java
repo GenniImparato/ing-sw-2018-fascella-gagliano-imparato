@@ -3,9 +3,7 @@ package it.polimi.se2018.view.cli;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.utils.Color;
-import it.polimi.se2018.view.cli.views.CLIChooseSchemeCardView;
-import it.polimi.se2018.view.cli.views.CLILobbyView;
-import it.polimi.se2018.view.cli.views.CLIOtherPlayersTurnView;
+import it.polimi.se2018.view.cli.views.*;
 
 public class CLIMessageParser implements MessageVisitor
 {
@@ -38,6 +36,7 @@ public class CLIMessageParser implements MessageVisitor
         notification += message.getSchemeBoards().getSchemeCardName();
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -74,6 +73,7 @@ public class CLIMessageParser implements MessageVisitor
                             + " die with value " + message.getDie().getValue() + "!");
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -91,6 +91,7 @@ public class CLIMessageParser implements MessageVisitor
                 + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -108,6 +109,7 @@ public class CLIMessageParser implements MessageVisitor
                 + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -124,6 +126,7 @@ public class CLIMessageParser implements MessageVisitor
                 + ",  " + message.getDie().getValue() + ")!");
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -140,6 +143,7 @@ public class CLIMessageParser implements MessageVisitor
                 + " die with value " + message.getDie().getValue() + "!");
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -148,6 +152,8 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
                 +" - Die: ( " + message.getDie().getValue() + " , " + message.getDie().getColor() + " )"
                 +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
+
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -163,6 +169,7 @@ public class CLIMessageParser implements MessageVisitor
         notification += message.getCard().getName() + " tool card!";
 
         cli.showNotification(notification, Color.BLUE);
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -170,19 +177,28 @@ public class CLIMessageParser implements MessageVisitor
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
                 +" - Message: " + message.getMessage(), Color.BLUE);
+
+        cli.reShowCurrentView();
     }
 
     @Override
     public void visit(BegunTurnMessage message)
     {
         String notification;
+        CLIView nextView;
 
         if(message.getPlayer().getNickname().equals(cli.getAssociatedPlayerNickname()))
+        {
             notification = "Your turn begun! ";
+            nextView = new CLIMainActionsView(cli);
+        }
         else
+        {
             notification = message.getPlayer().getNickname() + "'s turn begun! ";
+            nextView = new CLIOtherPlayersTurnView(cli);
+        }
 
         cli.showNotification(notification, Color.BLUE);
-        cli.showView(new CLIOtherPlayersTurnView(cli));
+        cli.showView(nextView);
     }
 }

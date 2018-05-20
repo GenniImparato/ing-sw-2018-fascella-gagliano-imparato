@@ -47,12 +47,12 @@ public class CLIMenuView extends CLIView
             {
                 new Server();
                 state = CLIMenuState.ASK_NICKNAME;
-                draw();
+                cli.reShowCurrentView();
             }
             else if(input.equals("2"))
             {
                 state = CLIMenuState.ASK_NICKNAME;
-                draw();
+                cli.reShowCurrentView();
             }
             else
             {
@@ -63,7 +63,7 @@ public class CLIMenuView extends CLIView
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.setAssociatedPlayerNickname(input);
-            new NetworkHandler("localhost", 1111, cli);
+            new NetworkHandler("10.169.135.146", 12345, cli);
             cli.notify(new AddPlayerEvent(cli, input));
         }
     }

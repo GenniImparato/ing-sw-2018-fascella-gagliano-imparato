@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.events.SelectSchemeCardEvent;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererSchemeCardChoice;
@@ -19,11 +20,29 @@ public class CLIChooseSchemeCardView extends CLIView
     {
         cli.clear();
         new CLIRendererSchemeCardChoice(cli, cli.getModel(), schemeCards).render();
-        cli.showMessage("Choose a scheme card to play with:");
-        for(int i=0; i<4; i++)
-            cli.showMessage(i + ") Choose " + schemeCards[i].getSchemeCardName());
 
-        cli.readInputFromUser();
+        try
+        {
+            if(!cli.getModel().findPlayer(cli.getAssociatedPlayerNickname()).hasChoosenSchemeCard())
+            {
+                cli.showMessage("Choose a scheme card to play with:");
+                for(int i=0; i<4; i++)
+                    cli.showMessage(i + ") Choose " + schemeCards[i].getSchemeCardName());
+
+                cli.readInputFromUser();
+            }
+            else
+            {
+                cli.showMessage("You have chosen your scheme card.");
+                cli.showMessage("Waiting for other players...");
+            }
+        }
+        catch(NoElementException e)
+        {
+            cli.showErrorMessage(e.getMessage());
+        }
+
+
     }
 
     public void parseInput(String input)

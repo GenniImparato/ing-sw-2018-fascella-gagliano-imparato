@@ -120,17 +120,6 @@ public class Model extends Observable <Message> implements Serializable
         //copy the lastDrafted if it's not null
         if(model.selectedDie != null)
             this.selectedDie = new Die(model.selectedDie);
-/*
-        if(model.selectedDie !=null)
-            this.selectedDie = new Die(model.selectedDie);
-
-        if(model.draftedDie !=null)
-            this.draftedDie = new Die(model.draftedDie);
-
-        this.currentToolCard = model.currentToolCard;
-
-        this.currentRound = model.currentRound;
-        this.gameStarted = model.gameStarted;*/
     }
 
     //return the number of players in model
