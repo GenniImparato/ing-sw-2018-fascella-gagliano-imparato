@@ -63,7 +63,7 @@ public class CLIMenuView extends CLIView
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.setAssociatedPlayerNickname(input);
-            new NetworkHandler("10.169.135.146", 12345, cli);
+            new NetworkHandler("192.168.43.140", 1000, cli);
             cli.notify(new AddPlayerEvent(cli, input));
         }
     }

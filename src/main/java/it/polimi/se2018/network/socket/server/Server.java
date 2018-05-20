@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Server
 {
-    private static final int PORT = 12345;
+    private static final int PORT = 1000;
     private ServerSocket serverSocket;
     private List<ViewInterface> clients;
 
