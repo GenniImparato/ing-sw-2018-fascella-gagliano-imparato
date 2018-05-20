@@ -27,6 +27,7 @@ public class CLIReaderTask extends Thread
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
         String msg;
 
+        System.out.println("Started");
         while(!isInterrupted())
         {
             try
@@ -43,5 +44,6 @@ public class CLIReaderTask extends Thread
                 e.printStackTrace();
             }
         }
+        System.out.println("Ended");
     }
 }
