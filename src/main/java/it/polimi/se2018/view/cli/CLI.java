@@ -1,27 +1,29 @@
 package it.polimi.se2018.view.cli;
 import it.polimi.se2018.mvc_comunication.Message;
-import it.polimi.se2018.network.socket.client.NetworkHandler;
-import it.polimi.se2018.network.socket.server.Server;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.*;
 import it.polimi.se2018.view.cli.renderer.*;
 import it.polimi.se2018.view.cli.views.*;
 import it.polimi.se2018.view.cli.views.CLIIncrementDieView;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 
 public class CLI extends View
 {
-    private transient   Scanner             scanner;
-    private transient   CLIMessageParser    parser;
-    private transient   CLIView             currentView;
+    protected   transient   BufferedReader      reader;
+    private     transient   CLIReaderTask       readerTask;
+
+    private     transient   CLIMessageParser    parser;
+    protected   transient   CLIView             currentView;
 
     public CLI(boolean loggerActive)
     {
-        scanner = new Scanner(System.in);
         parser = new CLIMessageParser(this);
         logger = new CLILogger(this, loggerActive);
+
+        reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
@@ -56,8 +58,10 @@ public class CLI extends View
         System.out.print(Color.getResetConsoleString());
     }
 
+
     public void showNotification(String message, Color color)
     {
+        cancelInputReading();
 
         System.out.print(color.getConsoleString());
         System.out.println(message);
@@ -93,19 +97,26 @@ public class CLI extends View
         System.out.println();
         System.out.println();
 
-        new CLIMenuView(this).draw();
+        showView(new CLIMenuView(this));
     }
 
     public void clear()
     {
-        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        for(int i=0; i<50; i++)
+            System.out.print("\n");
         System.out.print("\u001b[2J"+"\u001b[H");
         System.out.flush();
     }
 
-    public String readInputFromUser()
+    public void readInputFromUser()
     {
-        return scanner.next();
+        readerTask = new CLIReaderTask(this);
+        readerTask.start();
+    }
+
+    private void cancelInputReading()
+    {
+        readerTask.cancel();
     }
 
     public void showView(CLIView cliView)
@@ -128,6 +139,12 @@ public class CLI extends View
     public void showMenu()
     {
         showView(new CLIMenuView(this));
+    }
+
+    @Override
+    public void showLobby()
+    {
+        showView(new CLILobbyView(this));
     }
 
     @Override

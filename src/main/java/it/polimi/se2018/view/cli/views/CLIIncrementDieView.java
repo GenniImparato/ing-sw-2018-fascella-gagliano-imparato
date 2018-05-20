@@ -25,7 +25,7 @@ public class CLIIncrementDieView extends CLIView
         cli.showMessage("1)Increment value by 1.");
         cli.showMessage("1)Decrement value by 1.");
 
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
     public void parseInput(String input)

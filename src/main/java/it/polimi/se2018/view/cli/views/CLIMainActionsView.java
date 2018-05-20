@@ -20,7 +20,7 @@ public class CLIMainActionsView extends CLIView
         cli.showMessage("1) Add a die to your board.");
         cli.showMessage("2) Show cards.");
         cli.showMessage("3) End your turn.");
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
     public void parseInput(String input)

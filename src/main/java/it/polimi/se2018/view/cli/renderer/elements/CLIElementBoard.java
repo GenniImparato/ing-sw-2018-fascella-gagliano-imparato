@@ -1,9 +1,10 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.CellRestriction;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 //a CLIElement that represents a Board and can be rendered by a CLIRender on the CLI
 public class CLIElementBoard extends CLIElement

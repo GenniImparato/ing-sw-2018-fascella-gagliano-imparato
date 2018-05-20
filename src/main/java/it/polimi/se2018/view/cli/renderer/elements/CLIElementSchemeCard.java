@@ -1,6 +1,7 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Board;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 public class CLIElementSchemeCard extends CLIElement
 {

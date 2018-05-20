@@ -1,6 +1,7 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 public class CLIElementPlayer extends CLIElement
 {

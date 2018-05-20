@@ -4,6 +4,8 @@ import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.views.CLIChooseSchemeCardView;
+import it.polimi.se2018.view.cli.views.CLILobbyView;
+import it.polimi.se2018.view.cli.views.CLIOtherPlayersTurnView;
 
 public class CLIMessageParser implements MessageVisitor
 {
@@ -49,13 +51,13 @@ public class CLIMessageParser implements MessageVisitor
             notification = message.getPlayer().getNickname() + " joined the game!";
 
         cli.showNotification(notification, Color.BLUE);
+        cli.showView(new CLILobbyView(cli));
     }
 
     @Override
     public void visit(StartedGameMessage message)
     {
         cli.showNotification("The game started!", Color.BLUE);
-        cli.showTurn();
     }
 
     @Override
@@ -181,5 +183,6 @@ public class CLIMessageParser implements MessageVisitor
             notification = message.getPlayer().getNickname() + "'s turn begun! ";
 
         cli.showNotification(notification, Color.BLUE);
+        cli.showView(new CLIOtherPlayersTurnView(cli));
     }
 }

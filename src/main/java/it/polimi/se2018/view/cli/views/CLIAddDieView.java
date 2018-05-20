@@ -25,7 +25,7 @@ public class CLIAddDieView extends CLIView
                         + ", " + draftedDie.getValue() + ").");
         cli.showMessage("Choose in which cell to add the die: ");
 
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
 

@@ -2,10 +2,8 @@ package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.model.Player;
 import it.polimi.se2018.view.cli.CLI;
-
-import java.util.List;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementSchemeCard;
 
 public class CLIRendererSchemeCardChoice extends CLIRenderer
 {

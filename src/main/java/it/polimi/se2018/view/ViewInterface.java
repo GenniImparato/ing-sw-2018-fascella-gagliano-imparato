@@ -11,6 +11,7 @@ public interface ViewInterface
      void showMessage(String message);
 
      void showMenu();
+     void showLobby();
      void showTurn();
      void showDraft();
      void showAddDie();

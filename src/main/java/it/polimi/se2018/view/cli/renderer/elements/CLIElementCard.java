@@ -1,9 +1,10 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 import java.util.ArrayList;
 

@@ -22,7 +22,8 @@ public class CLIChooseSchemeCardView extends CLIView
         cli.showMessage("Choose a scheme card to play with:");
         for(int i=0; i<4; i++)
             cli.showMessage(i + ") Choose " + schemeCards[i].getSchemeCardName());
-        parseInput(cli.readInputFromUser());
+
+        cli.readInputFromUser();
     }
 
     public void parseInput(String input)

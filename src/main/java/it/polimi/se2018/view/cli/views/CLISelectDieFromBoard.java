@@ -17,7 +17,7 @@ public class CLISelectDieFromBoard extends CLIView
         cli.clear();
         cli.renderGameState(CLIRendererMainState.BOARD_SELECTED);
         cli.showMessage("Select a die in your board: ");
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
 

@@ -17,7 +17,7 @@ public class CLIDraftDieView extends CLIView
         cli.renderGameState(CLIRendererMainState.DRAFTPOOL_SELECTED);
         cli.showMessage("Choose a die in the draft pool:");
         cli.showMessage("b) go back");
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
     public void parseInput(String input)

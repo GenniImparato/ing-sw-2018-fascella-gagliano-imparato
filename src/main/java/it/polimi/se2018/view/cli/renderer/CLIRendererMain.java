@@ -3,6 +3,10 @@ package it.polimi.se2018.view.cli.renderer;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.view.cli.CLI;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementBoard;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementDraftPool;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementPlayer;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementRoundTrack;
 
 import java.util.List;
 

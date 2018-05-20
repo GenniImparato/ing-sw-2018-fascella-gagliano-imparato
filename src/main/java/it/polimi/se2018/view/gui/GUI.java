@@ -27,6 +27,11 @@ public class GUI extends View
     }
 
     @Override
+    public void showLobby() {
+
+    }
+
+    @Override
     public void showTurn()
     {
 

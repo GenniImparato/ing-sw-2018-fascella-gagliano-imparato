@@ -1,6 +1,7 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 //a CLIElement that represents a Die and can be rendered by a CLIRender on the CLI
 public class CLIElementDie extends CLIElement

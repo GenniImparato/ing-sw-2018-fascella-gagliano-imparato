@@ -1,8 +1,9 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.DraftPool;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 import java.util.List;
 

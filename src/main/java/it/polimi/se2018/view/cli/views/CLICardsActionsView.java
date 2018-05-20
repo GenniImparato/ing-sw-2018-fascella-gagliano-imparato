@@ -18,7 +18,7 @@ public class CLICardsActionsView extends CLIView
         cli.showMessage("Choose an action:");
         cli.showMessage("1) Use a tool card.");
         cli.showMessage("2) Return to main view.");
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
     public void parseInput(String input)

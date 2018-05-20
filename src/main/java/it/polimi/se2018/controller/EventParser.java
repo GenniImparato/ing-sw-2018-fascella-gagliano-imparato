@@ -40,6 +40,8 @@ public class EventParser implements EventVisitor
         try
         {
             controller.addNewPlayer(event.getNickname());
+            if(controller.getModel().getPlayerNum() >= 3)
+                controller.startGameSetup();
         }
         catch(ChangeModelStateException e)
         {

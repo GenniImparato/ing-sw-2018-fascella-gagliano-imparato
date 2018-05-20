@@ -29,12 +29,12 @@ public class CLIMenuView extends CLIView
         {
             cli.showMessage("1) Start a New Game (Server):");
             cli.showMessage("2) Connect to a game (Client):");
-            parseInput(cli.readInputFromUser());
+            cli.readInputFromUser();
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.showMessage("Insert your nickname:");
-            parseInput(cli.readInputFromUser());
+            cli.readInputFromUser();
         }
     }
 
@@ -62,10 +62,9 @@ public class CLIMenuView extends CLIView
         }
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
-            new NetworkHandler("localhost", 1111, cli);
             cli.setAssociatedPlayerNickname(input);
+            new NetworkHandler("localhost", 1111, cli);
             cli.notify(new AddPlayerEvent(cli, input));
-            cli.notify(new StartGameEvent(cli));
         }
     }
 }

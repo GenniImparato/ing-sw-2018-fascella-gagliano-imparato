@@ -4,6 +4,7 @@ import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.view.cli.CLI;
+import it.polimi.se2018.view.cli.renderer.elements.CLIElementCard;
 
 import java.util.List;
 

@@ -24,8 +24,6 @@ public class VirtualView extends Observable<Event> implements ViewInterface, Run
             this.out = new ObjectOutputStream(clientSocket.getOutputStream());
         }
         catch(IOException e) { e.printStackTrace();}
-
-        showErrorMessage("coffa");
     }
 
     @Override
@@ -65,6 +63,12 @@ public class VirtualView extends Observable<Event> implements ViewInterface, Run
     public synchronized void showMenu()
     {
         sendToClient(new NetworkMessage("showMenu"));
+    }
+
+    @Override
+    public void showLobby()
+    {
+        sendToClient(new NetworkMessage("showLobby"));
     }
 
     @Override

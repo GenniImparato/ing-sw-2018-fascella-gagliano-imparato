@@ -25,7 +25,7 @@ public class CLIMoveDieView extends CLIView
                 + ", " + selectedDie.getValue() + ").");
         cli.showMessage("Choose in which cell to move the die: ");
 
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
 

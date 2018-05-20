@@ -6,6 +6,7 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.mvc_comunication.messages.StartedGameMessage;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.utils.*;
 
@@ -74,7 +75,7 @@ public class Controller implements Observer<Event>
     {
         try
         {
-            SchemeCardLoader loader = new SchemeCardLoader("resources/schemecards/", new Logger() {
+            SchemeCardLoader loader = new SchemeCardLoader("./resources/schemecards/", new Logger() {
                 @Override
                 public void logMessage(String message) {
 
@@ -89,7 +90,6 @@ public class Controller implements Observer<Event>
         }
         catch(LoadingFilesException e)
         {
-            view.showErrorMessage("Cannot load scheme cards file!");
             System.exit(0);
         }
     }
@@ -114,8 +114,8 @@ public class Controller implements Observer<Event>
     protected void startGame() throws ChangeModelStateException
     {
         currentRound = 0;
-        beginRound();
         model.startGame();
+        beginRound();
     }
 
     protected void draftDie(int dieNum) throws ChangeModelStateException

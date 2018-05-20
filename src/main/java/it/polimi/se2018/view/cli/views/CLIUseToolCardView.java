@@ -18,7 +18,7 @@ public class CLIUseToolCardView extends CLIView
         cli.renderGameState(CLIRendererCardsState.TOOL_CARDS_SELECTED);
         cli.showMessage("Choose a tool card to use:");
         cli.showMessage("b) back.");
-        parseInput(cli.readInputFromUser());
+        cli.readInputFromUser();
     }
 
     @Override

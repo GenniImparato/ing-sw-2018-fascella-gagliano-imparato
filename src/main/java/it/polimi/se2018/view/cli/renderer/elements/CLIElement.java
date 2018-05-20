@@ -1,6 +1,7 @@
-package it.polimi.se2018.view.cli.renderer;
+package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 
 //represents a single abstract element that can be displayed by a CLIRenderer on the CLI view
@@ -12,7 +13,7 @@ public abstract class CLIElement
     protected   int         height;
     protected   int         x;
     protected   int         y;
-    protected   CLIRenderer renderer;
+    protected CLIRenderer renderer;
 
     public CLIElement(CLIRenderer renderer, int x, int y, int width, int height)
     {
