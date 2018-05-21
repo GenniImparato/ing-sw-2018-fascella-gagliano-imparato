@@ -27,8 +27,8 @@ public class SocketNetworkMessageAnalyzer {
 
     private void invokeMethod(String methodName) {
         try {
-            Method method = socketNetworkHandler.getClient().getClass().getMethod(methodName);
-            method.invoke(socketNetworkHandler.getClient());
+            Method method = socketNetworkHandler.getView().getClass().getMethod(methodName);
+            method.invoke(socketNetworkHandler.getView());
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -39,8 +39,8 @@ public class SocketNetworkMessageAnalyzer {
 
     private void invokeMethod(String methodName, String parameter) {
         try {
-            Method method = socketNetworkHandler.getClient().getClass().getMethod(methodName, parameter.getClass());
-            method.invoke(socketNetworkHandler.getClient(), parameter);
+            Method method = socketNetworkHandler.getView().getClass().getMethod(methodName, parameter.getClass());
+            method.invoke(socketNetworkHandler.getView(), parameter);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

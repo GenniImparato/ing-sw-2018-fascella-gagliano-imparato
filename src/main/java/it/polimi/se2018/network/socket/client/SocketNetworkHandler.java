@@ -2,6 +2,7 @@ package it.polimi.se2018.network.socket.client;
 
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
 import it.polimi.se2018.utils.Observable;
@@ -13,10 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketNetworkHandler extends Observable<Message> implements Observer<Event>, Runnable
+public class SocketNetworkHandler extends NetworkHandler implements Runnable
 {
     private Socket socketToServer;
-    private ViewInterface clientView;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
@@ -24,9 +24,7 @@ public class SocketNetworkHandler extends Observable<Message> implements Observe
 
     public SocketNetworkHandler(String host, int port, View clientView)
     {
-        this.clientView = clientView;
-        clientView.attach(this); //The network handler is observer of the view
-        this.attach(clientView);        //the network handler is observable from the view
+        super(clientView);
         messageAnalyzer = new SocketNetworkMessageAnalyzer(this);
 
         try
@@ -54,7 +52,7 @@ public class SocketNetworkHandler extends Observable<Message> implements Observe
         }
     }
 
-    private synchronized void sendToServer(Event event)
+    protected synchronized void notifyController(Event event)
     {
         try
         {
@@ -63,13 +61,4 @@ public class SocketNetworkHandler extends Observable<Message> implements Observe
         catch(IOException e) {e.printStackTrace();}
     }
 
-    public synchronized ViewInterface getClient() {
-        return clientView;
-    }
-
-    @Override
-    public synchronized void update(Event event)
-    {
-        sendToServer(event);
-    }
 }

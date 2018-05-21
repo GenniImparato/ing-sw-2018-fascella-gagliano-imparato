@@ -13,14 +13,14 @@ public class SocketServer
 {
     private static final int PORT = 1000;
     private ServerSocket serverSocket;
-    private List<ViewInterface> clients;
+    private List<ViewInterface> virtualClients;
 
     private Server server;
 
     public SocketServer(Server server)
     {
         this.server = server;
-        clients = new ArrayList<>();
+        virtualClients = new ArrayList<>();
 
         try
         {
@@ -43,9 +43,11 @@ public class SocketServer
     public synchronized void addClient(Socket clientSocket)
     {
         SocketVirtualView vView = new SocketVirtualView(clientSocket);
+
         vView.attach(server.getController());   //register the controller as an observer of the created virtual view
         server.getModel().attach((vView));      //register the virtual view as an observer of the model
+
         new Thread(vView).start();
-        clients.add(vView);
+        virtualClients.add(vView);
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.se2018.network.socket.server;
 
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
 import it.polimi.se2018.utils.Observable;
@@ -10,7 +11,7 @@ import it.polimi.se2018.utils.Observer;
 import java.io.*;
 import java.net.Socket;
 
-public class SocketVirtualView extends Observable<Event> implements ViewInterface, Runnable, Observer<Message>
+public class SocketVirtualView extends VirtualView implements Runnable
 {
     private Socket clientSocket;
     private ObjectOutputStream out;
@@ -134,8 +135,7 @@ public class SocketVirtualView extends Observable<Event> implements ViewInterfac
     }
 
     @Override
-
-    public synchronized void update(Message message)
+    protected void notifyView(Message message)
     {
         sendToClient(new NetworkMessage(message));
     }
