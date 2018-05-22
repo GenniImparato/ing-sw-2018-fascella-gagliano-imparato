@@ -95,7 +95,7 @@ public class CLIMenuView extends CLIView
         {
             cli.setAssociatedPlayerNickname(input);
             if(connectionType)
-                new SocketNetworkHandler("localhost", 1000, cli);
+                new SocketNetworkHandler("localhost", 1999, cli);
             else
                 new RMINetworkHandler(cli);
 

@@ -2,11 +2,45 @@ package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.gui.views.GUIConnectionView;
+import it.polimi.se2018.view.gui.views.GUIMenuView;
+import it.polimi.se2018.view.gui.views.GUIView;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class GUI extends View
 {
+    private GUIView currentView;
+    private JFrame mainWindow;
+
     public GUI()
     {
+        mainWindow = new JFrame("SAGRADA");
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.setResizable(false);
+
+        showView(new GUIConnectionView(this));
+
+    }
+
+    public void setDimensions(int width, int height)
+    {
+        mainWindow.setSize(width, height);
+    }
+
+    public void showView(GUIView view)
+    {
+        this.currentView = view;
+
+        view.draw();
+
+        mainWindow.setVisible(true);
+    }
+
+    public void setContainer(Container container)
+    {
+        mainWindow.setContentPane(container);
     }
 
     public void start(){}

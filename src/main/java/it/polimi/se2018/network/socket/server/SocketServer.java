@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SocketServer
 {
-    private static final int PORT = 1000;
+    private static final int PORT = 1999;
     private ServerSocket serverSocket;
     private List<ViewInterface> virtualClients;
 
