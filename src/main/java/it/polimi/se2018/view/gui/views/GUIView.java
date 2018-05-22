@@ -22,7 +22,6 @@ public abstract class GUIView
     public void draw()
     {
         gui.setContainer(mainContainer);
-
         gui.setDimensions(width,height);
 
 

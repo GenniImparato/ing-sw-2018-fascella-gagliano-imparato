@@ -20,13 +20,14 @@ public class GUI extends View
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setResizable(false);
 
-        showView(new GUIConnectionView(this));
+        showView(new GUIMenuView(this));
 
     }
 
     public void setDimensions(int width, int height)
     {
-        mainWindow.setSize(width, height);
+        mainWindow.getContentPane().setPreferredSize(new Dimension(width, height));
+        mainWindow.pack();
     }
 
     public void showView(GUIView view)
@@ -34,7 +35,7 @@ public class GUI extends View
         this.currentView = view;
 
         view.draw();
-
+        mainWindow.validate();
         mainWindow.setVisible(true);
     }
 

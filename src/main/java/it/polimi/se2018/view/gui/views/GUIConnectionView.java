@@ -9,9 +9,17 @@ public class GUIConnectionView extends GUIView
 {
     public GUIConnectionView (GUI gui)
     {
-        super(gui, 400,300);
+        super(gui, 710,400);
 
-        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
+        mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        JLabel background = new JLabel();
+        background.setIcon(new ImageIcon("resources/images/menu/back1.png"));
+        mainContainer.add(background);
+
+        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+
+        background.add(Box.createVerticalStrut(30));
 
 
         //creates the nickname row
@@ -23,7 +31,7 @@ public class GUIConnectionView extends GUIView
 
         firstRowContainer.add(textNickname);
 
-        mainContainer.add(firstRowContainer);
+        background.add(firstRowContainer);
 
 
         //creates the server ip row
@@ -34,7 +42,7 @@ public class GUIConnectionView extends GUIView
         JTextField textIP = new JTextField(30);
         secondRowContainer.add(textIP);
 
-        mainContainer.add(secondRowContainer);
+        background.add(secondRowContainer);
 
         //creates the type of connection
         Container thirdRowContainer = new Container();
@@ -51,15 +59,20 @@ public class GUIConnectionView extends GUIView
         thirdRowContainer.add(rmiButton);
         thirdRowContainer.add(socketButton);
 
-        mainContainer.add(thirdRowContainer);
+        background.add(thirdRowContainer);
 
 
         //creates two buttons
         Container fourthRowContainer = new Container();
-        fourthRowContainer.setLayout(new GridLayout());
+        fourthRowContainer.setLayout(new BoxLayout(fourthRowContainer, BoxLayout.X_AXIS));
 
-        JButton connectButton = new JButton("Connect");
-        JButton backButton = new JButton("Cancel");
+        JButton connectButton = new JButton();
+        connectButton.setPreferredSize(new Dimension(355, 200));
+        connectButton.setIcon(new ImageIcon("resources/images/menu/connect.png"));
+
+        JButton backButton = new JButton();
+        backButton.setPreferredSize(new Dimension(355, 200));
+        backButton.setIcon(new ImageIcon("resources/images/menu/cancel.png"));
 
         fourthRowContainer.add(connectButton);
         fourthRowContainer.add(backButton);
