@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.rmi.client.RMINetworkHandler;
 import it.polimi.se2018.network.server.Server;
 import it.polimi.se2018.network.socket.client.SocketNetworkHandler;
@@ -56,7 +57,14 @@ public class CLIMenuView extends CLIView
         {
             if(input.equals("1"))
             {
-                new Server();
+                try
+                {
+                    new Server();
+                }
+                catch(CannotCreateServerException e)
+                {
+                    cli.showErrorMessage(e.getMessage1() + e.getMessage2());
+                }
                 state = CLIMenuState.ASK_CONNECTION_TYPE;
                 cli.reShowCurrentView();
             }

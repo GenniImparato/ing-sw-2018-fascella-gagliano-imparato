@@ -2,8 +2,12 @@ package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.rmi.server.RMIServer;
 import it.polimi.se2018.network.socket.server.SocketServer;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Server
 {
@@ -14,7 +18,7 @@ public class Server
     private Controller      controller;
 
 
-    public Server()
+    public Server() throws CannotCreateServerException
     {
         socketServer = new SocketServer(this);
         rmiServer    = new RMIServer(this);
@@ -30,6 +34,16 @@ public class Server
         return controller;
     }
 
-
+    public String getIP()
+    {
+        try
+        {
+            return InetAddress.getLocalHost().getHostAddress();
+        }
+        catch(UnknownHostException e)
+        {
+            return "Unknown host IP";
+        }
+    }
 }
 

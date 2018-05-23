@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.rmi.server;
 
+import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.server.Server;
 
 import java.net.MalformedURLException;
@@ -13,7 +14,7 @@ public class RMIServer
 
     private static final int PORT = 1099;
 
-    public RMIServer(Server server)
+    public RMIServer(Server server) throws CannotCreateServerException
     {
         this.server = server;
 
@@ -23,7 +24,7 @@ public class RMIServer
         }
         catch (RemoteException e)
         {
-            System.out.println("RMI Registry already created!");
+            throw new CannotCreateServerException("Cannot create RMI server!", "RMI Registry already created!");
         }
 
         try
@@ -33,11 +34,11 @@ public class RMIServer
         }
         catch (MalformedURLException e)
         {
-            System.err.println("Impossibile registrare l'oggetto indicato!");
+            throw new CannotCreateServerException("Cannot create RMI server!", "Cannot register remote object!");
         }
         catch (RemoteException e)
         {
-            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            throw new CannotCreateServerException("Errore di connessione: ", e.getMessage() + "!");
         }
 
     }
