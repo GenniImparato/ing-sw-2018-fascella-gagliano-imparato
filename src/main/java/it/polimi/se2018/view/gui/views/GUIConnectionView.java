@@ -1,5 +1,11 @@
 package it.polimi.se2018.view.gui.views;
 
+import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
+import it.polimi.se2018.network.rmi.client.RMINetworkHandler;
+import it.polimi.se2018.network.rmi.server.RMIServer;
+import it.polimi.se2018.network.server.Server;
+import it.polimi.se2018.network.socket.client.SocketNetworkHandler;
 import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
@@ -9,12 +15,19 @@ import java.awt.event.ActionListener;
 
 public class GUIConnectionView extends GUIView
 {
-    private boolean requestIP;
+    private boolean     requestIP;
+    private String      ip;
 
-    public GUIConnectionView (GUI gui, boolean requestIP)
+    private JTextField  textNickname;
+    private JTextField  textIP;
+    private JRadioButton rmiButton;
+    private JRadioButton socketButton;
+
+    public GUIConnectionView (GUI gui, boolean requestIP, String ip)
     {
         super(gui, 710,400);
         this.requestIP = requestIP;
+        this.ip = ip;
 
         mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -31,7 +44,7 @@ public class GUIConnectionView extends GUIView
         firstRowContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         firstRowContainer.add(new JLabel("Nickname: "));
-        JTextField textNickname = new JTextField(30);
+        textNickname = new JTextField(30);
 
         firstRowContainer.add(textNickname);
 
@@ -47,14 +60,13 @@ public class GUIConnectionView extends GUIView
 
         if(requestIP)
         {
-            JTextField textIP = new JTextField(30);
+            textIP = new JTextField(30);
             secondRowContainer.add(textIP);
         }
-
         else
         {
-            JLabel textIP = new JLabel("10.169.219.151");
-            secondRowContainer.add(textIP);
+            JLabel labelIP = new JLabel("10.169.219.151");
+            secondRowContainer.add(labelIP);
         }
 
         background.add(secondRowContainer);
@@ -64,8 +76,8 @@ public class GUIConnectionView extends GUIView
         thirdRowContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         thirdRowContainer.add(new JLabel("Connection Type: "));
-        JRadioButton rmiButton = new JRadioButton("RMI");
-        JRadioButton socketButton = new JRadioButton("Socket");
+        rmiButton = new JRadioButton("RMI");
+        socketButton = new JRadioButton("Socket");
 
         ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add(rmiButton);
@@ -77,18 +89,47 @@ public class GUIConnectionView extends GUIView
 
         background.add(thirdRowContainer);
 
-        //creates two buttons
+        //creates the connection button
         Container fourthRowContainer = new Container();
         fourthRowContainer.setLayout(new BoxLayout(fourthRowContainer, BoxLayout.X_AXIS));
 
         JButton connectButton = new JButton();
         connectButton.setPreferredSize(new Dimension(355, 200));
         connectButton.setIcon(new ImageIcon("resources/images/menu/connect.png"));
+        connectButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent event)
+            {
+                String correctIp;
+
+                if(requestIP)
+                    correctIp = textIP.getText();
+                else
+                    correctIp = ip;
+
+                try
+                {
+                    if (rmiButton.isSelected())
+                        new RMINetworkHandler(gui);
+                    else if (socketButton.isSelected())
+                        new SocketNetworkHandler(correctIp, 1999, gui);
+
+                    gui.notify(new AddPlayerEvent(gui, textNickname.getText()));
+                }
+                catch (CannotConnectToServerException e)
+                {
+                    gui.showErrorMessage("Cannot connect to Server", e.getMessage());
+                }
+            }
+        });
 
         JButton backButton = new JButton();
         backButton.setPreferredSize(new Dimension(355, 200));
         backButton.setIcon(new ImageIcon("resources/images/menu/cancel.png"));
-        backButton.addActionListener(new ActionListener() {
+
+        backButton.addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -100,5 +141,8 @@ public class GUIConnectionView extends GUIView
         fourthRowContainer.add(backButton);
 
         mainContainer.add(fourthRowContainer);
+
+
     }
+
 }

@@ -28,15 +28,16 @@ public class GUIMenuView extends GUIView
         startButton.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(ActionEvent event)
             {
-                try {
-                    new Server();
-                    gui.showView(new GUIConnectionView(gui, false));
-                }
-                catch(CannotCreateServerException exc)
+                try
                 {
-                    gui.showErrorMessage("Cannot Create Server!", exc.getMessage());
+                    Server server = new Server();
+                    gui.showView(new GUIConnectionView(gui, false, server.getIP()));
+                }
+                catch(CannotCreateServerException e)
+                {
+                    gui.showErrorMessage("Cannot Create Server!", e.getMessage());
                 }
 
             }
@@ -52,17 +53,12 @@ public class GUIMenuView extends GUIView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                gui.showView(new GUIConnectionView(gui, false));
+                gui.showView(new GUIConnectionView(gui, true, ""));
 
             }
 
         });
 
-
         mainContainer.add(connectButton);
-
-
     }
-
-
 }

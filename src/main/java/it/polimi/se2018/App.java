@@ -13,10 +13,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        View cli = new CLI(false);
-        cli.start();
+        /*View cli = new CLI(false);
+        cli.start();*/
 
-        //View gui = new GUI();
+        View gui = new GUI();
 
 
     }
