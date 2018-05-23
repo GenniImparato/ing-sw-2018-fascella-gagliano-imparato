@@ -4,12 +4,17 @@ import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUIConnectionView extends GUIView
 {
-    public GUIConnectionView (GUI gui)
+    private boolean requestIP;
+
+    public GUIConnectionView (GUI gui, boolean requestIP)
     {
         super(gui, 710,400);
+        this.requestIP = requestIP;
 
         mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -20,7 +25,6 @@ public class GUIConnectionView extends GUIView
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
         background.add(Box.createVerticalStrut(30));
-
 
         //creates the nickname row
         Container firstRowContainer = new Container();
@@ -38,9 +42,20 @@ public class GUIConnectionView extends GUIView
         Container secondRowContainer = new Container();
         secondRowContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
 
+
         secondRowContainer.add(new JLabel("Server IP: "));
-        JTextField textIP = new JTextField(30);
-        secondRowContainer.add(textIP);
+
+        if(requestIP)
+        {
+            JTextField textIP = new JTextField(30);
+            secondRowContainer.add(textIP);
+        }
+
+        else
+        {
+            JLabel textIP = new JLabel("10.169.219.151");
+            secondRowContainer.add(textIP);
+        }
 
         background.add(secondRowContainer);
 
@@ -55,12 +70,12 @@ public class GUIConnectionView extends GUIView
         ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add(rmiButton);
         radioGroup.add(socketButton);
+        socketButton.setSelected(true);
 
         thirdRowContainer.add(rmiButton);
         thirdRowContainer.add(socketButton);
 
         background.add(thirdRowContainer);
-
 
         //creates two buttons
         Container fourthRowContainer = new Container();
@@ -73,19 +88,17 @@ public class GUIConnectionView extends GUIView
         JButton backButton = new JButton();
         backButton.setPreferredSize(new Dimension(355, 200));
         backButton.setIcon(new ImageIcon("resources/images/menu/cancel.png"));
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                gui.showView(new GUIMenuView(gui));
+            }
+        });
 
         fourthRowContainer.add(connectButton);
         fourthRowContainer.add(backButton);
 
         mainContainer.add(fourthRowContainer);
-
-
-
-
-
-
-
     }
-
-
 }
