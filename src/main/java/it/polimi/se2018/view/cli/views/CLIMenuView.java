@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
 import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.rmi.client.RMINetworkHandler;
 import it.polimi.se2018.network.server.Server;
@@ -63,7 +64,7 @@ public class CLIMenuView extends CLIView
                 }
                 catch(CannotCreateServerException e)
                 {
-                    cli.showErrorMessage(e.getMessage1() + e.getMessage2());
+                    cli.showErrorMessage("Cannot create server: " + e.getMessage());
                 }
                 state = CLIMenuState.ASK_CONNECTION_TYPE;
                 cli.reShowCurrentView();
@@ -102,10 +103,19 @@ public class CLIMenuView extends CLIView
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.setAssociatedPlayerNickname(input);
-            if(connectionType)
-                new SocketNetworkHandler("localhost", 1999, cli);
-            else
-                new RMINetworkHandler(cli);
+
+            try
+            {
+                if (connectionType)
+                    new SocketNetworkHandler("localhost", 1999, cli);
+                else
+                    new RMINetworkHandler(cli);
+            }
+            catch(CannotConnectToServerException e)
+            {
+                cli.showErrorMessage("Cannot connect to Server: " + e.getMessage());
+                state = CLIMenuState.ASK_SERVER_CLIENT;
+            }
 
             cli.notify(new AddPlayerEvent(cli, input));
         }

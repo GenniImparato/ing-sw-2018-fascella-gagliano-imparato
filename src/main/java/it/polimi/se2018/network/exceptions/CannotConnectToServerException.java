@@ -2,9 +2,9 @@ package it.polimi.se2018.network.exceptions;
 
 import it.polimi.se2018.utils.GeneralMessageException;
 
-public class CannotCreateServerException extends GeneralMessageException
+public class CannotConnectToServerException extends GeneralMessageException
 {
-    public CannotCreateServerException(String message)
+    public CannotConnectToServerException(String message)
     {
         super(message);
     }

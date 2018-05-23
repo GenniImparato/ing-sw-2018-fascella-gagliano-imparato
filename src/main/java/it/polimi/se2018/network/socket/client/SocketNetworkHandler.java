@@ -3,6 +3,7 @@ package it.polimi.se2018.network.socket.client;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
 import it.polimi.se2018.utils.Observable;
@@ -22,7 +23,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
 
     private SocketNetworkMessageAnalyzer messageAnalyzer;
 
-    public SocketNetworkHandler(String host, int port, View clientView)
+    public SocketNetworkHandler(String host, int port, View clientView) throws CannotConnectToServerException
     {
         super(clientView);
         messageAnalyzer = new SocketNetworkMessageAnalyzer(this);
@@ -33,7 +34,10 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
             this.in = new ObjectInputStream(socketToServer.getInputStream());
             this.out = new ObjectOutputStream(socketToServer.getOutputStream());
         }
-        catch(IOException e){e.printStackTrace();}
+        catch(IOException e)
+        {
+            throw new CannotConnectToServerException(e.getMessage());
+        }
 
         new Thread(this).start();
     }

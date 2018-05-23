@@ -36,7 +36,7 @@ public class GUIMenuView extends GUIView
                 }
                 catch(CannotCreateServerException exc)
                 {
-                    gui.showErrorMessage(exc.getMessage1(), exc.getMessage2());
+                    gui.showErrorMessage("Cannot Create Server!", exc.getMessage());
                 }
 
             }

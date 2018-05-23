@@ -29,7 +29,7 @@ public class SocketServer
         }
         catch (IOException e)
         {
-            throw new CannotCreateServerException("Cannot create socket server!", e.getMessage());
+            throw new CannotCreateServerException(e.getMessage());
         }
 
         //Creates a SocketClientManager on this server and

@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
 import it.polimi.se2018.network.rmi.server.RMIServerInterface;
 import it.polimi.se2018.network.rmi.server.RMIServerServices;
 import it.polimi.se2018.view.View;
@@ -21,7 +22,7 @@ public class RMINetworkHandler extends NetworkHandler
     private RMIServerInterface serverServices;
     private RMIClientInterface client;
 
-    public RMINetworkHandler(View clientView)
+    public RMINetworkHandler(View clientView) throws CannotConnectToServerException
     {
         super(clientView);
 
@@ -36,15 +37,15 @@ public class RMINetworkHandler extends NetworkHandler
         }
         catch (MalformedURLException e)
         {
-            System.err.println("URL non trovato!");
+            throw new CannotConnectToServerException("Cannot find URL!");
         }
         catch (RemoteException e)
         {
-            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            throw new CannotConnectToServerException(e.getMessage());
         }
         catch (NotBoundException e)
         {
-            System.err.println("Il riferimento passato non è associato a nulla!");
+            throw new CannotConnectToServerException("Remote element not bound!");
         }
     }
 

@@ -24,7 +24,7 @@ public class RMIServer
         }
         catch (RemoteException e)
         {
-            throw new CannotCreateServerException("Cannot create RMI server!", "RMI Registry already created!");
+            throw new CannotCreateServerException("RMI Registry already created!");
         }
 
         try
@@ -34,11 +34,11 @@ public class RMIServer
         }
         catch (MalformedURLException e)
         {
-            throw new CannotCreateServerException("Cannot create RMI server!", "Cannot register remote object!");
+            throw new CannotCreateServerException("Cannot register remote object!");
         }
         catch (RemoteException e)
         {
-            throw new CannotCreateServerException("Errore di connessione: ", e.getMessage() + "!");
+            throw new CannotCreateServerException(e.getMessage());
         }
 
     }
