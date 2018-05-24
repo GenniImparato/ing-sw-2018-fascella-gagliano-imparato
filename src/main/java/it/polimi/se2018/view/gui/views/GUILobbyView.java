@@ -41,7 +41,7 @@ public class GUILobbyView extends GUIView
         }
         catch (NoElementException e)
         {
-            playerSlots[0].setIcon(new ImageIcon("resources/images/lobby/notconnectedred.png"));
+            playerSlots[0].setIcon(new ImageIcon("resources/images/lobby/emptyslot.png"));
         }
         mainContainer.add(playerSlots[0]);
 
@@ -119,6 +119,7 @@ public class GUILobbyView extends GUIView
             public void actionPerformed(ActionEvent e)
             {
                 gui.getNetworkHandler().disconnect();
+                gui.showView(new GUIMenuView(gui));
             }
         });
 

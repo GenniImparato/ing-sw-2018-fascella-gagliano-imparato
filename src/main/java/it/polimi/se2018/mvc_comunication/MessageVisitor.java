@@ -8,6 +8,7 @@ public interface MessageVisitor
     void visit(ChosenSchemeCardMessage message);
     void visit(AddedDieMessage message);
     void visit(AddedPlayerMessage message);
+    void visit(RemovedPlayerMessage message);
     void visit(DraftedDieMessage message);
     void visit(ReturnedDieMessage message);
     void visit(SelectedDieMessage message);

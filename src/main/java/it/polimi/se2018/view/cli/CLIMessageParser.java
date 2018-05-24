@@ -54,6 +54,11 @@ public class CLIMessageParser implements MessageVisitor
     }
 
     @Override
+    public void visit(RemovedPlayerMessage message) {
+
+    }
+
+    @Override
     public void visit(StartedGameMessage message)
     {
         cli.showNotification("The game started!", Color.BLUE);

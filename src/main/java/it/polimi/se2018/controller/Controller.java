@@ -99,6 +99,11 @@ public class Controller implements Observer<Event>
         model.addNewPlayer(nickname);
     }
 
+    protected void removePlayer(String nickname) throws ChangeModelStateException
+    {
+        model.removePlayer(nickname);
+    }
+
     protected void chosePlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         model.setPlayerSchemeCard(player, choice);

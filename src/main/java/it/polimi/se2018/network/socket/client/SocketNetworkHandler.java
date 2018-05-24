@@ -88,5 +88,10 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
     public void disconnect()
     {
         connected = false;
+        try
+        {
+            out.writeObject(new NetworkMessage());
+        }
+        catch(IOException e) {e.printStackTrace();}
     }
 }

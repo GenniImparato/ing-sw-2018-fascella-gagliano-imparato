@@ -15,4 +15,5 @@ public interface EventVisitor
     void visit(UseToolCardEvent event);
     void visit(IncrementDraftedDieEvent event);
     void visit(EndTurnEvent event);
+    void visit(ClientDisconnectedEvent event);
 }

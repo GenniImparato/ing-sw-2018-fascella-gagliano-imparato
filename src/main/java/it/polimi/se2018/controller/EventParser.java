@@ -53,6 +53,20 @@ public class EventParser implements EventVisitor
     }
 
     @Override
+    public void visit(ClientDisconnectedEvent event)
+    {
+        try
+        {
+            controller.removePlayer(event.getNickname());
+        }
+        catch (ChangeModelStateException e)
+        {
+
+        }
+
+    }
+
+    @Override
     public void visit(EndTurnEvent event)
     {
         controller.endPlayerTurn();

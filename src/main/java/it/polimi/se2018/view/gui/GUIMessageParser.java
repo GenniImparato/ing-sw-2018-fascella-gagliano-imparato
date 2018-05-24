@@ -43,6 +43,17 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
+    public void visit(RemovedPlayerMessage message)
+    {
+        String notification;
+
+        notification = message.getPlayer().getNickname() + "  disconnected from the game!";
+        gui.reShowCurrentView();
+
+        gui.showNotification(notification);
+    }
+
+    @Override
     public void visit(DraftedDieMessage message) {
 
     }

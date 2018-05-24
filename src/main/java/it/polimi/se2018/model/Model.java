@@ -248,6 +248,20 @@ public class Model extends Observable <Message> implements Serializable
         notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
     }
 
+    public void removePlayer(String nickname) throws ChangeModelStateException
+    {
+        try
+        {
+            Player removedPlayer = findPlayer(nickname);
+            players.remove(removedPlayer);
+            notify(new RemovedPlayerMessage(this, removedPlayer));
+        }
+        catch (NoElementException e)
+        {
+            throw new ChangeModelStateException("Cannot remove player:" + nickname);
+        }
+    }
+
     public boolean hasEveryPlayerChosenSchemeCard()
     {
         for(Player player : players)

@@ -2,6 +2,8 @@ package it.polimi.se2018.network.socket.server;
 
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.mvc_comunication.events.ClientDisconnectedEvent;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.network.socket.NetworkMessage;
@@ -16,6 +18,7 @@ public class SocketVirtualView extends VirtualView implements Runnable
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String associatedNickname;
 
     public SocketVirtualView(Socket clientSocket)
     {
@@ -132,7 +135,10 @@ public class SocketVirtualView extends VirtualView implements Runnable
         {
             out.writeObject(message);
         }
-        catch(IOException e) {e.printStackTrace();}
+        catch(IOException e)
+        {
+            notify(new ClientDisconnectedEvent(this, associatedNickname));
+        }
     }
 
     private synchronized void analyzeMessage(NetworkMessage message)
@@ -140,8 +146,15 @@ public class SocketVirtualView extends VirtualView implements Runnable
         if(message.isEvent())
         {
             message.getEvent().setView(this);
-        }
+
+            if(message.getEvent() instanceof AddPlayerEvent)
+                associatedNickname = ((AddPlayerEvent) message.getEvent()).getNickname();
+
             notify(message.getEvent());
+        }
+        else if(message.isDisconnectMessage())
+            notify(new ClientDisconnectedEvent(this, associatedNickname));
+
     }
 
     @Override
