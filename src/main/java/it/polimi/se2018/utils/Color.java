@@ -68,6 +68,22 @@ public enum Color implements Serializable
         return null;
     }
 
+    public static Color getColorFromNum(int num)
+    {
+        if(num == 0)
+            return Color.RED;
+        else if(num == 1)
+            return Color.BLUE;
+        else if(num == 2)
+            return Color.YELLOW;
+        else if(num == 3)
+            return Color.PURPLE;
+        else if(num == 4)
+            return Color.GREEN;
+
+        return null;
+    }
+
     /**
      * Returns a number associated to a Color
      * @return an Integer representing a Color

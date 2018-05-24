@@ -18,7 +18,7 @@ public class Player implements Serializable
     private PrivateObjectiveCard    card;               //player's private objective card
     private int                     favorTokens=3;           //player's number of favor token
     private int                     score=0;
-    private Color color;              //color of the player's board and the score marker
+    private Color                   color;              //color of the player's board and the score marker
     private String                  nickname;
 
     private boolean                 schemeCardChosen = false;
@@ -28,9 +28,10 @@ public class Player implements Serializable
      * Constructor that creates a Player and sets his nickname
      * @param nickname nickname of the Player
      */
-    public Player(String nickname)
+    public Player(String nickname, Color color)
     {
         this.nickname = nickname;
+        this.color = color;
         this.schemeCardIndices = new int[4];
 
         card = new PrivateObjectiveCard(Color.getRandomColor());

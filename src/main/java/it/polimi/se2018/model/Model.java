@@ -6,8 +6,8 @@ import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.model.toolcards.*;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.utils.Observable;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -232,7 +232,7 @@ public class Model extends Observable <Message> implements Serializable
         }
 
         if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
-            players.add(new Player(nickname));
+            players.add(new Player(nickname, Color.getColorFromNum(getPlayerNum())));
         else
             throw new ChangeModelStateException("There are already " + MAX_PLAYERS_NUM + " players!");
 
