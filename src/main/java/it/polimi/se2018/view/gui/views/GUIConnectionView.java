@@ -24,10 +24,6 @@ public class GUIConnectionView extends GUIView
     {
         super(gui, 710,400);
         this.requestIP = requestIP;
-
-
-
-
     }
 
     public void draw()
@@ -108,22 +104,35 @@ public class GUIConnectionView extends GUIView
             {
                 String correctIp;
 
+                if(textNickname.getText().length() == 0)
+                {
+                    gui.showErrorMessage("Error", "Empty nickname field!");
+                    return;
+                }
+
                 if(requestIP)
+                {
+                    if (textIP.getText().length() == 0)
+                    {
+                        gui.showErrorMessage("Error", "Empty IP field!");
+                        return;
+                    }
                     correctIp = textIP.getText();
+                }
                 else
                     correctIp = gui.getServerIp();
 
                 try
                 {
                     if (rmiButton.isSelected())
-                        new RMINetworkHandler(correctIp, gui);
+                        gui.setNetworkHandler(new RMINetworkHandler(correctIp, gui));
                     else if (socketButton.isSelected())
-                        new SocketNetworkHandler(correctIp, gui);
+                        gui.setNetworkHandler(new SocketNetworkHandler(correctIp, gui));
 
                     gui.showMessage("Connected to server!");
                     gui.setServerIp(correctIp);
-                    gui.setAssociatedPlayerNickname(textNickname.getText());
 
+                    gui.setAssociatedPlayerNickname(textNickname.getText());
                     gui.notify(new AddPlayerEvent(gui, textNickname.getText()));
                 }
                 catch (CannotConnectToServerException e)

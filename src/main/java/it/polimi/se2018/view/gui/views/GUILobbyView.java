@@ -6,6 +6,8 @@ import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class GUILobbyView extends GUIView
@@ -18,23 +20,15 @@ public class GUILobbyView extends GUIView
     public void draw()
     {
         mainContainer = new Container();
-
-        Container[] containers = new Container[6];      //one container for each rows of the lobby
-
         mainContainer.setLayout(new GridLayout(6,1));
-
 
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setIcon(new ImageIcon("resources/images/lobby/back.png"));
         backgroundLabel.setLayout(new GridLayout(1, 0));
         mainContainer.add(backgroundLabel);
 
-
         JLabel ipLabel = new JLabel("Server IP: " +gui.getServerIp(), JLabel.CENTER);
         backgroundLabel.add(ipLabel);
-
-
-
 
         JLabel playerSlots[] = new JLabel[4];
 
@@ -101,36 +95,36 @@ public class GUILobbyView extends GUIView
             playerSlots[index].add(nicknameLabels);
         }
 
-
-            /*if(i < gui.getModel().getPlayerNum())
-            {
-                //playerNames[i] = new JLabel("Player" + (i + 1) + ": " + gui.getModel().getPlayers().get(0).getNickname());
-                playerNames[i] = new JLabel();
-                playerNames[i].setIcon();
-            }
-
-            else
-                //playerNames[i] = new JLabel("NO PLAYER CONNECTED");
-
-            containers[i+1].add(playerNames[i]);
-            mainContainer.add(containers[i+1]);
-
-
-        containers[5] = new Container();
-        containers[5].setLayout(new GridLayout(1,2));
-
-        JButton startGameButton = new JButton();
-        startGameButton.setIcon(new ImageIcon("resources/images/menu/connect.png"));
-        startGameButton.addActionListener(new ActionListener() {
+        Container container = new Container();
+        container.setLayout(new GridLayout(1,2));
+        JToggleButton startButton = new JToggleButton();
+        startButton.setSelectedIcon(new ImageIcon("resources/images/lobby/readyselected.png"));
+        startButton.setIcon(new ImageIcon("resources/images/lobby/ready.png"));
+        startButton.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
 
             }
         });
 
-        containers[5].add(startGameButton);
-        mainContainer.add(containers[5]);
+        container.add(startButton);
 
-        */
+        JButton disconnectButton = new JButton();
+        disconnectButton.setIcon(new ImageIcon("resources/images/lobby/disconnect.png"));
+        disconnectButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                gui.getNetworkHandler().disconnect();
+            }
+        });
+
+        container.add(disconnectButton);
+
+        mainContainer.add(container);
+
     }
 }

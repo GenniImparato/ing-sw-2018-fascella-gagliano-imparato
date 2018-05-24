@@ -4,6 +4,7 @@ package it.polimi.se2018.view;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.utils.*;
 
 import java.io.Serializable;
@@ -11,10 +12,11 @@ import java.io.Serializable;
 //every concrete view has to extend this class
 public abstract class View extends Observable<Event> implements Observer <Message>, ViewInterface, Serializable
 {
-    private transient   Model       model;
-    private             String      playerNickname;
+    private transient   Model           model;
+    private             String          playerNickname;
+    private transient   NetworkHandler  networkHandler;
 
-    protected transient Logger      logger;
+    protected transient Logger          logger;
 
     public View()
     {
@@ -45,4 +47,13 @@ public abstract class View extends Observable<Event> implements Observer <Messag
         return logger;
     }
 
+    public NetworkHandler getNetworkHandler()
+    {
+        return networkHandler;
+    }
+
+    public void setNetworkHandler(NetworkHandler networkHandler)
+    {
+        this.networkHandler = networkHandler;
+    }
 }

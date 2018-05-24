@@ -112,4 +112,16 @@ public class TestColor
     }
 
 
+    @Test
+    public void testGetColorFromNum()
+    {
+        assertEquals(Color.RED, Color.getColorFromNum(0));
+        assertEquals(Color.BLUE, Color.getColorFromNum(1));
+        assertEquals(Color.GREEN, Color.getColorFromNum(2));
+        assertEquals(Color.YELLOW, Color.getColorFromNum(3));
+        assertEquals(Color.PURPLE, Color.getColorFromNum(4));
+        assertEquals(null,Color.getColorFromNum(10));
+    }
+
+
 }
