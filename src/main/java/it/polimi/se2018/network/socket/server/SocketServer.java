@@ -1,27 +1,28 @@
 package it.polimi.se2018.network.socket.server;
-import it.polimi.se2018.controller.Controller;
-import it.polimi.se2018.model.Model;
 import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.server.Server;
+import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.ViewInterface;
 
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SocketServer
 {
-    private static final int PORT = 1999;
-    private ServerSocket serverSocket;
-    private List<ViewInterface> virtualClients;
+    public static final int PORT = 1999;
+    private     ServerSocket        serverSocket;
+    protected   List<VirtualView>   virtualClients;
 
     private Server server;
 
     public SocketServer(Server server) throws CannotCreateServerException
     {
         this.server = server;
-        virtualClients = new ArrayList<>();
+        virtualClients = new CopyOnWriteArrayList();
 
         try
         {
@@ -32,25 +33,41 @@ public class SocketServer
             throw new CannotCreateServerException(e.getMessage());
         }
 
-        //Creates a SocketClientManager on this server and
+        //Creates a SocketClientAdder on this server and
         //runs it in a different thread
-        new SocketClientManager(this);
+        new SocketClientAdder(this);
+        new SocketClientRemover(this);
 
     }
 
-    public synchronized ServerSocket getServerSocket()
+    public ServerSocket getServerSocket()
     {
         return serverSocket;
     }
 
-    public synchronized void addClient(Socket clientSocket)
+    public void addClient(Socket clientSocket)
     {
         SocketVirtualView vView = new SocketVirtualView(clientSocket);
 
         vView.attach(server.getController());   //register the controller as an observer of the created virtual view
         server.getModel().attach((vView));      //register the virtual view as an observer of the model
 
-        new Thread(vView).start();
         virtualClients.add(vView);
+    }
+
+    public void removeClient(VirtualView virtualClient)
+    {
+        server.getModel().detach(virtualClient);
+        virtualClients.remove(virtualClient);
+    }
+
+    public void checkClientConnections()
+    {
+
+        for(VirtualView virtualClient : virtualClients)
+        {
+            if(!virtualClient.isConnected())
+                removeClient(virtualClient);
+        }
     }
 }

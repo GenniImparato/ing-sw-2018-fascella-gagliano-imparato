@@ -5,6 +5,7 @@ import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.network.server.VirtualView;
 
 public class EventParser implements EventVisitor
 {
@@ -40,13 +41,14 @@ public class EventParser implements EventVisitor
         try
         {
             controller.addNewPlayer(event.getNickname());
+            controller.getView().showLobby();
             if(controller.getModel().getPlayerNum() >= 3)
                 controller.startGameSetup();
         }
         catch(ChangeModelStateException e)
         {
-            controller.getView().showErrorMessage(e.getMessage());
-            controller.getView().reShowCurrentView();
+            controller.getView().showErrorMessage("Disconnected from the Server: " +e.getMessage());
+            ((VirtualView)controller.getView()).disconnect();
         }
     }
 

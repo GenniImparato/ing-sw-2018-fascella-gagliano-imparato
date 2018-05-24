@@ -24,22 +24,32 @@ public class SocketVirtualView extends VirtualView implements Runnable
         {
             this.out = new ObjectOutputStream(clientSocket.getOutputStream());
         }
-        catch(IOException e) { e.printStackTrace();}
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        new Thread(this).start();
     }
 
     @Override
     //This method waits for messages from SocketServer
     public void run()
     {
-        try {
+        try
+        {
             in = new ObjectInputStream(clientSocket.getInputStream());
 
-            while(true)
+            while(connected)
             {
                 NetworkMessage message = (NetworkMessage)in.readObject();
                 analyzeMessage(message);
             }
-        }catch(IOException|ClassNotFoundException e){e.printStackTrace();}
+        }
+        catch(IOException|ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -138,5 +148,12 @@ public class SocketVirtualView extends VirtualView implements Runnable
     protected void notifyView(Message message)
     {
         sendToClient(new NetworkMessage(message));
+    }
+
+    @Override
+    public synchronized void disconnect()
+    {
+        connected = false;
+        sendToClient(new NetworkMessage()); //send a disconnect message
     }
 }

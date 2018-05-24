@@ -33,6 +33,7 @@ public class GUIMenuView extends GUIView
                 try
                 {
                     Server server = new Server();
+                    gui.showMessage("Server created at IP: " + server.getIP());
                     gui.showView(new GUIConnectionView(gui, false, server.getIP()));
                 }
                 catch(CannotCreateServerException e)

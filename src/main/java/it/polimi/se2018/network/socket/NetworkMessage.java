@@ -13,7 +13,8 @@ public class NetworkMessage implements Serializable
     {
         METHOD_INVOCATION,
         EVENT,
-        MESSAGE
+        MESSAGE,
+        DISCONNECT_MESSAGE
     }
 
     private NetworkMessageType type;
@@ -50,6 +51,11 @@ public class NetworkMessage implements Serializable
         hasParameter = true;
     }
 
+    public NetworkMessage()
+    {
+        this.type = NetworkMessageType.DISCONNECT_MESSAGE;
+    }
+
     public boolean isMethodInvocation()
     {
         return type == NetworkMessageType.METHOD_INVOCATION;
@@ -63,6 +69,11 @@ public class NetworkMessage implements Serializable
     public boolean isEvent()
     {
         return type == NetworkMessageType.EVENT;
+    }
+
+    public boolean isDisconnectMessage()
+    {
+        return type == NetworkMessageType.DISCONNECT_MESSAGE;
     }
 
     public boolean hasParameter()

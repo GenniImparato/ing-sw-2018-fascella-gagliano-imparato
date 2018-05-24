@@ -22,4 +22,6 @@ public interface RMIClientInterface extends Remote
     void showMoveDie()   throws RemoteException;
     void showIncrementDie()   throws RemoteException;
     void reShowCurrentView()   throws RemoteException;
+
+    void disconnect()           throws RemoteException;
 }

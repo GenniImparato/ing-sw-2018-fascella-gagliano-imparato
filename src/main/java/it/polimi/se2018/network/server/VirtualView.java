@@ -9,10 +9,18 @@ import it.polimi.se2018.view.ViewInterface;
 
 public abstract class VirtualView extends Observable<Event> implements ViewInterface,  Observer<Message>
 {
+    protected boolean connected = true;
+
     public void update(Message message)
     {
         notifyView(message);
     }
 
     protected abstract void notifyView(Message message);
+    public    abstract void disconnect();
+
+    public boolean isConnected()
+    {
+        return connected;
+    }
 }

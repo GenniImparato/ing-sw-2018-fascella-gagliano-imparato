@@ -38,13 +38,27 @@ public class RMIServerServices extends UnicastRemoteObject implements RMIServerI
         clients.add(client);
     }
 
+    public void removeClient(RMIClientInterface client) throws RemoteException
+    {
+        int removedClientIndex = clients.indexOf(client);
+
+        server.getModel().detach(virtualClients.get(removedClientIndex));      //register the virtual view as an observer of the model
+        virtualClients.get(removedClientIndex).detach(server.getController());
+
+        clients.remove(removedClientIndex);
+        virtualClients.remove(removedClientIndex);
+    }
+
     @Override
     public void notifyController(RMIClientInterface client, Event event) throws RemoteException
     {
-        VirtualView vView = virtualClients.get(clients.indexOf(client));
+        if(clients.indexOf(client) != -1)
+        {
+            VirtualView vView = virtualClients.get(clients.indexOf(client));
 
-        event.setView(vView);
-        vView.notify(event);
+            event.setView(vView);
+            vView.notify(event);
+        }
     }
 }
 

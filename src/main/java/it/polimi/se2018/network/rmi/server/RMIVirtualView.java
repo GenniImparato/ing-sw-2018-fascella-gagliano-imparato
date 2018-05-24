@@ -188,4 +188,17 @@ public class RMIVirtualView extends VirtualView
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void disconnect()
+    {
+        try
+        {
+            remoteclient.disconnect();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

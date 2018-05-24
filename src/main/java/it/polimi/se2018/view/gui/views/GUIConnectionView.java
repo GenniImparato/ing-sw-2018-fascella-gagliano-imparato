@@ -3,8 +3,6 @@ package it.polimi.se2018.view.gui.views;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
 import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
 import it.polimi.se2018.network.rmi.client.RMINetworkHandler;
-import it.polimi.se2018.network.rmi.server.RMIServer;
-import it.polimi.se2018.network.server.Server;
 import it.polimi.se2018.network.socket.client.SocketNetworkHandler;
 import it.polimi.se2018.view.gui.GUI;
 
@@ -65,7 +63,7 @@ public class GUIConnectionView extends GUIView
         }
         else
         {
-            JLabel labelIP = new JLabel("10.169.219.151");
+            JLabel labelIP = new JLabel(ip);
             secondRowContainer.add(labelIP);
         }
 
@@ -101,6 +99,8 @@ public class GUIConnectionView extends GUIView
             @Override
             public void actionPerformed(ActionEvent event)
             {
+                gui.showNotification("Trying to connect...");
+
                 String correctIp;
 
                 if(requestIP)
@@ -113,7 +113,9 @@ public class GUIConnectionView extends GUIView
                     if (rmiButton.isSelected())
                         new RMINetworkHandler(gui);
                     else if (socketButton.isSelected())
-                        new SocketNetworkHandler(correctIp, 1999, gui);
+                        new SocketNetworkHandler(correctIp, gui);
+
+                    gui.showMessage("Connected to server!");
 
                     gui.notify(new AddPlayerEvent(gui, textNickname.getText()));
                 }

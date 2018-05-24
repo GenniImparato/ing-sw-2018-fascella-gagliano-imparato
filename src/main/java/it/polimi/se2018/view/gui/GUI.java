@@ -1,15 +1,14 @@
 package it.polimi.se2018.view.gui;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.cli.views.CLIView;
+import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
+import it.polimi.se2018.view.gui.views.GUILobbyView;
 import it.polimi.se2018.view.gui.views.GUIMenuView;
 import it.polimi.se2018.view.gui.views.GUIView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import static javafx.application.ConditionalFeature.SWT;
 
 public class GUI extends View
 {
@@ -57,15 +56,23 @@ public class GUI extends View
 
     public void showErrorMessage(String message)
     {
-        new GUIErrorDialog(this, "Error", message);
+        new GUIOKDialog(this, "Error", message);
     }
 
     public void showErrorMessage(String title, String message)
     {
-        new GUIErrorDialog(this, title, message);
+        new GUIOKDialog(this, title, message);
     }
 
-    public void showMessage(String message){}
+    public void showMessage(String message)
+    {
+        new GUIOKDialog(this, "", message);
+    }
+
+    public void showNotification(String message)
+    {
+        new GUINotification(this, message);
+    }
 
     @Override
     public void update(Message event)
@@ -82,8 +89,9 @@ public class GUI extends View
     }
 
     @Override
-    public void showLobby() {
-
+    public void showLobby()
+    {
+        showView(new GUILobbyView(this));
     }
 
     @Override

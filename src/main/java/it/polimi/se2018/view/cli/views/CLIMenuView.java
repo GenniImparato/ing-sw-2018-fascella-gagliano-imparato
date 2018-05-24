@@ -107,7 +107,7 @@ public class CLIMenuView extends CLIView
             try
             {
                 if (connectionType)
-                    new SocketNetworkHandler("localhost", 1999, cli);
+                    new SocketNetworkHandler("localhost", cli);
                 else
                     new RMINetworkHandler(cli);
             }

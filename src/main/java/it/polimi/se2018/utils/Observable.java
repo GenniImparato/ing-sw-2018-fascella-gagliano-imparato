@@ -1,14 +1,16 @@
 package it.polimi.se2018.utils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Observable <T>
 {
-    private ArrayList <Observer <T>> observers;
+    private List<Observer <T>> observers;
 
     public Observable ()
     {
-        observers = new ArrayList<>();
+        observers = new CopyOnWriteArrayList();
     }
 
     public void attach (Observer <T> observer)

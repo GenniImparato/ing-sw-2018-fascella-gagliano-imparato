@@ -30,4 +30,5 @@ public abstract class NetworkHandler extends Observable<Message> implements Obse
     }
 
     protected abstract void notifyController(Event event);
+    public abstract void disconnect();
 }

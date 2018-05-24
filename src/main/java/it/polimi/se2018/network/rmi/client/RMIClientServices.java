@@ -29,13 +29,28 @@ public class RMIClientServices implements RMIClientInterface
     @Override
     public void showErrorMessage(String message) throws RemoteException
     {
-        handler.getView().showErrorMessage(message);
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                handler.getView().showErrorMessage(message);
+            }
+        }).start();
+
     }
 
     @Override
     public void showMessage(String message) throws RemoteException
     {
-        handler.getView().showMessage(message);
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                handler.getView().showMessage(message);
+            }
+        }).start();
     }
 
     @Override
@@ -90,5 +105,11 @@ public class RMIClientServices implements RMIClientInterface
     public void reShowCurrentView() throws RemoteException
     {
         handler.getView().reShowCurrentView();
+    }
+
+    @Override
+    public void disconnect() throws RemoteException
+    {
+        handler.disconnect();
     }
 }

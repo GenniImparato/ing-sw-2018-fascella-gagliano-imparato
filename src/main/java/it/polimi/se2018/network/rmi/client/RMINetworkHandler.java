@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class RMINetworkHandler extends NetworkHandler
 {
     private RMIServerInterface serverServices;
-    private RMIClientInterface client;
+    private RMIClientInterface remoteClient;
 
     public RMINetworkHandler(View clientView) throws CannotConnectToServerException
     {
@@ -30,8 +30,7 @@ public class RMINetworkHandler extends NetworkHandler
         {
             serverServices = (RMIServerInterface) Naming.lookup("//localhost/RMIServer");
 
-            client = new RMIClientServices(this);
-            RMIClientInterface remoteClient = (RMIClientInterface) UnicastRemoteObject.exportObject(client, 0);
+            remoteClient = (RMIClientInterface) UnicastRemoteObject.exportObject(new RMIClientServices(this), 0);
             serverServices.addClient(remoteClient);
 
         }
@@ -54,12 +53,25 @@ public class RMINetworkHandler extends NetworkHandler
     {
         try
         {
-            serverServices.notifyController(client, event);
+            serverServices.notifyController(remoteClient, event);
         }
         catch(RemoteException e)
         {
-            System.out.println("Connection error: " + e.getMessage());
+            e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void disconnect()
+    {
+        try
+        {
+            serverServices.removeClient(remoteClient);
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
