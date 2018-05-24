@@ -12,10 +12,7 @@ public class GUILobbyView extends GUIView
 {
     public GUILobbyView(GUI gui)
     {
-        super(gui, 500, 750);
-
-
-
+        super(gui, 500, 600);
     }
 
     public void draw()
@@ -26,12 +23,15 @@ public class GUILobbyView extends GUIView
 
         mainContainer.setLayout(new GridLayout(6,1));
 
-        containers[0] = new Container();
-        containers[0].setLayout(new FlowLayout());
 
-        JLabel ipLabel = new JLabel("Server IP: " +gui.getServerIp());
-        containers[0].add(ipLabel);
-        mainContainer.add(containers[0]);
+        JLabel backgroundLabel = new JLabel();
+        backgroundLabel.setIcon(new ImageIcon("resources/images/lobby/back.png"));
+        backgroundLabel.setLayout(new GridLayout(1, 0));
+        mainContainer.add(backgroundLabel);
+
+
+        JLabel ipLabel = new JLabel("Server IP: " +gui.getServerIp(), JLabel.CENTER);
+        backgroundLabel.add(ipLabel);
 
 
 
@@ -60,7 +60,7 @@ public class GUILobbyView extends GUIView
         }
         catch (NoElementException e)
         {
-            playerSlots[1].setIcon(new ImageIcon("resources/images/lobby/notconnectedblue.png"));
+            playerSlots[1].setIcon(new ImageIcon("resources/images/lobby/emptyslot.png"));
         }
         mainContainer.add(playerSlots[1]);
 
@@ -73,7 +73,7 @@ public class GUILobbyView extends GUIView
         }
         catch (NoElementException e)
         {
-            playerSlots[2].setIcon(new ImageIcon("resources/images/lobby/notconnectedgreen.png"));
+            playerSlots[2].setIcon(new ImageIcon("resources/images/lobby/emptyslot.png"));
         }
         mainContainer.add(playerSlots[2]);
 
@@ -86,7 +86,7 @@ public class GUILobbyView extends GUIView
         }
         catch (NoElementException e)
         {
-            playerSlots[3].setIcon(new ImageIcon("resources/images/lobby/notconnectedyellow.png"));
+            playerSlots[3].setIcon(new ImageIcon("resources/images/lobby/emptyslot.png"));
         }
         mainContainer.add(playerSlots[3]);
 
@@ -97,7 +97,7 @@ public class GUILobbyView extends GUIView
 
             JLabel nicknameLabels = new JLabel(gui.getModel().getPlayers().get(i).getNickname(), JLabel.CENTER);
             nicknameLabels.setFont(new Font("Cooper Std", Font.BOLD, 40));
-            nicknameLabels.setForeground(java.awt.Color.white);
+            nicknameLabels.setForeground(java.awt.Color.orange);
             playerSlots[index].add(nicknameLabels);
         }
 

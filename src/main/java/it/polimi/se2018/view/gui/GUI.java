@@ -43,6 +43,7 @@ public class GUI extends View
         view.draw();
         view.drawOnMainWindow();
         mainWindow.validate();
+        mainWindow.pack();
         mainWindow.setVisible(true);
     }
 

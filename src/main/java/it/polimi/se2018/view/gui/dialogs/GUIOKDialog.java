@@ -15,7 +15,7 @@ public class GUIOKDialog extends GUIDialog
     {
         super(gui, title);
         Container mainContainer = new Container();
-        mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER));
+        mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         setContentPane(mainContainer);
         setResizable(false);
