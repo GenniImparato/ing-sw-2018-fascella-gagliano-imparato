@@ -190,6 +190,15 @@ public class Model extends Observable <Message> implements Serializable
         throw new NoElementException();
     }
 
+    public Player findPlayer(Color color) throws NoElementException
+    {
+        for(Player player : players)
+            if(player.getColor() == color)
+                return player;
+
+        throw new NoElementException();
+    }
+
     public void setSchemeCards(List<Board> schemeCards)
     {
         this.schemeCards = schemeCards;

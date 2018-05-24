@@ -14,18 +14,25 @@ import java.awt.event.ActionListener;
 public class GUIConnectionView extends GUIView
 {
     private boolean     requestIP;
-    private String      ip;
 
     private JTextField  textNickname;
     private JTextField  textIP;
     private JRadioButton rmiButton;
     private JRadioButton socketButton;
 
-    public GUIConnectionView (GUI gui, boolean requestIP, String ip)
+    public GUIConnectionView (GUI gui, boolean requestIP)
     {
         super(gui, 710,400);
         this.requestIP = requestIP;
-        this.ip = ip;
+
+
+
+
+    }
+
+    public void draw()
+    {
+        mainContainer = new Container();
 
         mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -63,7 +70,7 @@ public class GUIConnectionView extends GUIView
         }
         else
         {
-            JLabel labelIP = new JLabel(ip);
+            JLabel labelIP = new JLabel(gui.getServerIp());
             secondRowContainer.add(labelIP);
         }
 
@@ -99,14 +106,12 @@ public class GUIConnectionView extends GUIView
             @Override
             public void actionPerformed(ActionEvent event)
             {
-                gui.showNotification("Trying to connect...");
-
                 String correctIp;
 
                 if(requestIP)
                     correctIp = textIP.getText();
                 else
-                    correctIp = ip;
+                    correctIp = gui.getServerIp();
 
                 try
                 {
@@ -116,6 +121,8 @@ public class GUIConnectionView extends GUIView
                         new SocketNetworkHandler(correctIp, gui);
 
                     gui.showMessage("Connected to server!");
+                    gui.setServerIp(correctIp);
+                    gui.setAssociatedPlayerNickname(textNickname.getText());
 
                     gui.notify(new AddPlayerEvent(gui, textNickname.getText()));
                 }
@@ -143,8 +150,6 @@ public class GUIConnectionView extends GUIView
         fourthRowContainer.add(backButton);
 
         mainContainer.add(fourthRowContainer);
-
-
     }
 
 }

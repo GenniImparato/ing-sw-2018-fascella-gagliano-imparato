@@ -12,8 +12,10 @@ import java.awt.*;
 
 public class GUI extends View
 {
-    transient private GUIView   currentView;
-    transient private JFrame    mainWindow;
+    transient private GUIView           currentView;
+    transient private JFrame            mainWindow;
+    transient private String            serverIp;
+    transient private GUIMessageParser  parser;
 
     public GUI()
     {
@@ -23,6 +25,8 @@ public class GUI extends View
 
         showView(new GUIMenuView(this));
         mainWindow.setLocationRelativeTo(null);
+
+        parser = new GUIMessageParser(this);
 
     }
 
@@ -37,6 +41,7 @@ public class GUI extends View
         this.currentView = view;
 
         view.draw();
+        view.drawOnMainWindow();
         mainWindow.validate();
         mainWindow.setVisible(true);
     }
@@ -75,8 +80,12 @@ public class GUI extends View
     }
 
     @Override
-    public void update(Message event)
+    public void update(Message message)
     {
+        setModel(message.getModel());
+
+        message.acceptVisitor(parser);
+
     }
     public void refresh()
     {
@@ -133,7 +142,18 @@ public class GUI extends View
     @Override
     public void reShowCurrentView()
     {
+        if(currentView!=null)
+            showView(currentView);
+    }
 
+    public void setServerIp(String serverIp)
+    {
+        this.serverIp=serverIp;
+    }
+
+    public String getServerIp()
+    {
+        return serverIp;
     }
 
 }

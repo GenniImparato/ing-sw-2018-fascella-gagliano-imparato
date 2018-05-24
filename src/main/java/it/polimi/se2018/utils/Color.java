@@ -75,11 +75,11 @@ public enum Color implements Serializable
         else if(num == 1)
             return Color.BLUE;
         else if(num == 2)
-            return Color.YELLOW;
-        else if(num == 3)
-            return Color.PURPLE;
-        else if(num == 4)
             return Color.GREEN;
+        else if(num == 3)
+            return Color.YELLOW;
+        else if(num == 4)
+            return Color.PURPLE;
 
         return null;
     }

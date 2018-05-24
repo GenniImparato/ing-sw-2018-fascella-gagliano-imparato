@@ -16,14 +16,13 @@ public abstract class GUIView
         this.gui = gui;
         this.width = width;
         this.height = height;
-        this.mainContainer = new Container();
     }
 
-    public void draw()
+    public void drawOnMainWindow()
     {
         gui.setContainer(mainContainer);
         gui.setDimensions(width,height);
-
-
     }
+
+    public abstract void draw();
 }

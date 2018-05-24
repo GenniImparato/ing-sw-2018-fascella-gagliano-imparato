@@ -15,6 +15,12 @@ public class GUIMenuView extends GUIView
     {
         super(gui, 710,600);
 
+    }
+
+    public void draw()
+    {
+        mainContainer = new Container();
+
         mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         JLabel titleLabel = new JLabel();
@@ -22,6 +28,7 @@ public class GUIMenuView extends GUIView
         mainContainer.add(titleLabel);
 
 
+        //the push of the startButton creates the Server
         JButton startButton = new JButton();
         startButton.setPreferredSize(new Dimension(355, 200));
         startButton.setIcon(new ImageIcon("resources/images/menu/startserver.png"));
@@ -33,8 +40,9 @@ public class GUIMenuView extends GUIView
                 try
                 {
                     Server server = new Server();
+                    gui.setServerIp(server.getIP());
                     gui.showMessage("Server created at IP: " + server.getIP());
-                    gui.showView(new GUIConnectionView(gui, false, server.getIP()));
+                    gui.showView(new GUIConnectionView(gui, false));
                 }
                 catch(CannotCreateServerException e)
                 {
@@ -46,6 +54,7 @@ public class GUIMenuView extends GUIView
         });
         mainContainer.add(startButton);
 
+        //the push of the connectButton creates a Client connected to a Server already created
         JButton connectButton= new JButton();
         connectButton.setPreferredSize(new Dimension(355, 200));
         connectButton.setIcon(new ImageIcon("resources/images/menu/connecttoserver.png"));
@@ -54,7 +63,7 @@ public class GUIMenuView extends GUIView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                gui.showView(new GUIConnectionView(gui, true, ""));
+                gui.showView(new GUIConnectionView(gui, true));
 
             }
 
