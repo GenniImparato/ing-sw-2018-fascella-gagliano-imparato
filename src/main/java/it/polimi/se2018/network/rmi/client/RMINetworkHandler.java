@@ -22,13 +22,13 @@ public class RMINetworkHandler extends NetworkHandler
     private RMIServerInterface serverServices;
     private RMIClientInterface remoteClient;
 
-    public RMINetworkHandler(View clientView) throws CannotConnectToServerException
+    public RMINetworkHandler(String IP, View clientView) throws CannotConnectToServerException
     {
         super(clientView);
 
         try
         {
-            serverServices = (RMIServerInterface) Naming.lookup("//localhost/RMIServer");
+            serverServices = (RMIServerInterface) Naming.lookup("//" + IP + "/RMIServer");
 
             remoteClient = (RMIClientInterface) UnicastRemoteObject.exportObject(new RMIClientServices(this), 0);
             serverServices.addClient(remoteClient);

@@ -116,7 +116,7 @@ public class GUIConnectionView extends GUIView
                 try
                 {
                     if (rmiButton.isSelected())
-                        new RMINetworkHandler(gui);
+                        new RMINetworkHandler(correctIp, gui);
                     else if (socketButton.isSelected())
                         new SocketNetworkHandler(correctIp, gui);
 

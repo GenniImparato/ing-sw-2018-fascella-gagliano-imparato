@@ -109,7 +109,7 @@ public class CLIMenuView extends CLIView
                 if (connectionType)
                     new SocketNetworkHandler("localhost", cli);
                 else
-                    new RMINetworkHandler(cli);
+                    new RMINetworkHandler("localhost", cli);
             }
             catch(CannotConnectToServerException e)
             {
