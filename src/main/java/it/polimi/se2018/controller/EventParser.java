@@ -42,8 +42,6 @@ public class EventParser implements EventVisitor
         {
             controller.addNewPlayer(event.getNickname());
             controller.getView().showLobby();
-            if(controller.getModel().getPlayerNum() >= 3)
-                controller.startGameSetup();
         }
         catch(ChangeModelStateException e)
         {
@@ -83,6 +81,25 @@ public class EventParser implements EventVisitor
         {
             controller.getView().showErrorMessage(e.getMessage());
             System.exit(0);
+        }
+    }
+
+    @Override
+    public void visit(PlayerReadyEvent event)
+    {
+        try
+        {
+            controller.setPlayerReady(controller.getModel().findPlayer(event.getNickname()), event.isReady());
+            if(controller.getModel().isEveryPlayerReady())
+                controller.startGameSetup();
+        }
+        catch(NoElementException e)
+        {
+            controller.getView().showErrorMessage("Cannot find player: " + event.getNickname());
+        }
+        catch(ChangeModelStateException e)
+        {
+            controller.getView().showErrorMessage(e.getMessage());
         }
     }
 

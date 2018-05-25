@@ -240,14 +240,48 @@ public class Model extends Observable <Message> implements Serializable
                 throw new ChangeModelStateException("There is another player with this nickname!");
         }
 
-        if(getPlayerNum() < MAX_PLAYERS_NUM)                                //check if there are already all players
-            players.add(new Player(nickname, Color.getColorFromNum(getPlayerNum())));
+        if(getPlayerNum() < MAX_PLAYERS_NUM)   //check if there are already all players
+        {
+            //assing to the new player the first color available
+            Color playerColor = Color.RED;
+
+            for(Color color : Color.values())
+            {
+                try
+                {
+                    findPlayer(color);
+                }
+                catch(NoElementException e)
+                {
+                    playerColor = color;
+                    break;
+                }
+            }
+
+            //adds the player
+            players.add(new Player(nickname, playerColor));
+        }
+
         else
             throw new ChangeModelStateException("There are already " + MAX_PLAYERS_NUM + " players!");
 
         notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
     }
 
+    public void setPlayerReady(Player player, boolean ready)
+    {
+        player.setReady(ready);
+        notify(new PlayerReadyMessage(this, player, ready));
+    }
+
+    public boolean isEveryPlayerReady()
+    {
+        for(Player player : players)
+            if(!player.isReady())
+                return false;
+
+        return true;
+    }
     public void removePlayer(String nickname) throws ChangeModelStateException
     {
         try

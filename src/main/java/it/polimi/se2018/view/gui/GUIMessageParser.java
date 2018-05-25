@@ -2,6 +2,7 @@ package it.polimi.se2018.view.gui;
 
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
+import it.polimi.se2018.view.gui.views.GUIChooseSchemeCardView;
 
 public class GUIMessageParser implements MessageVisitor
 {
@@ -13,8 +14,9 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(SelectedPlayerSchemeCardsMessage message) {
-
+    public void visit(SelectedPlayerSchemeCardsMessage message)
+    {
+        gui.showView(new GUIChooseSchemeCardView(gui));
     }
 
     @Override
@@ -71,6 +73,26 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(StartedGameMessage message) {
 
+    }
+
+    @Override
+    public void visit(PlayerReadyMessage message)
+    {
+        gui.reShowCurrentView();
+
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "You are ";
+        else
+            notification = message.getPlayer().getNickname() + " is ";
+
+        if(message.isReady())
+            notification += "ready to play!";
+        else
+            notification += "not ready to play!";
+
+        gui.showNotification(notification);
     }
 
     @Override

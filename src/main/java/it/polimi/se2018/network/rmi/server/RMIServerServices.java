@@ -1,6 +1,8 @@
 package it.polimi.se2018.network.rmi.server;
 
 import it.polimi.se2018.mvc_comunication.Event;
+import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
+import it.polimi.se2018.mvc_comunication.events.ClientDisconnectedEvent;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.network.rmi.client.RMIClientInterface;
 import it.polimi.se2018.network.server.Server;
@@ -41,9 +43,11 @@ public class RMIServerServices extends UnicastRemoteObject implements RMIServerI
     public void removeClient(RMIClientInterface client) throws RemoteException
     {
         int removedClientIndex = clients.indexOf(client);
+        VirtualView removedVirtualClient = virtualClients.get(removedClientIndex);
 
-        server.getModel().detach(virtualClients.get(removedClientIndex));      //register the virtual view as an observer of the model
-        virtualClients.get(removedClientIndex).detach(server.getController());
+        virtualClients.get(removedClientIndex).notify(new ClientDisconnectedEvent(removedVirtualClient, removedVirtualClient.getAssociatedNickname()));
+        server.getModel().detach(removedVirtualClient);      //register the virtual view as an observer of the model
+        removedVirtualClient.detach(server.getController());
 
         clients.remove(removedClientIndex);
         virtualClients.remove(removedClientIndex);
@@ -57,6 +61,11 @@ public class RMIServerServices extends UnicastRemoteObject implements RMIServerI
             VirtualView vView = virtualClients.get(clients.indexOf(client));
 
             event.setView(vView);
+
+            //intercept AddPLayerEvent to set the virtual view associated player nickname
+            if(event instanceof AddPlayerEvent)
+                vView.setAssociatedNickname(((AddPlayerEvent)event).getNickname());
+
             vView.notify(event);
         }
     }

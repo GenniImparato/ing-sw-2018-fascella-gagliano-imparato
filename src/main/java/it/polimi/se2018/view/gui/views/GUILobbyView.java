@@ -1,8 +1,11 @@
 package it.polimi.se2018.view.gui.views;
 
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.exceptions.NoElementException;
+import it.polimi.se2018.mvc_comunication.events.PlayerReadyEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.gui.GUI;
+import javafx.print.PageLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,30 +89,56 @@ public class GUILobbyView extends GUIView
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
         {
-            int index = gui.getModel().getPlayers().get(i).getColor().getNum();
-            playerSlots[index].setLayout(new GridLayout(1,1));
+            Player player = gui.getModel().getPlayers().get(i);
+            int index = player.getColor().getNum();
 
-            JLabel nicknameLabels = new JLabel(gui.getModel().getPlayers().get(i).getNickname(), JLabel.CENTER);
+            playerSlots[index].setLayout(new BoxLayout(playerSlots[index], BoxLayout.X_AXIS));
+
+            playerSlots[index].add(Box.createHorizontalStrut(35));
+
+            JLabel nicknameLabels = new JLabel(player.getNickname(), JLabel.CENTER);
             nicknameLabels.setFont(new Font("Cooper Std", Font.BOLD, 40));
             nicknameLabels.setForeground(java.awt.Color.orange);
+            nicknameLabels.setAlignmentY(Component.CENTER_ALIGNMENT);
             playerSlots[index].add(nicknameLabels);
+
+            if(player.isReady())
+            {
+                playerSlots[index].add(Box.createHorizontalGlue());
+
+                JLabel checkLabel = new JLabel("", JLabel.RIGHT);
+                checkLabel.setIcon(new ImageIcon("resources/images/lobby/readycheck.png"));
+                playerSlots[index].add(checkLabel);
+
+                playerSlots[index].add(Box.createHorizontalStrut(35));
+            }
+
         }
 
         Container container = new Container();
         container.setLayout(new GridLayout(1,2));
-        JToggleButton startButton = new JToggleButton();
-        startButton.setSelectedIcon(new ImageIcon("resources/images/lobby/readyselected.png"));
-        startButton.setIcon(new ImageIcon("resources/images/lobby/ready.png"));
-        startButton.addActionListener(new ActionListener()
+        JToggleButton readyButton = new JToggleButton();
+        readyButton.setSelectedIcon(new ImageIcon("resources/images/lobby/readyselected.png"));
+        readyButton.setIcon(new ImageIcon("resources/images/lobby/ready.png"));
+        try
+        {
+            readyButton.setSelected(gui.getModel().findPlayer(gui.getAssociatedPlayerNickname()).isReady());
+        }
+        catch (NoElementException e)
+        {
+
+        }
+
+        readyButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                gui.notify(new PlayerReadyEvent(gui, gui.getAssociatedPlayerNickname(), readyButton.isSelected()));
             }
         });
 
-        container.add(startButton);
+        container.add(readyButton);
 
         JButton disconnectButton = new JButton();
         disconnectButton.setIcon(new ImageIcon("resources/images/lobby/disconnect.png"));

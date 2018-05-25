@@ -9,7 +9,13 @@ import it.polimi.se2018.view.ViewInterface;
 
 public abstract class VirtualView extends Observable<Event> implements ViewInterface,  Observer<Message>
 {
-    protected boolean connected = true;
+    protected boolean   connected ;
+    private   String    associatedNickname;
+
+    public VirtualView()
+    {
+        connected=true;
+    }
 
     public void update(Message message)
     {
@@ -22,5 +28,15 @@ public abstract class VirtualView extends Observable<Event> implements ViewInter
     public boolean isConnected()
     {
         return connected;
+    }
+
+    public void setAssociatedNickname(String nickname)
+    {
+        this.associatedNickname = nickname;
+    }
+
+    public String getAssociatedNickname()
+    {
+        return associatedNickname;
     }
 }
