@@ -157,4 +157,9 @@ public class GUI extends View
         return serverIp;
     }
 
+    public GUIView getCurrentView()
+    {
+        return currentView;
+    }
+
 }
