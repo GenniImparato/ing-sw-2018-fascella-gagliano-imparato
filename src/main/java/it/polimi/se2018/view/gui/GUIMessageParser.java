@@ -16,11 +16,28 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(SelectedPlayerSchemeCardsMessage message)
     {
-        gui.showView(new GUIChooseSchemeCardView(gui));
+        gui.showView(new GUIChooseSchemeCardView(gui, message.getSchemeBoards()));
+
+        ((GUIChooseSchemeCardView)gui.getCurrentView()).setCardChosen(false);
     }
 
     @Override
-    public void visit(ChosenSchemeCardMessage message) {
+    public void visit(ChosenSchemeCardMessage message)
+    {
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+        {
+            notification = "You have chosen ";
+            ((GUIChooseSchemeCardView)gui.getCurrentView()).setCardChosen(true);
+        }
+
+        else
+            notification = message.getPlayer().getNickname() + " has chosen ";
+
+        notification += message.getSchemeBoards().getSchemeCardName() +"!";
+
+        gui.showNotification(notification);
 
     }
 
