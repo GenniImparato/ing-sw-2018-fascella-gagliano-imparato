@@ -9,9 +9,10 @@ import java.awt.event.MouseListener;
 
 public class GUIElementBoard extends JDesktopPane
 {
-    private Board board;
-    private GUIElementCell[][] cell;
-    private boolean selectable;
+    private Board               board;
+    private GUIElementCell[][]  cell;
+    private boolean             selectable;
+    private GUIBoardActions     actions;
 
     public GUIElementBoard(Board board)
     {
@@ -32,8 +33,10 @@ public class GUIElementBoard extends JDesktopPane
 
         this.addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-
+            public void mouseClicked(MouseEvent e)
+            {
+                if(selectable && actions!=null)
+                    actions.clicked();
             }
 
             @Override
@@ -118,6 +121,11 @@ public class GUIElementBoard extends JDesktopPane
                 cell[i][j].showNormalIcon();
             }
         }
+    }
+
+    public void setActions(GUIBoardActions actions)
+    {
+        this.actions = actions;
     }
 
 }
