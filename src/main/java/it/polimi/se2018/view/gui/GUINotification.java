@@ -4,10 +4,12 @@ import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GUINotification extends Popup {
+public class GUINotification extends Popup
+{
     private GUI gui;
 
-    public GUINotification(GUI gui, String message) {
+    public GUINotification(GUI gui, String message)
+    {
         super(gui.getMainWindow(),
                 new JLabel(message),
                 gui.getMainWindow().getX() + 10,
