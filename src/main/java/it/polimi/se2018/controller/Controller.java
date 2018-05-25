@@ -116,6 +116,11 @@ public class Controller implements Observer<Event>
         model.selectRandomSchemeCardsForPlayers();
     }
 
+    protected void setPlayerReady(Player player, boolean ready)
+    {
+        model.setPlayerReady(player, ready);
+    }
+
     protected void startGame() throws ChangeModelStateException
     {
         currentRound = 0;

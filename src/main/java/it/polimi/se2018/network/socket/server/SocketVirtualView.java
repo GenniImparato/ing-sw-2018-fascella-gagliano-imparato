@@ -22,6 +22,7 @@ public class SocketVirtualView extends VirtualView implements Runnable
 
     public SocketVirtualView(Socket clientSocket)
     {
+        super();
         this.clientSocket = clientSocket;
         try
         {
@@ -147,13 +148,14 @@ public class SocketVirtualView extends VirtualView implements Runnable
         {
             message.getEvent().setView(this);
 
+            //intercept AddPLayerEvent to set the virtual view associated player nickname
             if(message.getEvent() instanceof AddPlayerEvent)
-                associatedNickname = ((AddPlayerEvent) message.getEvent()).getNickname();
+                setAssociatedNickname(((AddPlayerEvent)message.getEvent()).getNickname());
 
             notify(message.getEvent());
         }
         else if(message.isDisconnectMessage())
-            notify(new ClientDisconnectedEvent(this, associatedNickname));
+            disconnect();
 
     }
 
@@ -168,5 +170,6 @@ public class SocketVirtualView extends VirtualView implements Runnable
     {
         connected = false;
         sendToClient(new NetworkMessage()); //send a disconnect message
+        notify(new ClientDisconnectedEvent(this, associatedNickname));
     }
 }

@@ -17,6 +17,7 @@ public class RMIVirtualView extends VirtualView
 
     public RMIVirtualView(RMIClientInterface remoteClient)
     {
+        super();
         this.remoteclient = remoteClient;
     }
 

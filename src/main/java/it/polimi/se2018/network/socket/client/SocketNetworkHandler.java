@@ -26,11 +26,13 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
 
     private SocketNetworkMessageAnalyzer messageAnalyzer;
 
-    private boolean connected = true;
+    private boolean connected;
 
     public SocketNetworkHandler(String ip, View clientView) throws CannotConnectToServerException
     {
         super(clientView);
+        connected = true;
+
         messageAnalyzer = new SocketNetworkMessageAnalyzer(this);
 
         InetAddress address;
@@ -92,6 +94,7 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
         {
             out.writeObject(new NetworkMessage());
         }
-        catch(IOException e) {e.printStackTrace();}
+        catch(IOException e)
+        {e.printStackTrace();}
     }
 }

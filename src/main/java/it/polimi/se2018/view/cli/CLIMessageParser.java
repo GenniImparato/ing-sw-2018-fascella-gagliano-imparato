@@ -65,6 +65,11 @@ public class CLIMessageParser implements MessageVisitor
     }
 
     @Override
+    public void visit(PlayerReadyMessage message) {
+
+    }
+
+    @Override
     public void visit(DraftedDieMessage message)
     {
         String notification;
