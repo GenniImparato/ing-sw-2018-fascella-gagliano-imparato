@@ -5,7 +5,6 @@ import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.events.PlayerReadyEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.gui.GUI;
-import javafx.print.PageLayout;
 
 import javax.swing.*;
 import java.awt.*;
