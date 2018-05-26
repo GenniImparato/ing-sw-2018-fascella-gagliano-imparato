@@ -27,7 +27,7 @@ public class GUIChooseSchemeCardView extends GUIView
 
     public GUIChooseSchemeCardView(GUI gui, Board[] schemeCards)
     {
-        super(gui, 850,800);
+        super(gui, 850,740);
 
         this.schemeCard=schemeCards;
         guiBoard = new GUIElementBoard[4];
@@ -44,13 +44,13 @@ public class GUIChooseSchemeCardView extends GUIView
 
         backgroundLabel.setLayout(new BoxLayout(backgroundLabel, BoxLayout.Y_AXIS));
 
-        backgroundLabel.add(Box.createVerticalStrut(25));
+        backgroundLabel.add(Box.createVerticalStrut(28));
 
         mainTextLabel = new JLabel("Choose a scheme card to play with.", JLabel.CENTER);
         mainTextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         backgroundLabel.add(mainTextLabel);
 
-        backgroundLabel.add(Box.createVerticalStrut(15));
+        backgroundLabel.add(Box.createVerticalStrut(12));
 
         Container boxContainer = new Container();
         boxContainer.setLayout(new GridLayout(2,2));
