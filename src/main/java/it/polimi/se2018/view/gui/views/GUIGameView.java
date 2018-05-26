@@ -40,10 +40,11 @@ public class GUIGameView extends GUIView
         }
         try
         {
-            die = new Die(Color.RED);
-            die.setValue(1);
-            board.addDie(die, 0,0);
-
+            board.addDie(new Die(Color.RED), 0,0);
+            board.addDie(new Die(Color.PURPLE), 1,1);
+            board.addDie(new Die(Color.BLUE), 0,2);
+            board.addDie(new Die(Color.GREEN), 1,3);
+            board.addDie(new Die(Color.YELLOW), 0,4);
         }
         catch(ChangeModelStateException e)
         {

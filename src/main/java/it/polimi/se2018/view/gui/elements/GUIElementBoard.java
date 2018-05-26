@@ -43,7 +43,6 @@ public class GUIElementBoard extends JDesktopPane
                     dice[i][j] = new GUIElementDie(board.getDie(i,j));
                     cell[i][j].add(dice[i][j]);
                 }
-
             }
         }
 
