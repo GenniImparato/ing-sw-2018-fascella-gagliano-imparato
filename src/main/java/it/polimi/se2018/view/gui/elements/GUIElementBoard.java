@@ -92,21 +92,23 @@ public class GUIElementBoard extends JDesktopPane
         if(!selectable)
             showNormal();
         else
-            setSelectableCells(false);      //prevents that the two selectable mode be active at the same time
+        {
+            setSelectableCells(false);  //prevents that the two selectable mode be active at the same time
+            setSelectableDice(false);
+        }
+
 
         this.selectable=selectable;
-
-    }
-
-    public boolean getSelectable()
-    {
-        return selectable;
     }
 
     public void setSelectableCells(boolean selectable)
     {
         if(selectable)
+        {
             setSelectable(false);           //prevents that the two selectable mode be active at the same time
+            setSelectableDice(false);
+        }
+
 
         for(int i=0; i<Board.ROWS; i++)
         {
@@ -115,6 +117,29 @@ public class GUIElementBoard extends JDesktopPane
                 cell[i][j].setSelectable(selectable);
             }
         }
+    }
+
+    public void setSelectableDice(boolean selectable)
+    {
+        if(selectable)
+        {
+            setSelectable(false);
+            setSelectableCells(false);
+        }
+
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS;j++)
+            {
+                if(dice[i][j]!=null)
+                    dice[i][j].setSelectable(selectable);
+            }
+        }
+    }
+
+    public boolean getSelectable()
+    {
+        return selectable;
     }
 
 

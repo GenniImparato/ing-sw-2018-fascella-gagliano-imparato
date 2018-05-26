@@ -16,7 +16,6 @@ import java.awt.*;
 public class GUIGameView extends GUIView
 {
     private Board board;
-    private Die die;
 
     public GUIGameView(GUI gui)
     {
@@ -52,6 +51,7 @@ public class GUIGameView extends GUIView
         }
 
         GUIElementBoard guiBoard = new GUIElementBoard(board);
+        guiBoard.setSelectableDice(true);
 
         mainContainer.add(guiBoard);
 
