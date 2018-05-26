@@ -23,6 +23,9 @@ public class EventParser implements EventVisitor
         {
             Player player = controller.getModel().findPlayer(event.getPLayerNickame());
             controller.chosePlayerSchemeCard(player, event.getChoice());
+
+            if(controller.getModel().hasEveryPlayerChosenSchemeCard())
+                controller.startGame();
         }
         catch(NoElementException e)
         {
