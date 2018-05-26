@@ -17,7 +17,6 @@ public class GUIElementBoard extends JDesktopPane
 
     public GUIElementBoard(Board board)
     {
-        super();
         this.selectable = false;
         this.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
 

@@ -15,7 +15,6 @@ public class GUIElementCell extends JLabel
 
     public GUIElementCell(Cell cell)
     {
-        super();
         this.cell=cell;
         this.selectable=false;
 
