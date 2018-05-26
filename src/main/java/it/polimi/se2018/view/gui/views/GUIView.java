@@ -10,18 +10,23 @@ public abstract class GUIView
     protected Container mainContainer;
     protected int width;
     protected int height;
+    private boolean resizable;
 
-    public GUIView (GUI gui, int width, int height)
+    public GUIView (GUI gui, int width, int height, boolean resizable)
     {
         this.gui = gui;
         this.width = width;
         this.height = height;
+        this.resizable=resizable;
     }
 
     public void drawOnMainWindow()
     {
         gui.setContainer(mainContainer);
-        gui.setDimensions(width,height);
+        gui.getMainWindow().setResizable(resizable);
+        if(!resizable)
+            gui.setDimensions(width,height);
+
     }
 
     public abstract void draw();

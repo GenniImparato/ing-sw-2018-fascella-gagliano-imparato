@@ -98,6 +98,7 @@ public class GUIMessageParser implements MessageVisitor
     public void visit(StartedGameMessage message)
     {
         gui.showView(new GUIGameView(gui));
+        gui.maximaze();
     }
 
     @Override

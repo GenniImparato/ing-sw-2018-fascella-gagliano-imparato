@@ -16,7 +16,7 @@ public class GUILobbyView extends GUIView
 {
     public GUILobbyView(GUI gui)
     {
-        super(gui, 500, 600);
+        super(gui, 500, 600, false);
     }
 
     public void draw()

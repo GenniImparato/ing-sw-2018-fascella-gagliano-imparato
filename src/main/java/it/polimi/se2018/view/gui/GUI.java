@@ -38,6 +38,13 @@ public class GUI extends View
         mainWindow.pack();
     }
 
+    public void maximaze()
+    {
+         Dimension screeSize = Toolkit.getDefaultToolkit().getScreenSize();
+         mainWindow.setBounds(0,0,screeSize.width,screeSize.height);
+         setDimensions(screeSize.width, screeSize.height);
+    }
+
     public void showView(GUIView view)
     {
         this.currentView = view;

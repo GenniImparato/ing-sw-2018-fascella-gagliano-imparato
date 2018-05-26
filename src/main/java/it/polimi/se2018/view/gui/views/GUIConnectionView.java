@@ -22,7 +22,7 @@ public class GUIConnectionView extends GUIView
 
     public GUIConnectionView (GUI gui, boolean requestIP)
     {
-        super(gui, 710,400);
+        super(gui, 710,400, false);
         this.requestIP = requestIP;
     }
 

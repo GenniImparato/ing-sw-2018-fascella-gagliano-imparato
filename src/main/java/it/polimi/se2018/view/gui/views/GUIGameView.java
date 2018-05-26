@@ -1,22 +1,11 @@
 package it.polimi.se2018.view.gui.views;
 
-import it.polimi.se2018.files.SagradaSchemeCardFile;
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.DiceBag;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.DraftPool;
-import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.view.gui.GUI;
-
 import it.polimi.se2018.view.gui.elements.GUIElementBoard;
-import it.polimi.se2018.view.gui.elements.GUIElementDie;
 import it.polimi.se2018.view.gui.elements.GUIElementDraftPool;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class GUIGameView extends GUIView
@@ -26,70 +15,72 @@ public class GUIGameView extends GUIView
 
     public GUIGameView(GUI gui)
     {
-        super(gui, 1200,700);
+        super(gui, 500,500, true);
     }
 
     public void draw()
     {
         mainContainer = new Container();
-        mainContainer.setLayout(new FlowLayout());
+        mainContainer.setLayout(new GridLayout(1,1));
 
 
-        //try to add a board with some dice
-        try
-        {
-            SagradaSchemeCardFile sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Aurora Sagradis.sagradaschemecard");
-            board = sagradaSchemeCardFile.generateBoard();
-        }
-        catch(Exception e)
-        {
+        JPanel mainPanel = new JPanel();
 
-        }
-        try
-        {
-            board.addDie(new Die(Color.RED), 0,0);
-            board.addDie(new Die(Color.PURPLE), 1,1);
-            board.addDie(new Die(Color.BLUE), 0,2);
-            board.addDie(new Die(Color.GREEN), 1,3);
-            board.addDie(new Die(Color.YELLOW), 0,4);
-        }
-        catch(ChangeModelStateException e)
-        {
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        mainContainer.add(scrollPane);
 
-        }
+        mainPanel.setLayout(new GridLayout(2,1));
 
-        GUIElementBoard guiBoard = new GUIElementBoard(board);
-        guiBoard.setSelectableDice(true);
+        Container firstRowContainer = new Container();
+        firstRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        mainPanel.add(firstRowContainer);
 
-
-        mainContainer.add(guiBoard);
-
-        //try to add the draftpool
-
-        draftPool = new DraftPool(new DiceBag());
-        draftPool.draw(9);
-
-        GUIElementDraftPool guiDraftPool = new GUIElementDraftPool(draftPool);
+        GUIElementDraftPool guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
         guiDraftPool.setSelectableDice(true);
-        mainContainer.add(guiDraftPool);
+        firstRowContainer.add(guiDraftPool);
 
-        JButton button = new JButton("(|)");
-        mainContainer.add(button);
+        Container secondRowContainer = new Container();
+        secondRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 10));
+        mainPanel.add(secondRowContainer);
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
+        for(Player player : gui.getModel().getPlayers())
+        {
+            Container boardContainer = new Container();
+            boardContainer.setLayout(new BoxLayout(boardContainer, BoxLayout.Y_AXIS));      //one box for each player
+            secondRowContainer.add(boardContainer);
+
+            GUIElementBoard guiBoard = new GUIElementBoard(player.getBoard());
+            guiBoard.setAlignmentX(Component.LEFT_ALIGNMENT);
+            guiBoard.setSelectableCells(true);
+            boardContainer.add(guiBoard);
+
+            JLabel blankAreaLabel = new JLabel("", JLabel.LEFT);
+            blankAreaLabel.setIcon(new ImageIcon("resources/images/selectschemes/blankarea.png"));
+            blankAreaLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            boardContainer.add(blankAreaLabel);
+
+            blankAreaLabel.setLayout(new GridLayout(2, 1));
+
+            blankAreaLabel.add(new JLabel(player.getNickname(), JLabel.CENTER));
+
+            Container tokensGrid = new Container();
+            tokensGrid.setLayout(new GridLayout(1, 2));
+            blankAreaLabel.add(tokensGrid);
+
+            tokensGrid.add(new JLabel("Favor Tokens:", JLabel.CENTER));
+
+            Container tokensFlow = new Container();
+            tokensFlow.setLayout(new FlowLayout());
+            tokensGrid.add(tokensFlow);
+
+            for(int j=0; j< player.getTokens(); j++)
             {
-                mainContainer.remove(guiDraftPool);
-                GUIElementDraftPool guiDraftPool = new GUIElementDraftPool(draftPool);
-                guiDraftPool.setSelectableDice(true);
-                mainContainer.add(guiDraftPool);
-
-                gui.reShowCurrentView();
-
-
+                JLabel tokenLabel = new JLabel("", JLabel.CENTER);
+                tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
+                tokensFlow.add(tokenLabel);
             }
-        });
+        }
+
 
 
     }

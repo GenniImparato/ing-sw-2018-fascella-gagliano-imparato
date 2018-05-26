@@ -27,7 +27,7 @@ public class GUIChooseSchemeCardView extends GUIView
 
     public GUIChooseSchemeCardView(GUI gui, Board[] schemeCards)
     {
-        super(gui, 850,740);
+        super(gui, 850,740, false);
 
         this.schemeCard=schemeCards;
         guiBoard = new GUIElementBoard[4];

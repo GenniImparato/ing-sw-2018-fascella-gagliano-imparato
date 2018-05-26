@@ -13,7 +13,7 @@ public class GUIMenuView extends GUIView
 {
     public GUIMenuView(GUI gui)
     {
-        super(gui, 710,600);
+        super(gui, 710,600, false);
 
     }
 
