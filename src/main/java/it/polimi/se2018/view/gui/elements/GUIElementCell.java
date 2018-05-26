@@ -79,9 +79,11 @@ public class GUIElementCell extends JLabel
     public void setSelectable(boolean selectable)
     {
         if(!selectable)
+        {
             showNormalIcon();
-
-        this.selectable=selectable;
+        }
+        else
+            this.selectable=selectable;
     }
 
     public boolean getSelectable()
