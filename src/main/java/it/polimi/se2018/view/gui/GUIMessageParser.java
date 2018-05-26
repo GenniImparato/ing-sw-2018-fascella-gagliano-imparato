@@ -16,9 +16,12 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(SelectedPlayerSchemeCardsMessage message)
     {
-        gui.showView(new GUIChooseSchemeCardView(gui, message.getSchemeBoards()));
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+        {
+            gui.showView(new GUIChooseSchemeCardView(gui, message.getSchemeBoards()));
 
-        ((GUIChooseSchemeCardView)gui.getCurrentView()).setCardChosen(false);
+            ((GUIChooseSchemeCardView) gui.getCurrentView()).setCardChosen(false);
+        }
     }
 
     @Override
@@ -28,14 +31,15 @@ public class GUIMessageParser implements MessageVisitor
 
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
         {
-            notification = "You have chosen ";
+            notification = "<html>You have chosen ";
             ((GUIChooseSchemeCardView)gui.getCurrentView()).setCardChosen(true);
         }
 
         else
-            notification = message.getPlayer().getNickname() + " has chosen ";
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> has chosen ";
 
-        notification += message.getSchemeBoards().getSchemeCardName() +"!";
+        notification += message.getSchemeBoards().getSchemeCardName() +"!</html>";
 
         gui.showNotification(notification);
 
@@ -54,9 +58,10 @@ public class GUIMessageParser implements MessageVisitor
         String notification;
 
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
-            notification = "You joined the game!";
+            notification = "<html>You joined the game!</html>";
         else
-            notification = message.getPlayer().getNickname() + " joined the game!";
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    +message.getPlayer().getNickname() + "</font> joined the game!</html>";
 
         gui.showNotification(notification);
     }
@@ -66,7 +71,8 @@ public class GUIMessageParser implements MessageVisitor
     {
         String notification;
 
-        notification = message.getPlayer().getNickname() + "  disconnected from the game!";
+        notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>" +
+                message.getPlayer().getNickname() + "</font> disconnected from the game!</html>";
         gui.reShowCurrentView();
 
         gui.showNotification(notification);
@@ -100,14 +106,15 @@ public class GUIMessageParser implements MessageVisitor
         String notification;
 
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
-            notification = "You are ";
+            notification = "<html>You are ";
         else
-            notification = message.getPlayer().getNickname() + " is ";
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> is ";
 
         if(message.isReady())
-            notification += "ready to play!";
+            notification += "ready to play!</html>";
         else
-            notification += "not ready to play!";
+            notification += "not ready to play!</html>";
 
         gui.showNotification(notification);
     }

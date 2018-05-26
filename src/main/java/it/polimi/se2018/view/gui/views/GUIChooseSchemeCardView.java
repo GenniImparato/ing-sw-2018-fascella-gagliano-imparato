@@ -23,14 +23,14 @@ public class GUIChooseSchemeCardView extends GUIView
     private Board[] schemeCard;
     private GUIElementBoard guiBoard[];
     private int chosenCard;
+    private JLabel mainTextLabel;
 
     public GUIChooseSchemeCardView(GUI gui, Board[] schemeCards)
     {
-        super(gui, 800,600);
+        super(gui, 850,800);
 
         this.schemeCard=schemeCards;
         guiBoard = new GUIElementBoard[4];
-
     }
 
     public void draw()
@@ -38,23 +38,58 @@ public class GUIChooseSchemeCardView extends GUIView
         mainContainer = new Container();
         mainContainer.setLayout(new FlowLayout());
 
-
         JLabel backgroundLabel = new JLabel();
-        backgroundLabel.setIcon(new ImageIcon("resources/images/menu/sagrada.png"));
-        backgroundLabel.setPreferredSize(new Dimension(800, 600));
-
-        backgroundLabel.setLayout(new GridLayout(2,2));
+        backgroundLabel.setIcon(new ImageIcon("resources/images/selectschemes/back.png"));
         mainContainer.add(backgroundLabel);
+
+        backgroundLabel.setLayout(new BoxLayout(backgroundLabel, BoxLayout.Y_AXIS));
+
+        backgroundLabel.add(Box.createVerticalStrut(25));
+
+        mainTextLabel = new JLabel("Choose a scheme card to play with.", JLabel.CENTER);
+        mainTextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backgroundLabel.add(mainTextLabel);
+
+        backgroundLabel.add(Box.createVerticalStrut(15));
+
+        Container boxContainer = new Container();
+        boxContainer.setLayout(new GridLayout(2,2));
+        backgroundLabel.add(boxContainer);
 
         for(int i=0; i<4; i++)
         {
             Container boardContainer = new Container();
-            boardContainer.setLayout(new FlowLayout((FlowLayout.CENTER)));
+            boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            boxContainer.add(boardContainer);
 
             guiBoard[i] = new GUIElementBoard(schemeCard[i]);
-
+            guiBoard[i].setSelectable(true);
             boardContainer.add(guiBoard[i]);
-            backgroundLabel.add(boardContainer);
+
+            JLabel blankAreaLabel = new JLabel();
+            blankAreaLabel.setIcon(new ImageIcon("resources/images/selectschemes/blankarea.png"));
+            boardContainer.add(blankAreaLabel);
+
+            blankAreaLabel.setLayout(new GridLayout(2, 1));
+
+            blankAreaLabel.add(new JLabel(schemeCard[i].getSchemeCardName(), JLabel.CENTER));
+
+            Container difficultyGrid = new Container();
+            difficultyGrid.setLayout(new GridLayout(1, 2));
+            blankAreaLabel.add(difficultyGrid);
+
+            difficultyGrid.add(new JLabel("Difficulty:", JLabel.CENTER));
+
+            Container difficultyFlow = new Container();
+            difficultyFlow.setLayout(new FlowLayout());
+            difficultyGrid.add(difficultyFlow);
+
+            for(int j=0; j<schemeCard[i].getDifficulty(); j++)
+            {
+                JLabel tokenLabel = new JLabel("", JLabel.CENTER);
+                tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
+                difficultyFlow.add(tokenLabel);
+            }
         }
 
         guiBoard[0].setActions(new GUIBoardActions()
@@ -104,7 +139,11 @@ public class GUIChooseSchemeCardView extends GUIView
         for(int i=0; i<4; i++)
             guiBoard[i].setSelectable(!cardChosen);        //if the card is chosen, you can't select the other cards
 
-        guiBoard[chosenCard].showSelected();
+        if(cardChosen)
+        {
+            guiBoard[chosenCard].showSelected();
+            mainTextLabel.setText("Waiting for other players to choose...");
+        }
 
     }
 }

@@ -12,13 +12,16 @@ import java.awt.*;
 
 public class GUI extends View
 {
-    transient private GUIView           currentView;
-    transient private JFrame            mainWindow;
-    transient private String            serverIp;
-    transient private GUIMessageParser  parser;
+    transient private GUIView                   currentView;
+    transient private JFrame                    mainWindow;
+    transient private String                    serverIp;
+    transient private GUIMessageParser          parser;
+    transient private GUINotificationSystem     notifications;
 
     public GUI()
     {
+        notifications = new GUINotificationSystem(this);
+
         mainWindow = new JFrame("SAGRADA");
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setResizable(false);
@@ -27,7 +30,6 @@ public class GUI extends View
         mainWindow.setLocationRelativeTo(null);
 
         parser = new GUIMessageParser(this);
-
     }
 
     public void setDimensions(int width, int height)
@@ -77,7 +79,7 @@ public class GUI extends View
 
     public void showNotification(String message)
     {
-        new GUINotification(this, message);
+        notifications.showNotification(message);
     }
 
     @Override
