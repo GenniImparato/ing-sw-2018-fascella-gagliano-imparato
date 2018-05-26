@@ -11,6 +11,7 @@ public class GUIElementBoard extends JDesktopPane
 {
     private Board               board;
     private GUIElementCell[][]  cell;
+    private GUIElementDie[][]   dice;
     private boolean             selectable;
     private GUIBoardActions     actions;
 
@@ -21,15 +22,32 @@ public class GUIElementBoard extends JDesktopPane
         this.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
 
         cell = new GUIElementCell[Board.ROWS][Board.COLUMNS];
+        dice = new GUIElementDie[Board.ROWS][Board.COLUMNS];
 
         for(int i=0; i<Board.ROWS; i++)
         {
             for(int j=0; j<Board.COLUMNS; j++)
             {
                 cell[i][j] = new GUIElementCell(board.getCell(i,j));
+                cell[i][j].setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
                 this.add(cell[i][j]);
             }
         }
+
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS; j++)
+            {
+                if(board.getDie(i,j)!=null)
+                {
+                    dice[i][j] = new GUIElementDie(board.getDie(i,j));
+                    cell[i][j].add(dice[i][j]);
+                }
+
+            }
+        }
+
+
 
         this.addMouseListener(new MouseListener() {
             @Override
@@ -121,6 +139,7 @@ public class GUIElementBoard extends JDesktopPane
                 cell[i][j].showNormalIcon();
             }
         }
+
     }
 
     public void setActions(GUIBoardActions actions)
