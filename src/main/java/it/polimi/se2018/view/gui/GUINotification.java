@@ -1,8 +1,6 @@
 package it.polimi.se2018.view.gui;
 
 import javax.swing.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GUINotification extends Popup
 {

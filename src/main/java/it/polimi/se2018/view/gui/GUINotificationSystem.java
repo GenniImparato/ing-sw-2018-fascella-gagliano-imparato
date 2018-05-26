@@ -9,7 +9,7 @@ public class GUINotificationSystem
 {
     private GUI                     gui;
     private List<Integer>           positions;
-    private List<GUINotification> notifications;
+    private List<GUINotification>   notifications;
     private final static int        MAX_NOTIFICATIONS = 5;
 
     public GUINotificationSystem(GUI gui)

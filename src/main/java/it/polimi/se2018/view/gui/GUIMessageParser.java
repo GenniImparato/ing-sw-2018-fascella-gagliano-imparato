@@ -3,6 +3,7 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.view.gui.views.GUIChooseSchemeCardView;
+import it.polimi.se2018.view.gui.views.GUIGameView;
 
 public class GUIMessageParser implements MessageVisitor
 {
@@ -94,8 +95,9 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(StartedGameMessage message) {
-
+    public void visit(StartedGameMessage message)
+    {
+        gui.showView(new GUIGameView(gui));
     }
 
     @Override
