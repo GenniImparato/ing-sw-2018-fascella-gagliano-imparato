@@ -110,6 +110,8 @@ public class GUI extends View
     @Override
     public void showTurn()
     {
+        reShowCurrentView();
+        
         if(getCurrentView() instanceof GUIGameView)
             ((GUIGameView) getCurrentView()).setTurnMode();
     }
@@ -123,6 +125,8 @@ public class GUI extends View
     @Override
     public void showAddDie()
     {
+        reShowCurrentView();
+
         if(getCurrentView() instanceof GUIGameView)
             ((GUIGameView) getCurrentView()).setAddDieMode();
     }
@@ -181,6 +185,8 @@ public class GUI extends View
 
     public void showOtherPlayersTurn()
     {
+        reShowCurrentView();
+
         if(getCurrentView() instanceof GUIGameView)
             ((GUIGameView) getCurrentView()).setOtherPlayersMode();
     }

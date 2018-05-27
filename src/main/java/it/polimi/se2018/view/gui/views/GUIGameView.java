@@ -129,7 +129,7 @@ public class GUIGameView extends GUIView
 
     public void setTurnMode()
     {
-        draw();
+
 
         guiDraftPool.setSelectableDice(true);
         guiDraftPool.setActions(new GUIDraftPoolActions()
@@ -147,7 +147,7 @@ public class GUIGameView extends GUIView
 
     public void setAddDieMode()
     {
-        draw();
+
 
         guiDraftPool.setSelectableDice(false);
 
@@ -177,7 +177,7 @@ public class GUIGameView extends GUIView
 
     public void setOtherPlayersMode()
     {
-        draw();
+
 
         for(GUIElementBoard guiBoard : guiBoards)
         {
