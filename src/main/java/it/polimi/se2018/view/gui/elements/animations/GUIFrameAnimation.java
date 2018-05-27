@@ -9,25 +9,28 @@ import java.util.TimerTask;
 
 public class GUIFrameAnimation
 {
-    private List<ImageIcon> frames;
-    protected GuiAnimatedElement element;
-    protected int currentFrame;
+    private     List<ImageIcon>         frames;
+    protected   GuiAnimatedElement      element;
+    protected   int                     currentFrame;
+    private     boolean                 playing;
 
     public GUIFrameAnimation(GuiAnimatedElement element)
     {
         frames = new ArrayList<>();
         this.element=element;
+        playing = false;
     }
 
     public void addFrame(String fileName)       //add all the frames of the animation in the array
     {
         frames.add(new ImageIcon(fileName));
-
     }
 
-    public void play(int speed)
+
+    public void play(int startDelay, int speed)
     {
         currentFrame = 0;
+        playing = true;
         Timer timer = new Timer();
 
         TimerTask timerTask = new TimerTask()
@@ -39,13 +42,18 @@ public class GUIFrameAnimation
                 currentFrame++;
 
                 if(currentFrame>=frames.size())
-                    currentFrame=0;
-
+                {
+                    timer.cancel();
+                    playing = false;
+                }
             }
         };
 
-        timer.scheduleAtFixedRate(timerTask,0,speed);
-
+        timer.scheduleAtFixedRate(timerTask, startDelay, speed);
     }
 
+    public boolean isPlaying()
+    {
+        return playing;
+    }
 }

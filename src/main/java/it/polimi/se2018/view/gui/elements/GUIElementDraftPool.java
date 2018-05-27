@@ -73,6 +73,18 @@ public class GUIElementDraftPool extends JPanel
 
     private void placeDice()
     {
+        //remove from the screen the removed dice
+        for(GUIElementDie guiDie : dice)
+        {
+            if(!draftPool.contains(guiDie.getDie()))
+            {
+                backgroundLabel.remove(guiDie);
+                dice.remove(guiDie);
+            }
+        }
+        this.validate();
+
+        int startAnimationDelay = 0;
         //places all the new dies
         for(Die die : draftPool.getAllDice())
         {
@@ -88,7 +100,7 @@ public class GUIElementDraftPool extends JPanel
                 while (!canPlaceDie(x, y));
 
 
-                GUIElementDie guiDie = new GUIElementDie(die);
+                GUIElementDie guiDie = new GUIElementDie(die, true);
                 guiDie.setActions(new GUIDieActions() {
                     @Override
                     public void clicked(GUIElementDie die)
@@ -109,16 +121,9 @@ public class GUIElementDraftPool extends JPanel
                 dice.add(guiDie);
 
                 backgroundLabel.add(guiDie);
-            }
-        }
 
-        //remove from the screen the removed dice
-        for(GUIElementDie guiDie : dice)
-        {
-            if(!draftPool.contains(guiDie.getDie()))
-            {
-                backgroundLabel.remove(guiDie);
-                dice.remove(guiDie);
+                guiDie.playGenerateAnimation(400+startAnimationDelay*100);
+                startAnimationDelay++;
             }
         }
     }

@@ -233,7 +233,7 @@ public class GUIElementBoard extends JDesktopPane
             {
                 if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
                 {
-                    dice[i][j] = new GUIElementDie(board.getDie(i,j));
+                    dice[i][j] = new GUIElementDie(board.getDie(i,j), false);
                     guiCells[i][j].add(dice[i][j]);
                 }
             }

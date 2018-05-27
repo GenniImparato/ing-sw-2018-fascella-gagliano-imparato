@@ -11,7 +11,6 @@ import java.awt.event.MouseListener;
 public class GUIElementDie extends JLabel implements GuiAnimatedElement
 {
     private Die                 die;
-    private GUIFrameAnimation   animation;
     private String              path;       //iconpath
 
     private boolean             selectable;
@@ -21,24 +20,38 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
 
     private GUIElementDie       thisElement;
 
-    public GUIElementDie(Die die)
-    {
-        path = "resources/images/elements/die/"+die.getColor().toString().toLowerCase()+"/";
-        this.die=die;
-        animation = new GUIFrameAnimation(this);
+    private GUIFrameAnimation   generateAnimation;
 
-        setIcon(new ImageIcon(path + die.getValue() +".png"));
+    public GUIElementDie(Die die, boolean startWithBlankFrame)
+    {
+        path = "resources/images/elements/die/" + die.getColor().toString().toLowerCase() + "/";
+        this.die=die;
+
+        generateAnimation = new GUIFrameAnimation(this);
+
+        if(startWithBlankFrame)
+            setIcon(new ImageIcon(path + "blank.png"));
+        else
+            setIcon(new ImageIcon(path + die.getValue() + ".png"));
+
+        for(int i=0; i<=11; i++)
+            generateAnimation.addFrame(path+"generate_animation/" + i + ".png");
 
         path+=die.getValue();
 
+        generateAnimation.addFrame(path+".png");
+
         thisElement = this;
+
+
+
 
         addMouseListener(new MouseListener()
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if(actions!=null && isSelected())
+                if(actions!=null && isSelected() &&!generateAnimation.isPlaying())
                     actions.clicked(thisElement);
             }
 
@@ -55,7 +68,7 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
             @Override
             public void mouseEntered(MouseEvent e)
             {
-                if(selectable)
+                if(selectable &&!generateAnimation.isPlaying())
                     showSelectedIcon();
                 else
                     e.getComponent().getParent().dispatchEvent(e);
@@ -64,7 +77,7 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
             @Override
             public void mouseExited(MouseEvent e)
             {
-                if(selectable)
+                if(selectable && !generateAnimation.isPlaying())
                     showNormalIcon();
                 else
                     e.getComponent().getParent().dispatchEvent(e);
@@ -76,11 +89,12 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
     public void setCurrentFrame(ImageIcon imageIcon)
     {
         this.setIcon(imageIcon);
+        this.validate();
     }
 
-    public void playAnimation()
+    public void playGenerateAnimation(int startDelay)
     {
-        animation.play(100);
+        generateAnimation.play(startDelay,30);
     }
 
     public void showNormalIcon()
@@ -102,9 +116,6 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
 
     public void setSelectable(boolean selectable)
     {
-        if(!selectable)
-            showNormalIcon();
-
         this.selectable = selectable;
     }
 
