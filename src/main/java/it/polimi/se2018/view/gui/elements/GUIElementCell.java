@@ -2,6 +2,7 @@ package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.model.Cell;
 import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.view.gui.elements.animations.GUICellAction;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -9,14 +10,19 @@ import java.awt.event.MouseListener;
 
 public class GUIElementCell extends JLabel
 {
-    private Cell cell;
-    protected String path;
-    private boolean selectable;
+    private     Cell            cell;
+    protected   String          path;
+    private     boolean         selectable;
+
+    private     GUICellAction   actions;
+    private     GUIElementCell  thisElement;
 
     public GUIElementCell(Cell cell)
     {
         this.cell=cell;
         this.selectable=false;
+
+        thisElement = this;
 
         path = "resources/images/elements/cell/";
 
@@ -39,7 +45,13 @@ public class GUIElementCell extends JLabel
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                e.getComponent().getParent().dispatchEvent(e);
+                if(selectable)
+                {
+                    if(actions != null)
+                        actions.clicked(thisElement);
+                }
+                else
+                    e.getComponent().getParent().dispatchEvent(e);
             }
 
             @Override
@@ -100,7 +112,10 @@ public class GUIElementCell extends JLabel
         this.setIcon(new ImageIcon(path+".png"));
     }
 
-
+    public void setActions(GUICellAction actions)
+    {
+        this.actions = actions;
+    }
 
 }
 

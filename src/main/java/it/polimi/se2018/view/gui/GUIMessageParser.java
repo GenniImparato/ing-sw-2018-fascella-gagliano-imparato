@@ -5,6 +5,9 @@ import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.view.gui.views.GUIChooseSchemeCardView;
 import it.polimi.se2018.view.gui.views.GUIGameView;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class GUIMessageParser implements MessageVisitor
 {
     private GUI gui;
@@ -47,8 +50,23 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(AddedDieMessage message) {
+    public void visit(AddedDieMessage message)
+    {
+        gui.reShowCurrentView();
 
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "<html>You added a ";
+        else
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> added a ";
+
+        notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
+                + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + " to the board!";
+
+        gui.setDefaultCursor();
+        gui.showNotification(notification);
     }
 
     @Override
@@ -87,13 +105,18 @@ public class GUIMessageParser implements MessageVisitor
         String notification;
 
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
-            notification = "<html>You drafted a";
+            notification = "<html>You drafted a ";
         else
             notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
                     + message.getPlayer().getNickname() + "</font> drafted a ";
 
         notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
                 + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + "!";
+
+
+        gui.setCursorIcon("resources/images/elements/die/"
+                +message.getDie().getColor().toString().toLowerCase() + "/"
+                +message.getDie().getValue() + ".png");
 
         gui.showNotification(notification);
     }
@@ -159,6 +182,8 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(BegunTurnMessage message)
     {
+        gui.reShowCurrentView();
+
         String notification;
 
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
@@ -170,7 +195,6 @@ public class GUIMessageParser implements MessageVisitor
             notification = "<html>It's <font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
                     + message.getPlayer().getNickname() + "</font>'s turn!";
 
-        gui.reShowCurrentView();
         gui.showNotification(notification);
     }
 }

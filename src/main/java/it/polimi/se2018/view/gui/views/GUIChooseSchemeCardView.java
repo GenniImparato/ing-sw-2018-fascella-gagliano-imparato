@@ -64,6 +64,27 @@ public class GUIChooseSchemeCardView extends GUIView
 
             guiBoard[i] = new GUIElementBoard(schemeCard[i]);
             guiBoard[i].setSelectable(true);
+
+            guiBoard[i].setActions(new GUIBoardActions()
+            {
+                @Override
+                public void clicked(GUIElementBoard board)
+                {
+                    int choice;
+                    for(choice=0; choice<4; choice++)
+                        if(board == guiBoard[choice])
+                            break;
+
+                    gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), choice));
+                }
+
+                @Override
+                public void clickedCell(GUIElementBoard board, int row, int column)
+                {
+                }
+            });
+
+
             boardContainer.add(guiBoard[i]);
 
             JLabel blankAreaLabel = new JLabel();
@@ -91,47 +112,6 @@ public class GUIChooseSchemeCardView extends GUIView
                 difficultyFlow.add(tokenLabel);
             }
         }
-
-        guiBoard[0].setActions(new GUIBoardActions()
-        {
-            @Override
-            public void clicked()
-            {
-                chosenCard = 0;
-                gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), 0));
-            }
-        });
-
-        guiBoard[1].setActions(new GUIBoardActions()
-        {
-            @Override
-            public void clicked()
-            {
-                chosenCard = 1;
-                gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), 1));
-            }
-        });
-
-        guiBoard[2].setActions(new GUIBoardActions()
-        {
-            @Override
-            public void clicked()
-            {
-                chosenCard = 2;
-                gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), 2));
-            }
-        });
-
-        guiBoard[3].setActions(new GUIBoardActions()
-        {
-            @Override
-            public void clicked()
-            {
-                chosenCard = 3;
-                gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), 3));
-            }
-        });
-
     }
 
     public void setCardChosen(boolean cardChosen)

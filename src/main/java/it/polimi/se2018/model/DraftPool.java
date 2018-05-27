@@ -93,4 +93,13 @@ public class DraftPool implements Serializable
         return ret;
     }
 
+    public boolean contains(Die die)
+    {
+        for(Die draftPoolDie : dice)
+            if(draftPoolDie.isSameDie(die))
+                return true;
+
+        return false;
+    }
+
 }

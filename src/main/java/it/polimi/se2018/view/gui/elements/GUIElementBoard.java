@@ -1,6 +1,8 @@
 package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.view.gui.elements.animations.GUICellAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,49 +12,52 @@ import java.awt.event.MouseListener;
 public class GUIElementBoard extends JDesktopPane
 {
     private Board               board;
-    private GUIElementCell[][]  cell;
+    private GUIElementCell[][]  guiCells;
     private GUIElementDie[][]   dice;
     private boolean             selectable;
     private GUIBoardActions     actions;
 
+    private GUIElementBoard     thisElement;
+
     public GUIElementBoard(Board board)
     {
         this.selectable = false;
+        this.thisElement = this;
+        this.board = board;
+
         this.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
 
-        cell = new GUIElementCell[Board.ROWS][Board.COLUMNS];
+        guiCells = new GUIElementCell[Board.ROWS][Board.COLUMNS];
         dice = new GUIElementDie[Board.ROWS][Board.COLUMNS];
 
         for(int i=0; i<Board.ROWS; i++)
         {
             for(int j=0; j<Board.COLUMNS; j++)
             {
-                cell[i][j] = new GUIElementCell(board.getCell(i,j));
-                cell[i][j].setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-                this.add(cell[i][j]);
-            }
-        }
-
-        for(int i=0; i<Board.ROWS; i++)
-        {
-            for(int j=0; j<Board.COLUMNS; j++)
-            {
-                if(board.getDie(i,j)!=null)
+                guiCells[i][j] = new GUIElementCell(board.getCell(i,j));
+                guiCells[i][j].setActions(new GUICellAction()
                 {
-                    dice[i][j] = new GUIElementDie(board.getDie(i,j));
-                    cell[i][j].add(dice[i][j]);
-                }
+                    @Override
+                    public void clicked(GUIElementCell cell)
+                    {
+                        if(actions != null)
+                            actions.clickedCell(thisElement, getCellRow(cell), getCellColumn(cell));
+                    }
+                });
+                guiCells[i][j].setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+                this.add(guiCells[i][j]);
             }
         }
 
+        placeDice();
 
-
-        this.addMouseListener(new MouseListener() {
+        this.addMouseListener(new MouseListener()
+        {
             @Override
             public void mouseClicked(MouseEvent e)
             {
                 if(selectable && actions!=null)
-                    actions.clicked();
+                    actions.clicked(thisElement);
             }
 
             @Override
@@ -113,7 +118,7 @@ public class GUIElementBoard extends JDesktopPane
         {
             for(int j=0; j<Board.COLUMNS;j++)
             {
-                cell[i][j].setSelectable(selectable);
+                guiCells[i][j].setSelectable(selectable);
             }
         }
     }
@@ -148,7 +153,7 @@ public class GUIElementBoard extends JDesktopPane
         {
             for(int j=0; j<Board.COLUMNS;j++)
             {
-                cell[i][j].showSelectedIcon();
+                guiCells[i][j].showSelectedIcon();
             }
         }
     }
@@ -159,7 +164,7 @@ public class GUIElementBoard extends JDesktopPane
         {
             for(int j=0; j<Board.COLUMNS;j++)
             {
-                cell[i][j].showNormalIcon();
+                guiCells[i][j].showNormalIcon();
             }
         }
 
@@ -168,6 +173,84 @@ public class GUIElementBoard extends JDesktopPane
     public void setActions(GUIBoardActions actions)
     {
         this.actions = actions;
+    }
+
+    private int getCellRow(GUIElementCell cell)
+    {
+        for(int row = 0; row < Board.ROWS; row++)
+        {
+            for(int col = 0; col < Board.COLUMNS; col++)
+            {
+                if(guiCells[row][col] == cell)
+                    return row;
+            }
+        }
+
+        return -1;
+    }
+
+    private int getCellColumn(GUIElementCell cell)
+    {
+        for(int row = 0; row < Board.ROWS; row++)
+        {
+            for(int col = 0; col < Board.COLUMNS; col++)
+            {
+                if(guiCells[row][col] == cell)
+                    return col;
+            }
+        }
+
+        return -1;
+    }
+
+    public boolean contains(Die die)
+    {
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS; j++)
+            {
+                if(dice[i][j] != null)
+                    if(dice[i][j].getDie().isSameDie(die))
+                        return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void refresh(Board board)
+    {
+        this.board = board;
+        placeDice();
+    }
+
+    private void placeDice()
+    {
+        //add new dies to the board
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS; j++)
+            {
+                if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
+                {
+                    dice[i][j] = new GUIElementDie(board.getDie(i,j));
+                    guiCells[i][j].add(dice[i][j]);
+                }
+            }
+        }
+
+        //remove
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS; j++)
+            {
+                if(dice[i][j] != null && board.getDie(i, j) == null)
+                {
+                    guiCells[i][j].remove(dice[i][j]);
+                    dice[i][j] = null;
+                }
+            }
+        }
     }
 
 }

@@ -13,8 +13,12 @@ import java.util.Random;
  */
 public class Die implements Serializable
 {
-    private Color color;
+    private Color       color;
     private int         value;
+
+    private int         id;
+
+    private static int  totalNumberOfDice = 0;
 
     /**
      * Constructor that creates a Die of the color passed by parameter and random value (range 1 to 6)
@@ -23,6 +27,8 @@ public class Die implements Serializable
     public Die(Color color)
     {
         this.color = color;
+        this.id = totalNumberOfDice;
+        totalNumberOfDice++;
         roll();
     }
 
@@ -34,6 +40,7 @@ public class Die implements Serializable
     {
         this.color = die.getColor();
         this.value = die.getValue();
+        this.id = die.id;
     }
 
     public void setValue(int value)
@@ -91,5 +98,10 @@ public class Die implements Serializable
     public void invert()
     {
         value = 7 - value;
+    }
+
+    public boolean isSameDie(Die die)
+    {
+        return this.id == die.id;
     }
 }

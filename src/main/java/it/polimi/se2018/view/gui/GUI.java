@@ -123,7 +123,8 @@ public class GUI extends View
     @Override
     public void showAddDie()
     {
-
+        if(getCurrentView() instanceof GUIGameView)
+            ((GUIGameView) getCurrentView()).setAddDieMode();
     }
 
     @Override
@@ -164,6 +165,18 @@ public class GUI extends View
     public GUIView getCurrentView()
     {
         return currentView;
+    }
+
+    public void setCursorIcon(String iconFileName)
+    {
+        mainWindow.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+                new ImageIcon(iconFileName).getImage(),
+                new Point(0,0),"custom cursor"));
+    }
+
+    public void setDefaultCursor()
+    {
+        mainWindow.setCursor(Cursor.getDefaultCursor());
     }
 
 }

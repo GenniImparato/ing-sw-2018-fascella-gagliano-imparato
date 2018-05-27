@@ -1,34 +1,30 @@
 package it.polimi.se2018.view.gui.views;
 
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.mvc_comunication.events.AddDraftedDieEvent;
 import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
 import it.polimi.se2018.view.gui.GUI;
-import it.polimi.se2018.view.gui.elements.GUIDraftPoolActions;
-import it.polimi.se2018.view.gui.elements.GUIElementBoard;
-import it.polimi.se2018.view.gui.elements.GUIElementDie;
-import it.polimi.se2018.view.gui.elements.GUIElementDraftPool;
+import it.polimi.se2018.view.gui.elements.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GUIGameView extends GUIView
 {
-    private GUIElementDraftPool guiDraftPool;
-    private GUIGameViewMode     mode;
+    private GUIElementDraftPool     guiDraftPool;
+    private List<GUIElementBoard>   guiBoards;
 
     public GUIGameView(GUI gui)
     {
         super(gui, 500,500, true);
-    }
 
-    private enum GUIGameViewMode
-    {
-        NORMAL,
-        TURN
-    }
+        guiBoards = new ArrayList<>();
 
-    public void draw()
-    {
         mainContainer = new Container();
         mainContainer.setLayout(new GridLayout(1,1));
 
@@ -58,6 +54,7 @@ public class GUIGameView extends GUIView
             secondRowContainer.add(boardContainer);
 
             GUIElementBoard guiBoard = new GUIElementBoard(player.getBoard());
+            guiBoards.add(guiBoard);
             guiBoard.setAlignmentX(Component.LEFT_ALIGNMENT);
             boardContainer.add(guiBoard);
 
@@ -86,14 +83,23 @@ public class GUIGameView extends GUIView
                 tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
                 tokensFlow.add(tokenLabel);
             }
+        }
+    }
 
-            if(mode == GUIGameViewMode.TURN)
-                setTurnMode();
+    public void draw()
+    {
+        guiDraftPool.refresh(gui.getModel().getDraftPool());
+
+        for(int i=0; i<gui.getModel().getPlayerNum(); i++)
+        {
+            guiBoards.get(i).refresh(gui.getModel().getPlayers().get(i).getBoard());
         }
     }
 
     public void setTurnMode()
     {
+        draw();
+
         guiDraftPool.setSelectableDice(true);
         guiDraftPool.setActions(new GUIDraftPoolActions()
         {
@@ -104,6 +110,37 @@ public class GUIGameView extends GUIView
             }
         });
 
-        mode = GUIGameViewMode.TURN;
+        for(GUIElementBoard board : guiBoards)
+            board.setSelectableCells(false);
+    }
+
+    public void setAddDieMode()
+    {
+        draw();
+
+        guiDraftPool.setSelectableDice(false);
+
+        for(int i=0; i<gui.getModel().getPlayerNum(); i++)
+        {
+            if (gui.getModel().getPlayers().get(i).getNickname().equals(gui.getAssociatedPlayerNickname()))
+            {
+                guiBoards.get(i).setSelectableCells(true);
+                guiBoards.get(i).setActions(new GUIBoardActions()
+                {
+                    @Override
+                    public void clicked(GUIElementBoard board)
+                    {
+                    }
+
+                    @Override
+                    public void clickedCell(GUIElementBoard board, int row, int column)
+                    {
+                        gui.notify(new AddDraftedDieEvent(gui, row, column));
+                    }
+                });
+            }
+            else
+                guiBoards.get(i).setSelectableCells(false);
+        }
     }
 }

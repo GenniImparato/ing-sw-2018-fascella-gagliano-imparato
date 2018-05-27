@@ -107,8 +107,6 @@ public class Controller implements Observer<Event>
     protected void chosePlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         model.setPlayerSchemeCard(player, choice);
-        if(model.hasEveryPlayerChosenSchemeCard())
-            startGame();
     }
 
     protected void startGameSetup() throws ChangeModelStateException

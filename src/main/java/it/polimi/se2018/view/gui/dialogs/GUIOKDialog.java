@@ -21,16 +21,28 @@ public class GUIOKDialog extends GUIDialog
         setResizable(false);
 
         JLabel backgroundLabel = new JLabel();
-        backgroundLabel.setPreferredSize(new Dimension(300, 200));
+        backgroundLabel.setPreferredSize(new Dimension(500, 200));
         backgroundLabel.setIcon(new ImageIcon("resources/images/menu/dialogback.png"));
         mainContainer.add(backgroundLabel);
 
         backgroundLabel.setLayout(new GridLayout(2, 1));
 
-        JLabel  errorLabel = new JLabel (message, JLabel.CENTER);
+        Container messageContainer = new Container();
+        messageContainer.setLayout(new BoxLayout(messageContainer, BoxLayout.Y_AXIS));
+        backgroundLabel.add(messageContainer);
+
+        messageContainer.add(Box.createVerticalStrut(40));
+
+        JTextArea errorLabel = new JTextArea(message);
         errorLabel.setBackground(null);
         errorLabel.setOpaque(false);
-        backgroundLabel.add(errorLabel);
+        errorLabel.setLineWrap(true);
+        errorLabel.setEditable(false);
+        errorLabel.setMaximumSize(new Dimension(420, 80));
+        errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        messageContainer.add(errorLabel);
+
+        messageContainer.add(Box.createVerticalStrut(40));
 
 
         Container buttonContainer = new Container();
