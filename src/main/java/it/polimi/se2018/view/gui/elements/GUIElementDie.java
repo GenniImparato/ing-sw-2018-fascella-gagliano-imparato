@@ -10,10 +10,16 @@ import java.awt.event.MouseListener;
 
 public class GUIElementDie extends JLabel implements GuiAnimatedElement
 {
-    private Die die;
-    private GUIFrameAnimation animation;
-    private String path;
-    private boolean selectable;
+    private Die                 die;
+    private GUIFrameAnimation   animation;
+    private String              path;       //iconpath
+
+    private boolean             selectable;
+    private boolean             selected;
+
+    private GUIDieActions       actions;
+
+    private GUIElementDie       thisElement;
 
     public GUIElementDie(Die die)
     {
@@ -21,14 +27,19 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
         this.die=die;
         animation = new GUIFrameAnimation(this);
 
-        this.setIcon(new ImageIcon(path + die.getValue() +".png"));
+        setIcon(new ImageIcon(path + die.getValue() +".png"));
 
         path+=die.getValue();
 
-        this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+        thisElement = this;
 
+        addMouseListener(new MouseListener()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if(actions!=null && isSelected())
+                    actions.clicked(thisElement);
             }
 
             @Override
@@ -59,8 +70,6 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
                     e.getComponent().getParent().dispatchEvent(e);
             }
         });
-
-
     }
 
     @Override
@@ -76,12 +85,19 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
 
     public void showNormalIcon()
     {
-        this.setIcon(new ImageIcon(path+".png"));
+        setIcon(new ImageIcon(path+".png"));
+        selected = false;
     }
 
     public void showSelectedIcon()
     {
-        this.setIcon(new ImageIcon(path+"selected.png"));
+        setIcon(new ImageIcon(path+"selected.png"));
+        selected = true;
+    }
+
+    public boolean isSelected()
+    {
+        return selected;
     }
 
     public void setSelectable(boolean selectable)
@@ -89,7 +105,16 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
         if(!selectable)
             showNormalIcon();
 
-        this.selectable=selectable;
+        this.selectable = selectable;
     }
 
+    public void setActions(GUIDieActions actions)
+    {
+        this.actions = actions;
+    }
+
+    public Die getDie()
+    {
+        return die;
+    }
 }

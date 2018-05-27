@@ -11,26 +11,31 @@ import java.util.Random;
 
 public class GUIElementDraftPool extends JPanel
 {
-    private String path;
-    private boolean diceSelectable;
-    private DraftPool draftPool;
+    private String              path;
+    private boolean             diceSelectable;
+    private DraftPool           draftPool;
     private List<GUIElementDie> dice;
-    private int x[];
-    private int y[];
+
+    private GUIDraftPoolActions actions;
+
+    private GUIElementDraftPool thisElement;
+
 
     public GUIElementDraftPool(DraftPool draftPool)
     {
         this.draftPool=draftPool;
 
+        thisElement = this;
+
         dice = new ArrayList<>();
 
-        this.setLayout(new FlowLayout());
+        setLayout(new FlowLayout());
 
         JLabel backgroundLabel = new JLabel();
         backgroundLabel.setIcon(new ImageIcon("resources/images/elements/draftpool/back.png"));
         backgroundLabel.setLayout(null);
 
-        this.add(backgroundLabel);
+        add(backgroundLabel);
 
         for(int i=0; i<draftPool.getAllDice().size(); i++)
         {
@@ -46,22 +51,28 @@ public class GUIElementDraftPool extends JPanel
 
 
             GUIElementDie die = new GUIElementDie(draftPool.getAllDice().get(i));
+            die.setActions(new GUIDieActions()
+            {
+                @Override
+                public void clicked(GUIElementDie die)
+                {
+                    if(actions != null)
+                        actions.dieClicked(thisElement, die, draftPool.getAllDice().indexOf(die.getDie()));
+                }
+            });
+
             die.setBounds(x,y,70,70);
 
             dice.add(die);
 
-
             backgroundLabel.add(die);
 
         }
-
-
-
     }
 
-    public void draw()
+    public void setActions(GUIDraftPoolActions actions)
     {
-
+        this.actions = actions;
     }
 
     public void setSelectableDice(boolean diceSelectable)
@@ -75,7 +86,7 @@ public class GUIElementDraftPool extends JPanel
     {
         for(GUIElementDie die : dice)
         {
-            if( Math.sqrt( Math.pow(die.getX()-x,2) + Math.pow(die.getY()-y,2) ) < 76 )
+            if( Math.sqrt( Math.pow(die.getX()-x,2) + Math.pow(die.getY()-y,2) ) < 80 )
                 return false;
         }
 

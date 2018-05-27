@@ -3,6 +3,7 @@ import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
+import it.polimi.se2018.view.gui.views.GUIGameView;
 import it.polimi.se2018.view.gui.views.GUILobbyView;
 import it.polimi.se2018.view.gui.views.GUIMenuView;
 import it.polimi.se2018.view.gui.views.GUIView;
@@ -36,13 +37,6 @@ public class GUI extends View
     {
         mainWindow.getContentPane().setPreferredSize(new Dimension(width, height));
         mainWindow.pack();
-    }
-
-    public void maximaze()
-    {
-         Dimension screeSize = Toolkit.getDefaultToolkit().getScreenSize();
-         mainWindow.setBounds(0,0,screeSize.width,screeSize.height);
-         setDimensions(screeSize.width, screeSize.height);
     }
 
     public void showView(GUIView view)
@@ -116,7 +110,8 @@ public class GUI extends View
     @Override
     public void showTurn()
     {
-
+        if(getCurrentView() instanceof GUIGameView)
+            ((GUIGameView) getCurrentView()).setTurnMode();
     }
 
     @Override

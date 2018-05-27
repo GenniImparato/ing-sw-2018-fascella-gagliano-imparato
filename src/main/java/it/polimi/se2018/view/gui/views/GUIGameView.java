@@ -1,8 +1,11 @@
 package it.polimi.se2018.view.gui.views;
 
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
 import it.polimi.se2018.view.gui.GUI;
+import it.polimi.se2018.view.gui.elements.GUIDraftPoolActions;
 import it.polimi.se2018.view.gui.elements.GUIElementBoard;
+import it.polimi.se2018.view.gui.elements.GUIElementDie;
 import it.polimi.se2018.view.gui.elements.GUIElementDraftPool;
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +13,18 @@ import java.awt.*;
 
 public class GUIGameView extends GUIView
 {
-    private Board board;
-    private DraftPool draftPool;
+    private GUIElementDraftPool guiDraftPool;
+    private GUIGameViewMode     mode;
 
     public GUIGameView(GUI gui)
     {
         super(gui, 500,500, true);
+    }
+
+    private enum GUIGameViewMode
+    {
+        NORMAL,
+        TURN
     }
 
     public void draw()
@@ -35,8 +44,7 @@ public class GUIGameView extends GUIView
         firstRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
         mainPanel.add(firstRowContainer);
 
-        GUIElementDraftPool guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
-        guiDraftPool.setSelectableDice(true);
+        guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
         firstRowContainer.add(guiDraftPool);
 
         Container secondRowContainer = new Container();
@@ -51,7 +59,6 @@ public class GUIGameView extends GUIView
 
             GUIElementBoard guiBoard = new GUIElementBoard(player.getBoard());
             guiBoard.setAlignmentX(Component.LEFT_ALIGNMENT);
-            guiBoard.setSelectableCells(true);
             boardContainer.add(guiBoard);
 
             JLabel blankAreaLabel = new JLabel("", JLabel.LEFT);
@@ -79,10 +86,24 @@ public class GUIGameView extends GUIView
                 tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
                 tokensFlow.add(tokenLabel);
             }
+
+            if(mode == GUIGameViewMode.TURN)
+                setTurnMode();
         }
-
-
-
     }
 
+    public void setTurnMode()
+    {
+        guiDraftPool.setSelectableDice(true);
+        guiDraftPool.setActions(new GUIDraftPoolActions()
+        {
+            @Override
+            public void dieClicked(GUIElementDraftPool draftPool, GUIElementDie die, int dieNum)
+            {
+                gui.notify(new DraftDieEvent(gui, dieNum));
+            }
+        });
+
+        mode = GUIGameViewMode.TURN;
+    }
 }

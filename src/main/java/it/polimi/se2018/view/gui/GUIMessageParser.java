@@ -80,8 +80,22 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(DraftedDieMessage message) {
+    public void visit(DraftedDieMessage message)
+    {
+        gui.reShowCurrentView();
 
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "<html>You drafted a";
+        else
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> drafted a ";
+
+        notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
+                + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + "!";
+
+        gui.showNotification(notification);
     }
 
     @Override
@@ -97,8 +111,8 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(StartedGameMessage message)
     {
+        gui.showNotification("Game started!");
         gui.showView(new GUIGameView(gui));
-        gui.maximaze();
     }
 
     @Override
@@ -143,8 +157,21 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(BegunTurnMessage message) {
+    public void visit(BegunTurnMessage message)
+    {
+        String notification;
 
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+        {
+            notification = "<html>It's your turn!";
+            gui.showTurn();
+        }
+        else
+            notification = "<html>It's <font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font>'s turn!";
+
+        gui.reShowCurrentView();
+        gui.showNotification(notification);
     }
 }
 
