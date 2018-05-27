@@ -25,6 +25,9 @@ public class Controller implements Observer<Event>
     private boolean             ignoreValueRestriction;
     private boolean             ignoreColorRestriction;
 
+    private boolean             playerHasDrafted = false;
+    private boolean             playerUsesToolCard = false;
+
     private int                 currentRound;
     private static final int    TOTAL_ROUNDS = 10;
 
@@ -194,6 +197,8 @@ public class Controller implements Observer<Event>
     {
         if(playerTurnIterator.isLastTurn())
             endRound();
+        else
+            beginPlayerTurn();
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack

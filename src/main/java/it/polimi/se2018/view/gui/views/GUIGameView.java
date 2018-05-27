@@ -3,11 +3,14 @@ package it.polimi.se2018.view.gui.views;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.mvc_comunication.events.AddDraftedDieEvent;
 import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
+import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
 import it.polimi.se2018.view.gui.GUI;
 import it.polimi.se2018.view.gui.elements.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class GUIGameView extends GUIView
 {
     private GUIElementDraftPool     guiDraftPool;
     private List<GUIElementBoard>   guiBoards;
+    private JButton                 endTurnButton;
 
     public GUIGameView(GUI gui)
     {
@@ -26,8 +30,27 @@ public class GUIGameView extends GUIView
         guiBoards = new ArrayList<>();
 
         mainContainer = new Container();
-        mainContainer.setLayout(new GridLayout(1,1));
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
 
+        Container leadingContainer = new Container();       //contains the label and the button
+        leadingContainer.setLayout(new FlowLayout());
+        mainContainer.add(leadingContainer);
+
+        JLabel actionLabel = new JLabel("Vediamolo");
+        endTurnButton = new JButton("END TURN");
+        endTurnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.notify(new EndTurnEvent(gui));
+            }
+        });
+
+        leadingContainer.add(actionLabel);
+        leadingContainer.add(endTurnButton);
+
+
+        Container gridContainer = new Container();              //contains the draftpool and the boards
+        gridContainer.setLayout(new GridLayout(1,1));
 
         JPanel mainPanel = new JPanel();
 
@@ -84,10 +107,18 @@ public class GUIGameView extends GUIView
                 tokensFlow.add(tokenLabel);
             }
         }
+
     }
 
     public void draw()
     {
+        Player currentplayer = gui.getModel().getCurrentPlayer();
+        if(currentplayer!=null && currentplayer.getNickname().equals(gui.getAssociatedPlayerNickname()))       //you can push the end button only if it's your turn
+            endTurnButton.setEnabled(true);
+        else
+            endTurnButton.setEnabled(false);
+
+
         guiDraftPool.refresh(gui.getModel().getDraftPool());
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
