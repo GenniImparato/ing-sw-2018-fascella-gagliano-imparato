@@ -30,11 +30,18 @@ public class GUIGameView extends GUIView
         guiBoards = new ArrayList<>();
 
         mainContainer = new Container();
-        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
+        mainContainer.setLayout(new GridLayout(1,1));
+
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        mainContainer.add(scrollPane);
 
         Container leadingContainer = new Container();       //contains the label and the button
         leadingContainer.setLayout(new FlowLayout());
-        mainContainer.add(leadingContainer);
+        mainPanel.add(leadingContainer);
 
         JLabel actionLabel = new JLabel("Vediamolo");
         endTurnButton = new JButton("END TURN");
@@ -48,27 +55,20 @@ public class GUIGameView extends GUIView
         leadingContainer.add(actionLabel);
         leadingContainer.add(endTurnButton);
 
-
         Container gridContainer = new Container();              //contains the draftpool and the boards
-        gridContainer.setLayout(new GridLayout(1,1));
-
-        JPanel mainPanel = new JPanel();
-
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
-        mainContainer.add(scrollPane);
-
-        mainPanel.setLayout(new GridLayout(2,1));
+        gridContainer.setLayout(new GridLayout(2,1));
+        mainPanel.add(gridContainer);
 
         Container firstRowContainer = new Container();
         firstRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
-        mainPanel.add(firstRowContainer);
+        gridContainer.add(firstRowContainer);
 
         guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
         firstRowContainer.add(guiDraftPool);
 
         Container secondRowContainer = new Container();
         secondRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 10));
-        mainPanel.add(secondRowContainer);
+        gridContainer.add(secondRowContainer);
 
         for(Player player : gui.getModel().getPlayers())
         {
@@ -174,4 +174,18 @@ public class GUIGameView extends GUIView
                 guiBoards.get(i).setSelectableCells(false);
         }
     }
+
+    public void setOtherPlayersMode()
+    {
+        draw();
+
+        for(GUIElementBoard guiBoard : guiBoards)
+        {
+            guiBoard.setSelectable(false);
+            guiBoard.setSelectableCells(false);
+        }
+
+        guiDraftPool.setSelectableDice(false);
+    }
+
 }

@@ -182,7 +182,11 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(BegunTurnMessage message)
     {
-        gui.reShowCurrentView();
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            gui.showTurn();
+
+        else
+            gui.showOtherPlayersTurn();
 
         String notification;
 

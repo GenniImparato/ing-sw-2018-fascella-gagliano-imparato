@@ -179,4 +179,10 @@ public class GUI extends View
         mainWindow.setCursor(Cursor.getDefaultCursor());
     }
 
+    public void showOtherPlayersTurn()
+    {
+        if(getCurrentView() instanceof GUIGameView)
+            ((GUIGameView) getCurrentView()).setOtherPlayersMode();
+    }
+
 }
