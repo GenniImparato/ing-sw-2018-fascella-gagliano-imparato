@@ -412,5 +412,9 @@ public class Model extends Observable <Message> implements Serializable
         notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
     }
 
+    public Board getSchemeCard(int choice)
+    {
+        return schemeCards.get(choice);
+    }
 
 }
