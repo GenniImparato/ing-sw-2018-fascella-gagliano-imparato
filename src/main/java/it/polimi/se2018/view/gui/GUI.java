@@ -111,7 +111,7 @@ public class GUI extends View
     public void showTurn()
     {
         reShowCurrentView();
-        
+
         if(getCurrentView() instanceof GUIGameView)
             ((GUIGameView) getCurrentView()).setTurnMode();
     }
