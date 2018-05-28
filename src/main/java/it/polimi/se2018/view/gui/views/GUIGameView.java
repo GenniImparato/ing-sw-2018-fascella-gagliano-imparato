@@ -20,6 +20,7 @@ import java.util.List;
 public class GUIGameView extends GUIView
 {
     private GUIElementDraftPool     guiDraftPool;
+    private GUIElementRoundTrack    guiRoundTrack;
     private List<GUIElementBoard>   guiBoards;
     private JButton                 endTurnButton;
 
@@ -65,6 +66,9 @@ public class GUIGameView extends GUIView
 
         guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
         firstRowContainer.add(guiDraftPool);
+
+        guiRoundTrack = new GUIElementRoundTrack(gui.getModel().getRoundTrack());
+        firstRowContainer.add(guiRoundTrack);
 
         Container secondRowContainer = new Container();
         secondRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 10));
