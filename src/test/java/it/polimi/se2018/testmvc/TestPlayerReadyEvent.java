@@ -1,5 +1,6 @@
 package it.polimi.se2018.testmvc;
 
+import it.polimi.se2018.TestView;
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
@@ -29,7 +30,7 @@ public class TestPlayerReadyEvent
     {
         model = new Model();
         controller = new Controller(model);
-        view = new CLI(true);
+        view = new TestView();
 
         view.attach(controller);
         model.attach(view);

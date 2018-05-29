@@ -9,7 +9,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         TestAddPlayerEvent.class,
         TestPlayerReadyEvent.class,
-        TestSelectSchemeCardEvent.class
+        TestSelectSchemeCardEvent.class,
+        TestDraftDieEvent.class,
+        TestAddDraftedDieEvent.class
 })
 
 public class TestMVC
