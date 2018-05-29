@@ -49,7 +49,8 @@ public class EventParser implements EventVisitor
         catch(ChangeModelStateException e)
         {
             controller.getView().showErrorMessage("Disconnected from the Server: " +e.getMessage());
-            ((VirtualView)controller.getView()).disconnect();
+            if(controller.getView() instanceof  VirtualView)
+                ((VirtualView)controller.getView()).disconnect();
         }
     }
 
