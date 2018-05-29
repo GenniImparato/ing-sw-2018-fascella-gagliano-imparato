@@ -96,7 +96,7 @@ public class GUIGameView extends GUIView
 
         for(int i=0; i<3; i++)
         {
-            guiToolCards[i] = new GUIElementCard(gui.getModel().getPublicObjectiveCards().get(i), gui);
+            guiToolCards[i] = new GUIElementCard(gui.getModel().getToolCards().get(i), gui);
             cardsContainer.add(guiToolCards[i]);
             guiToolCards[i].playGeneratedAnimation(200 + i*300);
         }
