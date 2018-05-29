@@ -56,15 +56,13 @@ public class GUIElementBoard extends JDesktopPane
         this.addMouseListener(new MouseListener()
         {
             @Override
-            public void mouseClicked(MouseEvent e)
+            public void mouseClicked(MouseEvent e) { }
+
+            @Override
+            public void mousePressed(MouseEvent e)
             {
                 if(selectable && actions!=null)
                     actions.clicked(thisElement);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
             }
 
             @Override

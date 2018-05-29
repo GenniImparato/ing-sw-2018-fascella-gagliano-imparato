@@ -43,6 +43,11 @@ public class GUIElementCell extends JLabel
             @Override
             public void mouseClicked(MouseEvent e)
             {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
                 if(selectable)
                 {
                     if(actions != null)
@@ -50,12 +55,6 @@ public class GUIElementCell extends JLabel
                 }
                 else
                     e.getComponent().getParent().dispatchEvent(e);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e)
-            {
-
             }
             @Override
             public void mouseReleased(MouseEvent e)

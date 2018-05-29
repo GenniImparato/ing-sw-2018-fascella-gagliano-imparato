@@ -61,20 +61,17 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
         {
             @Override
             public void mouseClicked(MouseEvent e)
+            { }
+
+            @Override
+            public void mousePressed(MouseEvent e)
             {
                 if(actions!=null && isSelected() &&!generateAnimation.isPlaying())
                     actions.clicked(thisElement);
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) { }
 
             @Override
             public void mouseEntered(MouseEvent e)

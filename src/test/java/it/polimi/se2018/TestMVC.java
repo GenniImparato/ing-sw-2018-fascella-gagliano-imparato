@@ -97,8 +97,7 @@ public class TestMVC
 
         SelectSchemeCardEvent event = new SelectSchemeCardEvent(view, "Karwelox", 3);
         view.notify(event);
-
-        assertEquals(model.getSchemeCard(0), model.getPlayers().get(0).getBoard());
+        
 
     }
 }
