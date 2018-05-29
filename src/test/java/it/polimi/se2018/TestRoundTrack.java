@@ -17,6 +17,9 @@ public class TestRoundTrack
     private DraftPool draftPool;
     private RoundTrack roundTrack;
 
+    /**
+     * Sets a draftpool and a roundtrack
+     */
     @Before
     public void setUp()
     {
@@ -58,7 +61,6 @@ public class TestRoundTrack
     @Test
     public void testAddLastDice()
     {
-        draftPool = new DraftPool(new DiceBag());
         int draftSize = draftPool.getAllDice().size();
         roundTrack.addLastDice(0);
         assertEquals(draftSize,roundTrack.getDiceAtRound(0).size());
