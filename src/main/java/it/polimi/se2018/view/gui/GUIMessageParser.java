@@ -54,6 +54,8 @@ public class GUIMessageParser implements MessageVisitor
     {
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
             gui.showTurn();
+        else
+            gui.reShowCurrentView();
 
         String notification;
 
