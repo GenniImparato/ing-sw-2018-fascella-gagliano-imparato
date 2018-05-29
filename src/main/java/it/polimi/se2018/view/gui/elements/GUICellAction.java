@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.gui.elements.animations;
+package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.view.gui.elements.GUIElementCell;
 

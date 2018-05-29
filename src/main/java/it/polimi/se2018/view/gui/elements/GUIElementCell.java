@@ -1,8 +1,6 @@
 package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.model.Cell;
-import it.polimi.se2018.utils.Color;
-import it.polimi.se2018.view.gui.elements.animations.GUICellAction;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;

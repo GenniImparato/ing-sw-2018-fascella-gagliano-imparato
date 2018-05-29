@@ -1,5 +1,7 @@
-package it.polimi.se2018.view.gui.elements.animations;
+package it.polimi.se2018.view.gui.elements.frame_animation;
 
+
+import it.polimi.se2018.view.gui.elements.animations.GUIAnimationActions;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -10,11 +12,12 @@ import java.util.TimerTask;
 public class GUIFrameAnimation
 {
     private     List<ImageIcon>         frames;
-    protected   GuiAnimatedElement      element;
+    protected   GUIFrameAnimatedElement element;
     protected   int                     currentFrame;
     private     boolean                 playing;
+    private GUIAnimationActions         actions;
 
-    public GUIFrameAnimation(GuiAnimatedElement element)
+    public GUIFrameAnimation(GUIFrameAnimatedElement element)
     {
         frames = new ArrayList<>();
         this.element=element;
@@ -41,19 +44,29 @@ public class GUIFrameAnimation
                 element.setCurrentFrame(frames.get(currentFrame));
                 currentFrame++;
 
-                if(currentFrame>=frames.size())
+                if(currentFrame >= frames.size())
                 {
-                    timer.cancel();
+                    if(actions  != null)
+                        actions.ended();
                     playing = false;
+                    timer.cancel();
                 }
             }
         };
 
         timer.scheduleAtFixedRate(timerTask, startDelay, speed);
+
+        if(actions != null)
+            actions.started();
     }
 
     public boolean isPlaying()
     {
         return playing;
+    }
+
+    public void setActions(GUIAnimationActions actions)
+    {
+        this.actions = actions;
     }
 }

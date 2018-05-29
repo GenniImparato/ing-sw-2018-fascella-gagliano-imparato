@@ -11,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,17 +20,22 @@ public class GUIGameView extends GUIView
     private GUIElementDraftPool     guiDraftPool;
     private GUIElementRoundTrack    guiRoundTrack;
     private List<GUIElementBoard>   guiBoards;
+    private GUIElementCard[]        guiToolCards;
+    private GUIElementCard[]        guiPublicCards;
+
     private JButton                 endTurnButton;
+    private JLabel                  actionLabel;
 
     public GUIGameView(GUI gui)
     {
         super(gui, 500,500, true);
 
         guiBoards = new ArrayList<>();
+        guiToolCards = new GUIElementCard[3];
+        guiPublicCards = new GUIElementCard[3];
 
         mainContainer = new Container();
         mainContainer.setLayout(new GridLayout(1,1));
-
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -41,11 +44,20 @@ public class GUIGameView extends GUIView
         mainContainer.add(scrollPane);
 
         Container leadingContainer = new Container();       //contains the label and the button
-        leadingContainer.setLayout(new FlowLayout());
+        leadingContainer.setLayout(new BorderLayout());
+        leadingContainer.setMaximumSize(new Dimension(1000, 50));
         mainPanel.add(leadingContainer);
 
-        JLabel actionLabel = new JLabel("Vediamolo");
-        endTurnButton = new JButton("END TURN");
+        actionLabel = new JLabel("", JLabel.LEFT);
+        leadingContainer.add(actionLabel, BorderLayout.WEST);
+
+        Container endTurnButtonContainer = new Container();
+        endTurnButtonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        leadingContainer.add(endTurnButtonContainer);
+
+        endTurnButton = new JButton();
+        endTurnButton.setIcon(new ImageIcon("resources/images/gameview/endturn.png"));
+        endTurnButton.setPreferredSize(new Dimension(250, 50));
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,8 +65,7 @@ public class GUIGameView extends GUIView
             }
         });
 
-        leadingContainer.add(actionLabel);
-        leadingContainer.add(endTurnButton);
+        endTurnButtonContainer.add(endTurnButton, BorderLayout.CENTER);
 
         Container gridContainer = new Container();              //contains the draftpool and the boards
         gridContainer.setLayout(new GridLayout(2,1));
@@ -64,11 +75,34 @@ public class GUIGameView extends GUIView
         firstRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
         gridContainer.add(firstRowContainer);
 
-        guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool());
+        guiDraftPool = new GUIElementDraftPool(gui.getModel().getDraftPool(), gui);
         firstRowContainer.add(guiDraftPool);
 
-        guiRoundTrack = new GUIElementRoundTrack(gui.getModel().getRoundTrack());
-        firstRowContainer.add(guiRoundTrack);
+        Container roundCardsBox = new Container();
+        roundCardsBox.setLayout(new BoxLayout(roundCardsBox, BoxLayout.Y_AXIS));
+        firstRowContainer.add(roundCardsBox);
+
+
+        guiRoundTrack = new GUIElementRoundTrack(gui.getModel().getRoundTrack(), guiDraftPool, gui);
+        roundCardsBox.add(guiRoundTrack);
+
+        Container cardsContainer = new Container();
+        cardsContainer.setLayout(new FlowLayout());
+        roundCardsBox.add(cardsContainer);
+
+        for(int i=0; i<3; i++)
+        {
+            guiToolCards[i] = new GUIElementCard(gui.getModel().getPublicObjectiveCards().get(i), gui);
+            cardsContainer.add(guiToolCards[i]);
+            guiToolCards[i].playGeneratedAnimation(200 + i*300);
+        }
+
+        for(int i=0; i<3; i++)
+        {
+            guiPublicCards[i] = new GUIElementCard(gui.getModel().getPublicObjectiveCards().get(i), gui);
+            cardsContainer.add(guiPublicCards[i]);
+            guiPublicCards[i].playGeneratedAnimation(1100 + i*300);
+        }
 
         Container secondRowContainer = new Container();
         secondRowContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 10));
@@ -80,7 +114,7 @@ public class GUIGameView extends GUIView
             boardContainer.setLayout(new BoxLayout(boardContainer, BoxLayout.Y_AXIS));      //one box for each player
             secondRowContainer.add(boardContainer);
 
-            GUIElementBoard guiBoard = new GUIElementBoard(player.getBoard());
+            GUIElementBoard guiBoard = new GUIElementBoard(player.getBoard(), gui);
             guiBoards.add(guiBoard);
             guiBoard.setAlignmentX(Component.LEFT_ALIGNMENT);
             boardContainer.add(guiBoard);
@@ -123,6 +157,7 @@ public class GUIGameView extends GUIView
             endTurnButton.setEnabled(false);
 
 
+        guiRoundTrack.refresh(gui.getModel().getRoundTrack());
         guiDraftPool.refresh(gui.getModel().getDraftPool());
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
@@ -133,8 +168,7 @@ public class GUIGameView extends GUIView
 
     public void setTurnMode()
     {
-
-
+        actionLabel.setText("Choose a die from the draft pool or use a tool card!");
         guiDraftPool.setSelectableDice(true);
         guiDraftPool.setActions(new GUIDraftPoolActions()
         {
@@ -151,8 +185,7 @@ public class GUIGameView extends GUIView
 
     public void setAddDieMode()
     {
-
-
+        actionLabel.setText("Choose where to add the drafted die in your board!");
         guiDraftPool.setSelectableDice(false);
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
@@ -181,8 +214,7 @@ public class GUIGameView extends GUIView
 
     public void setOtherPlayersMode()
     {
-
-
+        actionLabel.setText("");
         for(GUIElementBoard guiBoard : guiBoards)
         {
             guiBoard.setSelectable(false);

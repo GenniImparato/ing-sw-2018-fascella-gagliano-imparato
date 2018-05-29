@@ -62,7 +62,7 @@ public class GUIChooseSchemeCardView extends GUIView
             boardContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
             boxContainer.add(boardContainer);
 
-            guiBoard[i] = new GUIElementBoard(schemeCard[i]);
+            guiBoard[i] = new GUIElementBoard(schemeCard[i], gui);
             guiBoard[i].setSelectable(true);
 
             guiBoard[i].setActions(new GUIBoardActions()

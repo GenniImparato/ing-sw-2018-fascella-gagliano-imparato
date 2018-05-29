@@ -1,14 +1,19 @@
 package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.view.gui.elements.animations.GUIFrameAnimation;
-import it.polimi.se2018.view.gui.elements.animations.GuiAnimatedElement;
+import it.polimi.se2018.view.gui.GUI;
+import it.polimi.se2018.view.gui.elements.animations.GUIAnimationActions;
+import it.polimi.se2018.view.gui.elements.frame_animation.GUIFrameAnimation;
+import it.polimi.se2018.view.gui.elements.frame_animation.GUIFrameAnimatedElement;
+import it.polimi.se2018.view.gui.elements.move_animation.GUIMoveAnimatedElement;
+import it.polimi.se2018.view.gui.elements.move_animation.GUIMoveAnimation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GUIElementDie extends JLabel implements GuiAnimatedElement
+public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GUIMoveAnimatedElement
 {
     private Die                 die;
     private String              path;       //iconpath
@@ -21,11 +26,15 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
     private GUIElementDie       thisElement;
 
     private GUIFrameAnimation   generateAnimation;
+    private GUIMoveAnimation    moveToRoundTrackAnimation;
 
-    public GUIElementDie(Die die, boolean startWithBlankFrame)
+    private GUI                 gui;
+
+    public GUIElementDie(Die die, boolean startWithBlankFrame, GUI gui)
     {
         path = "resources/images/elements/die/" + die.getColor().toString().toLowerCase() + "/";
         this.die=die;
+        this.gui = gui;
 
         generateAnimation = new GUIFrameAnimation(this);
 
@@ -40,6 +49,8 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
         path+=die.getValue();
 
         generateAnimation.addFrame(path+".png");
+
+        moveToRoundTrackAnimation = new GUIMoveAnimation(this);
 
         thisElement = this;
 
@@ -68,6 +79,9 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
             @Override
             public void mouseEntered(MouseEvent e)
             {
+                if(actions != null)
+                    actions.mouseEntered();
+
                 if(selectable &&!generateAnimation.isPlaying())
                     showSelectedIcon();
                 else
@@ -77,6 +91,9 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
             @Override
             public void mouseExited(MouseEvent e)
             {
+                if(actions != null)
+                    actions.mouseExited();
+
                 if(selectable && !generateAnimation.isPlaying())
                     showNormalIcon();
                 else
@@ -95,6 +112,25 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
     public void playGenerateAnimation(int startDelay)
     {
         generateAnimation.play(startDelay,30);
+    }
+
+    public void playMoveToRoundTrackAnimation(GUIElementRoundCell cell)
+    {
+        moveToRoundTrackAnimation.setActions(new GUIAnimationActions()
+        {
+            @Override
+            public void started() {}
+
+            @Override
+            public void ended()
+            {
+                cell.addDie(thisElement);
+                gui.refresh();
+            }
+        });
+
+        moveToRoundTrackAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
+                gui.getWindowRealtiveX(cell), gui.getWindowRealtiveY(cell), 35);
     }
 
     public void showNormalIcon()
@@ -127,5 +163,28 @@ public class GUIElementDie extends JLabel implements GuiAnimatedElement
     public Die getDie()
     {
         return die;
+    }
+
+    @Override
+    public void moveAnimationStarted()
+    {
+        setSelectable(false);
+
+        if(getParent() != null)
+            getParent().remove(this);
+        gui.getGlassPane().add(this);
+    }
+
+    @Override
+    public void setCurrentPosition(int x, int y)
+    {
+        setBounds(x, y, 70, 70);
+    }
+
+    @Override
+    public void moveAnimationEnded()
+    {
+        gui.getGlassPane().remove(this);
+        gui.refresh();
     }
 }

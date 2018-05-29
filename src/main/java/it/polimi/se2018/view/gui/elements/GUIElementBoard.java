@@ -2,7 +2,7 @@ package it.polimi.se2018.view.gui.elements;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.view.gui.elements.animations.GUICellAction;
+import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +18,14 @@ public class GUIElementBoard extends JDesktopPane
     private GUIBoardActions     actions;
 
     private GUIElementBoard     thisElement;
+    private GUI                 gui;
 
-    public GUIElementBoard(Board board)
+    public GUIElementBoard(Board board, GUI gui)
     {
         this.selectable = false;
         this.thisElement = this;
         this.board = board;
+        this.gui = gui;
 
         this.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
 
@@ -233,7 +235,7 @@ public class GUIElementBoard extends JDesktopPane
             {
                 if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
                 {
-                    dice[i][j] = new GUIElementDie(board.getDie(i,j), false);
+                    dice[i][j] = new GUIElementDie(board.getDie(i,j), false, gui);
                     guiCells[i][j].add(dice[i][j]);
                 }
             }

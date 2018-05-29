@@ -1,11 +1,10 @@
 package it.polimi.se2018.view.gui.elements;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.DraftPool;
-import it.polimi.se2018.model.RoundTrack;
+import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,8 +12,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GUIElementDraftPool extends JPanel
 {
-    private DraftPool           draftPool;
-    private List<GUIElementDie> dice;
+    private DraftPool                   draftPool;
+    private List<GUIElementDie>    guiDice;
 
     private GUIDraftPoolActions actions;
 
@@ -22,14 +21,17 @@ public class GUIElementDraftPool extends JPanel
 
     private JLabel              backgroundLabel;
 
+    private GUI                 gui;
 
-    public GUIElementDraftPool(DraftPool draftPool)
+
+    public GUIElementDraftPool(DraftPool draftPool, GUI gui)
     {
         this.draftPool=draftPool;
+        this.gui = gui;
 
         thisElement = this;
 
-        dice = new CopyOnWriteArrayList<>();
+        guiDice = new CopyOnWriteArrayList<>();
 
         setLayout(new FlowLayout());
 
@@ -47,13 +49,13 @@ public class GUIElementDraftPool extends JPanel
 
     public void setSelectableDice(boolean diceSelectable)
     {
-        for(GUIElementDie die : dice)
+        for(GUIElementDie die : guiDice)
             die.setSelectable(diceSelectable);
     }
 
     private boolean canPlaceDie (int x, int y)
     {
-        for(GUIElementDie die : dice)
+        for(GUIElementDie die : guiDice)
         {
             if( Math.sqrt( Math.pow(die.getX()-x,2) + Math.pow(die.getY()-y,2) ) < 80 )
                 return false;
@@ -64,7 +66,7 @@ public class GUIElementDraftPool extends JPanel
 
     private boolean contains(Die die)
     {
-        for(GUIElementDie guiDie : dice)
+        for(GUIElementDie guiDie : guiDice)
             if(guiDie.getDie().isSameDie(die))
                 return true;
 
@@ -74,12 +76,12 @@ public class GUIElementDraftPool extends JPanel
     private void placeDice()
     {
         //remove from the screen the removed dice
-        for(GUIElementDie guiDie : dice)
+        for(GUIElementDie guiDie : guiDice)
         {
             if(!draftPool.contains(guiDie.getDie()))
             {
                 backgroundLabel.remove(guiDie);
-                dice.remove(guiDie);
+                guiDice.remove(guiDie);
             }
         }
         this.validate();
@@ -100,8 +102,9 @@ public class GUIElementDraftPool extends JPanel
                 while (!canPlaceDie(x, y));
 
 
-                GUIElementDie guiDie = new GUIElementDie(die, true);
-                guiDie.setActions(new GUIDieActions() {
+                GUIElementDie guiDie = new GUIElementDie(die, true, gui);
+                guiDie.setActions(new GUIDieActions()
+                {
                     @Override
                     public void clicked(GUIElementDie die)
                     {
@@ -114,11 +117,17 @@ public class GUIElementDraftPool extends JPanel
                         if (actions != null)
                             actions.dieClicked(thisElement, die, dieNum);
                     }
+
+                    @Override
+                    public void mouseEntered() {}
+
+                    @Override
+                    public void mouseExited() {}
                 });
 
                 guiDie.setBounds(x, y, 70, 70);
 
-                dice.add(guiDie);
+                guiDice.add(guiDie);
 
                 backgroundLabel.add(guiDie);
 
@@ -132,6 +141,11 @@ public class GUIElementDraftPool extends JPanel
     {
         this.draftPool = draftPool;
         placeDice();
+    }
+
+    public List<GUIElementDie> getGUIDice()
+    {
+        return guiDice;
     }
 
 }

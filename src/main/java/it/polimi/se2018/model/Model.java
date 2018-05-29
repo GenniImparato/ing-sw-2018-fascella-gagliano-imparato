@@ -1,6 +1,8 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.exceptions.NoElementException;
+import it.polimi.se2018.model.publicobjectivecards.RowColorVarietyCard;
+import it.polimi.se2018.model.publicobjectivecards.ShadeVarietyCard;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
@@ -37,6 +39,8 @@ public class Model extends Observable <Message> implements Serializable
 
     private List<Board>                         schemeCards;
 
+    private int                                 currentRound;
+
     public Model()
     {
         //init players array
@@ -49,7 +53,7 @@ public class Model extends Observable <Message> implements Serializable
 
         //init cards
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = ToolCard.getRandomCards(1);
+        toolCards = ToolCard.getRandomCards(3);
         toolCards.add(new GrozingPliers());
         toolCards.add(new EglomiseBrush());
         toolCards.add(new CopperFoilBurnisher());
@@ -169,6 +173,11 @@ public class Model extends Observable <Message> implements Serializable
     }
 
     public Die getSelectedDie() { return selectedDie;}
+
+    public int getCurrentRound()
+    {
+        return currentRound;
+    }
 
     public void setCurrentPlayer(Player player)
     {
@@ -317,6 +326,7 @@ public class Model extends Observable <Message> implements Serializable
 
 
         gameStarted = true;
+        currentRound = 0;
         notify(new StartedGameMessage(this));
 
     }
@@ -364,9 +374,9 @@ public class Model extends Observable <Message> implements Serializable
         draftPool.draw(getPlayerNum()*2 + 1);
     }
 
-    public void addLastDiceToRoundTrack(int round)
+    public void addLastDiceToRoundTrack()
     {
-        roundTrack.addLastDice(round);
+        roundTrack.addLastDice(currentRound);
     }
 
     public void addDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
@@ -410,6 +420,13 @@ public class Model extends Observable <Message> implements Serializable
     {
         player.getBoard().moveDie(selectedDie, row, column, ignoreValueRestriction, ignoreColorRestriction);
         notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
+    }
+
+    public void setCurrentRound(int currentRound) throws ChangeModelStateException
+    {
+        if(currentRound <=0 || currentRound >9)
+            throw new ChangeModelStateException("Invalid round number!");
+        this.currentRound = currentRound;
     }
 
 

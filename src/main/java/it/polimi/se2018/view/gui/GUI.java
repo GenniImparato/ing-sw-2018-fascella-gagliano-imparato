@@ -18,6 +18,7 @@ public class GUI extends View
     transient private String                    serverIp;
     transient private GUIMessageParser          parser;
     transient private GUINotificationSystem     notifications;
+    transient private JPanel                    glassPanel;
 
     public GUI()
     {
@@ -26,6 +27,11 @@ public class GUI extends View
         mainWindow = new JFrame("SAGRADA");
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setResizable(false);
+
+        glassPanel = new JPanel();
+        glassPanel.setLayout(null);
+        glassPanel.setOpaque(false);
+        mainWindow.setGlassPane(glassPanel);
 
         showView(new GUIMenuView(this));
         mainWindow.setLocationRelativeTo(null);
@@ -39,15 +45,28 @@ public class GUI extends View
         mainWindow.pack();
     }
 
+    public void refresh()
+    {
+        glassPanel.validate();
+        glassPanel.setVisible(true);
+        //mainWindow.pack();
+        mainWindow.validate();
+        mainWindow.setVisible(true);
+        mainWindow.repaint();
+    }
+
     public void showView(GUIView view)
     {
         this.currentView = view;
 
         view.draw();
         view.drawOnMainWindow();
-        mainWindow.validate();
-        mainWindow.pack();
-        mainWindow.setVisible(true);
+        refresh();
+    }
+
+    public JPanel getGlassPane()
+    {
+        return glassPanel;
     }
 
     public void setContainer(Container container)
@@ -60,8 +79,41 @@ public class GUI extends View
         return mainWindow;
     }
 
+    public int getScreenRelativeX(JComponent component)
+    {
+        Point screenPos = new Point();
+        SwingUtilities.convertPointToScreen(screenPos, component);
+
+        return (int)screenPos.getX();
+    }
+
+    public int getScreenRelativeY(JComponent component)
+    {
+        Point screenPos = new Point();
+        SwingUtilities.convertPointToScreen(screenPos, component);
+
+        return (int)screenPos.getY();
+    }
+
+    public int getWindowRealtiveX(JComponent component)
+    {
+        Point screenPos = new Point();
+        SwingUtilities.convertPointToScreen(screenPos, component);
+
+        return (int)screenPos.getX() - getMainWindow().getX();
+    }
+
+    public int getWindowRealtiveY(JComponent component)
+    {
+        Point screenPos = new Point();
+        SwingUtilities.convertPointToScreen(screenPos, component);
+
+        return (int)screenPos.getY() - getMainWindow().getY() - getMainWindow().getInsets().top;
+    }
+
     public void start()
-    {}
+    {
+    }
 
     public void showErrorMessage(String message)
     {
@@ -90,9 +142,6 @@ public class GUI extends View
 
         message.acceptVisitor(parser);
 
-    }
-    public void refresh()
-    {
     }
 
     @Override

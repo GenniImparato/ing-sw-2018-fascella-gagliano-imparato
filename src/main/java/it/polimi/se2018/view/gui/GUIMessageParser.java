@@ -136,6 +136,8 @@ public class GUIMessageParser implements MessageVisitor
     {
         gui.showNotification("Game started!");
         gui.showView(new GUIGameView(gui));
+        gui.getMainWindow().pack();
+        gui.getMainWindow().setLocationRelativeTo(null);
     }
 
     @Override
@@ -184,7 +186,6 @@ public class GUIMessageParser implements MessageVisitor
     {
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
             gui.showTurn();
-
         else
             gui.showOtherPlayersTurn();
 
@@ -193,7 +194,6 @@ public class GUIMessageParser implements MessageVisitor
         if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
         {
             notification = "<html>It's your turn!";
-            gui.showTurn();
         }
         else
             notification = "<html>It's <font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"

@@ -124,7 +124,6 @@ public class Controller implements Observer<Event>
 
     protected void startGame() throws ChangeModelStateException
     {
-        currentRound = 0;
         model.startGame();
         beginRound();
     }
@@ -182,18 +181,18 @@ public class Controller implements Observer<Event>
     }
 
 
-    private void beginRound()
+    protected void beginRound()
     {
         model.drawFromDiceBag();
         beginPlayerTurn();
     }
 
-    private void beginPlayerTurn()
+    protected void beginPlayerTurn()
     {
         model.setCurrentPlayer(playerTurnIterator.next());
     }
 
-    public void endPlayerTurn()
+    protected void endPlayerTurn()
     {
         if(playerTurnIterator.isLastTurn())
             endRound();
@@ -202,13 +201,21 @@ public class Controller implements Observer<Event>
     }
 
     //add the remaining dice in the DraftPool to the RoundTrack
-    public void endRound()
+    protected void endRound()
     {
-        model.addLastDiceToRoundTrack(currentRound);
+        model.addLastDiceToRoundTrack();
 
-        if(currentRound+1 < TOTAL_ROUNDS)
+        if(model.getCurrentRound() < TOTAL_ROUNDS-1)
         {
-            currentRound++;
+            try
+            {
+                model.setCurrentRound(model.getCurrentRound()+1);
+            }
+            catch (ChangeModelStateException e)
+            {
+
+            }
+
             beginRound();
         }
     }
