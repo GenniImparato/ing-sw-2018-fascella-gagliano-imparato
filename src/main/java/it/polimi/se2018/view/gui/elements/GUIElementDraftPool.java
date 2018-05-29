@@ -148,4 +148,13 @@ public class GUIElementDraftPool extends JPanel
         return guiDice;
     }
 
+    public GUIElementDie getGUIDie(Die die)
+    {
+        for(GUIElementDie guiDie: guiDice)
+            if(guiDie.getDie().isSameDie(die))
+                return guiDie;
+
+        return null;
+    }
+
 }

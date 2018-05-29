@@ -114,6 +114,11 @@ public class GUIElementCell extends JLabel
         this.actions = actions;
     }
 
+    public void addDie(GUIElementDie die)
+    {
+        add(die);
+    }
+
 }
 
 

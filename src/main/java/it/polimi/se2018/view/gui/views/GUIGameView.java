@@ -26,6 +26,8 @@ public class GUIGameView extends GUIView
     private JButton                 endTurnButton;
     private JLabel                  actionLabel;
 
+    private GUIElementDie           draftedDie;
+
     public GUIGameView(GUI gui)
     {
         super(gui, 500,500, true);
@@ -145,7 +147,6 @@ public class GUIGameView extends GUIView
                 tokensFlow.add(tokenLabel);
             }
         }
-
     }
 
     public void draw()
@@ -162,7 +163,7 @@ public class GUIGameView extends GUIView
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
         {
-            guiBoards.get(i).refresh(gui.getModel().getPlayers().get(i).getBoard());
+            guiBoards.get(i).refresh(gui.getModel().getPlayers().get(i).getBoard(), draftedDie);
         }
     }
 
@@ -222,6 +223,20 @@ public class GUIGameView extends GUIView
         }
 
         guiDraftPool.setSelectableDice(false);
+    }
+
+    public void moveDraftedDieToBoardAnimation(Die die, Player player)
+    {
+        for(int i=0; i<gui.getModel().getPlayers().size(); i++)
+        {
+            if(player.getNickname().equals(gui.getModel().getPlayers().get(i).getNickname()))
+            {
+                draftedDie = guiDraftPool.getGUIDie(die);
+                if(draftedDie != null)
+                    draftedDie.playMoveToBoardAnimation(guiBoards.get(i));
+            }
+        }
+
     }
 
 }

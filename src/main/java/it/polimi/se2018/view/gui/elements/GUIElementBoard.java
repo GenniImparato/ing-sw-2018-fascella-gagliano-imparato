@@ -51,7 +51,7 @@ public class GUIElementBoard extends JDesktopPane
             }
         }
 
-        placeDice();
+        placeDice(null);
 
         this.addMouseListener(new MouseListener()
         {
@@ -218,23 +218,46 @@ public class GUIElementBoard extends JDesktopPane
         return false;
     }
 
-    public void refresh(Board board)
+    public GUIElementDie getGUIDie(Die die)
     {
-        this.board = board;
-        placeDice();
+        for(int i=0; i<Board.ROWS; i++)
+        {
+            for(int j=0; j<Board.COLUMNS; j++)
+            {
+                if(dice[i][j] != null)
+                    if(dice[i][j].getDie().isSameDie(die))
+                        return dice[i][j];
+            }
+        }
+
+        return null;
     }
 
-    private void placeDice()
+    public void refresh(Board board, GUIElementDie draftedDie)
+    {
+        this.board = board;
+        placeDice(draftedDie);
+    }
+
+    private void placeDice(GUIElementDie draftedDie)
     {
         //add new dies to the board
         for(int i=0; i<Board.ROWS; i++)
         {
             for(int j=0; j<Board.COLUMNS; j++)
             {
-                if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
+                if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)) )
                 {
-                    dice[i][j] = new GUIElementDie(board.getDie(i,j), false, gui);
-                    guiCells[i][j].add(dice[i][j]);
+                    if(draftedDie != null  &&   board.getDie(i,j).isSameDie(draftedDie.getDie()))
+                    {
+                        dice[i][j] = draftedDie;
+                        draftedDie.playMoveToBoardAnimation(guiCells[i][j]);
+                    }
+                    else if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
+                    {
+                        dice[i][j] = new GUIElementDie(board.getDie(i, j), false, gui);
+                        guiCells[i][j].add(dice[i][j]);
+                    }
                 }
             }
         }

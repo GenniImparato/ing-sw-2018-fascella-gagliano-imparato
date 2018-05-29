@@ -26,7 +26,9 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
     private GUIElementDie       thisElement;
 
     private GUIFrameAnimation   generateAnimation;
+
     private GUIMoveAnimation    moveToRoundTrackAnimation;
+    private GUIMoveAnimation    moveToBoardAnimation;
 
     private GUI                 gui;
 
@@ -51,6 +53,7 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
         generateAnimation.addFrame(path+".png");
 
         moveToRoundTrackAnimation = new GUIMoveAnimation(this);
+        moveToBoardAnimation = new GUIMoveAnimation(this);
 
         thisElement = this;
 
@@ -122,11 +125,37 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
             public void ended()
             {
                 cell.addDie(thisElement);
+                gui.getGlassPane().remove(thisElement);
                 gui.refresh();
             }
         });
 
         moveToRoundTrackAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
+                gui.getWindowRealtiveX(cell), gui.getWindowRealtiveY(cell), 35);
+    }
+
+    public void playMoveToBoardAnimation(GUIElementBoard board)
+    {
+        moveToBoardAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
+                gui.getWindowRealtiveX(board) + 140, gui.getWindowRealtiveY(board) - 80, 35);
+    }
+
+    public void playMoveToBoardAnimation(GUIElementCell cell)
+    {
+        moveToBoardAnimation.setActions(new GUIAnimationActions()
+        {
+            @Override
+            public void started() {}
+
+            @Override
+            public void ended()
+            {
+                cell.addDie(thisElement);
+                gui.getGlassPane().remove(thisElement);
+                gui.refresh();
+            }
+        });
+        moveToBoardAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
                 gui.getWindowRealtiveX(cell), gui.getWindowRealtiveY(cell), 35);
     }
 
@@ -181,7 +210,6 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
     @Override
     public void moveAnimationEnded()
     {
-        gui.getGlassPane().remove(this);
         gui.refresh();
     }
 }

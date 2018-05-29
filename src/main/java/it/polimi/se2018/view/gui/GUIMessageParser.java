@@ -100,6 +100,13 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(DraftedDieMessage message)
     {
+        if(!message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            ((GUIGameView)gui.getCurrentView()).moveDraftedDieToBoardAnimation(message.getDie(), message.getPlayer());
+        else
+            gui.setCursorIcon("resources/images/elements/die/"
+                    +message.getDie().getColor().toString().toLowerCase() + "/"
+                    +message.getDie().getValue() + ".png");
+
         gui.reShowCurrentView();
 
         String notification;
@@ -113,10 +120,6 @@ public class GUIMessageParser implements MessageVisitor
         notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
                 + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + "!";
 
-
-        gui.setCursorIcon("resources/images/elements/die/"
-                +message.getDie().getColor().toString().toLowerCase() + "/"
-                +message.getDie().getValue() + ".png");
 
         gui.showNotification(notification);
     }
