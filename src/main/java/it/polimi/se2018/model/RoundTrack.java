@@ -57,7 +57,7 @@ public class RoundTrack implements Serializable
             return null;
         else
         {
-            Die ret = dice[round].get(num);
+            Die ret = dice[round].get(num); //Saves the element before removing it
             dice[round].remove(num);
             return ret;
         }

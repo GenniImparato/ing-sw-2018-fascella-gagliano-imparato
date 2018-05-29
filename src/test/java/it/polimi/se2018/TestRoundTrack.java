@@ -29,7 +29,6 @@ public class TestRoundTrack
     {
         for(int i=0; i<10;i++)
             assertEquals(0, roundTrack.getDiceAtRound(i).size());
-
     }
 
     @Test
@@ -44,7 +43,24 @@ public class TestRoundTrack
         {
             assertEquals(clonedRoundTrack.getDiceAtRound(j).size(), roundTrack.getDiceAtRound(j).size());
         }
+    }
 
+    @Test
+    public void testPullDie()
+    {
+        assertEquals(null, roundTrack.pullDie(0,1));
 
+        Die die = new Die(Color.getRandomColor());
+        roundTrack.addDie(die,0);
+        assertEquals(die,roundTrack.pullDie(0,0));
+    }
+
+    @Test
+    public void testAddLastDice()
+    {
+        draftPool = new DraftPool(new DiceBag());
+        int draftSize = draftPool.getAllDice().size();
+        roundTrack.addLastDice(0);
+        assertEquals(draftSize,roundTrack.getDiceAtRound(0).size());
     }
 }
