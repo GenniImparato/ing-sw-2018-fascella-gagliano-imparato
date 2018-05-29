@@ -141,7 +141,7 @@ public class GUIElementBoard extends JDesktopPane
         }
     }
 
-    public boolean getSelectable()
+    public boolean isSelectable()
     {
         return selectable;
     }

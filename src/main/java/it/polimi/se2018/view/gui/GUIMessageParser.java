@@ -52,7 +52,8 @@ public class GUIMessageParser implements MessageVisitor
     @Override
     public void visit(AddedDieMessage message)
     {
-        gui.reShowCurrentView();
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            gui.showTurn();
 
         String notification;
 

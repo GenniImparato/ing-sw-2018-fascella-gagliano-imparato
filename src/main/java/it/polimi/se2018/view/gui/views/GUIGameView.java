@@ -60,9 +60,11 @@ public class GUIGameView extends GUIView
         endTurnButton = new JButton();
         endTurnButton.setIcon(new ImageIcon("resources/images/gameview/endturn.png"));
         endTurnButton.setPreferredSize(new Dimension(250, 50));
-        endTurnButton.addActionListener(new ActionListener() {
+        endTurnButton.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 gui.notify(new EndTurnEvent(gui));
             }
         });
@@ -170,6 +172,14 @@ public class GUIGameView extends GUIView
     public void setTurnMode()
     {
         actionLabel.setText("Choose a die from the draft pool or use a tool card!");
+
+        for(GUIElementBoard board : guiBoards)
+        {
+            board.setSelectable(false);
+            board.setSelectableCells(false);
+            board.setSelectableDice(false);
+        }
+
         guiDraftPool.setSelectableDice(true);
         guiDraftPool.setActions(new GUIDraftPoolActions()
         {
@@ -179,15 +189,14 @@ public class GUIGameView extends GUIView
                 gui.notify(new DraftDieEvent(gui, dieNum));
             }
         });
-
-        for(GUIElementBoard board : guiBoards)
-            board.setSelectableCells(false);
     }
 
     public void setAddDieMode()
     {
         actionLabel.setText("Choose where to add the drafted die in your board!");
         guiDraftPool.setSelectableDice(false);
+
+        endTurnButton.setEnabled(false);
 
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
         {
@@ -220,6 +229,7 @@ public class GUIGameView extends GUIView
         {
             guiBoard.setSelectable(false);
             guiBoard.setSelectableCells(false);
+            guiBoard.setSelectableDice(false);
         }
 
         guiDraftPool.setSelectableDice(false);
