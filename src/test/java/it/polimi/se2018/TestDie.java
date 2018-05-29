@@ -103,4 +103,17 @@ public class TestDie
         assertEquals(3, die.getValue());
     }
 
+    /**
+     * Test if two dice are the same die, so if they have the same id.
+     * Test if two dice are different.
+     *
+     */
+    @Test
+    public void testIsSameDie()
+    {
+        assertEquals(true, die.isSameDie(die));
+
+        assertEquals(false, die.isSameDie(die1));
+    }
+
 }

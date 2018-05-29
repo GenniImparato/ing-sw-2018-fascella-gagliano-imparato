@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.gui.GUI;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class TestAddPlayerEvent
     {
         model = new Model();
         controller = new Controller(model);
-        view = new GUI();
+        view = new CLI(true);
 
         view.attach(controller);
         model.attach(view);

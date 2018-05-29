@@ -5,6 +5,7 @@ import it.polimi.se2018.model.Model;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
 import it.polimi.se2018.mvc_comunication.events.SelectSchemeCardEvent;
 import it.polimi.se2018.view.View;
+import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.gui.GUI;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,22 +28,45 @@ public class TestSelectSchemeCardEvent
     {
         model = new Model();
         controller = new Controller(model);
-        view = new GUI();
+        view = new CLI(true);
 
         view.attach(controller);
         model.attach(view);
+
+        view.notify(new AddPlayerEvent(view, "Karwelox"));
     }
 
 
+    /**
+     *
+     */
     @Test
     public void testSelectSchemeCardEvent()
     {
-        view.notify(new AddPlayerEvent(view, "Karwelox"));
 
         SelectSchemeCardEvent event = new SelectSchemeCardEvent(view, "Karwelox", 3);
         view.notify(event);
 
-        assertEquals(model.getChosenBoard(0), model.getPlayers().get(0).getBoard());
-
+        assertEquals(model.getSchemeCards().get(model.getPlayers().get(0).getSchemeCardIndex(3)), model.getPlayers().get(0).getBoard());
+        assertEquals(true, model.getPlayers().get(0).hasChoosenSchemeCard());
     }
+
+    /**
+     * It tries to select a schemecard out of the range of choice
+     * In the first case, the choice is smaller than the minimum value of the range
+     * In the second case, the choice is bigger than the maximum value of the range
+     */
+    @Test
+    public void testSelectWrongSchemeCard()
+    {
+        SelectSchemeCardEvent event1 = new SelectSchemeCardEvent(view, "Karwelox", -1);
+        view.notify(event1);
+        assertEquals(false, model.getPlayers().get(0).hasChoosenSchemeCard());
+
+
+        SelectSchemeCardEvent event2 = new SelectSchemeCardEvent(view, "Karwelox", 7);
+        view.notify(event2);
+        assertEquals(false, model.getPlayers().get(0).hasChoosenSchemeCard());
+    }
+
 }

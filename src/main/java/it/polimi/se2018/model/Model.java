@@ -429,9 +429,10 @@ public class Model extends Observable <Message> implements Serializable
         this.currentRound = currentRound;
     }
 
-    public Board getChosenBoard(int choice)
+    //returns the array of the boards that the player can choose
+    public List<Board> getSchemeCards()
     {
-        return schemeCards.get(choice);
+        return schemeCards;
     }
 
 
