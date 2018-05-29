@@ -429,5 +429,10 @@ public class Model extends Observable <Message> implements Serializable
         this.currentRound = currentRound;
     }
 
+    public Board getChosenBoard(int choice)
+    {
+        return schemeCards.get(choice);
+    }
+
 
 }

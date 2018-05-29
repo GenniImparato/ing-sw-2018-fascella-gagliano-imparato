@@ -1,17 +1,17 @@
-package it.polimi.se2018;
+package it.polimi.se2018.testmvc;
 
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
-import it.polimi.se2018.mvc_comunication.events.PlayerReadyEvent;
-import it.polimi.se2018.mvc_comunication.events.SelectSchemeCardEvent;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.gui.GUI;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-public class TestMVC
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+public class TestAddPlayerEvent
 {
     private Model model;
     private Controller controller;
@@ -69,35 +69,6 @@ public class TestMVC
         view.notify(new AddPlayerEvent(view, "non presente"));
         assertEquals(4, controller.getModel().getPlayerNum());
 
-
-    }
-
-    @Test
-    public void testPlayerReadyEvent()
-    {
-        view.notify(new AddPlayerEvent(view, "Karwelox"));                      //add the first player that is ready
-        view.notify(new PlayerReadyEvent(view, "Karwelox", true));
-        assertEquals(true, controller.getModel().getPlayers().get(0).isReady());
-
-        view.notify(new AddPlayerEvent(view, "Giorgio"));
-        assertEquals(false, controller.getModel().getPlayers().get(1).isReady());       //the second player just created is not ready
-
-        view.notify(new PlayerReadyEvent(view, "non presente", true));      //try to set ready a player that doesn't exist
-        for(int i=0; i<model.getPlayers().size(); i++)
-            assertNotEquals("non presente", model.getPlayers().get(i).getNickname());
-
-
-
-    }
-
-    @Test
-    public void testSelectSchemeCardEvent()
-    {
-        view.notify(new AddPlayerEvent(view, "Karwelox"));
-
-        SelectSchemeCardEvent event = new SelectSchemeCardEvent(view, "Karwelox", 3);
-        view.notify(event);
-        
 
     }
 }
