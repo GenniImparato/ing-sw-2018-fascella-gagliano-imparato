@@ -4,7 +4,7 @@ public class CorkBackedStraightedge extends ToolCard
 {
     public CorkBackedStraightedge ()
     {
-        super ("Corck-backed Straightedge", "After drafting, place the die in a spot that is not adjacent to another die", 9);
+        super ("Corck Backed Straightedge", "After drafting, place the die in a spot that is not adjacent to another die", 9);
     }
 
     @Override

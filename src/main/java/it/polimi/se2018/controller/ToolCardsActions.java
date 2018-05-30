@@ -34,6 +34,8 @@ public class ToolCardsActions implements ToolCardVisitor
     public void  visit(CorkBackedStraightedge card)
     {
 
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(EglomiseBrush card)
@@ -55,22 +57,26 @@ public class ToolCardsActions implements ToolCardVisitor
 
     public void visit(FluxRemover card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(FluxBrush card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(GlazingHammer card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(GrindingStone card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(GrozingPliers card)
@@ -94,21 +100,25 @@ public class ToolCardsActions implements ToolCardVisitor
 
     public void visit(Lathekin card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(LensCutter card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(RunningPliers card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 
     public void visit(TapWheel card)
     {
-
+        controller.getView().showErrorMessage("Not yet Implemented!");
+        controller.endToolCardActions();
     }
 }

@@ -1,17 +1,20 @@
 package it.polimi.se2018.view.gui.dialogs;
 
-import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.GUI;
-import it.polimi.se2018.view.gui.views.GUIView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUIOKDialog extends GUIDialog
+public class GUIYesNoDialog extends GUIDialog
 {
-    public GUIOKDialog(GUI gui, String title, String message)
+    public static final int     YES = 0;
+    public static final int     NO = 1;
+
+    private int response;
+
+    public GUIYesNoDialog(GUI gui, String title, String message)
     {
         super(gui, title);
         Container mainContainer = new Container();
@@ -47,27 +50,48 @@ public class GUIOKDialog extends GUIDialog
 
 
         Container buttonContainer = new Container();
-        buttonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        buttonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 20));
         backgroundLabel.add(buttonContainer);
 
-        JButton closeButton = new JButton();
-        closeButton.setPreferredSize(new Dimension(150, 70));
-        closeButton.setIcon(new ImageIcon("resources/images/menu/ok.png"));
+        JButton yesButton = new JButton();
+        yesButton.setPreferredSize(new Dimension(150, 70));
+        yesButton.setIcon(new ImageIcon("resources/images/menu/yes.png"));
+        buttonContainer.add(yesButton);
 
-        closeButton.addActionListener(new ActionListener()
+        JButton noButton = new JButton();
+        noButton.setPreferredSize(new Dimension(150, 70));
+        noButton.setIcon(new ImageIcon("resources/images/menu/no.png"));
+        buttonContainer.add(noButton);
+
+        yesButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                response = YES;
                 setVisible(false);
             }
         });
 
-        buttonContainer.add(closeButton);
+        noButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                response = NO;
+                setVisible(false);
+            }
+        });
+
 
         validate();
         pack();
         setLocationRelativeTo(gui.getMainWindow());
         setVisible(true);
+    }
+
+    public int getResponse()
+    {
+        return response;
     }
 }

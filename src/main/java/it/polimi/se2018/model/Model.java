@@ -53,8 +53,7 @@ public class Model extends Observable <Message> implements Serializable
 
         //init cards
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = ToolCard.getRandomCards(2);
-        toolCards.add(new EglomiseBrush());
+        toolCards = ToolCard.getRandomCards(3);
     }
 
     //copy constructor
