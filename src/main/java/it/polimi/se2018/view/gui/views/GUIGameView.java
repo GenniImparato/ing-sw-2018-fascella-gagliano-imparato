@@ -31,7 +31,7 @@ public class GUIGameView extends GUIView
 
     public GUIGameView(GUI gui)
     {
-        super(gui, 500,500, true);
+        super(gui, 1280,700, false);
 
         guiBoards = new ArrayList<>();
         boardContainers = new ArrayList<>();
