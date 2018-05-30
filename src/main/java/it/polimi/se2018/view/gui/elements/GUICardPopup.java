@@ -28,6 +28,9 @@ public class GUICardPopup
         int popupX = gui.getScreenRelativeX(card) - 10 - 300;
         int popupY = gui.getScreenRelativeY(card) - 210;
 
+        if(popup != null)
+            popup.hide();
+        
         popup = new GUIPopup(gui, mainPanel, popupX, popupY);
         popup.show();
     }
