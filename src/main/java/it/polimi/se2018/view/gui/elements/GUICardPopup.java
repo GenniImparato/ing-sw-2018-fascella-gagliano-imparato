@@ -30,7 +30,7 @@ public class GUICardPopup
 
         if(popup != null)
             popup.hide();
-        
+
         popup = new GUIPopup(gui, mainPanel, popupX, popupY);
         popup.show();
     }
