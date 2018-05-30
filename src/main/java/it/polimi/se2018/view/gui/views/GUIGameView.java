@@ -31,7 +31,7 @@ public class GUIGameView extends GUIView
 
     public GUIGameView(GUI gui)
     {
-        super(gui, 500,500, true);
+        super(gui, 1280,700, false);
 
         guiBoards = new ArrayList<>();
         boardContainers = new ArrayList<>();
@@ -163,13 +163,6 @@ public class GUIGameView extends GUIView
 
     public void draw()
     {
-        Player currentplayer = gui.getModel().getCurrentPlayer();
-        if(currentplayer!=null && currentplayer.getNickname().equals(gui.getAssociatedPlayerNickname()))       //you can push the end button only if it's your turn
-            endTurnButton.setEnabled(true);
-        else
-            endTurnButton.setEnabled(false);
-
-
         guiRoundTrack.refresh(gui.getModel().getRoundTrack());
         guiDraftPool.refresh(gui.getModel().getDraftPool());
 
@@ -184,6 +177,7 @@ public class GUIGameView extends GUIView
     public void setTurnMode()
     {
         actionLabel.setText("Choose a die from the draft pool or use a tool card!");
+        endTurnButton.setEnabled(true);
 
         setCardsSelectable(true);
 
@@ -207,6 +201,7 @@ public class GUIGameView extends GUIView
 
     public void setAddDieMode()
     {
+        endTurnButton.setEnabled(false);
         actionLabel.setText("Choose where to add the drafted die in your board!");
 
         setCardsSelectable(false);
@@ -240,6 +235,7 @@ public class GUIGameView extends GUIView
     public void setOtherPlayersMode()
     {
         actionLabel.setText("");
+        endTurnButton.setEnabled(false);
 
         setCardsSelectable(false);
         for(GUIElementBoard guiBoard : guiBoards)
