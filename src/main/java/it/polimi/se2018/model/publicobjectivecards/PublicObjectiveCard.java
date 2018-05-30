@@ -11,9 +11,9 @@ public abstract class PublicObjectiveCard extends Card implements PublicObjectiv
     protected int                 points;
     private static final int      NUMBER_OF_CARDS = 10;
 
-    public PublicObjectiveCard (String name, String description, int points)
+    public PublicObjectiveCard (String name, int points)
     {
-        super(name, description);
+        super(name);
         this.points = points;
     }
 

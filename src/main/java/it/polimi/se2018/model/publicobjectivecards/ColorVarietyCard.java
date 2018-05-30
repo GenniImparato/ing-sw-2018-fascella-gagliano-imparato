@@ -10,7 +10,7 @@ public class ColorVarietyCard extends PublicObjectiveCard{
 
     public ColorVarietyCard ()
     {
-        super ("Color Variety", "Sets of one of each other anywhere", 4);
+        super ("Color Variety", 4);
     }
 
     /**

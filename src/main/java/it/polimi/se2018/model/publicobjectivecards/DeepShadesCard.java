@@ -10,7 +10,7 @@ public class DeepShadesCard extends PublicObjectiveCard {
 
     public DeepShadesCard ()
     {
-        super ("Deep Shades", "Sets of 5 & 6 values anywhere", 2);
+        super ("Deep Shades", 2);
     }
 
     /**

@@ -1,13 +1,10 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.exceptions.NoElementException;
-import it.polimi.se2018.model.publicobjectivecards.RowColorVarietyCard;
-import it.polimi.se2018.model.publicobjectivecards.ShadeVarietyCard;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.utils.Observable;
 
@@ -29,8 +26,8 @@ public class Model extends Observable <Message> implements Serializable
     private RoundTrack                          roundTrack;
 
     private List<PublicObjectiveCard>           publicCards;
-    private List<ToolCard>                      toolCards;
-    private ToolCard                            currentToolCard;
+    private List<Card>                          toolCards;
+    private Card                                currentToolCard;
 
     private boolean                             gameStarted = false;
 
@@ -53,7 +50,10 @@ public class Model extends Observable <Message> implements Serializable
 
         //init cards
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = ToolCard.getRandomCards(3);
+        toolCards = new ArrayList<>();
+        toolCards.add(new Card("Flux Remover"));
+        toolCards.add(new Card("Eglomise Brush"));
+        toolCards.add(new Card("Glazing Hammer"));
     }
 
     //copy constructor
@@ -88,17 +88,8 @@ public class Model extends Observable <Message> implements Serializable
 
         //copy tool cards
         this.toolCards = new ArrayList<>();
-        for(ToolCard card : model.toolCards)
-        {
-            try
-            {
-                //create a copy of the runtime type of every tool card
-                this.toolCards.add(card.getClass().newInstance());
-            }
-            catch(InstantiationException | IllegalAccessException e)
-            {
-            }
-        }
+        for(Card card : model.toolCards)
+            this.toolCards.add(new Card(card));
 
         //copy the currentToolCard if it's not null
         if(model.currentToolCard != null)
@@ -147,7 +138,7 @@ public class Model extends Observable <Message> implements Serializable
         return diceBag;
     }
 
-    public List<ToolCard> getToolCards()
+    public List<Card> getToolCards()
     {
         return toolCards;
     }
@@ -228,7 +219,7 @@ public class Model extends Observable <Message> implements Serializable
         }
     }
 
-    public ToolCard getCurrentToolCard()
+    public Card getCurrentToolCard()
     {
         return currentToolCard;
     }

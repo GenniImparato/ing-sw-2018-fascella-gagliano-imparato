@@ -11,7 +11,7 @@ public class ColumnShadeVarietyCard extends PublicObjectiveCard {
 
     public ColumnShadeVarietyCard ()
     {
-        super ("Column Shade Variety", "Columns with no repeated values", 4);
+        super ("Column Shade Variety", 4);
     }
 
     /**

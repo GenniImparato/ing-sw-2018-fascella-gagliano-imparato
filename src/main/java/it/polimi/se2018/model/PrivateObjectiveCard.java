@@ -19,7 +19,7 @@ public class PrivateObjectiveCard extends Card
      */
     public PrivateObjectiveCard (Color color)
     {
-        super ("Private card", "--" );
+        super ("Private card");
 
         this.color=color;
     }

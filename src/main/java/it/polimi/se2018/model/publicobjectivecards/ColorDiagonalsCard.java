@@ -4,7 +4,7 @@ public class ColorDiagonalsCard extends PublicObjectiveCard
 {
     public ColorDiagonalsCard ()
     {
-        super ("Color Diagonals", "Count of diagonally adjacent same color dice", 1);
+        super ("Color Diagonals", 1);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class ColumnColorVarietyCard extends PublicObjectiveCard {
 
     public ColumnColorVarietyCard()
     {
-        super ("Column Color Variety", "Columns with no repeated colors", 5);
+        super ("Column Color Variety", 5);
     }
 
     /**

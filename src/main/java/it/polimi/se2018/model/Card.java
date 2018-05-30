@@ -9,20 +9,17 @@ import java.io.Serializable;
  * @author Carmelo Fascella
  * @author Generoso Imparato
  */
-public abstract class Card implements Serializable
+public class Card implements Serializable
 {
     private String name;
-    private String description;
 
     /**
-     * Constructor that saves in the subclass instance the name and the description of the Card.
+     * Constructor that saves in the subclass instance the name of the Card.
      * @param name name of the Card
-     * @param description describe how to use a Card
      */
-    public Card (String name, String description)
+    public Card (String name)
     {
-        this.name=name;
-        this.description=description;
+        this.name = name;
     }
 
     /**
@@ -32,7 +29,6 @@ public abstract class Card implements Serializable
     public Card(Card card)
     {
         this.name = card.getName();
-        this.description = card.getDescription();
     }
 
     /**
@@ -42,15 +38,6 @@ public abstract class Card implements Serializable
     public String getName()
     {
         return name;
-    }
-
-    /**
-     * Returns a String that is the description of the Card
-     * @return
-     */
-    public String getDescription()
-    {
-        return description;
     }
 
 }

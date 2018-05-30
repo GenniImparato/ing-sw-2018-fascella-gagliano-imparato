@@ -1,8 +1,8 @@
 package it.polimi.se2018.view.cli.renderer;
 
+import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
-import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.elements.CLIElementCard;
 
@@ -34,7 +34,7 @@ public class CLIRendererCards extends CLIRenderer
         for(int i=0; i<publicCards.size(); i++)
             new CLIElementCard(this, publicCards.get(i), 35*i, 0 , i, false);
 
-        List<ToolCard> toolCards = model.getToolCards();
+        List<Card> toolCards = model.getToolCards();
 
 
         boolean selectedTools = false;

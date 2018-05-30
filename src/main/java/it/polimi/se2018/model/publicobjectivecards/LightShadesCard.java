@@ -11,7 +11,7 @@ public class LightShadesCard extends PublicObjectiveCard
 
     public LightShadesCard()
     {
-        super("Light Shades", "Sets of 1 & 2 values anywhere", 2);
+        super("Light Shades", 2);
     }
 
     /**

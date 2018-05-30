@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.gui.elements;
 
 
-import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.model.Card;
 import it.polimi.se2018.mvc_comunication.events.UseToolCardEvent;
 import it.polimi.se2018.view.gui.GUI;
 import it.polimi.se2018.view.gui.dialogs.GUIYesNoDialog;
@@ -16,7 +16,7 @@ public class GUIElementToolCard extends GUIElementCard
     private boolean selectable;
     private int cardNumber;
 
-    public GUIElementToolCard(ToolCard card, int cardNumber, GUI gui)
+    public GUIElementToolCard(Card card, int cardNumber, GUI gui)
     {
         super(card, "tool_card", gui);
         selectable = false;

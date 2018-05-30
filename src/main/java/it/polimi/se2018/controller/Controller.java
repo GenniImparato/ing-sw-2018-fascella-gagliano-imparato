@@ -18,7 +18,6 @@ public class Controller implements Observer<Event>
     private EventParser         parser;
 
     private PlayerTurnIterator  playerTurnIterator;
-    private ToolCardsActions    toolCardsActions;
 
     private boolean             usingToolCard = false;
 
@@ -152,8 +151,6 @@ public class Controller implements Observer<Event>
     {
         model.setCurrentToolCard(cardNum);
         usingToolCard = true;
-        toolCardsActions = new ToolCardsActions(this);
-        model.getCurrentToolCard().acceptVisitor(toolCardsActions);
 
     }
 
@@ -165,7 +162,6 @@ public class Controller implements Observer<Event>
 
     protected void nextToolCardStep()
     {
-        model.getCurrentToolCard().acceptVisitor(toolCardsActions);
     }
 
     public boolean isToolCardBeingUsed()

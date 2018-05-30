@@ -3,7 +3,6 @@ package it.polimi.se2018.view.cli.renderer.elements;
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
-import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 import java.util.ArrayList;
@@ -53,11 +52,8 @@ public class CLIElementCard extends CLIElement
                 else if ((row == 0 || row == height-1) && col != 0 && col != width-1)
                     charMatrix[row][col] = '_';
 
-                else if (card instanceof PublicObjectiveCard && row==4 && (col>0 && col<width-1))    //draw the first line separator
-                    charMatrix[row][col] = '_';                                                     //of the public cards
-
-                else if (card instanceof ToolCard && row==3 && (col>0 && col<width-1))    //draw the first line separator
-                    charMatrix[row][col] = '_';                                           //of the tool cards
+                else if (col>0 && col<width-1)    //draw the first line separator
+                    charMatrix[row][col] = '_';                                                     //of the public cards                     //of the tool cards
 
                 else if (row==8 && (col>0 && col<width-1))                  //draw the second line separator
                     charMatrix[row][col] = '_';
@@ -109,12 +105,6 @@ public class CLIElementCard extends CLIElement
             titleCard.add("C A R D");
         }
 
-        else if (card instanceof ToolCard)
-        {
-            titleCard.add("T O O L");
-            titleCard.add("C A R D");
-        }
-
         for (int i=0; i<titleCard.size(); i++)
         {
             for (int j=0; j<titleCard.get(i).length(); j++)
@@ -126,7 +116,7 @@ public class CLIElementCard extends CLIElement
 
     private void drawDescription()
     {
-        String description = card.getDescription();
+        String description = "  ";
         int row=1;
 
         for (int i=0; i<description.length(); i++)

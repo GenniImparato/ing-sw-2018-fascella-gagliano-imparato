@@ -10,7 +10,7 @@ public class RowShadeVarietyCard extends PublicObjectiveCard {
 
     public RowShadeVarietyCard ()
     {
-        super ("Row Shade Variety", "Rows with no repeated values", 5);
+        super ("Row Shade Variety", 5);
     }
 
     /**
