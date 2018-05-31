@@ -211,4 +211,9 @@ public class CLIMessageParser implements MessageVisitor
         cli.showNotification(notification, Color.BLUE);
         cli.showView(nextView);
     }
+
+    @Override
+    public void visit(ModifiedDieMessage message) {
+
+    }
 }

@@ -228,7 +228,7 @@ public class Board implements Serializable
         return num;
     }
 
-    private void canDieBePlaced(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws ChangeModelStateException
+    private void canDieBePlaced(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
         if (!checkCoordinates(row, column))              //check if the coordinates are valid
             throw new ChangeModelStateException("Cannot place die: invalid coordinates!");
@@ -246,7 +246,7 @@ public class Board implements Serializable
         if (getDie(row, column) != null)     //check if the cell is free
             throw new ChangeModelStateException("Cannot place die: the selected cell is not free!");
 
-        if (getAdjacentDice(row, column).size() == 0  && getNumberOfDice()>0)     //check if there is at least one adjacent die and the die is not the first
+        if (getAdjacentDice(row, column).size() == 0  && getNumberOfDice()>0  && !ignoreAdjacentRestriction)     //check if there is at least one adjacent die and the die is not the first
             throw new ChangeModelStateException("Cannot place die: no adjacent dice!");
 
         if ((getNumberOfDice() == 0) &&            //if the die is the first it can only be positioned on the border
@@ -269,13 +269,13 @@ public class Board implements Serializable
      * @param column column of the matrix associated with the Board
      * @throws ChangeModelStateException if the die cannot be added
      */
-    public void addDie(Die die, int row, int column) throws ChangeModelStateException
+    public void addDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
-        canDieBePlaced(die, row, column, false, false);
+        canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
         dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
     }
 
-    public void moveDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws ChangeModelStateException
+    public void moveDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
 
         if(!contains(die))
@@ -289,7 +289,7 @@ public class Board implements Serializable
         try
         {
             dieMatrix[oldRow][oldCol] = null; //remove the die from it's current position
-            canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction);  //check if the die can be placed in the new position
+            canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);  //check if the die can be placed in the new position
             dieMatrix[row][column] = die;   //add the die in the selected position if it can be placed
         }
         catch (ChangeModelStateException e)

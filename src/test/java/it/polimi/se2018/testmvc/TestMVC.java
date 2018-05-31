@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
         TestPlayerReadyEvent.class,
         TestSelectSchemeCardEvent.class,
         TestDraftDieEvent.class,
-        TestAddDraftedDieEvent.class
+        TestAddDieToBoardEvent.class
 })
 
 public class TestMVC

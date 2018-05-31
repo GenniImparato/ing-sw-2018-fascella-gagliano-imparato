@@ -53,10 +53,10 @@ public class TestDeepShadesPublicCards
 
         try                     //try to add one "6" and two "5" and one die of another value
         {
-            board.addDie(die0,1,0);
-            board.addDie(die1,0,1);
-            board.addDie(die2,0,2);
-            board.addDie(die3,1,3);
+            board.addDie(die0,1,0, false, true, false);
+            board.addDie(die1,0,1, false, true, false);
+            board.addDie(die2,0,2, false, true, false);
+            board.addDie(die3,1,3, false, true, false);
 
 
         }

@@ -73,17 +73,17 @@ public class TestRowColorVarietyPublicCards
 
         try                 //try to add one row with different colors, and the other with repeated colors
         {
-            board.addDie(die0,0,0);
-            board.addDie(die1,0,1);
-            board.addDie(die2,0,2);
-            board.addDie(die3,0,3);
-            board.addDie(die4,0,4);
+            board.addDie(die0,0,0, false, false, false);
+            board.addDie(die1,0,1, false, false, false);
+            board.addDie(die2,0,2, false, false, false);
+            board.addDie(die3,0,3, false, false, false);
+            board.addDie(die4,0,4, false, false, false);
 
-            board.addDie(die5,1,0);
-            board.addDie(die6,1,1);
-            board.addDie(die7,1,2);
-            board.addDie(die8,1,3);
-            board.addDie(die9,1,4);
+            board.addDie(die5,1,0, false, false, false);
+            board.addDie(die6,1,1, false, false, false);
+            board.addDie(die7,1,2, false, false, false);
+            board.addDie(die8,1,3, false, false, false);
+            board.addDie(die9,1,4, false, false, false);
         }
         catch(ChangeModelStateException e)
         {

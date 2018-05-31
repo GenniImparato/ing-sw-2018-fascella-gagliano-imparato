@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.controller.tool_card.ToolCardParameters;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.events.*;
@@ -127,12 +128,22 @@ public class EventParser implements EventVisitor
     }
 
     @Override
-    public void visit(AddDraftedDieEvent event)
+    public void visit(AddDieToBoardEvent event)
     {
         try
         {
-            controller.addDraftedDie(event.getRow(), event.getColumn());
-            controller.getView().showTurn();
+            if(!controller.isToolCardBeingUsed())
+            {
+                controller.getView().showTurn();
+                controller.getModel().addDraftedDieToBoard(event.getRow(), event.getColumn(), false, false, false);
+            }
+            else
+            {
+                ToolCardParameters params = controller.getCurrentToolCardParameters();
+                controller.getModel().addDraftedDieToBoard(event.getRow(), event.getColumn(), params.isIgnoreValue(), params.isIgnoreColor(), params.isIgnoreAdjacent());
+                controller.nextToolCardStep();
+            }
+
         }
         catch(ChangeModelStateException e)
         {
@@ -146,7 +157,8 @@ public class EventParser implements EventVisitor
     {
         try
         {
-            controller.moveSelectedDie(event.getRow(), event.getColumn());
+            ToolCardParameters params = controller.getCurrentToolCardParameters();
+            controller.getModel().moveSelectedDie(event.getRow(), event.getColumn(), params.isIgnoreValue(), params.isIgnoreColor(), params.isIgnoreValue());
             controller.nextToolCardStep();
         }
         catch(ChangeModelStateException e)
@@ -176,7 +188,7 @@ public class EventParser implements EventVisitor
     {
         try
         {
-            controller.beginToolCardActions(event.getCardNum());
+            controller.startToolCardActions(event.getCardNum());
         }
         catch(ChangeModelStateException e)
         {

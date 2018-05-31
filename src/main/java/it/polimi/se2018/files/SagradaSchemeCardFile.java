@@ -18,8 +18,6 @@ public class SagradaSchemeCardFile extends File
     private Cell[][]    cellMatrix;
 
 
-    private boolean     hasBeenRead = false;
-
     public SagradaSchemeCardFile(String filename) throws InvalidFileException, CannotReadFileException
     {
         super(filename);
@@ -30,14 +28,12 @@ public class SagradaSchemeCardFile extends File
         read();
 
         this. schemeName = getSchemeName(filename);
-
-        hasBeenRead = true;
     }
 
     //returns true if the file is valid, false if it's not
     private void check() throws CannotReadFileException, InvalidFileException
     {
-        try (Scanner scanner = new Scanner(this)) 
+        try(Scanner scanner = new Scanner(this))
         {
             int elements = 0;               //used to count the total number of elements in the file
                                             //to pass the check the file should have 4*5 + 1 = 21 elements

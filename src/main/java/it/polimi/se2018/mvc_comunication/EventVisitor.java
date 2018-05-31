@@ -1,7 +1,6 @@
 package it.polimi.se2018.mvc_comunication;
 
 import it.polimi.se2018.mvc_comunication.events.*;
-import it.polimi.se2018.mvc_comunication.messages.SelectedPlayerSchemeCardsMessage;
 
 public interface EventVisitor
 {
@@ -11,7 +10,7 @@ public interface EventVisitor
     void visit(PlayerReadyEvent event);
     void visit(DraftDieEvent event);
     void visit(SelectDieFromBoardEvent event);
-    void visit(AddDraftedDieEvent event);
+    void visit(AddDieToBoardEvent event);
     void visit(MoveDieEvent event);
     void visit(UseToolCardEvent event);
     void visit(IncrementDraftedDieEvent event);

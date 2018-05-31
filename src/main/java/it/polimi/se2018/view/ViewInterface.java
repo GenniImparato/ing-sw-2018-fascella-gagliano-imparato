@@ -16,6 +16,7 @@ public interface ViewInterface
      void showDraft();
      void showAddDie();
      void showSelectDieFromBoard();
+     void showSelectDieFromDraftPool();
      void showMoveDie();
      void showIncrementDie();
      void reShowCurrentView();

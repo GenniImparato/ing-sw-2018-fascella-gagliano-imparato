@@ -54,10 +54,10 @@ public class TestLightShadesCards
 
         try                     //try to add one "1" and two "2" and one die of another value
         {
-            board.addDie(die0,0,0);
-            board.addDie(die1,1,1);
-            board.addDie(die2,2,2);
-            board.addDie(die3,3,3);
+            board.addDie(die0,0,0, false, false, false);
+            board.addDie(die1,1,1, false, false, false);
+            board.addDie(die2,2,2, false, false, false);
+            board.addDie(die3,3,3, false, false, false);
 
 
         }

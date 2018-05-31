@@ -56,6 +56,11 @@ public class TestView extends View
     }
 
     @Override
+    public void showSelectDieFromDraftPool() {
+
+    }
+
+    @Override
     public void showMoveDie() {
 
     }

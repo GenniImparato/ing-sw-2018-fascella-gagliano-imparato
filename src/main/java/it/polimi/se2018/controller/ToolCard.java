@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.controller.tool_card_action.ToolCardAction;
+import it.polimi.se2018.controller.tool_card.actions.ToolCardAction;
+import it.polimi.se2018.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,24 @@ public class ToolCard
 
     public void executeNextAction(Controller controller)
     {
+        if(currentAction >= actions.size())
+        {
+            controller.endToolCardActions();
+            return;
+        }
+
         actions.get(currentAction).execute(controller);
+
+        currentAction++;
+    }
+
+    public Card generateCard()
+    {
+        return new Card(name);
+    }
+
+    public ToolCardAction getCurrentAction()
+    {
+        return actions.get(currentAction-1);
     }
 }

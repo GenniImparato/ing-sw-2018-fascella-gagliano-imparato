@@ -139,6 +139,11 @@ public class RMIVirtualView extends VirtualView
     }
 
     @Override
+    public void showSelectDieFromDraftPool() {
+
+    }
+
+    @Override
     public  void showMoveDie()
     {
         try

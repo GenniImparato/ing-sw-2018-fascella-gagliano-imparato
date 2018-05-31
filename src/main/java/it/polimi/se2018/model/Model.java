@@ -16,6 +16,10 @@ import java.util.Random;
 //singleton class
 public class Model extends Observable <Message> implements Serializable
 {
+    public static final int                     DRAFTET_DIE     = 0;
+    public static final int                     SELECTED_DIE    = 1;
+    public static final int                     CHOOSEN_DIE     = 2;
+
     private List<Player>                        players;
     private static final int                    MAX_PLAYERS_NUM = 4;
     private static final int                    MIN_PLAYERS_NUM = 1;
@@ -33,6 +37,7 @@ public class Model extends Observable <Message> implements Serializable
 
     private Die                                 draftedDie;
     private Die                                 selectedDie;
+    private Die                                 chosenDie;
 
     private List<Board>                         schemeCards;
 
@@ -50,10 +55,6 @@ public class Model extends Observable <Message> implements Serializable
 
         //init cards
         publicCards = PublicObjectiveCard.getRandomCards(3);
-        toolCards = new ArrayList<>();
-        toolCards.add(new Card("Flux Remover"));
-        toolCards.add(new Card("Eglomise Brush"));
-        toolCards.add(new Card("Glazing Hammer"));
     }
 
     //copy constructor
@@ -87,9 +88,12 @@ public class Model extends Observable <Message> implements Serializable
         }
 
         //copy tool cards
-        this.toolCards = new ArrayList<>();
-        for(Card card : model.toolCards)
-            this.toolCards.add(new Card(card));
+        if(model.toolCards != null)
+        {
+            this.toolCards = new ArrayList<>();
+            for (Card card : model.toolCards)
+                this.toolCards.add(new Card(card));
+        }
 
         //copy the currentToolCard if it's not null
         if(model.currentToolCard != null)
@@ -160,6 +164,20 @@ public class Model extends Observable <Message> implements Serializable
 
     public Die getSelectedDie() { return selectedDie;}
 
+    public Die getChosenDie() { return chosenDie;}
+
+    public Die getDie(int dieType)
+    {
+        if(dieType == DRAFTET_DIE)
+            return getDraftedDie();
+        else if(dieType == SELECTED_DIE)
+            return getSelectedDie();
+        else if(dieType == CHOOSEN_DIE)
+            return getChosenDie();
+
+        return null;
+    }
+
     public int getCurrentRound()
     {
         return currentRound;
@@ -197,6 +215,11 @@ public class Model extends Observable <Message> implements Serializable
     public void setSchemeCards(List<Board> schemeCards)
     {
         this.schemeCards = schemeCards;
+    }
+
+    public void setToolCards(List<Card> toolCards)
+    {
+        this.toolCards = toolCards;
     }
 
     public void setPlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
@@ -365,13 +388,13 @@ public class Model extends Observable <Message> implements Serializable
         roundTrack.addLastDice(currentRound);
     }
 
-    public void addDraftedDieToBoard(Player player, int row, int column) throws ChangeModelStateException
+    public void addDraftedDieToBoard(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
         if(draftedDie == null)
-            throw new ChangeModelStateException("No drafted die!");
+            throw new ChangeModelStateException("No drafted die to add!");
 
-        player.getBoard().addDie(draftedDie, row, column);
-        notify(new AddedDieMessage(this, player, draftedDie, row, column));
+        currentPlayer.getBoard().addDie(draftedDie, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
+        notify(new AddedDieMessage(this, currentPlayer, draftedDie, row, column));
     }
 
     public void selectDieFromBoard(Player player, int row, int column) throws ChangeModelStateException
@@ -402,10 +425,23 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
-    public void moveSelectedDie(Player player, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction) throws ChangeModelStateException
+    public void moveSelectedDie(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
-        player.getBoard().moveDie(selectedDie, row, column, ignoreValueRestriction, ignoreColorRestriction);
+        if(selectedDie == null)
+            throw new ChangeModelStateException("No selected die!");
+
+        currentPlayer.getBoard().moveDie(selectedDie, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
         notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
+    }
+
+    public void rollDie(int dieType) throws ChangeModelStateException
+    {
+        Die die = getDie(dieType);
+        if(die == null)
+            throw new ChangeModelStateException("No die to roll!");
+
+        die.roll();
+        notify();
     }
 
     public void setCurrentRound(int currentRound) throws ChangeModelStateException

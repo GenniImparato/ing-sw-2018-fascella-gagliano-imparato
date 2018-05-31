@@ -1,23 +1,38 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.files.SchemeCardLoader;
+import it.polimi.se2018.controller.tool_card.ToolCardParameters;
+import it.polimi.se2018.files.SagradaToolCardFile;
+import it.polimi.se2018.files.SchemeCardsLoader;
+import it.polimi.se2018.files.ToolCardsLoader;
+import it.polimi.se2018.files.exceptions.CannotReadFileException;
+import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.files.exceptions.LoadingFilesException;
+import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.mvc_comunication.messages.StartedGameMessage;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.utils.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Controller implements Observer<Event>
 {
+    private static final String         SCHEME_CARDS_DIRECTORY =        "./resources/scheme_cards/";
+    private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards/";
+    private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
+
     private Model               model;
     private ViewInterface       view;
 
     private EventParser         parser;
 
     private PlayerTurnIterator  playerTurnIterator;
+
+    private List<ToolCard>      toolCards;
+    private ToolCard            currentToolCard;
 
     private boolean             usingToolCard = false;
 
@@ -70,25 +85,56 @@ public class Controller implements Observer<Event>
 
     public void start()
     {
-        loadSchemeCardFiles();
+        Logger logger = new Logger()
+        {
+            @Override
+            public void logMessage(String message)
+            {
+                System.out.println(message);
+            }
+
+            @Override
+            public void logErrorMessage(String message)
+            {
+                System.out.println("Error: " + message);
+            }
+        };
+
+        loadSchemeCardFiles(logger);
+        loadToolCardFiles(logger);
     }
 
-    protected void loadSchemeCardFiles()
+    private void loadSchemeCardFiles(Logger logger)
     {
         try
         {
-            SchemeCardLoader loader = new SchemeCardLoader("./resources/schemecards/", new Logger() {
-                @Override
-                public void logMessage(String message) {
-
-                }
-
-                @Override
-                public void logErrorMessage(String message) {
-
-                }
-            });
+            SchemeCardsLoader loader = new SchemeCardsLoader(SCHEME_CARDS_DIRECTORY, logger);
             model.setSchemeCards(loader.getGeneratedBoards());
+        }
+        catch(LoadingFilesException e)
+        {
+            System.exit(0);
+        }
+    }
+
+    private void loadToolCardFiles(Logger logger)
+    {
+        try
+        {
+            ToolCardsLoader loader = new ToolCardsLoader(TOOL_CARDS_DIRECTORY, logger);
+            toolCards = loader.getToolCards();
+
+            if(toolCards.size() < MINIMUM_TOOL_CARDS_REQUIRED)
+            {
+                logger.logErrorMessage("Not enough tool cards to play!");
+                System.exit(0);
+            }
+
+            List<Card> cards = new ArrayList<>();
+            for(int i =0; i< 3; i++)
+                cards.add(toolCards.get(i).generateCard());
+
+            model.setToolCards(cards);
         }
         catch(LoadingFilesException e)
         {
@@ -132,26 +178,17 @@ public class Controller implements Observer<Event>
         model.draftDie(dieNum);
     }
 
-    protected void addDraftedDie(int row, int column) throws ChangeModelStateException
-    {
-        model.addDraftedDieToBoard(model.getCurrentPlayer(), row, column);
-    }
-
     protected void selectDieFromBoard(int row, int column) throws ChangeModelStateException
     {
         model.selectDieFromBoard(model.getCurrentPlayer(), row, column);
     }
 
-    protected void moveSelectedDie(int row, int column) throws ChangeModelStateException
-    {
-        model.moveSelectedDie(model.getCurrentPlayer(), row, column, ignoreValueRestriction, ignoreColorRestriction);
-    }
-
-    protected void beginToolCardActions(int cardNum) throws ChangeModelStateException
+    protected void startToolCardActions(int cardNum) throws ChangeModelStateException
     {
         model.setCurrentToolCard(cardNum);
         usingToolCard = true;
-
+        currentToolCard = toolCards.get(cardNum);
+        currentToolCard.use(this);
     }
 
     protected void endToolCardActions()
@@ -162,6 +199,8 @@ public class Controller implements Observer<Event>
 
     protected void nextToolCardStep()
     {
+        if(currentToolCard != null)
+            currentToolCard.executeNextAction(this);
     }
 
     public boolean isToolCardBeingUsed()
@@ -214,6 +253,13 @@ public class Controller implements Observer<Event>
 
             beginRound();
         }
+    }
+
+    protected ToolCardParameters getCurrentToolCardParameters()
+    {
+        if(isToolCardBeingUsed())
+            return currentToolCard.getCurrentAction().getParameters();
+        else return null;
     }
 }
 

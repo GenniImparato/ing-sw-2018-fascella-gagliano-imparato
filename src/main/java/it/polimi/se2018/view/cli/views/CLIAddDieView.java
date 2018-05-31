@@ -1,6 +1,6 @@
 package it.polimi.se2018.view.cli.views;
 
-import it.polimi.se2018.mvc_comunication.events.AddDraftedDieEvent;
+import it.polimi.se2018.mvc_comunication.events.AddDieToBoardEvent;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.CLI;
@@ -48,7 +48,7 @@ public class CLIAddDieView extends CLIView
                 else
                 {row  =3;   col = val%15;}
 
-                cli.notify(new AddDraftedDieEvent(cli, row, col));
+                cli.notify(new AddDieToBoardEvent(cli, row, col));
 
             }
             else        //input is not in range [0,20]

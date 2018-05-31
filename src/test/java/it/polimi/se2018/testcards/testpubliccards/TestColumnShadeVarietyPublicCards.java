@@ -68,17 +68,17 @@ public class TestColumnShadeVarietyPublicCards
 
         try
         {
-            board.addDie(die0,0,0);
-            board.addDie(die1,1,0);
-            board.addDie(die2,2,0);
-            board.addDie(die3,3,0);
+            board.addDie(die0,0,0, false, true, false);
+            board.addDie(die1,1,0, false, true, false);
+            board.addDie(die2,2,0, false, true, false);
+            board.addDie(die3,3,0, false, true, false);
 
-            board.addDie(die4,0,1);
-            board.addDie(die5,1,1);
-            board.addDie(die6,2,1);
-            board.addDie(die7,3,1);
+            board.addDie(die4,0,1, false, true, false);
+            board.addDie(die5,1,1, false, true, false);
+            board.addDie(die6,2,1, false, true, false);
+            board.addDie(die7,3,1, false, true, false);
 
-            board.addDie(die8,0,2);
+            board.addDie(die8,0,2, false, true, false);
         }
         catch(ChangeModelStateException e)
         {

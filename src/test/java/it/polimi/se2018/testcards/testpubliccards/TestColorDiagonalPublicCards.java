@@ -64,12 +64,12 @@ public class TestColorDiagonalPublicCards
 
         try
         {
-            board.addDie(die0, 0, 0);
-            board.addDie(die1, 1, 1);
-            board.addDie(die2, 2, 2);
-            board.addDie(die3, 3, 3);
-            board.addDie(die4, 3, 1);
-            board.addDie(die5, 2, 4);
+            board.addDie(die0, 0, 0, false, true, false);
+            board.addDie(die1, 1, 1, false, true, false);
+            board.addDie(die2, 2, 2, false, true, false);
+            board.addDie(die3, 3, 3, false, true, false);
+            board.addDie(die4, 3, 1, false, true, false);
+            board.addDie(die5, 2, 4, false, true, false);
         }
         catch(ChangeModelStateException e)
         {

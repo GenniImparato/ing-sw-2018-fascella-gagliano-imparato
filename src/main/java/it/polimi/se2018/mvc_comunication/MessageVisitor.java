@@ -19,4 +19,5 @@ public interface MessageVisitor
     void visit(ChangedDraftedDieMessage message);
     void visit(MovedDieMessage message);
     void visit(BegunTurnMessage message);
+    void visit(ModifiedDieMessage message);
 }

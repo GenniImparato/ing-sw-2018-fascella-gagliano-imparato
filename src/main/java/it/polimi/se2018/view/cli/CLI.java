@@ -186,6 +186,11 @@ public class CLI extends View
     }
 
     @Override
+    public void showSelectDieFromDraftPool() {
+
+    }
+
+    @Override
     public void showMoveDie()
     {
         showView(new CLIMoveDieView(this));

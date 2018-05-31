@@ -160,9 +160,7 @@ public class GUI extends View
     public void showTurn()
     {
         reShowCurrentView();
-
-        if(getCurrentView() instanceof GUIGameView)
-            ((GUIGameView) getCurrentView()).setTurnMode();
+        ((GUIGameView) getCurrentView()).setTurnMode();
     }
 
     @Override
@@ -175,9 +173,7 @@ public class GUI extends View
     public void showAddDie()
     {
         reShowCurrentView();
-
-        if(getCurrentView() instanceof GUIGameView)
-            ((GUIGameView) getCurrentView()).setAddDieMode();
+        ((GUIGameView) getCurrentView()).setAddDieMode();
     }
 
     @Override
@@ -189,6 +185,11 @@ public class GUI extends View
     @Override
     public void showSelectDieFromBoard()
     {
+
+    }
+
+    @Override
+    public void showSelectDieFromDraftPool() {
 
     }
 
@@ -235,9 +236,7 @@ public class GUI extends View
     public void showOtherPlayersTurn()
     {
         reShowCurrentView();
-
-        if(getCurrentView() instanceof GUIGameView)
-            ((GUIGameView) getCurrentView()).setOtherPlayersMode();
+        ((GUIGameView) getCurrentView()).setOtherPlayersMode();
     }
 
 }

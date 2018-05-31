@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.gui.views;
 
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.mvc_comunication.events.AddDraftedDieEvent;
+import it.polimi.se2018.mvc_comunication.events.AddDieToBoardEvent;
 import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
 import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
 import it.polimi.se2018.view.gui.GUI;
@@ -31,7 +31,7 @@ public class GUIGameView extends GUIView
 
     public GUIGameView(GUI gui)
     {
-        super(gui, 1280,700, false);
+        super(gui, 1280,700, true);
 
         guiBoards = new ArrayList<>();
         boardContainers = new ArrayList<>();
@@ -223,7 +223,7 @@ public class GUIGameView extends GUIView
                     @Override
                     public void clickedCell(GUIElementBoard board, int row, int column)
                     {
-                        gui.notify(new AddDraftedDieEvent(gui, row, column));
+                        gui.notify(new AddDieToBoardEvent(gui, row, column));
                     }
                 });
             }

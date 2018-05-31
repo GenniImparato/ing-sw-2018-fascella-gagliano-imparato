@@ -59,7 +59,7 @@ public class TestBoard
         Die die = new Die(Color.getRandomColor());
         try
         {
-            board.addDie(die, -1,-1);
+            board.addDie(die, -1,-1, false, false, false);
             fail();
         }
         catch (ChangeModelStateException e)
@@ -71,7 +71,7 @@ public class TestBoard
         Die die0 = new Die(Color.RED);
         try
         {
-            board.addDie(die0, 0,1);
+            board.addDie(die0, 0,1, false, false, false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -84,7 +84,7 @@ public class TestBoard
         die1.setValue(3);
         try
         {
-            board.addDie(die1, 0, 2);
+            board.addDie(die1, 0, 2, false, false, false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -95,7 +95,7 @@ public class TestBoard
         Die die2 = new Die(Color.getRandomColor());
         try
         {
-            board.addDie(die2, 1,2);
+            board.addDie(die2, 1,2, false, false, false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -108,7 +108,7 @@ public class TestBoard
         die3.setValue(6);
         try
         {
-            board.addDie(die3, 0, 0);
+            board.addDie(die3, 0, 0, false, false, false);
         }
         catch (ChangeModelStateException e)
         {
@@ -120,7 +120,7 @@ public class TestBoard
         die4.setValue(6);
         try
         {
-            board.addDie(die4,1,0);
+            board.addDie(die4,1,0, false, false, false);
             fail();
         }
 
@@ -134,7 +134,7 @@ public class TestBoard
         die5.setValue(4);
         try
         {
-            board.addDie(die5,1,0);
+            board.addDie(die5,1,0, false, false, false);
             fail();
         }
 
@@ -146,7 +146,7 @@ public class TestBoard
         Die die6 = new Die(Color.getRandomColor());
         try
         {
-            board.addDie(die6, 0, 0);
+            board.addDie(die6, 0, 0, false, false, false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -157,7 +157,7 @@ public class TestBoard
         Die die7 = new Die(Color.getRandomColor());
         try
         {
-            board.addDie(die7, 3, 2);
+            board.addDie(die7, 3, 2, false, false, false);
             fail();
         }
         catch (ChangeModelStateException e)
@@ -170,7 +170,7 @@ public class TestBoard
         die8.setValue(5);
         try
         {
-            board.addDie(die8, 0,1);
+            board.addDie(die8, 0,1, false, false, false);
         }
         catch(ChangeModelStateException e)
         {
@@ -181,7 +181,7 @@ public class TestBoard
         die9.setValue(4);
         try
         {
-            board.addDie(die9, 1,1);
+            board.addDie(die9, 1,1, false, false, false);
 
         }
         catch(ChangeModelStateException e)
@@ -247,7 +247,7 @@ public class TestBoard
         die.setValue(6);                        //also in the cloned one.
         try
         {
-            board.addDie(die, 3, 0);
+            board.addDie(die, 3, 0, false, true, false);
         }
         catch (ChangeModelStateException e)
         {
@@ -302,8 +302,8 @@ public class TestBoard
 
         try                                             //try to add two dice on the board
         {
-            board.addDie(die,0,1);
-            board.addDie(die1,0,2);
+            board.addDie(die,0,1, false, true, false);
+            board.addDie(die1,0,2, false, true, false);
         }
         catch(ChangeModelStateException e)
         {
@@ -313,7 +313,7 @@ public class TestBoard
 
         try                                             //try to move the die ignoring the color restriction
         {
-            board.moveDie(die, 1, 3, false, true);
+            board.moveDie(die, 1, 3, false, true, false);
         }
         catch(ChangeModelStateException e)
         {
@@ -324,7 +324,7 @@ public class TestBoard
         die0.setValue(2);
         try                                             //try to move the die ignoring the value restriction
         {
-            board.moveDie(die,1,1,true,false);
+            board.moveDie(die,1,1,true,false, false);
         }
         catch(ChangeModelStateException e)
         {
@@ -333,7 +333,7 @@ public class TestBoard
 
         try                                             //try to move a die in a cell already occupied
         {
-            board.moveDie(die1,0,1,true,false);
+            board.moveDie(die1,0,1,true,false, false);
             fail();
         }
         catch(ChangeModelStateException e)
@@ -343,7 +343,7 @@ public class TestBoard
 
         try                                         //try to move a die that is not on the board
         {
-            board.moveDie(die2, 0,3, true, true);
+            board.moveDie(die2, 0,3, true, true, false);
             fail();
         }
         catch(ChangeModelStateException e)

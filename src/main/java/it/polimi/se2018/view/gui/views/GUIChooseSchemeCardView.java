@@ -72,8 +72,14 @@ public class GUIChooseSchemeCardView extends GUIView
                 {
                     int choice;
                     for(choice=0; choice<4; choice++)
-                        if(board == guiBoard[choice])
+                    {
+                        if (board == guiBoard[choice])
+                        {
+                            chosenCard = choice;
                             break;
+                        }
+                    }
+
 
                     gui.notify(new SelectSchemeCardEvent(gui, gui.getAssociatedPlayerNickname(), choice));
                 }

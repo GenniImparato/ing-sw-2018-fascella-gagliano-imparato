@@ -207,5 +207,10 @@ public class GUIMessageParser implements MessageVisitor
 
         gui.showNotification(notification);
     }
+
+    @Override
+    public void visit(ModifiedDieMessage message) {
+
+    }
 }
 

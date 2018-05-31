@@ -56,10 +56,10 @@ public class TestMediumShadesPublicCards
 
         try                     //try to add one "4" and two "3" and one die of another value
         {
-            board.addDie(die0,0,0);
-            board.addDie(die1,1,1);
-            board.addDie(die2,2,2);
-            board.addDie(die3,3,3);
+            board.addDie(die0,0,0, false, true, false);
+            board.addDie(die1,1,1, false, true, false);
+            board.addDie(die2,2,2, false, true, false);
+            board.addDie(die3,3,3, false, true, false);
 
 
         }
