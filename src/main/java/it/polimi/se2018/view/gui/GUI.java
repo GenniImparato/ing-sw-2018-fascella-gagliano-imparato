@@ -142,6 +142,17 @@ public class GUI extends View
 
         message.acceptVisitor(parser);
 
+        if(getModel().getCurrentPlayer() != null   &&
+           getModel().getCurrentPlayer().getNickname().equals(getAssociatedPlayerNickname())   &&
+           getModel().getDraftedDie() != null)
+        {
+            setCursorIcon("resources/images/elements/die/"
+                    +getModel().getDraftedDie().getColor().toString().toLowerCase() + "/"
+                    +getModel().getDraftedDie().getValue() + ".png");
+        }
+        else
+            setDefaultCursor();
+
     }
 
     @Override

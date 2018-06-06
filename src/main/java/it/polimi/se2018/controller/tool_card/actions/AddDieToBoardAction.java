@@ -7,7 +7,7 @@ public class AddDieToBoardAction extends ToolCardAction
 {
     public AddDieToBoardAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, false);
     }
 
     @Override

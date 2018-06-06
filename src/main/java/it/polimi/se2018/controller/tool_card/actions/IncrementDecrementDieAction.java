@@ -8,7 +8,7 @@ public class IncrementDecrementDieAction extends ToolCardAction
 {
     IncrementDecrementDieAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, false);
     }
 
     @Override

@@ -36,9 +36,6 @@ public class Controller implements Observer<Event>
 
     private boolean             usingToolCard = false;
 
-    private boolean             ignoreValueRestriction;
-    private boolean             ignoreColorRestriction;
-
     private boolean             playerHasDrafted = false;
     private boolean             playerUsesToolCard = false;
 
@@ -130,6 +127,8 @@ public class Controller implements Observer<Event>
                 System.exit(0);
             }
 
+            toolCards.remove(2);
+            toolCards.remove(0);
             List<Card> cards = new ArrayList<>();
             for(int i =0; i< 3; i++)
                 cards.add(toolCards.get(i).generateCard());
@@ -206,13 +205,6 @@ public class Controller implements Observer<Event>
     public boolean isToolCardBeingUsed()
     {
         return usingToolCard;
-    }
-
-    //used by the moveSelectedDie
-    protected void setMoveDieOptions(boolean ignoreColorRestriction, boolean ignoreValueRestriction)
-    {
-        this.ignoreColorRestriction = ignoreColorRestriction;
-        this.ignoreValueRestriction = ignoreValueRestriction;
     }
 
 

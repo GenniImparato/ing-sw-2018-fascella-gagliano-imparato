@@ -14,6 +14,9 @@ import java.awt.event.MouseListener;
 
 public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GUIMoveAnimatedElement
 {
+    private static final int    GENERATED_ANIMATION_FRAMES  = 11;
+    private static final String IMAGES_ROOT  = "resources/images/elements/die/";
+
     private Die                 die;
     private String              path;       //iconpath
 
@@ -33,9 +36,15 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
 
     public GUIElementDie(Die die, boolean startWithBlankFrame, GUI gui)
     {
-        path = "resources/images/elements/die/" + die.getColor().toString().toLowerCase() + "/";
         this.die=die;
         this.gui = gui;
+
+        moveToRoundTrackAnimation = new GUIMoveAnimation(this);
+        moveToBoardAnimation = new GUIMoveAnimation(this);
+
+        thisElement = this;
+
+        this.path = IMAGES_ROOT + die.getColor().toString().toLowerCase() + "/";
 
         generateAnimation = new GUIFrameAnimation(this);
 
@@ -44,20 +53,10 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
         else
             setIcon(new ImageIcon(path + die.getValue() + ".png"));
 
-        for(int i=0; i<=11; i++)
-            generateAnimation.addFrame(path+"generate_animation/" + i + ".png");
+        for(int i=0; i<=GENERATED_ANIMATION_FRAMES; i++)
+            generateAnimation.addFrame(path + "generate_animation/" + i + ".png");
 
-        path+=die.getValue();
-
-        generateAnimation.addFrame(path+".png");
-
-        moveToRoundTrackAnimation = new GUIMoveAnimation(this);
-        moveToBoardAnimation = new GUIMoveAnimation(this);
-
-        thisElement = this;
-
-
-
+        generateAnimation.addFrame(path + die.getValue() + ".png");
 
         addMouseListener(new MouseListener()
         {
@@ -83,8 +82,6 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
 
                 if(selectable &&!generateAnimation.isPlaying())
                     showSelectedIcon();
-                else
-                    e.getComponent().getParent().dispatchEvent(e);
             }
 
             @Override
@@ -95,8 +92,6 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
 
                 if(selectable && !generateAnimation.isPlaying())
                     showNormalIcon();
-                else
-                    e.getComponent().getParent().dispatchEvent(e);
             }
         });
     }
@@ -160,13 +155,13 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
 
     public void showNormalIcon()
     {
-        setIcon(new ImageIcon(path+".png"));
+        setIcon(new ImageIcon(path + die.getValue() +".png"));
         selected = false;
     }
 
     public void showSelectedIcon()
     {
-        setIcon(new ImageIcon(path+"selected.png"));
+        setIcon(new ImageIcon(path + die.getValue() + "selected.png"));
         selected = true;
     }
 
@@ -210,5 +205,30 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
     public void moveAnimationEnded()
     {
         gui.refresh();
+    }
+
+    public void refresh(Die die)
+    {
+        //refresh the die only if it's value or color has changed
+        if(die.getColor() != this.die.getColor()   ||  die.getValue() != this.die.getValue())
+        {
+            String newPath = IMAGES_ROOT + die.getColor().toString().toLowerCase() + "/";
+
+            GUIFrameAnimation changeAnimation = new GUIFrameAnimation(this);
+
+            setIcon(new ImageIcon(path + die.getValue() + ".png"));
+
+            for (int i = GENERATED_ANIMATION_FRAMES; i >= 0; i--)
+                changeAnimation.addFrame(path  +"generate_animation/" + i + ".png");
+            for (int i = 0; i <= GENERATED_ANIMATION_FRAMES; i++)
+                changeAnimation.addFrame(newPath + "generate_animation/" + i + ".png");
+
+            changeAnimation.addFrame(newPath + die.getValue() + ".png");
+
+            path = newPath;
+            this.die = die;
+
+            changeAnimation.play(0, 30);
+        }
     }
 }

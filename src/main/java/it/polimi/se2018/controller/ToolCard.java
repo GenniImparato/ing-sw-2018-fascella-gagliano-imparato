@@ -41,9 +41,13 @@ public class ToolCard
             return;
         }
 
-        actions.get(currentAction).execute(controller);
+        ToolCardAction action = actions.get(currentAction);
+        action.execute(controller);
 
         currentAction++;
+
+        if(action.isInstant())
+            executeNextAction(controller);
     }
 
     public Card generateCard()

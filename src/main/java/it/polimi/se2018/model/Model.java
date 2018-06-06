@@ -393,8 +393,14 @@ public class Model extends Observable <Message> implements Serializable
         if(draftedDie == null)
             throw new ChangeModelStateException("No drafted die to add!");
 
-        currentPlayer.getBoard().addDie(draftedDie, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
-        notify(new AddedDieMessage(this, currentPlayer, draftedDie, row, column));
+        Die die = draftedDie;
+
+        currentPlayer.getBoard().addDie(die, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
+
+        //if the die is added to the board the drafted die is not present anymore
+        draftedDie = null;
+
+        notify(new AddedDieMessage(this, currentPlayer, die, row, column));
     }
 
     public void selectDieFromBoard(Player player, int row, int column) throws ChangeModelStateException
@@ -441,7 +447,7 @@ public class Model extends Observable <Message> implements Serializable
             throw new ChangeModelStateException("No die to roll!");
 
         die.roll();
-        notify();
+        notify(new ModifiedDieMessage(this, die, currentPlayer));
     }
 
     public void setCurrentRound(int currentRound) throws ChangeModelStateException

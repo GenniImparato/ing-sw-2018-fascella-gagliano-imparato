@@ -53,6 +53,8 @@ public class ToolCardActionFactory
             return new AddDieToBoardAction(new ToolCardParameterBuilder().setIgnore(parameter).build());
         else if(action.equals(Action.MOVE_SELECTED_DIE.getName()))
             return new MoveSelectedDieAction(new ToolCardParameterBuilder().setIgnore(parameter).build());
+        else if(action.equals(Action.ROLL_DIE.getName()))
+            return new RollDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
 
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");

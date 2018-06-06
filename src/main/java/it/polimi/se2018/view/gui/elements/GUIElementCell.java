@@ -78,7 +78,6 @@ public class GUIElementCell extends JLabel
                     showNormalIcon();
                 else
                     e.getComponent().getParent().dispatchEvent(e);
-
             }
 
             });

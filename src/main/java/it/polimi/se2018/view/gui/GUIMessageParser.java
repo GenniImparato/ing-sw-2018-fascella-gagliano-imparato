@@ -68,7 +68,6 @@ public class GUIMessageParser implements MessageVisitor
         notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
                 + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + " to the board!";
 
-        gui.setDefaultCursor();
         gui.showNotification(notification);
     }
 
@@ -105,10 +104,6 @@ public class GUIMessageParser implements MessageVisitor
     {
         if(!message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
             ((GUIGameView)gui.getCurrentView()).moveDraftedDieToBoardAnimation(message.getDie(), message.getPlayer());
-        else
-            gui.setCursorIcon("resources/images/elements/die/"
-                    +message.getDie().getColor().toString().toLowerCase() + "/"
-                    +message.getDie().getValue() + ".png");
 
         gui.reShowCurrentView();
 
@@ -198,7 +193,6 @@ public class GUIMessageParser implements MessageVisitor
         notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
                 + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + " on the board!";
 
-        gui.setDefaultCursor();
         gui.showNotification(notification);
     }
 
@@ -224,8 +218,25 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(ModifiedDieMessage message) {
+    public void visit(ModifiedDieMessage message)
+    {
+        gui.reShowCurrentView();
 
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "<html>You changed a die to ";
+        else
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> changed a die to ";
+
+        notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
+                + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + "!";
+
+        //if the modified die is the drafted die cursor should be updated
+        if(message.getDie().isSameDie(gui.getModel().getDraftedDie()))
+
+        gui.showNotification(notification);
     }
 }
 

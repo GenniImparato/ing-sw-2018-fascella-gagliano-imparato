@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GUIElementBoard extends JDesktopPane
+public class GUIElementBoard extends JPanel
 {
     private Board               board;
     private GUIElementCell[][]  guiCells;
@@ -75,6 +75,7 @@ public class GUIElementBoard extends JDesktopPane
             {
                 if(selectable)
                     showSelected();
+
             }
 
             @Override

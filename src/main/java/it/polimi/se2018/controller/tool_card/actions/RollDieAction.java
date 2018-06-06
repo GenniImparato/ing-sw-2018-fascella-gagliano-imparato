@@ -9,7 +9,7 @@ public class RollDieAction extends ToolCardAction
 {
     public RollDieAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, true);
     }
 
     @Override

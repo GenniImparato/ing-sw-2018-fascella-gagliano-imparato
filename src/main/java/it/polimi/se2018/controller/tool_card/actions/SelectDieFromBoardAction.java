@@ -7,7 +7,7 @@ public class SelectDieFromBoardAction extends ToolCardAction
 {
     public SelectDieFromBoardAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, false);
     }
 
     @Override

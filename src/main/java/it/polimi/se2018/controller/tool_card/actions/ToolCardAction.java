@@ -5,11 +5,13 @@ import it.polimi.se2018.controller.tool_card.ToolCardParameters;
 
 public abstract class  ToolCardAction
 {
-    private ToolCardParameters params;
+    private     ToolCardParameters  params;
+    private     boolean             instant;
 
-    ToolCardAction(ToolCardParameters parameters)
+    ToolCardAction(ToolCardParameters parameters, boolean instant)
     {
         this.params = parameters;
+        this.instant = instant;
     }
 
     public abstract void execute(Controller controller);
@@ -17,5 +19,10 @@ public abstract class  ToolCardAction
     public ToolCardParameters getParameters()
     {
         return params;
+    }
+
+    public boolean isInstant()
+    {
+        return instant;
     }
 }

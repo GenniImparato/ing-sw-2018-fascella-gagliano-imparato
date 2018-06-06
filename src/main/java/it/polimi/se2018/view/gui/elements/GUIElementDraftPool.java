@@ -141,6 +141,7 @@ public class GUIElementDraftPool extends JPanel
     {
         this.draftPool = draftPool;
         placeDice();
+        refreshDice();
     }
 
     public List<GUIElementDie> getGUIDice()
@@ -155,6 +156,14 @@ public class GUIElementDraftPool extends JPanel
                 return guiDie;
 
         return null;
+    }
+
+    private void refreshDice()
+    {
+        for(Die draftPoolDie : draftPool.getAllDice())
+        {
+            getGUIDie(draftPoolDie).refresh(draftPoolDie);
+        }
     }
 
 }

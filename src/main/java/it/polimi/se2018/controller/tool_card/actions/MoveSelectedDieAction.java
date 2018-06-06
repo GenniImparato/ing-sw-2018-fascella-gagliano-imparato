@@ -8,7 +8,7 @@ public class MoveSelectedDieAction extends ToolCardAction
 {
     public MoveSelectedDieAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, false);
     }
 
     @Override

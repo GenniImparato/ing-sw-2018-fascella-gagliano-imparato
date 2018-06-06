@@ -170,6 +170,12 @@ public class GUIGameView extends GUIView
         }
 
         refreshBoardContainers();
+
+        if(gui.getModel().getDraftedDie() == null)
+            draftedDie = null;
+
+        if(draftedDie != null   && gui.getModel().getDraftedDie() != null)
+            draftedDie.refresh(gui.getModel().getDraftedDie());
     }
 
     public void setTurnMode()

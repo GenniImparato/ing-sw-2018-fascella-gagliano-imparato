@@ -7,7 +7,7 @@ public class DraftDieAction extends ToolCardAction
 {
     public DraftDieAction(ToolCardParameters parameters)
     {
-        super(parameters);
+        super(parameters, false);
     }
 
     @Override
