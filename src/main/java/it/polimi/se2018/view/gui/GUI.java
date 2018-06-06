@@ -95,7 +95,7 @@ public class GUI extends View
         return (int)screenPos.getY();
     }
 
-    public int getWindowRealtiveX(JComponent component)
+    public int getWindowRelativeX(JComponent component)
     {
         Point screenPos = new Point();
         SwingUtilities.convertPointToScreen(screenPos, component);
@@ -103,7 +103,7 @@ public class GUI extends View
         return (int)screenPos.getX() - getMainWindow().getX();
     }
 
-    public int getWindowRealtiveY(JComponent component)
+    public int getWindowRelativeY(JComponent component)
     {
         Point screenPos = new Point();
         SwingUtilities.convertPointToScreen(screenPos, component);
@@ -196,7 +196,8 @@ public class GUI extends View
     @Override
     public void showMoveDie()
     {
-
+        reShowCurrentView();
+        ((GUIGameView) getCurrentView()).setMoveDieMode();
     }
 
     @Override

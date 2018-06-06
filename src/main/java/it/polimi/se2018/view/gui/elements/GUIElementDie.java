@@ -9,7 +9,6 @@ import it.polimi.se2018.view.gui.elements.move_animation.GUIMoveAnimatedElement;
 import it.polimi.se2018.view.gui.elements.move_animation.GUIMoveAnimation;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -130,14 +129,14 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
             }
         });
 
-        moveToRoundTrackAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
-                gui.getWindowRealtiveX(cell), gui.getWindowRealtiveY(cell), 35);
+        moveToRoundTrackAnimation.play(gui.getWindowRelativeX(this), gui.getWindowRelativeY(this),
+                gui.getWindowRelativeX(cell), gui.getWindowRelativeY(cell), 35);
     }
 
     public void playMoveToBoardAnimation(GUIElementBoard board)
     {
-        moveToBoardAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
-                gui.getWindowRealtiveX(board) + 140, gui.getWindowRealtiveY(board) - 80, 35);
+        moveToBoardAnimation.play(gui.getWindowRelativeX(this), gui.getWindowRelativeY(this),
+                gui.getWindowRelativeX(board) + 140, gui.getWindowRelativeY(board) - 80, 35);
     }
 
     public void playMoveToBoardAnimation(GUIElementCell cell)
@@ -155,8 +154,8 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
                 gui.refresh();
             }
         });
-        moveToBoardAnimation.play(gui.getWindowRealtiveX(this), gui.getWindowRealtiveY(this),
-                gui.getWindowRealtiveX(cell), gui.getWindowRealtiveY(cell), 35);
+        moveToBoardAnimation.play(gui.getWindowRelativeX(this), gui.getWindowRelativeY(this),
+                gui.getWindowRelativeX(cell), gui.getWindowRelativeY(cell), 35);
     }
 
     public void showNormalIcon()

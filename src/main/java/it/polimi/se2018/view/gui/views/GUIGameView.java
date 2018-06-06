@@ -4,6 +4,7 @@ import it.polimi.se2018.model.*;
 import it.polimi.se2018.mvc_comunication.events.AddDieToBoardEvent;
 import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
 import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
+import it.polimi.se2018.mvc_comunication.events.MoveDieEvent;
 import it.polimi.se2018.view.gui.GUI;
 import it.polimi.se2018.view.gui.elements.*;
 
@@ -176,19 +177,12 @@ public class GUIGameView extends GUIView
 
     public void setTurnMode()
     {
+        disableAllSelections();
         actionLabel.setText("Choose a die from the draft pool or use a tool card!");
         endTurnButton.setEnabled(true);
-
         setCardsSelectable(true);
-
-        for(GUIElementBoard board : guiBoards)
-        {
-            board.setSelectable(false);
-            board.setSelectableCells(false);
-            board.setSelectableDice(false);
-        }
-
         guiDraftPool.setSelectableDice(true);
+
         guiDraftPool.setActions(new GUIDraftPoolActions()
         {
             @Override
@@ -201,35 +195,42 @@ public class GUIGameView extends GUIView
 
     public void setAddDieMode()
     {
-        endTurnButton.setEnabled(false);
+        disableAllSelections();
         actionLabel.setText("Choose where to add the drafted die in your board!");
 
-        setCardsSelectable(false);
-        guiDraftPool.setSelectableDice(false);
-        endTurnButton.setEnabled(false);
 
-        for(int i=0; i<gui.getModel().getPlayerNum(); i++)
+        getAssociatedPlayerBoard().setSelectableCells(true);
+        getAssociatedPlayerBoard().setActions(new GUIBoardActions()
         {
-            if (gui.getModel().getPlayers().get(i).getNickname().equals(gui.getAssociatedPlayerNickname()))
-            {
-                guiBoards.get(i).setSelectableCells(true);
-                guiBoards.get(i).setActions(new GUIBoardActions()
-                {
-                    @Override
-                    public void clicked(GUIElementBoard board)
-                    {
-                    }
+            @Override
+            public void clicked(GUIElementBoard board){}
 
-                    @Override
-                    public void clickedCell(GUIElementBoard board, int row, int column)
-                    {
-                        gui.notify(new AddDieToBoardEvent(gui, row, column));
-                    }
-                });
+            @Override
+            public void clickedCell(GUIElementBoard board, int row, int column)
+            {
+                gui.notify(new AddDieToBoardEvent(gui, row, column));
             }
-            else
-                guiBoards.get(i).setSelectableCells(false);
-        }
+        });
+    }
+
+    public void setMoveDieMode()
+    {
+        disableAllSelections();
+        actionLabel.setText("Choose a die in your board to move");
+
+        getAssociatedPlayerBoard().setSelectableCells(true);
+        getAssociatedPlayerBoard().setActions(new GUIBoardActions()
+        {
+            @Override
+            public void clicked(GUIElementBoard board){}
+
+            @Override
+            public void clickedCell(GUIElementBoard board, int row, int column)
+            {
+                gui.notify(new MoveDieEvent(gui, row, column));
+            }
+        });
+
     }
 
     public void setOtherPlayersMode()
@@ -288,6 +289,32 @@ public class GUIGameView extends GUIView
             else
                 boardContainers.get(i).setIcon(new ImageIcon("resources/images/gameview/blankcontainer.png"));
         }
+    }
+
+    private void disableAllSelections()
+    {
+        endTurnButton.setEnabled(false);
+        setCardsSelectable(false);
+        guiDraftPool.setSelectableDice(false);
+        endTurnButton.setEnabled(false);
+
+        for(GUIElementBoard guiBoard : guiBoards)
+        {
+            guiBoard.setSelectable(false);
+            guiBoard.setSelectableCells(false);
+            guiBoard.setSelectableDice(false);
+        }
+    }
+
+    private GUIElementBoard getAssociatedPlayerBoard()
+    {
+        for(int i=0; i<gui.getModel().getPlayerNum(); i++)
+        {
+            if (gui.getModel().getPlayers().get(i).getNickname().equals(gui.getAssociatedPlayerNickname()))
+                return guiBoards.get(i);
+        }
+
+        return guiBoards.get(0);
     }
 
 }
