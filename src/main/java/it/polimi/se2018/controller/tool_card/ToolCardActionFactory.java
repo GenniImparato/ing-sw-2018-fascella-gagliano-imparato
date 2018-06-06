@@ -3,8 +3,6 @@ package it.polimi.se2018.controller.tool_card;
 
 import it.polimi.se2018.controller.tool_card.actions.*;
 
-import java.util.List;
-
 public class ToolCardActionFactory
 {
     private enum Action
@@ -50,11 +48,11 @@ public class ToolCardActionFactory
         if(action.equals(Action.DRAFT_DIE.getName()))
             return new DraftDieAction(new ToolCardParameterBuilder().build());
         else if(action.equals(Action.SELECT_DIE_FROM_BOARD.getName()))
-            return new SelectDieAction(new ToolCardParameterBuilder().build());
+            return new SelectDieFromBoardAction(new ToolCardParameterBuilder().build());
         else if(action.equals(Action.ADD_DRAFTED_DIE_TO_BOARD.getName()))
             return new AddDieToBoardAction(new ToolCardParameterBuilder().setIgnore(parameter).build());
         else if(action.equals(Action.MOVE_SELECTED_DIE.getName()))
-            return new MoveDieAction(new ToolCardParameterBuilder().setIgnore(parameter).build());
+            return new MoveSelectedDieAction(new ToolCardParameterBuilder().setIgnore(parameter).build());
 
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");

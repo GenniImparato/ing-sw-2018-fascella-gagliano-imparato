@@ -5,12 +5,12 @@ import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.ViewInterface;
 
-public class MoveDieEvent extends Event
+public class MoveSelectedDieEvent extends Event
 {
     private int row;
     private int col;
 
-    public MoveDieEvent(ViewInterface view, int row, int column)
+    public MoveSelectedDieEvent(ViewInterface view, int row, int column)
     {
         super(view);
         this.row = row;

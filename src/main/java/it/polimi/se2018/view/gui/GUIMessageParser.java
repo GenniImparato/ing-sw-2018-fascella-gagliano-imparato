@@ -183,8 +183,23 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(MovedDieMessage message) {
+    public void visit(MovedDieMessage message)
+    {
+        gui.reShowCurrentView();
 
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "<html>You moved a ";
+        else
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> moved a ";
+
+        notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
+                + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + " on the board!";
+
+        gui.setDefaultCursor();
+        gui.showNotification(notification);
     }
 
     @Override

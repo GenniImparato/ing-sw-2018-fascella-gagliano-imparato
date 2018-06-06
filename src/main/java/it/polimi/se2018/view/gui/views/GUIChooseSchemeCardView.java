@@ -12,6 +12,7 @@ import it.polimi.se2018.view.gui.GUI;
 import it.polimi.se2018.view.gui.elements.GUIBoardActions;
 import it.polimi.se2018.view.gui.elements.GUIElementBoard;
 import it.polimi.se2018.view.gui.elements.GUIElementCell;
+import it.polimi.se2018.view.gui.elements.GUIElementDie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,9 +86,10 @@ public class GUIChooseSchemeCardView extends GUIView
                 }
 
                 @Override
-                public void clickedCell(GUIElementBoard board, int row, int column)
-                {
-                }
+                public void clickedCell(GUIElementBoard board, int row, int column) {}
+
+                @Override
+                public void clickedDie(GUIElementDie die, int row, int column) {}
             });
 
 

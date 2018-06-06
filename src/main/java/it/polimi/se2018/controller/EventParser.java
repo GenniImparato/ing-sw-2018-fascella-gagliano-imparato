@@ -153,12 +153,12 @@ public class EventParser implements EventVisitor
     }
 
     @Override
-    public void visit(MoveDieEvent event)
+    public void visit(MoveSelectedDieEvent event)
     {
         try
         {
             ToolCardParameters params = controller.getCurrentToolCardParameters();
-            controller.getModel().moveSelectedDie(event.getRow(), event.getColumn(), params.isIgnoreValue(), params.isIgnoreColor(), params.isIgnoreValue());
+            controller.getModel().moveSelectedDie(event.getRow(), event.getColumn(), params.isIgnoreValue(), params.isIgnoreColor(), params.isIgnoreAdjacent());
             controller.nextToolCardStep();
         }
         catch(ChangeModelStateException e)

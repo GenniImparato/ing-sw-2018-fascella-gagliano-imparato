@@ -11,7 +11,7 @@ public interface EventVisitor
     void visit(DraftDieEvent event);
     void visit(SelectDieFromBoardEvent event);
     void visit(AddDieToBoardEvent event);
-    void visit(MoveDieEvent event);
+    void visit(MoveSelectedDieEvent event);
     void visit(UseToolCardEvent event);
     void visit(IncrementDraftedDieEvent event);
     void visit(EndTurnEvent event);

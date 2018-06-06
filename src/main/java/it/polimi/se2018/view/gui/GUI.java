@@ -185,12 +185,13 @@ public class GUI extends View
     @Override
     public void showSelectDieFromBoard()
     {
-
+        reShowCurrentView();
+        ((GUIGameView) getCurrentView()).setSelectDieFromBoardMode();
     }
 
     @Override
-    public void showSelectDieFromDraftPool() {
-
+    public void showSelectDieFromDraftPool()
+    {
     }
 
     @Override
@@ -199,6 +200,7 @@ public class GUI extends View
         reShowCurrentView();
         ((GUIGameView) getCurrentView()).setMoveDieMode();
     }
+
 
     @Override
     public void reShowCurrentView()

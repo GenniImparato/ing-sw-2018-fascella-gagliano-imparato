@@ -1,12 +1,11 @@
 package it.polimi.se2018.controller.tool_card.actions;
 
-
 import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.controller.tool_card.ToolCardParameters;
 
-public class MoveDieAction extends ToolCardAction
+public class SelectDieFromBoardAction extends ToolCardAction
 {
-    public MoveDieAction(ToolCardParameters parameters)
+    public SelectDieFromBoardAction(ToolCardParameters parameters)
     {
         super(parameters);
     }
@@ -14,6 +13,6 @@ public class MoveDieAction extends ToolCardAction
     @Override
     public void execute(Controller controller)
     {
-        controller.getView().showMoveDie();
+        controller.getView().showSelectDieFromBoard();
     }
 }

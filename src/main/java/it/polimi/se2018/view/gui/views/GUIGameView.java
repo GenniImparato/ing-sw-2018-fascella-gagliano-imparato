@@ -1,10 +1,7 @@
 package it.polimi.se2018.view.gui.views;
 
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.mvc_comunication.events.AddDieToBoardEvent;
-import it.polimi.se2018.mvc_comunication.events.DraftDieEvent;
-import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
-import it.polimi.se2018.mvc_comunication.events.MoveDieEvent;
+import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.view.gui.GUI;
 import it.polimi.se2018.view.gui.elements.*;
 
@@ -210,13 +207,16 @@ public class GUIGameView extends GUIView
             {
                 gui.notify(new AddDieToBoardEvent(gui, row, column));
             }
+
+            @Override
+            public void clickedDie(GUIElementDie die, int row, int column) {}
         });
     }
 
     public void setMoveDieMode()
     {
         disableAllSelections();
-        actionLabel.setText("Choose a die in your board to move");
+        actionLabel.setText("Choose where to move the selected die!");
 
         getAssociatedPlayerBoard().setSelectableCells(true);
         getAssociatedPlayerBoard().setActions(new GUIBoardActions()
@@ -227,10 +227,34 @@ public class GUIGameView extends GUIView
             @Override
             public void clickedCell(GUIElementBoard board, int row, int column)
             {
-                gui.notify(new MoveDieEvent(gui, row, column));
+                gui.notify(new MoveSelectedDieEvent(gui, row, column));
+            }
+
+            @Override
+            public void clickedDie(GUIElementDie die, int row, int column) {}
+        });
+    }
+
+    public void setSelectDieFromBoardMode()
+    {
+        disableAllSelections();
+        actionLabel.setText("Choose a die in your board!");
+
+        getAssociatedPlayerBoard().setSelectableDice(true);
+        getAssociatedPlayerBoard().setActions(new GUIBoardActions()
+        {
+            @Override
+            public void clicked(GUIElementBoard board){}
+
+            @Override
+            public void clickedCell(GUIElementBoard board, int row, int column) {}
+
+            @Override
+            public void clickedDie(GUIElementDie die, int row, int column)
+            {
+                gui.notify(new SelectDieFromBoardEvent(gui, row, column));
             }
         });
-
     }
 
     public void setOtherPlayersMode()

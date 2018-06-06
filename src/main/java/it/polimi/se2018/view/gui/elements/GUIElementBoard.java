@@ -203,6 +203,34 @@ public class GUIElementBoard extends JDesktopPane
         return -1;
     }
 
+    private int getDieRow(GUIElementDie die)
+    {
+        for(int row = 0; row < Board.ROWS; row++)
+        {
+            for(int col = 0; col < Board.COLUMNS; col++)
+            {
+                if(dice[row][col] != null  &&  dice[row][col].getDie().isSameDie(die.getDie()))
+                    return row;
+            }
+        }
+
+        return -1;
+    }
+
+    private int getDieColumn(GUIElementDie die)
+    {
+        for(int row = 0; row < Board.ROWS; row++)
+        {
+            for(int col = 0; col < Board.COLUMNS; col++)
+            {
+                if(dice[row][col] != null  &&   dice[row][col].getDie().isSameDie(die.getDie()))
+                    return col;
+            }
+        }
+
+        return -1;
+    }
+
     public boolean contains(Die die)
     {
         for(int i=0; i<Board.ROWS; i++)
@@ -246,17 +274,47 @@ public class GUIElementBoard extends JDesktopPane
         {
             for(int j=0; j<Board.COLUMNS; j++)
             {
-                if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)) )
+                if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
                 {
                     if(draftedDie != null  &&   board.getDie(i,j).isSameDie(draftedDie.getDie()))
                     {
                         dice[i][j] = draftedDie;
+                        dice[i][j].setActions(new GUIDieActions()
+                        {
+                            @Override
+                            public void clicked(GUIElementDie die)
+                            {
+                                if(actions!=null)
+                                    actions.clickedDie(die, getDieRow(die), getDieColumn(die));
+                            }
+
+                            @Override
+                            public void mouseEntered() {}
+
+                            @Override
+                            public void mouseExited() {}
+                        });
                         draftedDie.playMoveToBoardAnimation(guiCells[i][j]);
                     }
                     else if(board.getDie(i,j)!=null  && !contains(board.getDie(i,j)))
                     {
                         dice[i][j] = new GUIElementDie(board.getDie(i, j), false, gui);
                         guiCells[i][j].add(dice[i][j]);
+                        dice[i][j].setActions(new GUIDieActions()
+                        {
+                            @Override
+                            public void clicked(GUIElementDie die)
+                            {
+                                if(actions!=null)
+                                    actions.clickedDie(die, getDieRow(die), getDieColumn(die));
+                            }
+
+                            @Override
+                            public void mouseEntered() {}
+
+                            @Override
+                            public void mouseExited() {}
+                        });
                     }
                 }
             }

@@ -1,7 +1,7 @@
 package it.polimi.se2018.view.cli.views;
 
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.mvc_comunication.events.MoveDieEvent;
+import it.polimi.se2018.mvc_comunication.events.MoveSelectedDieEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.CLIRendererMainState;
@@ -48,7 +48,7 @@ public class CLIMoveDieView extends CLIView
                 else
                 {row  =3;   col = val%15;}
 
-                cli.notify(new MoveDieEvent(cli, row, col));
+                cli.notify(new MoveSelectedDieEvent(cli, row, col));
 
             }
             else        //input is not in range [0,20]
