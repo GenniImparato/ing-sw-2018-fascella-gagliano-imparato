@@ -202,4 +202,8 @@ public class CLI extends View
         currentView.draw();
     }
 
+    @Override
+    public void disconnect()
+    {}
+
 }

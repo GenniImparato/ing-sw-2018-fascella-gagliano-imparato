@@ -1,11 +1,8 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.controller.tool_card.ToolCardParameters;
-import it.polimi.se2018.files.SagradaToolCardFile;
 import it.polimi.se2018.files.SchemeCardsLoader;
 import it.polimi.se2018.files.ToolCardsLoader;
-import it.polimi.se2018.files.exceptions.CannotReadFileException;
-import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.files.exceptions.LoadingFilesException;
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Player;

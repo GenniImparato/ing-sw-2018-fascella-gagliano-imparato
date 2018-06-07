@@ -21,4 +21,6 @@ public interface ViewInterface
      void showIncrementDie();
      void reShowCurrentView();
 
+     void disconnect();
+
 }

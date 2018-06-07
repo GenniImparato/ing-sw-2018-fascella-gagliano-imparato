@@ -74,4 +74,7 @@ public class TestView extends View
     public void reShowCurrentView() {
 
     }
+
+    @Override
+    public void disconnect() {    }
 }

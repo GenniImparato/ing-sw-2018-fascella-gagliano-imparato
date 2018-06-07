@@ -1,11 +1,7 @@
 package it.polimi.se2018.controller;
 
-
-import it.polimi.se2018.controller.tool_card.ToolCardParameters;
-import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.network.server.VirtualView;
@@ -28,7 +24,7 @@ public class GameRunningEventParser implements EventVisitor
     {
         controller.getView().showErrorMessage("Cannot join the game: already started! ");
         controller.getView().showErrorMessage("Disconnected from the Server!");
-        ((VirtualView) controller.getView()).disconnect();
+        controller.getView().disconnect();
     }
 
     @Override

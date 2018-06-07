@@ -35,7 +35,7 @@ public class UsingToolCardEventParser implements EventVisitor
         catch(ChangeModelStateException e)
         {
             controller.getView().showErrorMessage("Disconnected from the Server: " +e.getMessage());
-            ((VirtualView)controller.getView()).disconnect();
+            controller.getView().disconnect();
         }
     }
 

@@ -44,7 +44,7 @@ public class GameSetupEventParser implements EventVisitor
     {
         controller.getView().showErrorMessage("Cannot join the game: already started! ");
         controller.getView().showErrorMessage("Disconnected from the Server!");
-        ((VirtualView)controller.getView()).disconnect();
+        controller.getView().disconnect();
     }
 
     @Override

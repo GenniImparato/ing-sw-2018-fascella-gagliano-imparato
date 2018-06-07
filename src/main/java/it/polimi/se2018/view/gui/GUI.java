@@ -220,6 +220,11 @@ public class GUI extends View
             showView(currentView);
     }
 
+    @Override
+    public void disconnect()
+    {
+    }
+
     public void setServerIp(String serverIp)
     {
         this.serverIp=serverIp;
