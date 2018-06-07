@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 
@@ -262,6 +263,26 @@ public class Board implements Serializable
         }
     }
 
+    private void canDieBePlaced(Die die, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ActionNotPossibleException
+    {
+        for(int row = 0; row < ROWS; row++)
+        {
+            for(int col = 0; col < COLUMNS; col++)
+            {
+                try
+                {
+                    canDieBePlaced(die, row, col, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
+                    return;
+                }
+                catch(ChangeModelStateException e)
+                {
+                }
+            }
+        }
+
+        throw new ActionNotPossibleException();
+    }
+
     /**
      * Tries to add a Die in a position decided by the given coordinates (row,column) if it is possible
      * @param die Die that can be added to the Board
@@ -269,9 +290,14 @@ public class Board implements Serializable
      * @param column column of the matrix associated with the Board
      * @throws ChangeModelStateException if the die cannot be added
      */
-    public void addDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
+    public void addDie(Die die, int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException, ActionNotPossibleException
     {
+        //checks if there is at least a position in the board where the die can be added
+        canDieBePlaced(die, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
+
+        //checks if the die can be added in the specified position
         canDieBePlaced(die, row, column, ignoreValueRestriction, ignoreColorRestriction, ignoreAdjacentRestriction);
+
         dieMatrix[row][column] = die;   //the die is added in the selected position if it can be placed
     }
 

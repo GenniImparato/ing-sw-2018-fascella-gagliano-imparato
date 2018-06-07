@@ -53,6 +53,7 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
         else
             setIcon(new ImageIcon(path + die.getValue() + ".png"));
 
+        generateAnimation.addFrame(path + "blank.png");
         for(int i=0; i<=GENERATED_ANIMATION_FRAMES; i++)
             generateAnimation.addFrame(path + "generate_animation/" + i + ".png");
 
@@ -151,6 +152,26 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
         });
         moveToBoardAnimation.play(gui.getWindowRelativeX(this), gui.getWindowRelativeY(this),
                 gui.getWindowRelativeX(cell), gui.getWindowRelativeY(cell), 35);
+    }
+
+    public void playMoveBackToDraftPoolAnimation(GUIElementDraftPool draftPool)
+    {
+        moveToBoardAnimation.setActions(new GUIAnimationActions()
+        {
+            @Override
+            public void started() {}
+
+            @Override
+            public void ended()
+            {
+                gui.getGlassPane().remove(thisElement);
+                gui.refresh();
+            }
+        });
+        moveToBoardAnimation.play(gui.getWindowRelativeX(this), gui.getWindowRelativeY(this),
+                gui.getWindowRelativeX(draftPool), gui.getWindowRelativeY(draftPool), 60);
+
+        generateAnimation.playReversed(0, 20);
     }
 
     public void showNormalIcon()

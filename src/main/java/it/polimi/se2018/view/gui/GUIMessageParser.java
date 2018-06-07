@@ -123,8 +123,26 @@ public class GUIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(ReturnedDieMessage message) {
+    public void visit(ReturnedDieMessage message)
+    {
+        if(!message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            ((GUIGameView)gui.getCurrentView()).moveDraftedDieBackToDraftPoolAnimation(message.getDie(), message.getPlayer());
 
+        gui.reShowCurrentView();
+
+        String notification;
+
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+            notification = "<html>You returned a ";
+        else
+            notification = "<html><font color='"+ message.getPlayer().getColor().toString().toLowerCase() +"'>"
+                    + message.getPlayer().getNickname() + "</font> returned a ";
+
+        notification += "<font color='"+ message.getDie().getColor().toString().toLowerCase() +"'>"
+                + message.getDie().getColor() + "</font> die with value " + message.getDie().getValue() + " back to the draft pool!";
+
+
+        gui.showNotification(notification);
     }
 
     @Override

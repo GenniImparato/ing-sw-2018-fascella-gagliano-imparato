@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
@@ -292,6 +293,18 @@ public class Model extends Observable <Message> implements Serializable
         notify(new PlayerReadyMessage(this, player, ready));
     }
 
+    public void returnDraftedDie() throws ChangeModelStateException
+    {
+        if(draftedDie == null)
+            throw new ChangeModelStateException("No drafted die!");
+
+        Die die = draftedDie;
+        draftPool.addDie(die);
+        draftedDie = null;
+
+        notify(new ReturnedDieMessage(this, die, currentPlayer));
+    }
+
     public boolean isEveryPlayerReady()
     {
         for(Player player : players)
@@ -388,7 +401,7 @@ public class Model extends Observable <Message> implements Serializable
         roundTrack.addLastDice(currentRound);
     }
 
-    public void addDraftedDieToBoard(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
+    public void addDraftedDieToBoard(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException, ActionNotPossibleException
     {
         if(draftedDie == null)
             throw new ChangeModelStateException("No drafted die to add!");

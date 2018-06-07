@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 import org.junit.Before;
@@ -62,7 +63,7 @@ public class TestBoard
             board.addDie(die, -1,-1, false, false, false);
             fail();
         }
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -74,7 +75,7 @@ public class TestBoard
             board.addDie(die0, 0,1, false, false, false);
             fail();
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -87,7 +88,7 @@ public class TestBoard
             board.addDie(die1, 0, 2, false, false, false);
             fail();
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -98,7 +99,7 @@ public class TestBoard
             board.addDie(die2, 1,2, false, false, false);
             fail();
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -110,7 +111,7 @@ public class TestBoard
         {
             board.addDie(die3, 0, 0, false, false, false);
         }
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
@@ -124,7 +125,7 @@ public class TestBoard
             fail();
         }
 
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -138,7 +139,7 @@ public class TestBoard
             fail();
         }
 
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -149,7 +150,7 @@ public class TestBoard
             board.addDie(die6, 0, 0, false, false, false);
             fail();
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -160,7 +161,7 @@ public class TestBoard
             board.addDie(die7, 3, 2, false, false, false);
             fail();
         }
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
 
         }
@@ -172,7 +173,7 @@ public class TestBoard
         {
             board.addDie(die8, 0,1, false, false, false);
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
@@ -184,7 +185,7 @@ public class TestBoard
             board.addDie(die9, 1,1, false, false, false);
 
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
@@ -249,7 +250,7 @@ public class TestBoard
         {
             board.addDie(die, 3, 0, false, true, false);
         }
-        catch (ChangeModelStateException e)
+        catch (ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
@@ -305,7 +306,7 @@ public class TestBoard
             board.addDie(die,0,1, false, true, false);
             board.addDie(die1,0,2, false, true, false);
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }

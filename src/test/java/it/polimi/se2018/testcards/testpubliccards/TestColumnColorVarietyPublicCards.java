@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.PublicObjectiveCardScorer;
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.ColumnColorVarietyCard;
 import it.polimi.se2018.utils.Color;
@@ -76,7 +77,7 @@ public class TestColumnColorVarietyPublicCards
             board.addDie(die6,2,1, false, false, false);
             board.addDie(die7,3,1, false, false, false);
         }
-        catch(ChangeModelStateException e)
+        catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }

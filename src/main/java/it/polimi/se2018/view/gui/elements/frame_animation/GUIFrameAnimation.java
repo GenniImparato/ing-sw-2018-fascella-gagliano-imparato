@@ -60,6 +60,36 @@ public class GUIFrameAnimation
             actions.started();
     }
 
+    public void playReversed(int startDelay, int speed)
+    {
+        currentFrame = frames.size()-1;
+        playing = true;
+        Timer timer = new Timer();
+
+        TimerTask timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                element.setCurrentFrame(frames.get(currentFrame));
+                currentFrame--;
+
+                if(currentFrame < 0)
+                {
+                    if(actions  != null)
+                        actions.ended();
+                    playing = false;
+                    timer.cancel();
+                }
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, startDelay, speed);
+
+        if(actions != null)
+            actions.started();
+    }
+
     public boolean isPlaying()
     {
         return playing;

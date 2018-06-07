@@ -281,15 +281,15 @@ public class GUIGameView extends GUIView
 
     public void moveDraftedDieToBoardAnimation(Die die, Player player)
     {
-        for(int i=0; i<gui.getModel().getPlayers().size(); i++)
-        {
-            if(player.getNickname().equals(gui.getModel().getPlayers().get(i).getNickname()))
-            {
-                draftedDie = guiDraftPool.getGUIDie(die);
-                if(draftedDie != null)
-                    draftedDie.playMoveToBoardAnimation(guiBoards.get(i));
-            }
-        }
+        draftedDie = guiDraftPool.getGUIDie(die);
+        if(draftedDie != null)
+            draftedDie.playMoveToBoardAnimation(getPlayerBoard(player));
+    }
+
+    public void moveDraftedDieBackToDraftPoolAnimation(Die die, Player player)
+    {
+        if(draftedDie != null)
+            draftedDie.playMoveBackToDraftPoolAnimation(guiDraftPool);
 
     }
 
@@ -341,6 +341,17 @@ public class GUIGameView extends GUIView
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
         {
             if (gui.getModel().getPlayers().get(i).getNickname().equals(gui.getAssociatedPlayerNickname()))
+                return guiBoards.get(i);
+        }
+
+        return guiBoards.get(0);
+    }
+
+    private GUIElementBoard getPlayerBoard(Player player)
+    {
+        for(int i=0; i<gui.getModel().getPlayerNum(); i++)
+        {
+            if (gui.getModel().getPlayers().get(i).getNickname().equals(player.getNickname()))
                 return guiBoards.get(i);
         }
 

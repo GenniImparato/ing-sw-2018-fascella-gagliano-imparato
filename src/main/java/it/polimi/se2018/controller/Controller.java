@@ -12,6 +12,7 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.model.Model;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.ViewInterface;
 import it.polimi.se2018.utils.*;
 
@@ -27,7 +28,7 @@ public class Controller implements Observer<Event>
     private Model               model;
     private ViewInterface       view;
 
-    private EventParser         parser;
+    private EventVisitor        eventParser;
 
     private PlayerTurnIterator  playerTurnIterator;
 
@@ -46,7 +47,7 @@ public class Controller implements Observer<Event>
     {
         setModel(model);
 
-        parser = new EventParser(this);
+        setEventParser(new GameNotStartedEventParser(this));
 
         playerTurnIterator = new PlayerTurnIterator(this);
 
@@ -57,7 +58,7 @@ public class Controller implements Observer<Event>
     public void update(Event event)
     {
         setView(event.getView());
-        event.acceptVisitor(parser);
+        event.acceptVisitor(eventParser);
     }
 
     public Model getModel()
@@ -158,6 +159,7 @@ public class Controller implements Observer<Event>
 
     protected void startGameSetup() throws ChangeModelStateException
     {
+        setEventParser(new GameSetupEventParser(this));
         model.selectRandomSchemeCardsForPlayers();
     }
 
@@ -169,6 +171,7 @@ public class Controller implements Observer<Event>
     protected void startGame() throws ChangeModelStateException
     {
         model.startGame();
+        setEventParser(new GameRunningEventParser(this));
         beginRound();
     }
 
@@ -185,6 +188,9 @@ public class Controller implements Observer<Event>
     protected void startToolCardActions(int cardNum) throws ChangeModelStateException
     {
         model.setCurrentToolCard(cardNum);
+
+        setEventParser(new UsingToolCardEventParser(this));
+
         usingToolCard = true;
         currentToolCard = toolCards.get(cardNum);
         currentToolCard.use(this);
@@ -193,6 +199,9 @@ public class Controller implements Observer<Event>
     protected void endToolCardActions()
     {
         usingToolCard = false;
+
+        setEventParser(new GameRunningEventParser(this));
+
         view.showTurn();
     }
 
@@ -252,6 +261,11 @@ public class Controller implements Observer<Event>
         if(isToolCardBeingUsed())
             return currentToolCard.getCurrentAction().getParameters();
         else return null;
+    }
+
+    protected void setEventParser(EventVisitor eventParser)
+    {
+        this.eventParser = eventParser;
     }
 }
 
