@@ -14,7 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//singleton class
+/**
+ * This is the Model of the Game.
+ * It contains the state of the game.
+ * It's observable by the View, and it can be modified by the Controller.
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class Model extends Observable <Message> implements Serializable
 {
     public static final int                     DRAFTET_DIE     = 0;
@@ -44,6 +51,11 @@ public class Model extends Observable <Message> implements Serializable
 
     private int                                 currentRound;
 
+    /**
+     * Constructor that instantiates the game field.
+     * It creates the ArrayList of the players initially empty, the Dicebag, the Draftpool, the Roundtrack,
+     * and three random PublicObjectiveCard
+     */
     public Model()
     {
         //init players array
@@ -58,7 +70,10 @@ public class Model extends Observable <Message> implements Serializable
         publicCards = PublicObjectiveCard.getRandomCards(3);
     }
 
-    //copy constructor
+    /**
+     * It's the copy constructor
+     * @param model that will be copied
+     */
     public Model(Model model)
     {
         this.players = new ArrayList<>();
@@ -117,56 +132,104 @@ public class Model extends Observable <Message> implements Serializable
             this.selectedDie = new Die(model.selectedDie);
     }
 
-    //return the number of players in model
+    /**
+     * Getter of the number of the players
+     * @return the numbers of the players in the model
+     */
     public int getPlayerNum()
     {
         return players.size();
     }
 
+    /**
+     * Getter of the List of the Player
+     * @return all the players
+     */
     public List<Player> getPlayers()
     {
         return players;
     }
 
+    /**
+     * Getter of the DraftPool
+     * @return the DraftPool of the Game
+     */
     public DraftPool getDraftPool()
     {
         return draftPool;
     }
 
+    /**
+     * Getter of the RoundTrack
+     * @return the RoundTrack of the Game
+     */
     public RoundTrack getRoundTrack()
     {
         return roundTrack;
     }
 
+    /**
+     * Getter of the DiceBag
+     * @return the DiceBag of the Game
+     */
     public DiceBag getDiceBag()
     {
         return diceBag;
     }
 
+    /**
+     * Getter of the ToolCards
+     * @return the list of the three ToolCard of the Game
+     */
     public List<Card> getToolCards()
     {
         return toolCards;
     }
 
+    /**
+     * Getter of the PublicObjectiveCard
+     * @return the list of the three PublicObjectiveCards of the Game
+     */
     public List<PublicObjectiveCard> getPublicObjectiveCards()
     {
         return publicCards;
     }
 
+    /**
+     * Method that says if the game is started or not
+     * @return a boolean that is true if the game is started, false if not.
+     */
     public boolean isGameStarded()
     {
         return gameStarted;
     }
 
+    /**
+     * Getter of the last drafted Die
+     * @return the last drafted Die or null if there is not a drafted Die
+     */
     public Die getDraftedDie()
     {
         return draftedDie;
     }
 
+    /**
+     * Getter of the selected Die
+     * @return the last selected Die
+     */
     public Die getSelectedDie() { return selectedDie;}
 
+    /**
+     * Getter of the chosed Die
+     * @return the Die just chosen
+     */
     public Die getChosenDie() { return chosenDie;}
 
+    /**
+     * Getter of the Die, that could be a selected, a drafted or a chosen Die
+     * @param dieType it's the type of the Die that you want to get. 0 = Drafted, 1 = Selected, 2 = Chosen
+     * @return the chosen Die
+     */
     public Die getDie(int dieType)
     {
         if(dieType == DRAFTET_DIE)
@@ -179,11 +242,19 @@ public class Model extends Observable <Message> implements Serializable
         return null;
     }
 
+    /**
+     * Getter of the current Round
+     * @return the current Round
+     */
     public int getCurrentRound()
     {
         return currentRound;
     }
 
+    /**
+     * Setter of the current Player
+     * @param player that will be set as current one
+     */
     public void setCurrentPlayer(Player player)
     {
         this.currentPlayer = player;
