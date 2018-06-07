@@ -48,6 +48,5 @@ public class TestModel
         assertEquals(model.getRoundTrack().getDiceAtRound(8), clonedModel.getRoundTrack().getDiceAtRound(8));
         assertEquals(model.getDiceBag().pullDice(5).size(), clonedModel.getDiceBag().pullDice(5).size());
         assertEquals(model.getPublicObjectiveCards().size(), clonedModel.getPublicObjectiveCards().size());
-        assertEquals(model.getToolCards().size(), clonedModel.getToolCards().size());
     }
 }

@@ -41,7 +41,7 @@ public class TestColumnColorVarietyPublicCards
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/scheme_cards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch(Exception e) {fail();}

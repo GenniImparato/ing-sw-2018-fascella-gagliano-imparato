@@ -20,10 +20,10 @@ public class TestAddDieToBoardEvent
     private View view;
     private Board board;
     private SagradaSchemeCardFile sagradaSchemeCardFile;
-    private Die die;
+    private Die draftedDie;
 
     /**
-     * Create the enviroment needed to test the DraftDieEvent. It creates a model, a controller and a view,
+     * Create the environment needed to test the DraftDieEvent. It creates a model, a controller and a view,
      * respecting the MVC logic.
      */
     @Before
@@ -43,7 +43,7 @@ public class TestAddDieToBoardEvent
 
         try                                             //try to open a known board
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Sun Catcher.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/scheme_cards/Sun Catcher.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch (Exception e)
@@ -56,6 +56,7 @@ public class TestAddDieToBoardEvent
         assertEquals(3,controller.getModel().getDraftPool().getAllDice().size());
 
         view.notify(new DraftDieEvent(view,0)); //drafted die from the draftpool
+        draftedDie = model.getDraftedDie();         //saves the reference to a drafted die
     }
 
     /**
@@ -65,6 +66,8 @@ public class TestAddDieToBoardEvent
     public void testAddDraftedDieEvent()
     {
         view.notify(new AddDieToBoardEvent(view,0,0));
-        assert(model.getDraftedDie().isSameDie(model.getPlayers().get(0).getBoard().getDie(0,0)));
+
+        assertEquals(draftedDie.getValue(), model.getPlayers().get(0).getBoard().getDie(0,0).getValue());
+        assertEquals(draftedDie.getColor(), model.getPlayers().get(0).getBoard().getDie(0,0).getColor());
     }
 }
