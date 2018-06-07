@@ -16,6 +16,15 @@ import it.polimi.se2018.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the Controller of the Game, created by the Server.
+ * It's an observer of the events notified by a View,
+ * it saves the reference of this current view,
+ * and it modifies the Model thanks to a proper EventVisitor.
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class Controller implements Observer<Event>
 {
     private static final String         SCHEME_CARDS_DIRECTORY =        "./resources/scheme_cards/";
@@ -40,6 +49,11 @@ public class Controller implements Observer<Event>
     private int                 currentRound;
     private static final int    TOTAL_ROUNDS = 10;
 
+    /**
+     * Constructor that saves the reference to the model passed by parameter,
+     * sets the default EventVisitor, creates a PlayerTurnIterator and invoke the method start()
+     * @param model it's the model that will be saved
+     */
     public Controller(Model model)
     {
         setModel(model);
@@ -51,6 +65,12 @@ public class Controller implements Observer<Event>
         start();
     }
 
+    /**
+     * It's the method overridden by the Observer.
+     * It saves the reference of the view that notifies the controller
+     * and it calls the method acceptVisitor of the event
+     * @param event it's used to call the proper method of the EventVisitor saved
+     */
     @Override
     public void update(Event event)
     {
@@ -58,21 +78,37 @@ public class Controller implements Observer<Event>
         event.acceptVisitor(eventParser);
     }
 
+    /**
+     * Getter of the Model
+     * @return the reference of the model
+     */
     public Model getModel()
     {
         return model;
     }
 
+    /**
+     * Getter of the ViewInterface
+     * @return the reference of the viewInterface
+     */
     public ViewInterface getView()
     {
         return view;
     }
 
+    /**
+     * Setter of the ViewInterface that notifies the Controller
+     * @param view that will be saved
+     */
     public void setView(ViewInterface view)
     {
         this.view = view;
     }
 
+    /**
+     * Setter of the Model
+     * @param model that will be saved
+     */
     public void setModel(Model model)
     {
         this.model = model;
