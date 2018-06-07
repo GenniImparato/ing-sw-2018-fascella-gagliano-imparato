@@ -49,7 +49,7 @@ public class GUI extends View
     {
         glassPanel.validate();
         glassPanel.setVisible(true);
-        mainWindow.pack();
+        //mainWindow.pack();
         mainWindow.validate();
         mainWindow.setVisible(true);
         mainWindow.repaint();
