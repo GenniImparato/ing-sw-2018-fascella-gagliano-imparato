@@ -14,7 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//singleton class
+/**
+ * This is the Model of the Game.
+ * It contains the state of the game.
+ * It's observable by the View, and it can be modified by the Controller.
+ * @author Matteo Gagliano
+ * @author Carmelo Fascella
+ * @author Generoso Imparato
+ */
 public class Model extends Observable <Message> implements Serializable
 {
     public static final int                     DRAFTET_DIE     = 0;
@@ -44,6 +51,11 @@ public class Model extends Observable <Message> implements Serializable
 
     private int                                 currentRound;
 
+    /**
+     * Constructor that instantiates the game field.
+     * It creates the ArrayList of the players initially empty, the Dicebag, the Draftpool, the Roundtrack,
+     * and three random PublicObjectiveCard
+     */
     public Model()
     {
         //init players array
@@ -58,7 +70,10 @@ public class Model extends Observable <Message> implements Serializable
         publicCards = PublicObjectiveCard.getRandomCards(3);
     }
 
-    //copy constructor
+    /**
+     * It's the copy constructor
+     * @param model that will be copied
+     */
     public Model(Model model)
     {
         this.players = new ArrayList<>();
@@ -117,56 +132,104 @@ public class Model extends Observable <Message> implements Serializable
             this.selectedDie = new Die(model.selectedDie);
     }
 
-    //return the number of players in model
+    /**
+     * Getter of the number of the players
+     * @return the numbers of the players in the model
+     */
     public int getPlayerNum()
     {
         return players.size();
     }
 
+    /**
+     * Getter of the List of the Player
+     * @return all the players
+     */
     public List<Player> getPlayers()
     {
         return players;
     }
 
+    /**
+     * Getter of the DraftPool
+     * @return the DraftPool of the Game
+     */
     public DraftPool getDraftPool()
     {
         return draftPool;
     }
 
+    /**
+     * Getter of the RoundTrack
+     * @return the RoundTrack of the Game
+     */
     public RoundTrack getRoundTrack()
     {
         return roundTrack;
     }
 
+    /**
+     * Getter of the DiceBag
+     * @return the DiceBag of the Game
+     */
     public DiceBag getDiceBag()
     {
         return diceBag;
     }
 
+    /**
+     * Getter of the ToolCards
+     * @return the list of the three ToolCard of the Game
+     */
     public List<Card> getToolCards()
     {
         return toolCards;
     }
 
+    /**
+     * Getter of the PublicObjectiveCard
+     * @return the list of the three PublicObjectiveCards of the Game
+     */
     public List<PublicObjectiveCard> getPublicObjectiveCards()
     {
         return publicCards;
     }
 
+    /**
+     * Method that says if the game is started or not
+     * @return a boolean that is true if the game is started, false if not.
+     */
     public boolean isGameStarded()
     {
         return gameStarted;
     }
 
+    /**
+     * Getter of the last drafted Die
+     * @return the last drafted Die or null if there is not a drafted Die
+     */
     public Die getDraftedDie()
     {
         return draftedDie;
     }
 
+    /**
+     * Getter of the selected Die
+     * @return the last selected Die
+     */
     public Die getSelectedDie() { return selectedDie;}
 
+    /**
+     * Getter of the chosed Die
+     * @return the Die just chosen
+     */
     public Die getChosenDie() { return chosenDie;}
 
+    /**
+     * Getter of the Die, that could be a selected, a drafted or a chosen Die
+     * @param dieType it's the type of the Die that you want to get. 0 = Drafted, 1 = Selected, 2 = Chosen
+     * @return the chosen Die
+     */
     public Die getDie(int dieType)
     {
         if(dieType == DRAFTET_DIE)
@@ -179,22 +242,40 @@ public class Model extends Observable <Message> implements Serializable
         return null;
     }
 
+    /**
+     * Getter of the current Round
+     * @return the current Round
+     */
     public int getCurrentRound()
     {
         return currentRound;
     }
 
+    /**
+     * Setter of the current Player
+     * @param player that will be set as current one
+     */
     public void setCurrentPlayer(Player player)
     {
         this.currentPlayer = player;
         notify(new BegunTurnMessage(this, currentPlayer));
     }
 
+    /**
+     * Getter of the current Player
+     * @return the current player
+     */
     public Player getCurrentPlayer()
     {
         return currentPlayer;
     }
 
+    /**
+     * Method that find the Player whose name matches with the string passed by parameter
+     * @param nickname the name of the player that we are searching
+     * @return the player searched
+     * @throws NoElementException if there isn't the player searched
+     */
     public Player findPlayer(String nickname) throws NoElementException
     {
         for(Player player : players)
@@ -204,6 +285,12 @@ public class Model extends Observable <Message> implements Serializable
         throw new NoElementException();
     }
 
+    /**
+     * Method that find the Player with the color passed by parameter
+     * @param color the color of the player that we are searching
+     * @return the player searched
+     * @throws NoElementException if there isn't the player searched
+     */
     public Player findPlayer(Color color) throws NoElementException
     {
         for(Player player : players)
@@ -213,16 +300,30 @@ public class Model extends Observable <Message> implements Serializable
         throw new NoElementException();
     }
 
+    /**
+     * Setter of all the Boards selected by the Players
+     * @param schemeCards is a list of boards of the Players who join the game
+     */
     public void setSchemeCards(List<Board> schemeCards)
     {
         this.schemeCards = schemeCards;
     }
 
+    /**
+     * Setter of the list of ToolCards to use in the game
+     * @param toolCards is the list of the cards to save as reference
+     */
     public void setToolCards(List<Card> toolCards)
     {
         this.toolCards = toolCards;
     }
 
+    /**
+     * Setter of the Board selected by each player
+     * @param player who is setting the board
+     * @param choice number of the board chosen. Each player can choose between four boards, from choice = 0 to choice = 4
+     * @throws ChangeModelStateException this exception is thrown if the choice of the board is not valid
+     */
     public void setPlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         if(choice < 0 || choice > 3)
@@ -232,6 +333,11 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ChosenSchemeCardMessage(this, player, player.getBoard()));
     }
 
+    /**
+     * Setter of the current ToolCard
+     * @param cardNum it's the number of the chosen ToolCard. Each player can choose between three cards, from cardNum = 0 to cardNum = 3
+     * @throws ChangeModelStateException if the index of the card is not valid
+     */
     public void setCurrentToolCard(int cardNum) throws ChangeModelStateException
     {
         if(cardNum < 0  || cardNum >= toolCards.size())
@@ -243,11 +349,21 @@ public class Model extends Observable <Message> implements Serializable
         }
     }
 
+    /**
+     * Getter of the current ToolCard
+     * @return the current ToolCard
+     */
     public Card getCurrentToolCard()
     {
         return currentToolCard;
     }
 
+    /**
+     * Method that add a new Player with the name passed by parameter.
+     * If the player is added, it notifies the view with the AddedPlayerMessage
+     * @param nickname is the name of the player to add
+     * @throws ChangeModelStateException if the nickname is empty or if there is a player with the same nickname
+     */
     public void addNewPlayer(String nickname) throws ChangeModelStateException
     {
         if(nickname.length() == 0)
@@ -287,12 +403,22 @@ public class Model extends Observable <Message> implements Serializable
         notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
     }
 
+    /**
+     * Setter of the player who is ready to play. It notifies the View with the PlayerReadyMessage
+     * @param player is the player we want to set ready
+     * @param ready is a boolean that if it's true, it sets the player in a ready state
+     */
     public void setPlayerReady(Player player, boolean ready)
     {
         player.setReady(ready);
         notify(new PlayerReadyMessage(this, player, ready));
     }
 
+    /**
+     * Method that returns the Die just drafted .
+     * If there is a drafted Die, it notifies the view with a ReturnedDieMessage
+     * @throws ChangeModelStateException if there isn't a drafted Die
+     */
     public void returnDraftedDie() throws ChangeModelStateException
     {
         if(draftedDie == null)
@@ -305,6 +431,10 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ReturnedDieMessage(this, die, currentPlayer));
     }
 
+    /**
+     * Method that says if all the players are ready
+     * @return true if every player is ready, false if not
+     */
     public boolean isEveryPlayerReady()
     {
         for(Player player : players)
@@ -313,6 +443,12 @@ public class Model extends Observable <Message> implements Serializable
 
         return true;
     }
+
+    /**
+     * Method that removes the Player with the string passed by parameter
+     * @param nickname of the player to remove
+     * @throws ChangeModelStateException if there is not player with the name passed by parameter
+     */
     public void removePlayer(String nickname) throws ChangeModelStateException
     {
         try
@@ -327,6 +463,10 @@ public class Model extends Observable <Message> implements Serializable
         }
     }
 
+    /**
+     * Method that says if every player have chosen the scheme card
+     * @return true if every player have chosen the scheme card, false if not
+     */
     public boolean hasEveryPlayerChosenSchemeCard()
     {
         for(Player player : players)
@@ -338,6 +478,10 @@ public class Model extends Observable <Message> implements Serializable
         return true;
     }
 
+    /**
+     * Method that starts the game and then it notifies the view with the StartedGameMessage
+     * @throws ChangeModelStateException if there aren't enough players to start the game, or not every player has chosen a scheme card
+     */
     public void startGame() throws ChangeModelStateException
     {
         if(getPlayerNum() < MIN_PLAYERS_NUM)
@@ -353,6 +497,11 @@ public class Model extends Observable <Message> implements Serializable
 
     }
 
+    /**
+     * Method that generates four random scheme cards for each player. Then it notifies the view
+     * with the SelectedPlayerSchemeCardsMessage
+     * @throws ChangeModelStateException if there aren't too many cards to load for each player
+     */
     public void selectRandomSchemeCardsForPlayers() throws ChangeModelStateException
     {
         if(schemeCards.size() < getPlayerNum()*2)
@@ -380,27 +529,52 @@ public class Model extends Observable <Message> implements Serializable
 
 
             //notify the view that 4 random scheme cards have been selected for a player
-            //so the view(user) can choose on of them
+            //so the view(user) can choose one of them
             notify(new SelectedPlayerSchemeCardsMessage(this, player, selectedSchemeCards));
         }
     }
 
+    /**
+     * Method that drafts a die from the DraftPool.
+     * Then it notifies the View with the DraftedDieMessage.
+     * @param dieNum is the number of the drafted Die
+     * @throws ChangeModelStateException if there isn't the selected Die
+     */
     public void draftDie(int dieNum) throws ChangeModelStateException
     {
         draftedDie = draftPool.draftDie(dieNum);
         notify(new DraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
+    /**
+     * Method that draws the right number of dice from the Dicebag to the Draftpool
+     * at the beginning of each round.
+     */
     public void drawFromDiceBag()
     {
         draftPool.draw(getPlayerNum()*2 + 1);
     }
 
+    /**
+     * Method that add the last die or dice remaining on the DraftPool at the end of the turn,
+     * on the position of the current round of the RoundTrack
+     */
     public void addLastDiceToRoundTrack()
     {
         roundTrack.addLastDice(currentRound);
     }
 
+    /**
+     * Method that adds the drafted Die in the chosen coordinates.
+     * Then it notifies the view with the AddedDieMessage.
+     * @param row first coordinate
+     * @param column second coordinante
+     * @param ignoreValueRestriction if true ignore the value restriction of the placing of the Die
+     * @param ignoreColorRestriction if true, ignore the color restriction of the placing of the Die
+     * @param ignoreAdjacentRestriction if true, ignore the adjacent restriction of the placing of the Die
+     * @throws ChangeModelStateException if there isn't any drafted Die to add on the board
+     * @throws ActionNotPossibleException
+     */
     public void addDraftedDieToBoard(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException, ActionNotPossibleException
     {
         if(draftedDie == null)
@@ -416,6 +590,13 @@ public class Model extends Observable <Message> implements Serializable
         notify(new AddedDieMessage(this, currentPlayer, die, row, column));
     }
 
+    /**
+     * Method that select a Die at the given coordinates from the Board of a Player
+     * @param player who wants to select the Die
+     * @param row first coordinate
+     * @param column second coordinate
+     * @throws ChangeModelStateException if the selected cell doesn't contain any Die
+     */
     public void selectDieFromBoard(Player player, int row, int column) throws ChangeModelStateException
     {
         selectedDie = player.getBoard().getDie(row, column);
@@ -426,6 +607,11 @@ public class Model extends Observable <Message> implements Serializable
             notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
     }
 
+    /**
+     * Method that increments the value of the Drafted Die.
+     * Then it notifies the View with the ChangedDraftedDieMessage
+     * @throws ChangeModelStateException if there isn't a drafted Die
+     */
     public void incrementDraftedDie() throws ChangeModelStateException
     {
         if(draftedDie == null)
@@ -435,6 +621,11 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
+    /**
+     * Method that decrements the Drafted Die.
+     * Then it notifies the View with the ChangedDraftedDie
+     * @throws ChangeModelStateException if there isn't a drafted Die
+     */
     public void decrementDraftedDie() throws ChangeModelStateException
     {
         if(draftedDie == null)
@@ -444,6 +635,16 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
+    /**
+     * Method that moves the selected Die at the given position.
+     * Then it notifies the View with the MovedDieMessage
+     * @param row first coordinate
+     * @param column second coordinate
+     * @param ignoreValueRestriction if true, ignore the value restriction of the chosen position
+     * @param ignoreColorRestriction if true, ignore the color restriction of the chosen position
+     * @param ignoreAdjacentRestriction if true, ignore the adjacent restriction of the chosen position
+     * @throws ChangeModelStateException if there isn't a selected Die
+     */
     public void moveSelectedDie(int row, int column, boolean ignoreValueRestriction, boolean ignoreColorRestriction, boolean ignoreAdjacentRestriction) throws ChangeModelStateException
     {
         if(selectedDie == null)
@@ -453,6 +654,11 @@ public class Model extends Observable <Message> implements Serializable
         notify(new MovedDieMessage(this, selectedDie, currentPlayer, row, column));
     }
 
+    /**
+     * Method that rolls a Die chosen by his type, passed by parameter
+     * @param dieType type of the Die to roll. 0 = drafted, 1 = selected, 2 = chosen
+     * @throws ChangeModelStateException if there isn't a Die to Roll
+     */
     public void rollDie(int dieType) throws ChangeModelStateException
     {
         Die die = getDie(dieType);
@@ -463,6 +669,11 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ModifiedDieMessage(this, die, currentPlayer));
     }
 
+    /**
+     * Method that saves the reference to the current round
+     * @param currentRound is the number that indicates the current round. It can be >0 && <9
+     * @throws ChangeModelStateException if the value of the parameter is invalid
+     */
     public void setCurrentRound(int currentRound) throws ChangeModelStateException
     {
         if(currentRound <=0 || currentRound >9)
@@ -470,7 +681,10 @@ public class Model extends Observable <Message> implements Serializable
         this.currentRound = currentRound;
     }
 
-    //returns the array of the boards that the player can choose
+    /**
+     * Getter of the 4 schemeCard that a player can choose
+     * @return the array of the boards that the player can choose
+     */
     public List<Board> getSchemeCards()
     {
         return schemeCards;

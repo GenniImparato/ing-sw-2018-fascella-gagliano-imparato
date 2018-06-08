@@ -161,7 +161,7 @@ public class TestSagradaSchemeCardFile
 
         try
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/scheme_cards/Firmitas.sagradaschemecard");
             x=sagradaSchemeCardFile.generateBoard().getDifficulty();
 
         }

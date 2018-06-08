@@ -43,18 +43,28 @@ public class Die implements Serializable
         this.id = die.id;
     }
 
+    /**
+     * Sets the value of the Die
+     * @param value fixed value of the die
+     */
     public void setValue(int value)
     {
         if (value>=1 && value<=6)
             this.value = value;
     }
 
+    /**
+     * Increments the value of the Die only if the current value associated is less than 6
+     */
     public void incrementValue()
     {
         if (this.value<6)
             this.value++;
     }
 
+    /**
+     * Decrements the value of the Die only if the current value associated is higher than 1
+     */
     public void decrementValue()
     {
         if (this.value>1)
@@ -100,6 +110,12 @@ public class Die implements Serializable
         value = 7 - value;
     }
 
+    /**
+     * This method checks if the Die passed by parameter is exactly the same of this Die.
+     * Concretely it checks if the Id are the same.
+     * @param die die to confront
+     * @return true if the dice are the same, false otherwise
+     */
     public boolean isSameDie(Die die)
     {
         return this.id == die.id;

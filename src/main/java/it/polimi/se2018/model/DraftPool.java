@@ -81,7 +81,7 @@ public class DraftPool implements Serializable
     }
 
     /**
-     * Returns  a list containing all remaining dice from the DraftPool;
+     * Returns a list containing all remaining dice from the DraftPool;
      * the returned dice are removed from the DraftPool
      * @return list containing all remaining dice from the DraftPool;
      * the returned dice are removed from the DraftPool
@@ -93,6 +93,12 @@ public class DraftPool implements Serializable
         return ret;
     }
 
+    /**
+     * Tells if the die passed by parameter is present in the draftpool
+     * @param die die to check if it's contained in the draftpool
+     * @return true if the draftpool contains the die passed by parameter
+     * (i.e. has the same id of a die present in the draftpool), false otherwise
+     */
     public boolean contains(Die die)
     {
         for(Die draftPoolDie : dice)

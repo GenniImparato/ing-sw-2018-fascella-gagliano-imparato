@@ -40,7 +40,7 @@ public class TestColorDiagonalPublicCards
 
         try                         //try to add some dice on the board to verify if the method score returns the right value
         {
-            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/schemecards/Firmitas.sagradaschemecard");
+            sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/scheme_cards/Firmitas.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
         }
         catch(Exception e) {fail();}
