@@ -1,5 +1,7 @@
 package it.polimi.se2018.view.gui;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -7,21 +9,17 @@ import java.util.TimerTask;
 
 public class GUINotificationSystem
 {
-    private GUI                     gui;
-    private List<Integer>           positions;
-    private List<GUINotification>   notifications;
-    private final static int        MAX_NOTIFICATIONS = 5;
+    private GUI              gui;
+    private GUIPopup         notification;
 
     public GUINotificationSystem(GUI gui)
     {
         this.gui = gui;
-        positions = new ArrayList<>();
-        notifications = new ArrayList<>();
     }
 
     private class GUINotificationRemover
     {
-        public GUINotificationRemover(GUINotification notification, Integer position)
+        public GUINotificationRemover(GUIPopup notification)
         {
             Timer timer = new Timer();
 
@@ -30,8 +28,6 @@ public class GUINotificationSystem
                 public void run()
                 {
                     notification.hide();
-                    positions.remove(position);
-                    notifications.remove(notification);
                 }
             };
 
@@ -41,34 +37,14 @@ public class GUINotificationSystem
 
     public void showNotification(String message)
     {
-        Integer currentPosition = 1;
-
-        for(int i=1; i<MAX_NOTIFICATIONS; i++)
-        {
-            if(!positions.contains(i))
-            {
-                currentPosition = i;
-                break;
-            }
-        }
-
-        positions.add(currentPosition);
-
-        GUINotification notification = new GUINotification(gui, message, currentPosition);
-        notification.show();
-
-        notifications.add(notification);
-
-        new GUINotificationRemover(notification, currentPosition);
-    }
-
-    public void removeAllNotifications()
-    {
-        for(GUINotification notification : notifications)
-        {
+        if(notification!= null)
             notification.hide();
-        }
 
-        notifications.clear();
+        JLabel notificationLabel = new JLabel(message);
+        notificationLabel.setFont(new Font("SansSerif", Font.PLAIN, 23));
+
+        notification = new GUIPopup(gui, notificationLabel, gui.getMainWindow().getX() + 10, gui.getMainWindow().getY()+30);
+        notification.show();
+        new GUINotificationRemover(notification);
     }
 }

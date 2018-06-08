@@ -23,12 +23,34 @@ public class CLI extends View
 
 
 
-    public CLI(boolean loggerActive)
+    public CLI()
     {
         parser = new CLIMessageParser(this);
-        logger = new CLILogger(this, loggerActive);
-
         scanner = new Scanner(System.in);
+    }
+
+    @Override
+    public String getStartNotificationString()
+    {
+        return "";
+    }
+
+    @Override
+    public String getEndNotificationString()
+    {
+        return "";
+    }
+
+    @Override
+    public String getColorString(Color color)
+    {
+        return color.getConsoleString();
+    }
+
+    @Override
+    public String getColorEndString()
+    {
+        return Color.getResetConsoleString();
     }
 
     @Override
@@ -64,13 +86,12 @@ public class CLI extends View
     }
 
 
-    public void showNotification(String message, Color color)
+    public void showNotification(String message)
     {
         cancelInputReading();
 
-        System.out.print(color.getConsoleString());
         System.out.println(message);
-        System.out.print(Color.getResetConsoleString());
+
         try
         {
             Thread.sleep(2000);

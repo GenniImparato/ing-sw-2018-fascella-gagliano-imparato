@@ -16,7 +16,6 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     private             String          playerNickname;
     private transient   NetworkHandler  networkHandler;
 
-    protected transient Logger          logger;
 
     public View()
     {
@@ -42,11 +41,6 @@ public abstract class View extends Observable<Event> implements Observer <Messag
         this.model = model;
     }
 
-    public Logger getLogger()
-    {
-        return logger;
-    }
-
     public NetworkHandler getNetworkHandler()
     {
         return networkHandler;
@@ -56,4 +50,9 @@ public abstract class View extends Observable<Event> implements Observer <Messag
     {
         this.networkHandler = networkHandler;
     }
+
+    public abstract String getStartNotificationString();
+    public abstract String getEndNotificationString();
+    public abstract String getColorString(Color color);
+    public abstract String getColorEndString();
 }

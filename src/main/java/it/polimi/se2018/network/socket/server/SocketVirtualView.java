@@ -75,6 +75,12 @@ public class SocketVirtualView extends VirtualView implements Runnable
     }
 
     @Override
+    public void showNotification(String message)
+    {
+
+    }
+
+    @Override
     public synchronized void showMenu()
     {
         sendToClient(new NetworkMessage("showMenu"));

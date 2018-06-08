@@ -35,7 +35,7 @@ public class CLIMessageParser implements MessageVisitor
 
         notification += message.getSchemeBoards().getSchemeCardName();
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -49,7 +49,7 @@ public class CLIMessageParser implements MessageVisitor
         else
             notification = message.getPlayer().getNickname() + " joined the game!";
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.showView(new CLILobbyView(cli));
     }
 
@@ -61,7 +61,7 @@ public class CLIMessageParser implements MessageVisitor
     @Override
     public void visit(StartedGameMessage message)
     {
-        cli.showNotification("The game started!", Color.BLUE);
+        cli.showNotification("The game started!");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CLIMessageParser implements MessageVisitor
         notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
                             + " die with value " + message.getDie().getValue() + "!");
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -100,7 +100,7 @@ public class CLIMessageParser implements MessageVisitor
                 + " die with value " + message.getDie().getValue()
                 + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -118,7 +118,7 @@ public class CLIMessageParser implements MessageVisitor
                 + " die with value " + message.getDie().getValue()
                 + " to position: (" + message.getRow() + ", " + message.getColumn() +")!");
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -135,7 +135,7 @@ public class CLIMessageParser implements MessageVisitor
         notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
                 + ",  " + message.getDie().getValue() + ")!");
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -152,7 +152,7 @@ public class CLIMessageParser implements MessageVisitor
         notification += (message.getDie().getColor().getConsoleString() + message.getDie().getColor() + Color.BLUE.getConsoleString()
                 + " die with value " + message.getDie().getValue() + "!");
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
@@ -161,7 +161,7 @@ public class CLIMessageParser implements MessageVisitor
     {
         cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
                 +" - Die: ( " + message.getDie().getValue() + " , " + message.getDie().getColor() + " )"
-                +" - PLayer: " + message.getPlayer().getNickname(), Color.BLUE);
+                +" - PLayer: " + message.getPlayer().getNickname());
 
         cli.reShowCurrentView();
     }
@@ -178,16 +178,13 @@ public class CLIMessageParser implements MessageVisitor
 
         notification += message.getCard().getName() + " tool card!";
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.reShowCurrentView();
     }
 
     @Override
-    public void visit(ToolCardActionExecutedMessage message)
+    public void visit(ToolCardEndedMessage message)
     {
-        cli.showNotification("CLI notified: " + message.getClass().getSimpleName()
-                +" - Message: " + message.getMessage(), Color.BLUE);
-
         cli.reShowCurrentView();
     }
 
@@ -208,12 +205,17 @@ public class CLIMessageParser implements MessageVisitor
             nextView = new CLIOtherPlayersTurnView(cli);
         }
 
-        cli.showNotification(notification, Color.BLUE);
+        cli.showNotification(notification);
         cli.showView(nextView);
     }
 
     @Override
     public void visit(ModifiedDieMessage message) {
+
+    }
+
+    @Override
+    public void visit(ReRolledDraftPoolMessage message) {
 
     }
 }

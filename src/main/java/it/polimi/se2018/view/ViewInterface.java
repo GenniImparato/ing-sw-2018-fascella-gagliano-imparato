@@ -9,6 +9,7 @@ public interface ViewInterface
      void start();
      void showErrorMessage(String message);
      void showMessage(String message);
+     void showNotification(String message);
 
      void showMenu();
      void showLobby();

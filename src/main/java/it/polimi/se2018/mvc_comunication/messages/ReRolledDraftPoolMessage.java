@@ -1,22 +1,23 @@
 package it.polimi.se2018.mvc_comunication.messages;
 
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.MessageVisitor;
 
-public class ToolCardActionExecutedMessage extends Message
+public class ReRolledDraftPoolMessage extends Message
 {
-    private String message;
+    private Player player;
 
-    public ToolCardActionExecutedMessage(Model model, String message)
+    public ReRolledDraftPoolMessage(Model model, Player player)
     {
         super(model);
-        this.message = message;
+        this.player = player;
     }
 
-    public String getMessage()
+    public Player getPlayer()
     {
-        return message;
+        return player;
     }
 
     @Override

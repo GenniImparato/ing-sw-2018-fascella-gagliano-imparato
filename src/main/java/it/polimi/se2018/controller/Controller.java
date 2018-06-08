@@ -164,6 +164,7 @@ public class Controller implements Observer<Event>
 
             toolCards.remove(2);
             toolCards.remove(0);
+            toolCards.remove(0);
             List<Card> cards = new ArrayList<>();
             for(int i =0; i< 3; i++)
                 cards.add(toolCards.get(i).generateCard());
@@ -233,6 +234,8 @@ public class Controller implements Observer<Event>
     protected void endToolCardActions()
     {
         usingToolCard = false;
+
+        model.setNoCurrentToolCard();
 
         setEventParser(new GameRunningEventParser(this));
 

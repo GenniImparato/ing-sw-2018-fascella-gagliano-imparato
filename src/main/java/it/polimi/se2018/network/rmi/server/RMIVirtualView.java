@@ -61,6 +61,12 @@ public class RMIVirtualView extends VirtualView
     }
 
     @Override
+    public void showNotification(String message)
+    {
+
+    }
+
+    @Override
     public void showMenu()
     {
         try

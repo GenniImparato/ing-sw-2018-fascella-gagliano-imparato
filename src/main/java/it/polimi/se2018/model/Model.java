@@ -112,16 +112,8 @@ public class Model extends Observable <Message> implements Serializable
         }
 
         //copy the currentToolCard if it's not null
-        if(model.currentToolCard != null)
-        {
-            try
-            {
-                this.currentToolCard = model.currentToolCard.getClass().newInstance();
-            }
-            catch(InstantiationException | IllegalAccessException e)
-            {
-            }
-        }
+        if(model.currentToolCard != null  && model.toolCards != null)
+            this.currentToolCard = this.toolCards.get(model.toolCards.indexOf(model.currentToolCard));
 
         //copy the lastDrafted if it's not null
         if(model.draftedDie != null)
@@ -342,21 +334,27 @@ public class Model extends Observable <Message> implements Serializable
     {
         if(cardNum < 0  || cardNum >= toolCards.size())
             throw new ChangeModelStateException("Invalid tool card index!");
-        else
-        {
-            currentToolCard = toolCards.get(cardNum);
-            notify(new UsingToolCardMessage(this, currentToolCard, currentPlayer));
-        }
+
+        currentToolCard = toolCards.get(cardNum);
+        notify(new UsingToolCardMessage(this, currentToolCard, currentPlayer));
+    }
+
+    public void setNoCurrentToolCard()
+    {
+        Card card = currentToolCard;
+        currentToolCard = null;
+        notify(new ToolCardEndedMessage(this, card));
     }
 
     /**
-     * Getter of the current ToolCard
-     * @return the current ToolCard
+     * Getter of the current ToolCard number
+     * @return the current ToolCard number or -1 in case of tool card not being used
      */
-    public Card getCurrentToolCard()
+    public int getCurrentToolCardNumber()
     {
-        return currentToolCard;
+        return toolCards.indexOf(currentToolCard);
     }
+
 
     /**
      * Method that add a new Player with the name passed by parameter.
@@ -401,6 +399,14 @@ public class Model extends Observable <Message> implements Serializable
             throw new ChangeModelStateException("There are already " + MAX_PLAYERS_NUM + " players!");
 
         notify(new AddedPlayerMessage(this, players.get(getPlayerNum()-1)));
+    }
+
+    public void rollDraftPool()
+    {
+        for(Die die: draftPool.getAllDice())
+            die.roll();
+
+        notify(new ReRolledDraftPoolMessage(this, currentPlayer));
     }
 
     /**

@@ -15,11 +15,13 @@ public class GUIElementToolCard extends GUIElementCard
 {
     private boolean selectable;
     private int cardNumber;
+    private Card card;
 
     public GUIElementToolCard(Card card, int cardNumber, GUI gui)
     {
         super(card, "tool_card", gui);
         selectable = false;
+        this.card = card;
         this.cardNumber = cardNumber;
 
         turnAnimation.setActions(new GUIAnimationActions()
@@ -64,7 +66,8 @@ public class GUIElementToolCard extends GUIElementCard
                     @Override
                     public void mouseExited(MouseEvent e)
                     {
-                        shoNormal();
+                        if(selectable)
+                            showNormal();
                         popup.hide();
                     }
                 });
@@ -74,19 +77,21 @@ public class GUIElementToolCard extends GUIElementCard
 
     public void setSelectable(boolean selectable)
     {
-        if(!selectable)
-            shoNormal();
-        
         this.selectable = selectable;
     }
 
-    private void showSelected()
+    public void showSelected()
     {
         setIcon(new ImageIcon("resources/images/elements/cards/" + card.getName() + "/selected.png"));
     }
 
-    private void shoNormal()
+    public void showNormal()
     {
         setIcon(new ImageIcon("resources/images/elements/cards/" + card.getName() + "/card.png"));
+    }
+
+    public Card getCard()
+    {
+        return card;
     }
 }

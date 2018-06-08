@@ -2,6 +2,7 @@ package it.polimi.se2018.view.gui;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.utils.Color;
+import it.polimi.se2018.view.NotificationMessageParser;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
@@ -40,8 +41,30 @@ public class GUI extends View
         mainWindow.setLocationRelativeTo(null);
 
         parser = new GUIMessageParser(this);
+    }
 
-        showReDrawDie();
+    @Override
+    public String getStartNotificationString()
+    {
+        return "<html>";
+    }
+
+    @Override
+    public String getEndNotificationString()
+    {
+        return "</html>";
+    }
+
+    @Override
+    public String getColorString(Color color)
+    {
+        return "<font color='"+ color.toString().toLowerCase() +"'>";
+    }
+
+    @Override
+    public String getColorEndString()
+    {
+        return "</font>";
     }
 
     public void setDimensions(int width, int height)
@@ -147,6 +170,8 @@ public class GUI extends View
 
         message.acceptVisitor(parser);
 
+        new NotificationMessageParser(message, this).showNotification();
+
         if(getModel().getCurrentPlayer() != null   &&
            getModel().getCurrentPlayer().getNickname().equals(getAssociatedPlayerNickname())   &&
            getModel().getDraftedDie() != null)
@@ -182,7 +207,8 @@ public class GUI extends View
     @Override
     public void showDraft()
     {
-
+        reShowCurrentView();
+        ((GUIGameView) getCurrentView()).setDraftMode();
     }
 
     @Override

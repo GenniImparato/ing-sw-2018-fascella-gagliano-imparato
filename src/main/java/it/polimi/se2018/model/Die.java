@@ -29,6 +29,8 @@ public class Die implements Serializable
         this.color = color;
         this.id = totalNumberOfDice;
         totalNumberOfDice++;
+
+        value = 0;
         roll();
     }
 
@@ -99,7 +101,16 @@ public class Die implements Serializable
     public void roll()
     {
         Random random = new Random();
-        value = random.nextInt(6)+1;
+
+        int newValue;
+
+        do
+        {
+            newValue = random.nextInt(6)+1;
+        }
+        while(newValue == value);
+
+        value = newValue;
     }
 
     /**

@@ -15,9 +15,10 @@ public interface MessageVisitor
     void visit(StartedGameMessage message);
     void visit(PlayerReadyMessage message);
     void visit(UsingToolCardMessage message);
-    void visit(ToolCardActionExecutedMessage message);
+    void visit(ToolCardEndedMessage message);
     void visit(ChangedDraftedDieMessage message);
     void visit(MovedDieMessage message);
     void visit(BegunTurnMessage message);
     void visit(ModifiedDieMessage message);
+    void visit(ReRolledDraftPoolMessage message);
 }

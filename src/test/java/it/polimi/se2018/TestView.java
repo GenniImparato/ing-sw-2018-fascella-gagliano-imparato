@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.View;
 
 public class TestView extends View
@@ -22,6 +23,11 @@ public class TestView extends View
 
     @Override
     public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showNotification(String message) {
 
     }
 
@@ -82,4 +88,24 @@ public class TestView extends View
 
     @Override
     public void disconnect() {    }
+
+    @Override
+    public String getStartNotificationString() {
+        return null;
+    }
+
+    @Override
+    public String getEndNotificationString() {
+        return null;
+    }
+
+    @Override
+    public String getColorString(Color color) {
+        return null;
+    }
+
+    @Override
+    public String getColorEndString() {
+        return null;
+    }
 }

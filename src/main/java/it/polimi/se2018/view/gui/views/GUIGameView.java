@@ -196,6 +196,23 @@ public class GUIGameView extends GUIView
         });
     }
 
+    public void setDraftMode()
+    {
+        disableAllSelections();
+        actionLabel.setText("Choose a die from the draft pool!");
+        endTurnButton.setEnabled(true);
+        guiDraftPool.setSelectableDice(true);
+
+        guiDraftPool.setActions(new GUIDraftPoolActions()
+        {
+            @Override
+            public void dieClicked(GUIElementDraftPool draftPool, GUIElementDie die, int dieNum)
+            {
+                gui.notify(new DraftDieEvent(gui, dieNum));
+            }
+        });
+    }
+
     public void setAddDieMode()
     {
         disableAllSelections();
@@ -291,6 +308,20 @@ public class GUIGameView extends GUIView
         if(draftedDie != null)
             draftedDie.playMoveBackToDraftPoolAnimation(guiDraftPool);
 
+    }
+
+    public void highlightToolCard(Card card, boolean highlight)
+    {
+        for(GUIElementToolCard toolCard : guiToolCards)
+        {
+            if(toolCard.getCard().getName().equals(card.getName()))
+            {
+                if(highlight)
+                    toolCard.showSelected();
+                else
+                    toolCard.showNormal();
+            }
+        }
     }
 
     private void setCardsSelectable(boolean selectable)
