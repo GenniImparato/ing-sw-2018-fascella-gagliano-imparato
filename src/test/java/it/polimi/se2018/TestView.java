@@ -61,6 +61,11 @@ public class TestView extends View
     }
 
     @Override
+    public void showReDrawDie() {
+
+    }
+
+    @Override
     public void showMoveDie() {
 
     }

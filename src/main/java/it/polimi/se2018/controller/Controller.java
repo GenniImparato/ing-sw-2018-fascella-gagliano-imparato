@@ -244,9 +244,8 @@ public class Controller implements Observer<Event>
             {
                 model.setCurrentRound(model.getCurrentRound()+1);
             }
-            catch (ChangeModelStateException e)
+            catch(ChangeModelStateException e)
             {
-
             }
 
             beginRound();

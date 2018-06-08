@@ -12,7 +12,7 @@ import it.polimi.se2018.network.server.VirtualView;
 
 public class UsingToolCardEventParser implements EventVisitor
 {
-    Controller controller;
+    private Controller controller;
 
     public UsingToolCardEventParser(Controller controller)
     {

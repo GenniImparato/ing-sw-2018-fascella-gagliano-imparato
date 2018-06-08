@@ -191,6 +191,11 @@ public class CLI extends View
     }
 
     @Override
+    public void showReDrawDie() {
+
+    }
+
+    @Override
     public void showMoveDie()
     {
         showView(new CLIMoveDieView(this));

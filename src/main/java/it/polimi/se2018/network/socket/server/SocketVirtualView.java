@@ -116,6 +116,11 @@ public class SocketVirtualView extends VirtualView implements Runnable
     }
 
     @Override
+    public void showReDrawDie() {
+
+    }
+
+    @Override
     public synchronized  void showMoveDie()
     {
         sendToClient(new NetworkMessage("showMoveDie"));

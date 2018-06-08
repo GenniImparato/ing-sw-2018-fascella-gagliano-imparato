@@ -8,7 +8,7 @@ import it.polimi.se2018.network.server.VirtualView;
 
 public class GameRunningEventParser implements EventVisitor
 {
-    Controller controller;
+    private Controller controller;
 
     public GameRunningEventParser(Controller controller)
     {

@@ -144,6 +144,12 @@ public class RMIVirtualView extends VirtualView
     }
 
     @Override
+    public void showReDrawDie()
+    {
+
+    }
+
+    @Override
     public  void showMoveDie()
     {
         try

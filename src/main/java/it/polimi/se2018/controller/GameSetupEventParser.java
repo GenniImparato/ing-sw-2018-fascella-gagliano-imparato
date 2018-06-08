@@ -10,7 +10,7 @@ import it.polimi.se2018.network.server.VirtualView;
 
 public class GameSetupEventParser implements EventVisitor
 {
-    Controller controller;
+    private Controller controller;
 
     public GameSetupEventParser(Controller controller)
     {

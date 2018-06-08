@@ -1,7 +1,10 @@
 package it.polimi.se2018.view.gui;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.cli.views.CLIView;
+import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
 import it.polimi.se2018.view.gui.views.GUIGameView;
 import it.polimi.se2018.view.gui.views.GUILobbyView;
@@ -37,6 +40,8 @@ public class GUI extends View
         mainWindow.setLocationRelativeTo(null);
 
         parser = new GUIMessageParser(this);
+
+        showReDrawDie();
     }
 
     public void setDimensions(int width, int height)
@@ -203,6 +208,12 @@ public class GUI extends View
     @Override
     public void showSelectDieFromDraftPool()
     {
+    }
+
+    @Override
+    public void showReDrawDie()
+    {
+        new GUIDrawDieDialog(this, new Die(Color.RED));
     }
 
     @Override

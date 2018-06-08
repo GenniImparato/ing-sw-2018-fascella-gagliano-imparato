@@ -12,7 +12,7 @@ import it.polimi.se2018.network.server.VirtualView;
 
 public class GameNotStartedEventParser implements EventVisitor
 {
-    Controller controller;
+    private Controller controller;
 
     public GameNotStartedEventParser(Controller controller)
     {
