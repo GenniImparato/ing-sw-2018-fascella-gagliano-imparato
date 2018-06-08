@@ -114,6 +114,7 @@ public class Controller implements Observer<Event>
         this.model = model;
     }
 
+
     public void start()
     {
         Logger logger = new Logger()
