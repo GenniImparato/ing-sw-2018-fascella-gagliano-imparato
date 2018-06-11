@@ -6,7 +6,10 @@ import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.events.*;
+import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.view.View;
 
 import static org.junit.Assert.*;
