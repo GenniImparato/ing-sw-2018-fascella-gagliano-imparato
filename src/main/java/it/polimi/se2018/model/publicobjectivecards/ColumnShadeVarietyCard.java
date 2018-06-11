@@ -9,15 +9,19 @@ package it.polimi.se2018.model.publicobjectivecards;
  */
 public class ColumnShadeVarietyCard extends PublicObjectiveCard {
 
+    /**
+     * Constructor that calls the constructor of the super class that saves the name
+     * and the points associated to the column shade variety card
+     */
     public ColumnShadeVarietyCard ()
     {
         super ("Column Shade Variety", 4);
     }
 
     /**
-     * Calculates the score related to this public objective card and to the Board
-     * @param board Board where to calculate the score associated to the PublicObjectiveCard
-     * @return score of the card depended on the Board passed by parameter
+     * This method is needed in order to use the Visitor Pattern.
+     * @param visitor This is the visitor who decides how to visit this card
+     * @return An integer returned by the Visitor after visiting this card.
      */
     @Override
     public int acceptVisitor(PublicObjectiveCardVisitor visitor)

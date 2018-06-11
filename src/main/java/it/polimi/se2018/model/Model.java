@@ -675,6 +675,16 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ModifiedDieMessage(this, die, currentPlayer));
     }
 
+    public void invertDie(int dieType) throws ChangeModelStateException
+    {
+        Die die = getDie(dieType);
+        if(die == null)
+            throw new ChangeModelStateException("No die to invert!");
+
+        die.invert();
+        notify(new ModifiedDieMessage(this, die, currentPlayer));
+    }
+
     /**
      * Method that saves the reference to the current round
      * @param currentRound is the number that indicates the current round. It can be >0 && <9

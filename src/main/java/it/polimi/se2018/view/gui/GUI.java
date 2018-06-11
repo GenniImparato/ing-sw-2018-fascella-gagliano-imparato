@@ -7,6 +7,7 @@ import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
+import it.polimi.se2018.view.gui.dialogs.GUIYesNoDialog;
 import it.polimi.se2018.view.gui.views.GUIGameView;
 import it.polimi.se2018.view.gui.views.GUILobbyView;
 import it.polimi.se2018.view.gui.views.GUIMenuView;
@@ -230,7 +231,7 @@ public class GUI extends View
     @Override
     public void showIncrementDie()
     {
-
+        GUIYesNoDialog dialog = new GUIYesNoDialog(this, "Tool card", "Do you want to use ");
     }
 
     @Override

@@ -15,6 +15,7 @@ import it.polimi.se2018.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This is the Controller of the Game, created by the Server.
@@ -63,6 +64,17 @@ public class Controller implements Observer<Event>
         playerTurnIterator = new PlayerTurnIterator(this);
 
         start();
+    }
+
+    public Controller(Model model, String toolCardsPath)
+    {
+        setModel(model);
+
+        setEventParser(new GameNotStartedEventParser(this));
+
+        playerTurnIterator = new PlayerTurnIterator(this);
+
+        start(toolCardsPath);
     }
 
     /**
@@ -115,7 +127,7 @@ public class Controller implements Observer<Event>
     }
 
 
-    public void start()
+    private void start()
     {
         Logger logger = new Logger()
         {
@@ -136,6 +148,27 @@ public class Controller implements Observer<Event>
         loadToolCardFiles(logger);
     }
 
+    private void start(String toolCardPath)
+    {
+        Logger logger = new Logger()
+        {
+            @Override
+            public void logMessage(String message)
+            {
+                System.out.println(message);
+            }
+
+            @Override
+            public void logErrorMessage(String message)
+            {
+                System.out.println("Error: " + message);
+            }
+        };
+
+        loadSchemeCardFiles(logger);
+        loadToolCardFiles(logger, toolCardPath);
+    }
+
     private void loadSchemeCardFiles(Logger logger)
     {
         try
@@ -151,9 +184,14 @@ public class Controller implements Observer<Event>
 
     private void loadToolCardFiles(Logger logger)
     {
+        loadToolCardFiles(logger, TOOL_CARDS_DIRECTORY);
+    }
+
+    private void loadToolCardFiles(Logger logger, String toolCardPath)
+    {
         try
         {
-            ToolCardsLoader loader = new ToolCardsLoader(TOOL_CARDS_DIRECTORY, logger);
+            ToolCardsLoader loader = new ToolCardsLoader(toolCardPath, logger);
             toolCards = loader.getToolCards();
 
             if(toolCards.size() < MINIMUM_TOOL_CARDS_REQUIRED)
@@ -162,19 +200,30 @@ public class Controller implements Observer<Event>
                 System.exit(0);
             }
 
-            toolCards.remove(2);
-            toolCards.remove(0);
-            toolCards.remove(0);
-            List<Card> cards = new ArrayList<>();
-            for(int i =0; i< 3; i++)
-                cards.add(toolCards.get(i).generateCard());
-
-            model.setToolCards(cards);
+            selectRandomToolCards();
         }
         catch(LoadingFilesException e)
         {
             System.exit(0);
         }
+    }
+
+    private void selectRandomToolCards()
+    {
+        List<ToolCard> selectedToolCards = new ArrayList<>();
+
+        for(int i=0; i<MINIMUM_TOOL_CARDS_REQUIRED; i++)
+            selectedToolCards.add(toolCards.remove(new Random().nextInt(toolCards.size())));
+
+        toolCards = selectedToolCards;
+
+        List<Card> modelToolCards = new ArrayList<>();
+
+        for(ToolCard toolCard : toolCards)
+            modelToolCards.add(toolCard.generateCard());
+
+        model.setToolCards(modelToolCards);
+
     }
 
     protected void addNewPlayer(String nickname) throws ChangeModelStateException
