@@ -57,7 +57,8 @@ public class ToolCardActionFactory
             return new RollDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
         else if(action.equals(Action.RE_ROLL_DRAFTPOOL.getName()))
             return new ReRollDraftPoolAction(new ToolCardParameterBuilder().build());
-
+        else if(action.equals(Action.FLIP_DIE.getName()))
+            return new FlipDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");
     }

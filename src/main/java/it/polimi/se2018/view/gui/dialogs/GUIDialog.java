@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.gui.dialogs;
 
-import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;

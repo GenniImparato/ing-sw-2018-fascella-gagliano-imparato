@@ -15,7 +15,6 @@ public class GUIElementToolCard extends GUIElementCard
 {
     private boolean selectable;
     private int cardNumber;
-    private Card card;
 
     public GUIElementToolCard(Card card, int cardNumber, GUI gui)
     {

@@ -49,7 +49,6 @@ public class GUIDrawDieDialog extends GUIDialog
         messageContainer.add(Box.createVerticalStrut(5));
 
 
-
         Container buttonContainer = new Container();
         buttonContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 0));
         backgroundLabel.add(buttonContainer);
