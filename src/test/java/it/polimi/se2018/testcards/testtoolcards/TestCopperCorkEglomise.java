@@ -117,7 +117,7 @@ public class TestCopperCorkEglomise
 
     }
 
-    @Test
+    /*@Test
     public void useCorkBackedStraightedge()
     {
         Die die = new Die(Color.RED);
@@ -142,7 +142,7 @@ public class TestCopperCorkEglomise
         assertEquals(value, board.getDie(2,4).getValue());
 
 
-    }
+    }*/
 
 
 
