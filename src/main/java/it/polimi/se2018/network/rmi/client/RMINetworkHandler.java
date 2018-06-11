@@ -5,6 +5,7 @@ import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.events.EndTurnEvent;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.network.exceptions.CannotConnectToServerException;
+import it.polimi.se2018.network.rmi.server.RMIServer;
 import it.polimi.se2018.network.rmi.server.RMIServerInterface;
 import it.polimi.se2018.network.rmi.server.RMIServerServices;
 import it.polimi.se2018.view.View;

@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class GUINotificationSystem
 {
     private GUI              gui;
-    private GUIPopup         notification;
+    private Popup         notification;
 
     public GUINotificationSystem(GUI gui)
     {
@@ -19,7 +19,7 @@ public class GUINotificationSystem
 
     private class GUINotificationRemover
     {
-        public GUINotificationRemover(GUIPopup notification)
+        public GUINotificationRemover(Popup notification)
         {
             Timer timer = new Timer();
 
@@ -37,13 +37,13 @@ public class GUINotificationSystem
 
     public void showNotification(String message)
     {
-        if(notification!= null)
-            notification.hide();
+        /*if(notification!= null)
+            notification.hide();*/
 
         JLabel notificationLabel = new JLabel(message);
         notificationLabel.setFont(new Font("SansSerif", Font.PLAIN, 23));
 
-        notification = new GUIPopup(gui, notificationLabel, gui.getMainWindow().getX() + 10, gui.getMainWindow().getY()+30);
+        notification = PopupFactory.getSharedInstance().getPopup(gui.getMainWindow(), notificationLabel, gui.getMainWindow().getX() + 10, gui.getMainWindow().getY()+30);
         notification.show();
         new GUINotificationRemover(notification);
     }

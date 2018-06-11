@@ -18,15 +18,17 @@ import java.awt.*;
 
 public class GUI extends View
 {
-    transient private GUIView                   currentView;
-    transient private JFrame                    mainWindow;
-    transient private String                    serverIp;
-    transient private GUIMessageParser          parser;
-    transient private GUINotificationSystem     notifications;
-    transient private JPanel                    glassPanel;
+    private transient GUIView                   currentView;
+    private transient JFrame                    mainWindow;
+    private transient String                    serverIp;
+    private transient GUIMessageParser          parser;
+    private transient GUINotificationSystem     notifications;
+    private transient JPanel                    glassPanel;
+    private transient GUI                       thisElement;
 
     public GUI()
     {
+        thisElement = this;
         notifications = new GUINotificationSystem(this);
 
         mainWindow = new JFrame("SAGRADA");
@@ -146,7 +148,14 @@ public class GUI extends View
 
     public void showErrorMessage(String message)
     {
-        new GUIOKDialog(this, "Error", message);
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                new GUIOKDialog(thisElement, "Error", message);
+            }
+        }).start();
     }
 
     public void showErrorMessage(String title, String message)
@@ -165,7 +174,7 @@ public class GUI extends View
     }
 
     @Override
-    public void update(Message message)
+    public synchronized void update(Message message)
     {
         setModel(message.getModel());
 
