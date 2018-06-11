@@ -15,8 +15,9 @@ public class RMIClientServices implements RMIClientInterface
     }
 
     @Override
-    public void notifyView(Message message)
+    public void notifyView(Message message)  throws RemoteException
     {
+        System.out.println("CLient service: exe on client");
         handler.notify(message);
     }
 
@@ -29,28 +30,13 @@ public class RMIClientServices implements RMIClientInterface
     @Override
     public void showErrorMessage(String message) throws RemoteException
     {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                handler.getView().showErrorMessage(message);
-            }
-        }).start();
-
+        handler.getView().showErrorMessage(message);
     }
 
     @Override
     public void showMessage(String message) throws RemoteException
     {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                handler.getView().showMessage(message);
-            }
-        }).start();
+        handler.getView().showMessage(message);
     }
 
     @Override
