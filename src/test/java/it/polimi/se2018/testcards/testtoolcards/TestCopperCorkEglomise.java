@@ -93,13 +93,12 @@ public class TestCopperCorkEglomise
         die.setValue(4);
         try
         {
-            board.addDie(die, 0,0,false,false,false);
+            model.getPlayers().get(0).getBoard().addDie(die, 0,0,false,false,false);
         }
         catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
-
 
 
         view.notify(new UseToolCardEvent(view, numCards[0]));           //use copper foil burnisher
@@ -107,42 +106,76 @@ public class TestCopperCorkEglomise
         view.notify(new SelectDieFromBoardEvent(view,0,0));     //select a Die just added on the board
         view.notify(new MoveSelectedDieEvent(view, 0,2));       //and we add it in a position ignoring the value restriction
 
-        assertEquals(die.getValue(), board.getDie(0,2).getValue());
+        assertEquals(die.getValue(), model.getPlayers().get(0).getBoard().getDie(0,2).getValue());
 
 
         view.notify(new SelectDieFromBoardEvent(view,0,2));     //select the Die
         view.notify(new MoveSelectedDieEvent(view, 0,1));       //and we try to add it in a position with a different color restriction
 
-        assertEquals(null, board.getDie(0,1));
+        assertEquals(null, model.getPlayers().get(0).getBoard().getDie(0,1));
 
     }
 
-    /*@Test
+    @Test
     public void useCorkBackedStraightedge()
     {
-        Die die = new Die(Color.RED);
+        /*Die die = new Die(Color.RED);
         die.setValue(4);
         try
         {
-            board.addDie(die, 2,0,false,false,false);
+            model.getPlayers().get(0).getBoard().addDie(die, 2,0,false,false,false);
         }
         catch(ChangeModelStateException|ActionNotPossibleException e)
         {
             fail();
         }
 
+
+        assertEquals(4, model.getPlayers().get(0).getBoard().getDie(2,0).getValue());
+
         view.notify(new UseToolCardEvent(view, numCards[1]));           //use cork backed straightedge
-        int value = model.getDraftPool().getAllDice().get(0).getValue();
         view.notify(new DraftDieEvent(view, 0));
+        int value = model.getDraftedDie().getValue();
+        System.out.println(value);
+
+        assertNotEquals(null, model.getDraftedDie());
+
+        view.notify(new AddDieToBoardEvent(view, 0,0));     //add a die withouth respecting the adjacent restrictions
+
+        assertNotEquals(null, model.getPlayers().get(0).getBoard().getDie(0,0));
+        //assertEquals(value, model.getPlayers().get(0).getBoard().getDie(0,0).getValue());  */
 
 
-        view.notify(new AddDieToBoardEvent(view, 2,4));     //add a die withouth respecting the adjacent restrictions
+    }
 
-        //assertNotEquals(null, board.getDie(2,1));
-        assertEquals(value, board.getDie(2,4).getValue());
+    /**
+     * Tests if, after the use of the ToolCard "EglomiseBrush", we can move a Die already added on the board
+     * in a position without respecting the color restriction.
+     */
+    @Test
+    public void useEglomiseBrush()
+    {
+        Die die = new Die(Color.RED);
+        die.setValue(4);
+        Die die1 = new Die(Color.BLUE);
+        die.setValue(3);
+        try
+        {
+            model.getPlayers().get(0).getBoard().addDie(die, 0,0,false,false,false);
+            model.getPlayers().get(0).getBoard().addDie(die1, 1,0,false,false,false);
+        }
+        catch(ChangeModelStateException|ActionNotPossibleException e)
+        {
+            fail();
+        }
 
+        view.notify(new UseToolCardEvent(view, numCards[2]));
 
-    }*/
+        view.notify(new SelectDieFromBoardEvent(view,0,0));
+        view.notify(new MoveSelectedDieEvent(view, 0,1));
+
+        assertEquals(die.getValue(), model.getPlayers().get(0).getBoard().getDie(0,1).getValue());
+    }
 
 
 
