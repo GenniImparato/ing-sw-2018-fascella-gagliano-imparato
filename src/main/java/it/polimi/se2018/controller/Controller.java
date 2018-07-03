@@ -1,8 +1,11 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.controller.tool_card.ToolCardParameters;
+import it.polimi.se2018.files.ConfigFile;
 import it.polimi.se2018.files.SchemeCardsLoader;
 import it.polimi.se2018.files.ToolCardsLoader;
+import it.polimi.se2018.files.exceptions.CannotReadFileException;
+import it.polimi.se2018.files.exceptions.InvalidFileException;
 import it.polimi.se2018.files.exceptions.LoadingFilesException;
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Player;
@@ -30,6 +33,7 @@ public class Controller implements Observer<Event>
 {
     private static final String         SCHEME_CARDS_DIRECTORY =        "./resources/scheme_cards/";
     private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards/";
+    private static final String         CONFIG_FILE =                   "./resources/config.sagradaconfig";
     private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
 
     private Model               model;
@@ -76,26 +80,6 @@ public class Controller implements Observer<Event>
         playerTurnIterator = new PlayerTurnIterator(this);
 
         start(toolCardsPath);
-
-        startTimer = new GameTimer(40)
-        {
-            @Override
-            public void timeUpdated()
-            {
-                model.setStartTimer(this.getTime());
-                if(this.getTime() == 0)
-                {
-                    try
-                    {
-                        startGameSetup();
-                    }
-                    catch(ChangeModelStateException e)
-                    {
-                        getView().showErrorMessage(e.getMessage());
-                    }
-                }
-            }
-        };
     }
 
     /**
@@ -167,6 +151,7 @@ public class Controller implements Observer<Event>
 
         loadSchemeCardFiles(logger);
         loadToolCardFiles(logger, toolCardPath);
+        loadConfigFile(logger);
     }
 
     private void loadSchemeCardFiles(Logger logger)
@@ -199,6 +184,41 @@ public class Controller implements Observer<Event>
         }
         catch(LoadingFilesException e)
         {
+            System.exit(0);
+        }
+    }
+
+    private void loadConfigFile(Logger logger)
+    {
+        try
+        {
+            logger.logMessage("Parsing " + CONFIG_FILE + "...");
+            ConfigFile configFile = new ConfigFile(CONFIG_FILE);
+            logger.logMessage("Config file loaded!");
+
+            startTimer = new GameTimer(configFile.getServerTimer())
+            {
+                @Override
+                public void timeUpdated()
+                {
+                    model.setStartTimer(this.getTime());
+                    if(this.getTime() == 0)
+                    {
+                        try
+                        {
+                            startGameSetup();
+                        }
+                        catch(ChangeModelStateException e)
+                        {
+                            getView().showErrorMessage(e.getMessage());
+                        }
+                    }
+                }
+            };
+        }
+        catch(InvalidFileException|CannotReadFileException e)
+        {
+            logger.logErrorMessage(e.getMessage());
             System.exit(0);
         }
     }
@@ -240,7 +260,10 @@ public class Controller implements Observer<Event>
             startTimer.stop();
             startTimer.reset();
         }
-
+        else if(playerNum == 2 || playerNum == 3)
+        {
+            startTimer.start();
+        }
         else if(playerNum == 4)
         {
             try
