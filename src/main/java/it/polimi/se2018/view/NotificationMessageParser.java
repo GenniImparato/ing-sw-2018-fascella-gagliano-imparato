@@ -257,6 +257,11 @@ public class NotificationMessageParser implements MessageVisitor
     {
     }
 
+    @Override
+    public void visit(UpdatedStartTimerMessage message) {
+
+    }
+
     public void showNotification()
     {
         if(!notification.equals(view.getStartNotificationString()+view.getEndNotificationString()))

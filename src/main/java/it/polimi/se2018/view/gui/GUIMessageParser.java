@@ -136,5 +136,11 @@ public class GUIMessageParser implements MessageVisitor
     {
         gui.reShowCurrentView();
     }
+
+    @Override
+    public void visit(UpdatedStartTimerMessage message)
+    {
+        gui.showNotification("Game starts in " + message.getTime() + " seconds!");
+    }
 }
 

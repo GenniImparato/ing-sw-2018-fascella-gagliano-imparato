@@ -218,4 +218,9 @@ public class CLIMessageParser implements MessageVisitor
     public void visit(ReRolledDraftPoolMessage message) {
 
     }
+
+    @Override
+    public void visit(UpdatedStartTimerMessage message) {
+
+    }
 }

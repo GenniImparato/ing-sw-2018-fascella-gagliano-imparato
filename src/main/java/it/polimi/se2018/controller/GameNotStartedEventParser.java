@@ -47,6 +47,7 @@ public class GameNotStartedEventParser implements EventVisitor
         try
         {
             controller.addNewPlayer(event.getNickname());
+            controller.manageStartTime();
             controller.getView().showLobby();
         }
         catch(ChangeModelStateException e)
@@ -62,6 +63,7 @@ public class GameNotStartedEventParser implements EventVisitor
         try
         {
             controller.removePlayer(event.getNickname());
+            controller.manageStartTime();
         }
         catch (ChangeModelStateException e)
         {

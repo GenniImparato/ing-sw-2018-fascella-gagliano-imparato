@@ -39,6 +39,8 @@ public class Controller implements Observer<Event>
 
     private PlayerTurnIterator  playerTurnIterator;
 
+    protected GameTimer         startTimer;
+
     private List<ToolCard>      toolCards;
     private ToolCard            currentToolCard;
 
@@ -57,16 +59,15 @@ public class Controller implements Observer<Event>
      */
     public Controller(Model model)
     {
-        setModel(model);
-
-        setEventParser(new GameNotStartedEventParser(this));
-
-        playerTurnIterator = new PlayerTurnIterator(this);
-
-        start();
+        create(model, TOOL_CARDS_DIRECTORY);
     }
 
     public Controller(Model model, String toolCardsPath)
+    {
+        create(model, toolCardsPath);
+    }
+
+    private void create(Model model, String toolCardsPath)
     {
         setModel(model);
 
@@ -75,6 +76,26 @@ public class Controller implements Observer<Event>
         playerTurnIterator = new PlayerTurnIterator(this);
 
         start(toolCardsPath);
+
+        startTimer = new GameTimer(40)
+        {
+            @Override
+            public void timeUpdated()
+            {
+                model.setStartTimer(this.getTime());
+                if(this.getTime() == 0)
+                {
+                    try
+                    {
+                        startGameSetup();
+                    }
+                    catch(ChangeModelStateException e)
+                    {
+                        getView().showErrorMessage(e.getMessage());
+                    }
+                }
+            }
+        };
     }
 
     /**
@@ -127,27 +148,6 @@ public class Controller implements Observer<Event>
     }
 
 
-    private void start()
-    {
-        Logger logger = new Logger()
-        {
-            @Override
-            public void logMessage(String message)
-            {
-                System.out.println(message);
-            }
-
-            @Override
-            public void logErrorMessage(String message)
-            {
-                System.out.println("Error: " + message);
-            }
-        };
-
-        loadSchemeCardFiles(logger);
-        loadToolCardFiles(logger);
-    }
-
     private void start(String toolCardPath)
     {
         Logger logger = new Logger()
@@ -180,11 +180,6 @@ public class Controller implements Observer<Event>
         {
             System.exit(0);
         }
-    }
-
-    private void loadToolCardFiles(Logger logger)
-    {
-        loadToolCardFiles(logger, TOOL_CARDS_DIRECTORY);
     }
 
     private void loadToolCardFiles(Logger logger, String toolCardPath)
@@ -234,6 +229,29 @@ public class Controller implements Observer<Event>
     protected void removePlayer(String nickname) throws ChangeModelStateException
     {
         model.removePlayer(nickname);
+    }
+
+    protected void manageStartTime()
+    {
+        int playerNum = getModel().getPlayerNum();
+
+        if(playerNum == 1)
+        {
+            startTimer.stop();
+            startTimer.reset();
+        }
+
+        else if(playerNum == 4)
+        {
+            try
+            {
+                startGameSetup();
+            }
+            catch(ChangeModelStateException e)
+            {
+                getView().showErrorMessage(e.getMessage());
+            }
+        }
     }
 
     protected void chosePlayerSchemeCard(Player player, int choice) throws ChangeModelStateException

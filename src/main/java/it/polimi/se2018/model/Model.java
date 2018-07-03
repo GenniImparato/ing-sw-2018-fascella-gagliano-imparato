@@ -49,6 +49,8 @@ public class Model extends Observable <Message> implements Serializable
 
     private List<Board>                         schemeCards;
 
+    private int                                 startTimer;
+
     private int                                 currentRound;
 
     /**
@@ -538,6 +540,12 @@ public class Model extends Observable <Message> implements Serializable
             //so the view(user) can choose one of them
             notify(new SelectedPlayerSchemeCardsMessage(this, player, selectedSchemeCards));
         }
+    }
+
+    public void setStartTimer(int timer)
+    {
+        startTimer = timer;
+        notify(new UpdatedStartTimerMessage(this, startTimer));
     }
 
     /**

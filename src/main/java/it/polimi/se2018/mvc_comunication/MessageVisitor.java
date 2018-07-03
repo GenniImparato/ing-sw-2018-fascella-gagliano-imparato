@@ -21,4 +21,5 @@ public interface MessageVisitor
     void visit(BegunTurnMessage message);
     void visit(ModifiedDieMessage message);
     void visit(ReRolledDraftPoolMessage message);
+    void visit(UpdatedStartTimerMessage message);
 }
