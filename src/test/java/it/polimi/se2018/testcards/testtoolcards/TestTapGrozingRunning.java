@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 /**
  * Class used to test three cards: "Tap Wheel", "Running Pliers", "Grozing Pliers"
+ * @author carmelofascella
  */
 public class TestTapGrozingRunning
 {
@@ -144,6 +145,11 @@ public class TestTapGrozingRunning
 
     }
 
+    /**
+     * Test the use of the Glozing Pliers tool card in the "increment" mode.
+     * If the drafted die is 6, the value after the use of the card is the same,
+     * otherwise the value of die is incremented
+     */
     @Test
     public void useGrozingPliersIncrement()
     {
@@ -168,6 +174,11 @@ public class TestTapGrozingRunning
             assertEquals(draftedVal+1, afterDraftedVal);
     }
 
+    /**
+     * Test the use of the Glozing Pliers tool card in the "decrement" mode.
+     * If the drafted die is 1, the value after the use of the card is the same,
+     * otherwise the value of die is decremented.
+     */
     @Test
     public void useGrozingPliersDecrement()
     {
@@ -192,9 +203,38 @@ public class TestTapGrozingRunning
             assertEquals(draftedVal-1, afterDraftedVal);
     }
 
+    /**
+     * Test the use of the "Running Pliers" tool card. The first player draft two dice from the draftpool
+     * during his first turn, and then he can't play his second turn in the first round.
+     * After two "end turn", it's the first turn of the second player in the second turn of the game
+     * *
+     * */
     @Test
     public void useRunningPliers()
     {
+        view.notify(new UseToolCardEvent(view, numCards[2]));
+
+        view.notify(new DraftDieEvent(view, 0));
+        die0 = model.getDraftedDie();
+
+        view.notify(new AddDieToBoardEvent(view, 1,0));
+
+        view.notify(new DraftDieEvent(view,1));
+
+        die1 = model.getDraftedDie();
+
+        view.notify(new AddDieToBoardEvent(view, 2,1));
+
+        assertEquals(die0.getValue(), model.getPlayers().get(0).getBoard().getDie(1,0).getValue());
+        assertEquals(die1.getValue(), model.getPlayers().get(0).getBoard().getDie(2,1).getValue());
+
+        assertEquals(die0.getColor(), model.getPlayers().get(0).getBoard().getDie(1,0).getColor());
+        assertEquals(die1.getColor(), model.getPlayers().get(0).getBoard().getDie(2,1).getColor());
+
+        view.notify(new EndTurnEvent(view));
+        view.notify(new EndTurnEvent(view));
+
+        assertEquals("Player2", model.getCurrentPlayer().getNickname());
 
     }
 }
