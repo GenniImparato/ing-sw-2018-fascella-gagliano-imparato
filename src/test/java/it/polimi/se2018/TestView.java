@@ -62,7 +62,7 @@ public class TestView extends View
     }
 
     @Override
-    public void showSelectDieFromDraftPool() {
+    public void showSelectDieFromRoundTrack() {
 
     }
 
@@ -78,6 +78,11 @@ public class TestView extends View
 
     @Override
     public void showIncrementDie() {
+
+    }
+
+    @Override
+    public void showSelectSameColorDie() {
 
     }
 

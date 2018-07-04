@@ -32,9 +32,10 @@ import java.util.Random;
 public class Controller implements Observer<Event>
 {
     private static final String         SCHEME_CARDS_DIRECTORY =        "./resources/scheme_cards/";
-    private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards/";
+    private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards_prova/";
     private static final String         CONFIG_FILE =                   "./resources/config.sagradaconfig";
     private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
+    public  static final int            TOTAL_ROUNDS =                  10;
 
     private Model               model;
     private ViewInterface       view;
@@ -54,7 +55,7 @@ public class Controller implements Observer<Event>
     private boolean             playerUsesToolCard = false;
 
     private int                 currentRound;
-    private static final int    TOTAL_ROUNDS = 10;
+
 
     /**
      * Constructor that saves the reference to the model passed by parameter,
@@ -284,6 +285,7 @@ public class Controller implements Observer<Event>
 
     protected void startGameSetup() throws ChangeModelStateException
     {
+        startTimer.stop();
         setEventParser(new GameSetupEventParser(this));
         model.selectRandomSchemeCardsForPlayers();
     }
@@ -305,9 +307,28 @@ public class Controller implements Observer<Event>
         model.draftDie(dieNum);
     }
 
+    public void skipNextPlayerTurn()
+    {
+        playerTurnIterator.skipSecondPlayerTurn();
+    }
+
     protected void selectDieFromBoard(int row, int column) throws ChangeModelStateException
     {
         model.selectDieFromBoard(model.getCurrentPlayer(), row, column);
+    }
+
+    protected void selectSameColorDieFromBoard(int row, int column) throws ChangeModelStateException
+    {
+        ToolCardParameters param = getCurrentToolCardParameters();
+
+        int dieType = Model.CHOOSEN_DIE;
+
+        if(param.isDraftedDie())
+            dieType = Model.DRAFTET_DIE;
+        else if(param.isSelectedDie())
+            dieType = Model.SELECTED_DIE;
+
+        model.selectSameColorDieFromBoard(model.getCurrentPlayer(), row, column, dieType);
     }
 
     protected void startToolCardActions(int cardNum) throws ChangeModelStateException
@@ -355,7 +376,7 @@ public class Controller implements Observer<Event>
         model.setCurrentPlayer(playerTurnIterator.next());
     }
 
-    protected void endPlayerTurn()
+    public void endPlayerTurn()
     {
         if(playerTurnIterator.isLastTurn())
             endRound();

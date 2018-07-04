@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.Controller;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,9 @@ public class RoundTrack implements Serializable
      */
     public RoundTrack(DraftPool draftPool)
     {
-        dice=new ArrayList[10];
+        dice=new ArrayList[Controller.TOTAL_ROUNDS];
 
-        for (int i=0; i<10; i++)
+        for (int i = 0; i< Controller.TOTAL_ROUNDS; i++)
             dice[i]=new ArrayList<>();
 
         this.draftPool = draftPool;
@@ -36,7 +38,7 @@ public class RoundTrack implements Serializable
      */
     public RoundTrack(RoundTrack roundTrack, DraftPool draftPool)
     {
-        this.dice = new ArrayList[10];
+        this.dice = new ArrayList[Controller.TOTAL_ROUNDS];
 
         for (int i=0; i<10; i++)
         {

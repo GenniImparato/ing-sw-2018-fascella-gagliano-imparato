@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.Controller;
 import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.Message;
@@ -619,6 +620,32 @@ public class Model extends Observable <Message> implements Serializable
             throw new ChangeModelStateException("The selected cell doesn't contain any die!");
         else
             notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+    }
+
+    public void selectSameColorDieFromBoard(Player player, int row, int column, int dieType) throws ChangeModelStateException
+    {
+        Die tempDie = player.getBoard().getDie(row, column);
+        Die compareDie = getDie(dieType);
+
+        if(tempDie == null)
+            throw new ChangeModelStateException("The selected cell doesn't contain any die!");
+
+        if(tempDie.getColor() != compareDie.getColor())
+            throw new ChangeModelStateException("The selected die is not " + compareDie.getColor() + " !");
+
+        selectedDie = tempDie;
+        notify(new SelectedDieMessage(this, selectedDie, currentPlayer));
+    }
+
+    public void chooseDieFromRoundTrack(int round) throws ChangeModelStateException
+    {
+        if(round < 0 || round >= Controller.TOTAL_ROUNDS)
+            throw new ChangeModelStateException("Round out of bound!");
+
+        if(roundTrack.getDiceAtRound(round).isEmpty())
+            throw new ChangeModelStateException("No dice at selected round!");
+
+        chosenDie = roundTrack.getDiceAtRound(round).get(0);
     }
 
     /**

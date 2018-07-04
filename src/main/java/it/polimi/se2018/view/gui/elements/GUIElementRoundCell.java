@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.gui.elements;
 
 
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.view.gui.GUI;
 
 import javax.swing.*;
@@ -10,13 +11,19 @@ import java.util.List;
 
 public class GUIElementRoundCell extends JLabel
 {
-    private List<GUIElementDie> guiDice;
-    private GUIRoundTrackPopup  popup;
-    private GUI                 gui;
+    private List<GUIElementDie>     guiDice;
+    private GUIRoundTrackPopup      popup;
+    private GUIElementRoundTrack    guiRoundTrack;
+    private GUI                     gui;
+    private int                     roundNumber;
+    private boolean                 selectable;
 
-    public GUIElementRoundCell(int roundNumber, GUI gui)
+    public GUIElementRoundCell(int roundNumber, GUIElementRoundTrack guiRoundTrack, GUI gui)
     {
         this.gui = gui;
+        this.roundNumber = roundNumber;
+        this.guiRoundTrack = guiRoundTrack;
+
         guiDice = new ArrayList<>();
 
         popup = new GUIRoundTrackPopup(this, gui);
@@ -29,17 +36,33 @@ public class GUIElementRoundCell extends JLabel
     {
         guiDice.add(guiDie);
 
-        if(guiDice.size() == 1)
+        List<Die> totalDice =  guiRoundTrack.getRoundTrack().getDiceAtRound(roundNumber-1);
+
+        if(guiDice.size() == totalDice.size())
         {
-            add(guiDie);
-        }
-        else if(guiDice.size() > 1)
-        {
+            List<GUIElementDie> newGuiDice = new ArrayList<>();
+
+            for(Die die:totalDice)
+            {
+                for(GUIElementDie gDie:guiDice)
+                {
+                    if(gDie.getDie().isSameDie(die))
+                        newGuiDice.add(gDie);
+                }
+            }
+
+            guiDice = newGuiDice;
+
+            add(guiDice.get(0));
+
             guiDice.get(0).setActions(new GUIDieActions()
             {
                 @Override
                 public void clicked(GUIElementDie die)
-                {}
+                {
+                    if(guiRoundTrack.action != null && selectable)
+                        guiRoundTrack.action.dieClicked(guiRoundTrack, roundNumber-1);
+                }
 
                 @Override
                 public void mouseEntered()
@@ -54,12 +77,18 @@ public class GUIElementRoundCell extends JLabel
                 }
             });
         }
-
-        System.out.println(guiDice.size());
     }
 
     public List<GUIElementDie> getDice()
     {
         return guiDice;
+    }
+
+    public void setSelectableDice(boolean selectable)
+    {
+        this.selectable = selectable;
+
+        if(!guiDice.isEmpty())
+            guiDice.get(0).setSelectable(selectable);
     }
 }

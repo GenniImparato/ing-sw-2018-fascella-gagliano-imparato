@@ -1,6 +1,6 @@
-ChooseDie			from_roundtrack
-SelectSameColorDie	from_board		chosen_die
+ChooseDieFromRoundrack
+SelectSameColorDie	chosen_die
 MoveSelectedDie		ignore_nothing
 AskToStop
-SelectSameColorDie	from_board		chosen_die
+SelectSameColorDie	chosen_die
 MoveSelectedDie		ignore_nothing

@@ -47,7 +47,7 @@ public class PlayerTurnIterator implements Iterator<Player>
     //return true if there are still players on the queue
     public boolean hasNext()
     {
-        return currentTurn < getPlayerNum()*2;
+        return currentTurn < turns.size();
     }
 
     //return the number of players in the model
@@ -64,14 +64,23 @@ public class PlayerTurnIterator implements Iterator<Player>
 
     public boolean isCurrentPlayerSecondTurn()
     {
-        int currentPlayer = turns.get(currentTurn);
+        int currentPlayer = turns.get(currentTurn-1);
         boolean ret = true;
 
-        for(int i = currentPlayer+1; i<turns.size(); i++)
+        for(int i = currentTurn; i<turns.size(); i++)
             if(turns.get(i) == currentPlayer)
                 ret = false;
 
         return ret;
+    }
+
+    public void skipSecondPlayerTurn()
+    {
+        int currentPlayer = turns.get(currentTurn-1);
+
+        for(int i = currentTurn; i<turns.size(); i++)
+            if(turns.get(i) == currentPlayer)
+                turns.remove(i);
     }
 
     private boolean isFirstNextCall()

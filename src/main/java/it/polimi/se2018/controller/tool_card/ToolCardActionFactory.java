@@ -18,7 +18,9 @@ public class ToolCardActionFactory
         INCREMENT_DECREMENT_DIE("IncrementDecrementDie", 1),
         SWAP_DICE("SwapDice", 0),
         SKIP_NEXT_TURN("SkipNextTurn", 0),
-        ASK_TO_STOP("AskToStop", 0);
+        ASK_TO_STOP("AskToStop", 0),
+        CHOOSE_DIE_FROM_ROUNDTRACK("ChooseDieFromRoundTrack", 0),
+        SELECT_SAME_COLOR_DIE("SelectSameColorDie", 1);
 
         private String name;
         private int paramNumber;
@@ -59,6 +61,14 @@ public class ToolCardActionFactory
             return new ReRollDraftPoolAction(new ToolCardParameterBuilder().build());
         else if(action.equals(Action.FLIP_DIE.getName()))
             return new FlipDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
+        else if(action.equals(Action.INCREMENT_DECREMENT_DIE.getName()))
+            return new IncrementDecrementDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
+        else if(action.equals(Action.SKIP_NEXT_TURN.getName()))
+            return new SkipTurnAction(new ToolCardParameterBuilder().build());
+        else if(action.equals(Action.CHOOSE_DIE_FROM_ROUNDTRACK.getName()))
+            return new ChooseDieFromRoundTrackAction(new ToolCardParameterBuilder().build());
+        else if(action.equals(Action.SELECT_SAME_COLOR_DIE.getName()))
+            return new SelectSameColorDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");
     }

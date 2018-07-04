@@ -71,6 +71,16 @@ public class EventParser implements EventVisitor
     }
 
     @Override
+    public void visit(SelectSameColorDieEvent event) {
+
+    }
+
+    @Override
+    public void visit(ChooseDieEvent event) {
+
+    }
+
+    @Override
     public void visit(EndTurnEvent event)
     {
         controller.endPlayerTurn();

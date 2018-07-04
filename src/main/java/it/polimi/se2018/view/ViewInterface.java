@@ -17,10 +17,11 @@ public interface ViewInterface
      void showDraft();
      void showAddDie();
      void showSelectDieFromBoard();
-     void showSelectDieFromDraftPool();
+     void showSelectDieFromRoundTrack();
      void showReDrawDie();
      void showMoveDie();
      void showIncrementDie();
+     void showSelectSameColorDie();
      void reShowCurrentView();
 
      void disconnect();

@@ -16,4 +16,6 @@ public interface EventVisitor
     void visit(IncrementDraftedDieEvent event);
     void visit(EndTurnEvent event);
     void visit(ClientDisconnectedEvent event);
+    void visit(SelectSameColorDieEvent event);
+    void visit(ChooseDieEvent event);
 }

@@ -12,11 +12,25 @@ public class GUIYesNoDialog extends GUIDialog
     public static final int     YES = 0;
     public static final int     NO = 1;
 
+    private static final String YES_ICON_PATH =     "resources/images/menu/yes.png";
+    private static final String NO_ICON_PATH =      "resources/images/menu/no.png";
+
     private int response;
 
     public GUIYesNoDialog(GUI gui, String title, String message)
     {
         super(gui, title);
+        create(gui, message, YES_ICON_PATH, NO_ICON_PATH);
+    }
+
+    public GUIYesNoDialog(GUI gui, String title, String message, String yesIconPath, String noIconPath)
+    {
+        super(gui, title);
+        create(gui, message, yesIconPath, noIconPath);
+    }
+
+    private void create(GUI gui, String message, String yesIconPath, String noIconPath)
+    {
         Container mainContainer = new Container();
         mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
@@ -55,12 +69,12 @@ public class GUIYesNoDialog extends GUIDialog
 
         JButton yesButton = new JButton();
         yesButton.setPreferredSize(new Dimension(150, 70));
-        yesButton.setIcon(new ImageIcon("resources/images/menu/yes.png"));
+        yesButton.setIcon(new ImageIcon(yesIconPath));
         buttonContainer.add(yesButton);
 
         JButton noButton = new JButton();
         noButton.setPreferredSize(new Dimension(150, 70));
-        noButton.setIcon(new ImageIcon("resources/images/menu/no.png"));
+        noButton.setIcon(new ImageIcon(noIconPath));
         buttonContainer.add(noButton);
 
         yesButton.addActionListener(new ActionListener()

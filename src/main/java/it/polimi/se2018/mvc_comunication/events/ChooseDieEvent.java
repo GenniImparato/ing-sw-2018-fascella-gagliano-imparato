@@ -4,26 +4,19 @@ import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.ViewInterface;
 
-public class AddDieToBoardEvent extends Event
+public class ChooseDieEvent extends Event
 {
-    private int row;
-    private int col;
+    private int round;
 
-    public AddDieToBoardEvent(ViewInterface view, int row, int column)
+    public ChooseDieEvent(ViewInterface view, int round)
     {
         super(view);
-        this.row = row;
-        this.col = column;
+        this.round = round;
     }
 
-    public int getRow()
+    public int getRound()
     {
-        return row;
-    }
-
-    public int getColumn()
-    {
-        return col;
+        return round;
     }
 
     @Override

@@ -145,8 +145,16 @@ public class RMIVirtualView extends VirtualView
     }
 
     @Override
-    public void showSelectDieFromDraftPool() {
-
+    public void showSelectDieFromRoundTrack()
+    {
+        try
+        {
+            remoteclient.showSelectDieFromRoundTrack();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -174,6 +182,19 @@ public class RMIVirtualView extends VirtualView
         try
         {
             remoteclient.showIncrementDie();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showSelectSameColorDie()
+    {
+        try
+        {
+            remoteclient.showSelectSameColorDie();
         }
         catch(RemoteException e)
         {

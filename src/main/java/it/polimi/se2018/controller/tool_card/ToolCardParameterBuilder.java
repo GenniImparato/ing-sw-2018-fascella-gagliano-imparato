@@ -25,6 +25,8 @@ public class ToolCardParameterBuilder
             die = ToolCardParameters.DieParameter.DRAFTED;
         else if(parameter.equals(SELECTED_DIE))
             die = ToolCardParameters.DieParameter.SELECTED;
+        else if(parameter.equals(CHOSEN_DIE))
+            die = ToolCardParameters.DieParameter.CHOSEN;
         else
             throw new InvalidToolCardActionException("Invalid parameter: " + parameter);
 

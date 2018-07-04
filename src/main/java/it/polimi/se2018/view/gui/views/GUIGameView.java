@@ -280,6 +280,44 @@ public class GUIGameView extends GUIView
         });
     }
 
+    public void setSelectSameColorDieMode()
+    {
+        disableAllSelections();
+        actionLabel.setText("Choose a die in your board matching the color of the chosen die!");
+
+        getAssociatedPlayerBoard().setSelectableDice(true);
+        getAssociatedPlayerBoard().setActions(new GUIBoardActions()
+        {
+            @Override
+            public void clicked(GUIElementBoard board){}
+
+            @Override
+            public void clickedCell(GUIElementBoard board, int row, int column) {}
+
+            @Override
+            public void clickedDie(GUIElementDie die, int row, int column)
+            {
+                gui.notify(new SelectSameColorDieEvent(gui, row, column));
+            }
+        });
+    }
+
+    public void setSelectDieFromRoundTrackMode()
+    {
+        disableAllSelections();
+        actionLabel.setText("Choose a die from the Round Track!");
+
+        guiRoundTrack.setSelectableDice(true);
+
+        guiRoundTrack.setAction(new GUIRoundTrackAction() {
+            @Override
+            public void dieClicked(GUIElementRoundTrack roundTrack, int round)
+            {
+                gui.notify(new ChooseDieEvent(gui, round));
+            }
+        });
+    }
+
     public void setOtherPlayersMode()
     {
         actionLabel.setText("");
@@ -358,6 +396,7 @@ public class GUIGameView extends GUIView
         setCardsSelectable(false);
         guiDraftPool.setSelectableDice(false);
         endTurnButton.setEnabled(false);
+        guiRoundTrack.setSelectableDice(false);
 
         for(GUIElementBoard guiBoard : guiBoards)
         {

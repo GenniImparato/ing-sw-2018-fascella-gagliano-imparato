@@ -1,11 +1,13 @@
 package it.polimi.se2018.view.gui;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.mvc_comunication.Message;
+import it.polimi.se2018.mvc_comunication.events.IncrementDraftedDieEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.NotificationMessageParser;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
+import it.polimi.se2018.view.gui.dialogs.GUIIncrementDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIYesNoDialog;
 import it.polimi.se2018.view.gui.views.GUIGameView;
@@ -231,7 +233,25 @@ public class GUI extends View
     @Override
     public void showIncrementDie()
     {
-        GUIYesNoDialog dialog = new GUIYesNoDialog(this, "Tool card", "Do you want to use ");
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                GUIIncrementDieDialog dialog = new GUIIncrementDieDialog(thisElement);
+                if(dialog.getResponse() == GUIYesNoDialog.YES)
+                    thisElement.notify(new IncrementDraftedDieEvent(thisElement, IncrementDraftedDieEvent.INCREMENT));
+                else
+                    thisElement.notify(new IncrementDraftedDieEvent(thisElement, IncrementDraftedDieEvent.DECREMENT));
+            }
+        }).start();
+    }
+
+    @Override
+    public void showSelectSameColorDie()
+    {
+        reShowCurrentView();
+        ((GUIGameView) getCurrentView()).setSelectSameColorDieMode();
     }
 
     @Override
@@ -242,8 +262,10 @@ public class GUI extends View
     }
 
     @Override
-    public void showSelectDieFromDraftPool()
+    public void showSelectDieFromRoundTrack()
     {
+        reShowCurrentView();
+        ((GUIGameView) getCurrentView()).setSelectDieFromRoundTrackMode();
     }
 
     @Override

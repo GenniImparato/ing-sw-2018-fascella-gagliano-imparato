@@ -4,12 +4,12 @@ import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.view.ViewInterface;
 
-public class AddDieToBoardEvent extends Event
+public class SelectSameColorDieEvent extends Event
 {
     private int row;
     private int col;
 
-    public AddDieToBoardEvent(ViewInterface view, int row, int column)
+    public SelectSameColorDieEvent(ViewInterface view, int row, int column)
     {
         super(view);
         this.row = row;

@@ -201,13 +201,18 @@ public class CLI extends View
     }
 
     @Override
+    public void showSelectSameColorDie() {
+
+    }
+
+    @Override
     public void showSelectDieFromBoard()
     {
         showView(new CLISelectDieFromBoard(this));
     }
 
     @Override
-    public void showSelectDieFromDraftPool() {
+    public void showSelectDieFromRoundTrack() {
 
     }
 

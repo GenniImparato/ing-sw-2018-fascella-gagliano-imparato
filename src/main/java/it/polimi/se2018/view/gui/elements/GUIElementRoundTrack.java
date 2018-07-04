@@ -14,6 +14,9 @@ public class GUIElementRoundTrack extends JPanel
     private GUIElementRoundCell roundCells[];
     private GUIElementDraftPool guiDraftPool;
     private GUI gui;
+    protected GUIRoundTrackAction action;
+
+    private static final int    NUM_OF_ROUNDS = 10;
 
     public GUIElementRoundTrack(RoundTrack roundTrack, GUIElementDraftPool guiDraftPool, GUI gui)
     {
@@ -33,9 +36,9 @@ public class GUIElementRoundTrack extends JPanel
 
         roundCells = new GUIElementRoundCell[10];
 
-        for(int i=0; i<10; i++)
+        for(int i=0; i<NUM_OF_ROUNDS; i++)
         {
-            roundCells[i] = new GUIElementRoundCell(i+1, gui);
+            roundCells[i] = new GUIElementRoundCell(i+1, this, gui);
             roundCells[i].setAlignmentY(Component.CENTER_ALIGNMENT);
             backgroundLabel.add(roundCells[i]);
             backgroundLabel.add(Box.createHorizontalGlue());
@@ -50,7 +53,7 @@ public class GUIElementRoundTrack extends JPanel
 
         for(GUIElementDie guiDie : guiDraftPool.getGUIDice())
         {
-            for(int round=0; round<10; round++)
+            for(int round=0; round<NUM_OF_ROUNDS; round++)
             {
                 for (Die roundTrackDie : roundTrack.getDiceAtRound(round))
                 {
@@ -59,5 +62,21 @@ public class GUIElementRoundTrack extends JPanel
                 }
             }
         }
+    }
+
+    public void setSelectableDice(boolean selectable)
+    {
+        for(int i=0; i<NUM_OF_ROUNDS; i++)
+            roundCells[i].setSelectableDice(selectable);
+    }
+
+    public void setAction(GUIRoundTrackAction action)
+    {
+        this.action = action;
+    }
+
+    public RoundTrack getRoundTrack()
+    {
+        return roundTrack;
     }
 }

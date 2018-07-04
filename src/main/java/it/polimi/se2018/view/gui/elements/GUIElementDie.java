@@ -194,6 +194,8 @@ public class GUIElementDie extends JLabel implements GUIFrameAnimatedElement, GU
     public void setSelectable(boolean selectable)
     {
         this.selectable = selectable;
+        if(!selectable)
+            showNormalIcon();
     }
 
     public void setActions(GUIDieActions actions)

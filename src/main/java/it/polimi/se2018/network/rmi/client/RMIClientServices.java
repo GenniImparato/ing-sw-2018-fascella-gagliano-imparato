@@ -94,6 +94,18 @@ public class RMIClientServices implements RMIClientInterface
     }
 
     @Override
+    public void showSelectDieFromRoundTrack() throws RemoteException
+    {
+        handler.getView().showSelectDieFromRoundTrack();
+    }
+
+    @Override
+    public void showSelectSameColorDie() throws RemoteException
+    {
+        handler.getView().showSelectSameColorDie();
+    }
+
+    @Override
     public void disconnect() throws RemoteException
     {
         handler.disconnect();

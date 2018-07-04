@@ -54,6 +54,36 @@ public class UsingToolCardEventParser implements EventVisitor
     }
 
     @Override
+    public void visit(SelectSameColorDieEvent event)
+    {
+        try
+        {
+            controller.selectSameColorDieFromBoard(event.getRow(), event.getColumn());
+            controller.nextToolCardStep();
+        }
+        catch(ChangeModelStateException e)
+        {
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
+        }
+    }
+
+    @Override
+    public void visit(ChooseDieEvent event)
+    {
+        try
+        {
+            controller.getModel().chooseDieFromRoundTrack(event.getRound());
+            controller.nextToolCardStep();
+        }
+        catch(ChangeModelStateException e)
+        {
+            controller.getView().showErrorMessage(e.getMessage());
+            controller.getView().reShowCurrentView();
+        }
+    }
+
+    @Override
     public void visit(EndTurnEvent event)
     {
     }
@@ -147,6 +177,7 @@ public class UsingToolCardEventParser implements EventVisitor
     @Override
     public void visit(UseToolCardEvent event)
     {
+
     }
 
     @Override
