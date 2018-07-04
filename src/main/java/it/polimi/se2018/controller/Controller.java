@@ -32,7 +32,7 @@ import java.util.Random;
 public class Controller implements Observer<Event>
 {
     private static final String         SCHEME_CARDS_DIRECTORY =        "./resources/scheme_cards/";
-    private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards_prova/";
+    private static final String         TOOL_CARDS_DIRECTORY =          "./resources/tool_cards/";
     private static final String         CONFIG_FILE =                   "./resources/config.sagradaconfig";
     private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
     public  static final int            TOTAL_ROUNDS =                  10;

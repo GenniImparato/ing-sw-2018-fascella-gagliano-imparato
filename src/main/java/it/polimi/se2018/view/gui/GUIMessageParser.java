@@ -142,5 +142,6 @@ public class GUIMessageParser implements MessageVisitor
     {
         gui.showNotification("Game starts in " + message.getTime() + " seconds!");
     }
+
 }
 
