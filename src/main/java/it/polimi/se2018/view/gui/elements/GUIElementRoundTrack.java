@@ -51,6 +51,7 @@ public class GUIElementRoundTrack extends JPanel
     {
         this.roundTrack = roundTrack;
 
+        //checks for new dice added by the draftpool
         for(GUIElementDie guiDie : guiDraftPool.getGUIDice())
         {
             for(int round=0; round<NUM_OF_ROUNDS; round++)
@@ -62,6 +63,13 @@ public class GUIElementRoundTrack extends JPanel
                 }
             }
         }
+
+        //refresh all cells
+        for(int round=0; round<NUM_OF_ROUNDS; round++)
+        {
+            roundCells[round].refresh();
+        }
+
     }
 
     public void setSelectableDice(boolean selectable)
