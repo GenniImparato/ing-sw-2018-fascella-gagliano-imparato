@@ -648,6 +648,25 @@ public class Model extends Observable <Message> implements Serializable
         chosenDie = roundTrack.getDiceAtRound(round).get(0);
     }
 
+    public void swapDraftedChosenDie()
+    {
+        for(int i=0; i<Controller.TOTAL_ROUNDS; i++)
+        {
+            List<Die> diceAtRound = roundTrack.getDiceAtRound(i);
+
+            for(int j=0; j<diceAtRound.size(); j++)
+            {
+                if(diceAtRound.get(j).isSameDie(chosenDie))
+                {
+                    Die tempDie = draftedDie;
+                    draftedDie = diceAtRound.get(j);
+                    roundTrack.setDie(tempDie, i, j);
+                    notify(new ModifiedDieMessage(this, draftedDie, currentPlayer));
+                }
+            }
+        }
+    }
+
     /**
      * Method that increments the value of the Drafted Die.
      * Then it notifies the View with the ChangedDraftedDieMessage

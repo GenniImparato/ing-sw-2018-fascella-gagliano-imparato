@@ -88,4 +88,13 @@ public class RoundTrack implements Serializable
     {
         return dice[round];
     }
+
+    public void setDie(Die die, int round, int position)
+    {
+        if(getDiceAtRound(round).get(position)!=null)
+        {
+            dice[round].remove(position);
+            dice[round].add(position, die);
+        }
+    }
 }

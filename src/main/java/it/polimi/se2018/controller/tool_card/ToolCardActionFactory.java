@@ -20,7 +20,8 @@ public class ToolCardActionFactory
         SKIP_NEXT_TURN("SkipNextTurn", 0),
         ASK_TO_STOP("AskToStop", 0),
         CHOOSE_DIE_FROM_ROUNDTRACK("ChooseDieFromRoundTrack", 0),
-        SELECT_SAME_COLOR_DIE("SelectSameColorDie", 1);
+        SELECT_SAME_COLOR_DIE("SelectSameColorDie", 1),
+        SWAP_DRAFTED_CHOSEN_DIE("SwapDraftedChosenDice", 0);
 
         private String name;
         private int paramNumber;
@@ -69,6 +70,8 @@ public class ToolCardActionFactory
             return new ChooseDieFromRoundTrackAction(new ToolCardParameterBuilder().build());
         else if(action.equals(Action.SELECT_SAME_COLOR_DIE.getName()))
             return new SelectSameColorDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
+        else if(action.equals(Action.SWAP_DRAFTED_CHOSEN_DIE.getName()))
+            return new SwapDraftedChosenDieAction(new ToolCardParameterBuilder().build());
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");
     }
