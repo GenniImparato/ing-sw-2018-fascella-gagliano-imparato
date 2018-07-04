@@ -1,6 +1,5 @@
-ChooseDieFromRoundrack
+ChooseDieFromRoundTrack
 SelectSameColorDie	chosen_die
 MoveSelectedDie		ignore_nothing
-AskToStop
 SelectSameColorDie	chosen_die
 MoveSelectedDie		ignore_nothing
