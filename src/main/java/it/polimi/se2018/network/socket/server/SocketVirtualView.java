@@ -152,6 +152,12 @@ public class SocketVirtualView extends VirtualView implements Runnable
         sendToClient(new NetworkMessage("reShowCurrentView"));
     }
 
+    @Override
+    public void showFinalScore()
+    {
+        sendToClient(new NetworkMessage("showFinalScore"));
+    }
+
     //Writes a message to the client socket
     private synchronized void sendToClient(NetworkMessage message)
     {
