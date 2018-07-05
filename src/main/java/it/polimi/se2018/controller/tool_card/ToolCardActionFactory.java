@@ -3,8 +3,15 @@ package it.polimi.se2018.controller.tool_card;
 
 import it.polimi.se2018.controller.tool_card.actions.*;
 
+/**
+ * This class is used to create the tool cards' actions. The tool cards' actions are created through the Factory pattern.
+ * Each tool card has a set of actions that need to be executed; the execution of an action can involve zero or more parameters.
+ */
 public class ToolCardActionFactory
 {
+    /**
+     * These are all the possible actions that a tool card can execute.
+     */
     private enum Action
     {
         DRAFT_DIE("DraftDie", 0),
@@ -26,26 +33,50 @@ public class ToolCardActionFactory
         private String name;
         private int paramNumber;
 
+        /**
+         * Constructor of the enum
+         * @param name name of the tool card action
+         * @param parametersNumber number of parameters associated to the tool card action
+         */
         Action(String name, int parametersNumber)
         {
             this.name = name;
             this.paramNumber = parametersNumber;
         }
 
+        /**
+         * Returns the number of parameters of a particular action
+         * @return number of parameters of a particular action
+         */
         public int getParametersNumber()
         {
             return paramNumber;
         }
 
+        /**
+         * Returns the name of the tool card action
+         * @return name of the tool card action
+         */
         public String getName()
         {
             return name;
         }
     }
 
+    /**
+     * Constructor
+     */
     private ToolCardActionFactory()
     {}
 
+    /**
+     * This is the method responsible for creating a tool card action; each tool card action is generated from this method
+     * according to the name and to the parameter passed by parameter
+     * @param action action that is about to be created
+     * @param parameter parameter associated to th action
+     * @return tool card action built properly
+     * @throws InvalidToolCardActionException when an action is not permitted
+     */
     public static ToolCardAction createAction(String action, String parameter) throws InvalidToolCardActionException
     {
         if(action.equals(Action.DRAFT_DIE.getName()))
@@ -76,6 +107,12 @@ public class ToolCardActionFactory
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");
     }
 
+    /**
+     * Returns the number of parameters of the action that matches the name passed by parameter
+     * @param action name of the action
+     * @return the number of parameters of the action that matches the name passed by parameter
+     * @throws InvalidToolCardActionException when an action cannot be found
+     */
     public static int getParameterNumber(String action) throws InvalidToolCardActionException
     {
         for(Action possibleAction : Action.values())
