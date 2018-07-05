@@ -61,20 +61,28 @@ public class Controller implements Observer<Event>
 
 
     /**
-     * Constructor that saves the reference to the model passed by parameter,
-     * sets the default EventVisitor, creates a PlayerTurnIterator and invoke the method start()
-     * @param model it's the model that will be saved
+     * Constructor that sets a default tool card directory
+     * @param model current Model
      */
     public Controller(Model model)
     {
         create(model, TOOL_CARDS_DIRECTORY);
     }
 
+    /**
+     * Constructor that sets a personalized tool card directory
+     * @param model current model
+     * @param toolCardsPath path of the tool cards
+     */
     public Controller(Model model, String toolCardsPath)
     {
         create(model, toolCardsPath);
     }
 
+    /** Helper called by each constructor
+     * @param model current model
+     * @param toolCardsPath path of the tool cards
+     */
     private void create(Model model, String toolCardsPath)
     {
         setModel(model);
@@ -101,8 +109,8 @@ public class Controller implements Observer<Event>
     }
 
     /**
-     * Getter of the Model
-     * @return the reference of the model
+     * Returns the current Model
+     * @return current Model
      */
     public Model getModel()
     {
@@ -110,8 +118,8 @@ public class Controller implements Observer<Event>
     }
 
     /**
-     * Getter of the ViewInterface
-     * @return the reference of the viewInterface
+     * Returns the set view
+     * @return set view
      */
     public ViewInterface getView()
     {
@@ -119,8 +127,8 @@ public class Controller implements Observer<Event>
     }
 
     /**
-     * Setter of the ViewInterface that notifies the Controller
-     * @param view that will be saved
+     * Sets the view
+     * @param view set view
      */
     public void setView(ViewInterface view)
     {
@@ -128,8 +136,8 @@ public class Controller implements Observer<Event>
     }
 
     /**
-     * Setter of the Model
-     * @param model that will be saved
+     * Sets the model
+     * @param model current Model
      */
     public void setModel(Model model)
     {
@@ -273,16 +281,29 @@ public class Controller implements Observer<Event>
         model.setPublicCards(modelCards);
     }
 
+    /**
+     * Adds a new player to the Game
+     * @param nickname nickname of the player
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void addNewPlayer(String nickname) throws ChangeModelStateException
     {
         model.addNewPlayer(nickname);
     }
 
+    /**
+     * Removes a player from the Game
+     * @param nickname nickname of the player
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void removePlayer(String nickname) throws ChangeModelStateException
     {
         model.removePlayer(nickname);
     }
 
+    /**
+     * Manages the start timer
+     */
     protected void manageStartTime()
     {
         int playerNum = getModel().getPlayerNum();
@@ -309,11 +330,21 @@ public class Controller implements Observer<Event>
         }
     }
 
+    /**
+     * Sets the scheme card of a player
+     * @param player player to associate to a scheme card
+     * @param choice number associated to a tool card of the current Game
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void chosePlayerSchemeCard(Player player, int choice) throws ChangeModelStateException
     {
         model.setPlayerSchemeCard(player, choice);
     }
 
+    /**
+     * Starts to sets up the game. Stops the start time, sets the new parser and selects random scheme cards for the player
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void startGameSetup() throws ChangeModelStateException
     {
         if(getModel().getPlayerNum() >= MIN_PLAYERS)
@@ -324,11 +355,20 @@ public class Controller implements Observer<Event>
         }
     }
 
+    /**
+     * Sets a player ready/unready
+     * @param player player to set ready or not ready
+     * @param ready tells if the player needs to be ready or !ready
+     */
     protected void setPlayerReady(Player player, boolean ready)
     {
         model.setPlayerReady(player, ready);
     }
 
+    /**
+     * Starts the game setting the proper event parser
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void startGame() throws ChangeModelStateException
     {
         model.startGame();
@@ -337,22 +377,42 @@ public class Controller implements Observer<Event>
         beginRound();
     }
 
+    /**
+     * Drafts a die
+     * @param dieNum number of the die in the draftpool
+     * @throws ChangeModelStateException if a change in the model is forbidden
+     */
     protected void draftDie(int dieNum) throws ChangeModelStateException
     {
         model.draftDie(dieNum);
         playerHasDrafted = true;
     }
 
+    /**
+     * Skips the current next player second turn
+     */
     public void skipNextPlayerTurn()
     {
         playerTurnIterator.skipSecondPlayerTurn();
     }
 
+    /**
+     * Selects a die from the board of a player
+     * @param row first coordinate of the die in the board
+     * @param column second coordiate of the die in the board
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void selectDieFromBoard(int row, int column) throws ChangeModelStateException
     {
         model.selectDieFromBoard(model.getCurrentPlayer(), row, column);
     }
 
+    /**
+     * Selects the same color die from the board of the current player
+     * @param row first coordinate of the die in the board
+     * @param column second coordinate of the die in the board
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void selectSameColorDieFromBoard(int row, int column) throws ChangeModelStateException
     {
         ToolCardParameters param = getCurrentToolCardParameters();
@@ -367,6 +427,11 @@ public class Controller implements Observer<Event>
         model.selectSameColorDieFromBoard(model.getCurrentPlayer(), row, column, dieType);
     }
 
+    /**
+     * Starts the effects of the tool cards and sets the new parser
+     * @param cardNum number of the tool card in the Game
+     * @throws ChangeModelStateException if the Model cannot be modified
+     */
     protected void startToolCardActions(int cardNum) throws ChangeModelStateException
     {
         model.setCurrentToolCard(cardNum);
@@ -379,6 +444,9 @@ public class Controller implements Observer<Event>
         currentToolCard.use(this);
     }
 
+    /**
+     * Ends the effects of the tool card and sets the new parser
+     */
     protected void endToolCardActions()
     {
         usingToolCard = false;
@@ -390,24 +458,37 @@ public class Controller implements Observer<Event>
         view.showTurn();
     }
 
+    /**
+     * Performs the next tool card step ( executes the next action )
+     */
     protected void nextToolCardStep()
     {
         if(currentToolCard != null)
             currentToolCard.executeNextAction(this);
     }
 
+    /**
+     * Tells if the tool card is being used
+     * @return true if the tool card is being used, false otherwise
+     */
     public boolean isToolCardBeingUsed()
     {
         return usingToolCard;
     }
 
 
+    /**
+     * Starts the round
+     */
     protected void beginRound()
     {
         model.drawFromDiceBag();
         beginPlayerTurn();
     }
 
+    /**
+     * Begins the turn of the next player
+     */
     protected void beginPlayerTurn()
     {
         playerHasDrafted = false;
@@ -417,6 +498,9 @@ public class Controller implements Observer<Event>
         model.setCurrentPlayer(playerTurnIterator.next());
     }
 
+    /**
+     * Ends the turn of a player
+     */
     public void endPlayerTurn()
     {
         if(playerTurnIterator.isLastTurn())
@@ -425,7 +509,9 @@ public class Controller implements Observer<Event>
             beginPlayerTurn();
     }
 
-    //add the remaining dice in the DraftPool to the RoundTrack
+    /**
+     * Adds the remaining dice to the DraftPool to the RoundTrack and changes the current round
+     */
     protected void endRound()
     {
         model.addLastDiceToRoundTrack();
@@ -444,6 +530,10 @@ public class Controller implements Observer<Event>
         }
     }
 
+    /**
+     * Returns the current tool card action parameters
+     * @return current tool card action parameters
+     */
     protected ToolCardParameters getCurrentToolCardParameters()
     {
         if(isToolCardBeingUsed())
@@ -451,16 +541,28 @@ public class Controller implements Observer<Event>
         else return null;
     }
 
+    /**
+     * Sets the proper event parser
+     * @param eventParser proper event parser
+     */
     protected void setEventParser(EventVisitor eventParser)
     {
         this.eventParser = eventParser;
     }
 
+    /**
+     * Tells if a player has drafted or not
+     * @return true if the player has drafted, false if it has not
+     */
     public boolean hasPlayerDrafted()
     {
         return playerHasDrafted;
     }
 
+    /**
+     * Tells if the player has already used the tool card in the current turn
+     * @return true if the player has already used the tool card, false otherwise
+     */
     public boolean hasPlayerUsedToolCard()
     {
         return playerUsedToolCard;
