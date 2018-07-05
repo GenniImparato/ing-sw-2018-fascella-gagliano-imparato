@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 
 /**
  * Class used to test three Tool Cards: "Copper Foil Burnisher, Cork Backed Straightedge, Eglomise Brush"
+ * @author carmelofascella
  */
 public class TestCopperCorkEglomise
 {

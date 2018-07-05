@@ -1,0 +1,5 @@
+ChooseDieFromRoundTrack
+SelectSameColorDie	chosen_die
+MoveSelectedDie		ignore_nothing
+SelectSameColorDie	chosen_die
+MoveSelectedDie		ignore_nothing

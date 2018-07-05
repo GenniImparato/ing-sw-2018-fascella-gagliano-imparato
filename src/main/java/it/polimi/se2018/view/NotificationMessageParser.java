@@ -284,4 +284,5 @@ public class NotificationMessageParser implements MessageVisitor
         if(!notification.equals(view.getStartNotificationString()+view.getEndNotificationString()))
             view.showNotification(notification);
     }
+
 }

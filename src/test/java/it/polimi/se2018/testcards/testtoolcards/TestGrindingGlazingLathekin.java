@@ -21,7 +21,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class TestFluxremGlazhamGrindston
+/**
+ * Class to test three Tool Card: "Grinding Stone", "Glazing Hammer", "Lathekin"
+ */
+public class TestGrindingGlazingLathekin
 {
     private Model model;
     private Controller controller;

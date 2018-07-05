@@ -2,6 +2,10 @@ package it.polimi.se2018.mvc_comunication;
 
 import it.polimi.se2018.mvc_comunication.events.*;
 
+/**
+ * This interface is part of the Visitor design pattern.
+ * A message visitor can parse a specific event thanks to the overridden visit method.
+ */
 public interface EventVisitor
 {
     void visit(SelectSchemeCardEvent event);
