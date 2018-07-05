@@ -1,4 +1,4 @@
-package it.polimi.se2018.controller;
+package it.polimi.se2018.controller.public_objective_cards;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;

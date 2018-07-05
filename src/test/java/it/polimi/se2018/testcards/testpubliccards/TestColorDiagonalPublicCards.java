@@ -1,12 +1,11 @@
 package it.polimi.se2018.testcards.testpubliccards;
 
-import it.polimi.se2018.controller.PublicObjectiveCardScorer;
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.model.publicobjectivecards.ColorDiagonalsCard;
+import it.polimi.se2018.controller.public_objective_cards.ColorDiagonalsCard;
 import it.polimi.se2018.utils.Color;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,7 +18,6 @@ import static org.junit.Assert.*;
  */
 public class TestColorDiagonalPublicCards
 {
-    private static PublicObjectiveCardScorer scorer;
     private static SagradaSchemeCardFile sagradaSchemeCardFile;
     private static Board board;
     private static Die die0;
@@ -78,14 +76,6 @@ public class TestColorDiagonalPublicCards
 
 
     }
-    /**
-     * Creates the scorer with the board just created before
-     */
-    @Before
-    public void setUp()
-    {
-        scorer = new PublicObjectiveCardScorer(board);
-    }
 
     /**
      * Tests if the scorer counts all the purple dice on the diagonals
@@ -93,7 +83,7 @@ public class TestColorDiagonalPublicCards
     @Test
     public void testScore()
     {
-        assertEquals(5, new ColorDiagonalsCard().acceptVisitor(scorer));
+        assertEquals(5, new ColorDiagonalsCard().score(board));
     }
 
 }

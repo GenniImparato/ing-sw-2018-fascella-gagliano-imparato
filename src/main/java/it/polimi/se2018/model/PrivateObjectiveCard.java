@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.controller.BoardAnalyzer;
+import it.polimi.se2018.controller.public_objective_cards.BoardAnalyzer;
 import it.polimi.se2018.utils.Color;
 
 /**

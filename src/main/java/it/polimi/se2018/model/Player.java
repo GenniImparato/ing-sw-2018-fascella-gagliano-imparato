@@ -1,8 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.utils.Color;
 
 import java.io.Serializable;

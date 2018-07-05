@@ -1,12 +1,11 @@
 package it.polimi.se2018.testcards.testpubliccards;
 
-import it.polimi.se2018.controller.PublicObjectiveCardScorer;
 import it.polimi.se2018.files.SagradaSchemeCardFile;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.model.publicobjectivecards.DeepShadesCard;
+import it.polimi.se2018.controller.public_objective_cards.DeepShadesCard;
 import it.polimi.se2018.utils.Color;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,7 +18,6 @@ import static org.junit.Assert.*;
  */
 public class TestDeepShadesPublicCards
 {
-    private static PublicObjectiveCardScorer scorer;
     private static SagradaSchemeCardFile sagradaSchemeCardFile;
     private static Board board;
     private static Die die0;
@@ -68,21 +66,12 @@ public class TestDeepShadesPublicCards
     }
 
     /**
-     * Creates the scorer with the board just created before
-     */
-    @Before
-    public void setUp()
-    {
-        scorer = new PublicObjectiveCardScorer(board);
-    }
-
-    /**
      * Test if the scorer calculates the score related to one single set formed by one 6-die and one 5-die
      */
     @Test
     public void testScore()
     {
-        assertEquals(2, new DeepShadesCard().acceptVisitor(scorer));
+        assertEquals(2, new DeepShadesCard().score(board));
     }
 
 }

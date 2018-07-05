@@ -1,27 +1,23 @@
-package it.polimi.se2018.model.publicobjectivecards;
+package it.polimi.se2018.controller.public_objective_cards;
 
+import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class PublicObjectiveCard extends Card implements PublicObjectiveCardVisitable
+public abstract class PublicObjectiveCard
 {
-    protected int                 points;
-    private static final int      NUMBER_OF_CARDS = 10;
+    protected int               points;
+    private String              name;
+    private static final int    NUMBER_OF_CARDS = 10;
+
 
     public PublicObjectiveCard (String name, int points)
     {
-        super(name);
+        this.name = name;
         this.points = points;
-    }
-
-    //copy constructor
-    public PublicObjectiveCard(PublicObjectiveCard card)
-    {
-        super(card);
-        this.points = card.points;
     }
 
     public int getPoints()
@@ -64,5 +60,12 @@ public abstract class PublicObjectiveCard extends Card implements PublicObjectiv
         }
 
         return ret;
+    }
+
+    public abstract int score(Board board);
+
+    public Card generateCard()
+    {
+        return new Card(name);
     }
 }

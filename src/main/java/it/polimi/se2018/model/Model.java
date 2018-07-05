@@ -6,7 +6,7 @@ import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.messages.*;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.controller.public_objective_cards.PublicObjectiveCard;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.utils.Observable;
 
@@ -39,7 +39,7 @@ public class Model extends Observable <Message> implements Serializable
     private DraftPool                           draftPool;
     private RoundTrack                          roundTrack;
 
-    private List<PublicObjectiveCard>           publicCards;
+    private List<Card>                          publicCards;
     private List<Card>                          toolCards;
     private Card                                currentToolCard;
 
@@ -70,9 +70,6 @@ public class Model extends Observable <Message> implements Serializable
         diceBag = new DiceBag();
         draftPool = new DraftPool(diceBag);
         roundTrack = new RoundTrack(draftPool);
-
-        //init cards
-        publicCards = PublicObjectiveCard.getRandomCards(3);
     }
 
     /**
@@ -95,17 +92,11 @@ public class Model extends Observable <Message> implements Serializable
         this.roundTrack = new RoundTrack(model.roundTrack, this.draftPool);
 
         //copy public cards
-        this.publicCards = new ArrayList<>();
-        for(PublicObjectiveCard card : model.publicCards)
+        if(model.publicCards != null)
         {
-            try
-            {
-                //create a copy of the runtime type of every public card
-                this.publicCards.add(card.getClass().newInstance());
-            }
-            catch(InstantiationException | IllegalAccessException e)
-            {
-            }
+            this.publicCards = new ArrayList<>();
+            for (Card card : model.publicCards)
+                this.publicCards.add(new Card(card));
         }
 
         //copy tool cards
@@ -187,7 +178,7 @@ public class Model extends Observable <Message> implements Serializable
      * Getter of the PublicObjectiveCard
      * @return the list of the three PublicObjectiveCards of the Game
      */
-    public List<PublicObjectiveCard> getPublicObjectiveCards()
+    public List<Card> getPublicObjectiveCards()
     {
         return publicCards;
     }
@@ -313,6 +304,11 @@ public class Model extends Observable <Message> implements Serializable
     public void setToolCards(List<Card> toolCards)
     {
         this.toolCards = toolCards;
+    }
+
+    public void setPublicCards(List<Card> publicCards)
+    {
+        this.publicCards = publicCards;
     }
 
     /**

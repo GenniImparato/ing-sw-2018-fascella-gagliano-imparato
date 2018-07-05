@@ -2,7 +2,7 @@ package it.polimi.se2018.view.cli.renderer.elements;
 
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.utils.Color;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
+import it.polimi.se2018.controller.public_objective_cards.PublicObjectiveCard;
 import it.polimi.se2018.view.cli.renderer.CLIRenderer;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class CLIElementCard extends CLIElement
 
     private void drawTitle ()
     {
-        ArrayList<String> titleCard = new ArrayList<>();
+        /*ArrayList<String> titleCard = new ArrayList<>();
         if (card instanceof PublicObjectiveCard)
         {
             titleCard.add("P U B L I C");
@@ -109,7 +109,7 @@ public class CLIElementCard extends CLIElement
         {
             for (int j=0; j<titleCard.get(i).length(); j++)
                 charMatrix[i+1][j+2] = titleCard.get(i).charAt(j);
-        }
+        }*/
 
 
     }

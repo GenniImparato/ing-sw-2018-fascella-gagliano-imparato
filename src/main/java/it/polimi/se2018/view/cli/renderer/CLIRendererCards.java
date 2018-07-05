@@ -2,7 +2,7 @@ package it.polimi.se2018.view.cli.renderer;
 
 import it.polimi.se2018.model.Card;
 import it.polimi.se2018.model.Model;
-import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;;
+import it.polimi.se2018.controller.public_objective_cards.PublicObjectiveCard;;
 import it.polimi.se2018.view.cli.CLI;
 import it.polimi.se2018.view.cli.renderer.elements.CLIElementCard;
 
@@ -29,7 +29,7 @@ public class CLIRendererCards extends CLIRenderer
         initMatrix();
 
 
-        List<PublicObjectiveCard> publicCards = model.getPublicObjectiveCards();
+        List<Card> publicCards = model.getPublicObjectiveCards();
 
         for(int i=0; i<publicCards.size(); i++)
             new CLIElementCard(this, publicCards.get(i), 35*i, 0 , i, false);

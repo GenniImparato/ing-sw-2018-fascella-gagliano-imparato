@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.controller.public_objective_cards.PublicObjectiveCard;
 import it.polimi.se2018.controller.tool_card.ToolCardParameters;
 import it.polimi.se2018.files.ConfigFile;
 import it.polimi.se2018.files.SchemeCardsLoader;
@@ -156,6 +157,7 @@ public class Controller implements Observer<Event>
         loadSchemeCardFiles(logger);
         loadToolCardFiles(logger, toolCardPath);
         loadConfigFile(logger);
+        selectRandomPublicCards();
     }
 
     private void loadSchemeCardFiles(Logger logger)
@@ -257,7 +259,18 @@ public class Controller implements Observer<Event>
             modelToolCards.add(toolCard.generateCard());
 
         model.setToolCards(modelToolCards);
+    }
 
+    private void selectRandomPublicCards()
+    {
+        List<PublicObjectiveCard> randomCards = PublicObjectiveCard.getRandomCards(3);
+
+        List<Card> modelCards = new ArrayList<>();
+
+        for(PublicObjectiveCard pubCard : randomCards)
+            modelCards.add(pubCard.generateCard());
+
+        model.setPublicCards(modelCards);
     }
 
     protected void addNewPlayer(String nickname) throws ChangeModelStateException
