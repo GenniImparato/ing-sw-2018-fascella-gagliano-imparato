@@ -279,6 +279,11 @@ public class NotificationMessageParser implements MessageVisitor
 
     }
 
+    @Override
+    public void visit(EndGameMessage message) {
+
+    }
+
     public void showNotification()
     {
         if(!notification.equals(view.getStartNotificationString()+view.getEndNotificationString()))

@@ -787,4 +787,9 @@ public class Model extends Observable <Message> implements Serializable
     {
         return schemeCards;
     }
+
+    public void endGame()
+    {
+        notify(new EndGameMessage(this));
+    }
 }

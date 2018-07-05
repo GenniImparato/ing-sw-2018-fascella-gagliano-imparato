@@ -234,7 +234,15 @@ public class CLI extends View
     }
 
     @Override
+    public void showFinalScore() {
+
+    }
+
+    @Override
     public void disconnect()
     {}
+
+
+
 
 }

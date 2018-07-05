@@ -432,7 +432,7 @@ public class Controller implements Observer<Event>
     {
         model.addLastDiceToRoundTrack();
 
-        if(model.getCurrentRound() < TOTAL_ROUNDS-1)
+        if(model.getCurrentRound() < 2)
         {
             try
             {
@@ -444,6 +444,13 @@ public class Controller implements Observer<Event>
 
             beginRound();
         }
+        else
+        {
+            score();
+            model.endGame();
+        }
+
+
     }
 
     protected ToolCardParameters getCurrentToolCardParameters()
@@ -466,6 +473,22 @@ public class Controller implements Observer<Event>
     public boolean hasPlayerUsedToolCard()
     {
         return playerUsedToolCard;
+    }
+
+    public void score()
+    {
+        for(int i=0; i<model.getPlayers().size(); i++)
+        {
+            Player player = model.getPlayers().get(i);
+
+            for(int j=0; j<publicCards.size(); j++)
+            {
+                player.incrementScore(publicCards.get(j).score(player.getBoard()));
+            }
+
+            player.incrementPrivateScore();
+        }
+
     }
 }
 

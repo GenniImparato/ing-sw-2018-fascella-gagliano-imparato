@@ -154,5 +154,11 @@ public class GUIMessageParser implements MessageVisitor
     {
 
     }
+
+    @Override
+    public void visit(EndGameMessage message)
+    {
+        gui.showFinalScore();
+    }
 }
 

@@ -4,6 +4,7 @@ import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.utils.Color;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Class used to represent a Player.
@@ -16,7 +17,7 @@ public class Player implements Serializable
     private Board                   board;              //player's board
     private PrivateObjectiveCard    card;               //player's private objective card
     private int                     favorTokens=3;           //player's number of favor token
-    private int                     score=0;
+    private int                     score;
     private Color                   color;              //color of the player's board and the score marker
     private String                  nickname;
 
@@ -37,6 +38,8 @@ public class Player implements Serializable
         this.schemeCardIndices = new int[4];
         this.ready = false;
         this.active = true;
+
+        this.score= new Random().nextInt(100);
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
         board = new Board();

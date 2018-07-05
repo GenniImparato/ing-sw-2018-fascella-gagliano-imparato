@@ -1,9 +1,12 @@
 package it.polimi.se2018;
 import static org.junit.Assert.*;
 
+import it.polimi.se2018.files.ToolCardsLoader;
 import it.polimi.se2018.model.Model;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import org.junit.Before;
 import org.junit.Test;
+
 
 /**
  * Class used to test the methods of the class Model
@@ -13,6 +16,7 @@ public class TestModel
 {
     private Model model;
     private Model clonedModel;
+    private ToolCardsLoader loader;
 
     /**
      * It sets up a model and its cloned one
@@ -49,4 +53,66 @@ public class TestModel
         assertEquals(model.getDiceBag().pullDice(5).size(), clonedModel.getDiceBag().pullDice(5).size());
         assertEquals(model.getPublicObjectiveCards().size(), clonedModel.getPublicObjectiveCards().size());
     }
+
+    /**
+     * Test the case when we ask to get a wrong type of Die
+     */
+    @Test
+    public void testWrongGetDie()
+    {
+        assertEquals(null, model.getDie(3));
+    }
+
+    /**
+     * Test that tries to add a new Player and then to remove it, measuring the size of the Players
+     */
+    @Test
+    public void testRemovePlayer()
+    {
+        try
+        {
+            model.addNewPlayer("Player1");
+        }
+        catch(ChangeModelStateException e)
+        {
+
+        }
+
+        assertEquals(1, model.getPlayers().size());
+
+        try
+        {
+            model.removePlayer("Player1");
+        }
+        catch(ChangeModelStateException e)
+        {
+
+        }
+
+        assertEquals(0, model.getPlayers().size());
+
+
+    }
+
+    @Test
+    public void testToolCard()
+    {
+        try
+        {
+            model.setCurrentToolCard(-1);
+            fail();
+        }
+        catch(ChangeModelStateException e)
+        {
+
+        }
+
+
+    }
+
+
+
+
+
+
 }
