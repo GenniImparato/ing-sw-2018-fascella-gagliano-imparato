@@ -21,6 +21,7 @@ public class GUIGameView extends GUIView
     private List<JLabel>            boardContainers;
     private GUIElementToolCard[]    guiToolCards;
     private GUIElementPublicCard[]  guiPublicCards;
+    private List<Container>         tokensFlows;
 
     private JButton                 endTurnButton;
     private JLabel                  actionLabel;
@@ -33,6 +34,7 @@ public class GUIGameView extends GUIView
 
         guiBoards = new ArrayList<>();
         boardContainers = new ArrayList<>();
+        tokensFlows = new ArrayList<>();
         guiToolCards = new GUIElementToolCard[3];
         guiPublicCards = new GUIElementPublicCard[3];
 
@@ -143,17 +145,11 @@ public class GUIGameView extends GUIView
             boardContainer.add(tokensGrid);
 
             Container tokensFlow = new Container();
+            tokensFlows.add(tokensFlow);
             tokensFlow.setLayout(new FlowLayout());
             boardContainer.add(tokensFlow);
 
             tokensFlow.add(new JLabel("Favor Tokens:", JLabel.CENTER));
-
-            for(int j=0; j< player.getTokens(); j++)
-            {
-                JLabel tokenLabel = new JLabel("", JLabel.CENTER);
-                tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
-                tokensFlow.add(tokenLabel);
-            }
 
             boardContainer.add(Box.createVerticalGlue());
         }
@@ -167,6 +163,19 @@ public class GUIGameView extends GUIView
         for(int i=0; i<gui.getModel().getPlayerNum(); i++)
         {
             guiBoards.get(i).refresh(gui.getModel().getPlayers().get(i).getBoard(), draftedDie);
+
+            tokensFlows.get(i).removeAll();
+            for(int j=0; j< gui.getModel().getPlayers().get(i).getTokens(); j++)
+            {
+                JLabel tokenLabel = new JLabel("", JLabel.CENTER);
+                tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
+                tokensFlows.get(i).add(tokenLabel);
+            }
+        }
+
+        for(int i=0; i<3; i++)
+        {
+            guiToolCards[i].refresh(gui.getModel().getToolCards().get(i));
         }
 
         refreshBoardContainers();

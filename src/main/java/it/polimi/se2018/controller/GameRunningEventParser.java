@@ -66,15 +66,23 @@ public class GameRunningEventParser implements EventVisitor
     @Override
     public void visit(DraftDieEvent event)
     {
-        try
+        if(controller.hasPlayerDrafted())
         {
-            controller.draftDie(event.getDieNum());
-            controller.getView().showAddDie();
+            controller.getView().showErrorMessage("You cannot draft again in this turn!");
+            controller.getView().showTurn();
         }
-        catch (ChangeModelStateException e)
+        else
         {
-            controller.getView().showErrorMessage(e.getMessage());
-            controller.getView().reShowCurrentView();
+            try
+            {
+                controller.draftDie(event.getDieNum());
+                controller.getView().showAddDie();
+            }
+            catch(ChangeModelStateException e)
+            {
+                controller.getView().showErrorMessage(e.getMessage());
+                controller.getView().reShowCurrentView();
+            }
         }
     }
 
@@ -121,14 +129,22 @@ public class GameRunningEventParser implements EventVisitor
     @Override
     public void visit(UseToolCardEvent event)
     {
-        try
+        if(controller.hasPlayerUsedToolCard())
         {
-            controller.startToolCardActions(event.getCardNum());
+            controller.getView().showErrorMessage("You cannot use another card in this turn!");
+            controller.getView().showTurn();
         }
-        catch (ChangeModelStateException e)
+        else
         {
-            controller.getView().showErrorMessage(e.getMessage());
-            controller.getView().reShowCurrentView();
+            try
+            {
+                controller.startToolCardActions(event.getCardNum());
+            }
+            catch (ChangeModelStateException e)
+            {
+                controller.getView().showErrorMessage(e.getMessage());
+                controller.getView().reShowCurrentView();
+            }
         }
     }
 

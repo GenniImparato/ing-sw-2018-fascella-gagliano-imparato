@@ -340,7 +340,15 @@ public class Model extends Observable <Message> implements Serializable
         if(cardNum < 0  || cardNum >= toolCards.size())
             throw new ChangeModelStateException("Invalid tool card index!");
 
+        int numOftokens = 2;
+
+        if(toolCards.get(cardNum).getFavorTokens()==0)
+            numOftokens = 1;
+
+        currentPlayer.useTokens(numOftokens);
         currentToolCard = toolCards.get(cardNum);
+        currentToolCard.addFavorTokens(numOftokens);
+
         notify(new UsingToolCardMessage(this, currentToolCard, currentPlayer));
     }
 

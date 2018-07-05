@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.files.SagradaSchemeCardFile;
+import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.model.publicobjectivecards.PublicObjectiveCard;
 import it.polimi.se2018.utils.Color;
 
@@ -134,6 +135,14 @@ public class Player implements Serializable
     public int getTokens ()
     {
         return favorTokens;
+    }
+
+    public void useTokens(int num) throws ChangeModelStateException
+    {
+        if(favorTokens >= num)
+            favorTokens -= num;
+        else
+            throw new ChangeModelStateException("Not enough favor tokens!");
     }
 
     /**

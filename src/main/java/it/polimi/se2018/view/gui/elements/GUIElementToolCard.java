@@ -8,6 +8,7 @@ import it.polimi.se2018.view.gui.dialogs.GUIYesNoDialog;
 import it.polimi.se2018.view.gui.elements.animations.GUIAnimationActions;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -92,5 +93,26 @@ public class GUIElementToolCard extends GUIElementCard
     public Card getCard()
     {
         return card;
+    }
+
+    public void refresh(Card card)
+    {
+        this.card = card;
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.removeAll();
+
+        this.add(Box.createVerticalGlue());
+        Container tokensFlows = new Container();
+        tokensFlows.setLayout(new FlowLayout());
+        this.add(tokensFlows);
+;
+        for(int j=0; j<card.getFavorTokens(); j++)
+        {
+            JLabel tokenLabel = new JLabel("");
+            tokenLabel.setIcon(new ImageIcon("resources/images/selectschemes/difficulty.png"));
+            tokensFlows.add(tokenLabel);
+        }
+        this.validate();
     }
 }

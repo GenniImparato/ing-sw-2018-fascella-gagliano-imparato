@@ -11,7 +11,8 @@ import java.io.Serializable;
  */
 public class Card implements Serializable
 {
-    private String name;
+    private String  name;
+    private int     favorTokens;
 
     /**
      * Constructor that saves in the subclass instance the name of the Card.
@@ -20,6 +21,7 @@ public class Card implements Serializable
     public Card (String name)
     {
         this.name = name;
+        this.favorTokens = 0;
     }
 
     /**
@@ -29,6 +31,7 @@ public class Card implements Serializable
     public Card(Card card)
     {
         this.name = card.getName();
+        this.favorTokens = card.favorTokens;
     }
 
     /**
@@ -40,4 +43,13 @@ public class Card implements Serializable
         return name;
     }
 
+    public int getFavorTokens()
+    {
+        return favorTokens;
+    }
+
+    public void addFavorTokens(int num)
+    {
+        favorTokens += num;
+    }
 }

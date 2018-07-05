@@ -54,7 +54,7 @@ public class Controller implements Observer<Event>
     private boolean             usingToolCard = false;
 
     private boolean             playerHasDrafted = false;
-    private boolean             playerUsesToolCard = false;
+    private boolean             playerUsedToolCard = false;
 
     private int                 currentRound;
 
@@ -327,6 +327,7 @@ public class Controller implements Observer<Event>
     protected void draftDie(int dieNum) throws ChangeModelStateException
     {
         model.draftDie(dieNum);
+        playerHasDrafted = true;
     }
 
     public void skipNextPlayerTurn()
@@ -357,6 +358,7 @@ public class Controller implements Observer<Event>
     {
         model.setCurrentToolCard(cardNum);
 
+        playerUsedToolCard = true;
         setEventParser(new UsingToolCardEventParser(this));
 
         usingToolCard = true;
@@ -395,6 +397,8 @@ public class Controller implements Observer<Event>
 
     protected void beginPlayerTurn()
     {
+        playerHasDrafted = false;
+        playerUsedToolCard = false;
         turnTimer.reset();
         turnTimer.start();
         model.setCurrentPlayer(playerTurnIterator.next());
@@ -437,6 +441,16 @@ public class Controller implements Observer<Event>
     protected void setEventParser(EventVisitor eventParser)
     {
         this.eventParser = eventParser;
+    }
+
+    public boolean hasPlayerDrafted()
+    {
+        return playerHasDrafted;
+    }
+
+    public boolean hasPlayerUsedToolCard()
+    {
+        return playerUsedToolCard;
     }
 }
 
