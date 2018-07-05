@@ -36,6 +36,7 @@ public class Controller implements Observer<Event>
     private static final String         CONFIG_FILE =                   "./resources/config.sagradaconfig";
     private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
     public  static final int            TOTAL_ROUNDS =                  10;
+    public  static final int            MIN_PLAYERS =                   2;
 
     private Model               model;
     private ViewInterface       view;
@@ -302,9 +303,12 @@ public class Controller implements Observer<Event>
 
     protected void startGameSetup() throws ChangeModelStateException
     {
-        startTimer.stop();
-        setEventParser(new GameSetupEventParser(this));
-        model.selectRandomSchemeCardsForPlayers();
+        if(getModel().getPlayerNum() >= MIN_PLAYERS)
+        {
+            startTimer.stop();
+            setEventParser(new GameSetupEventParser(this));
+            model.selectRandomSchemeCardsForPlayers();
+        }
     }
 
     protected void setPlayerReady(Player player, boolean ready)
