@@ -72,6 +72,8 @@ public class ToolCardActionFactory
             return new SelectSameColorDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
         else if(action.equals(Action.SWAP_DRAFTED_CHOSEN_DIE.getName()))
             return new SwapDraftedChosenDieAction(new ToolCardParameterBuilder().build());
+        else if(action.equals(Action.RE_DRAW_DIE.getName()))
+            return new ReDrawDieAction(new ToolCardParameterBuilder().setDie(parameter).build());
 
         throw new InvalidToolCardActionException("Invalid action: " + action + "!");
     }

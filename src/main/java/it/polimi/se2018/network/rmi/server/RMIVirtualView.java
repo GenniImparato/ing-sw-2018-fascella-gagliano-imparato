@@ -160,7 +160,14 @@ public class RMIVirtualView extends VirtualView
     @Override
     public void showReDrawDie()
     {
-
+        try
+        {
+            remoteclient.showReDrawDie();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

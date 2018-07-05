@@ -17,7 +17,6 @@ public class RMIClientServices implements RMIClientInterface
     @Override
     public void notifyView(Message message)  throws RemoteException
     {
-        System.out.println("CLient service: exe on client");
         handler.notify(message);
     }
 
@@ -79,6 +78,12 @@ public class RMIClientServices implements RMIClientInterface
     public void showMoveDie() throws RemoteException
     {
         handler.getView().showMoveDie();
+    }
+
+    @Override
+    public void showReDrawDie() throws RemoteException
+    {
+        handler.getView().showReDrawDie();
     }
 
     @Override

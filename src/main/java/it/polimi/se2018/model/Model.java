@@ -51,6 +51,7 @@ public class Model extends Observable <Message> implements Serializable
     private List<Board>                         schemeCards;
 
     private int                                 startTimer;
+    private int                                 turnTimer;
 
     private int                                 currentRound;
 
@@ -543,10 +544,24 @@ public class Model extends Observable <Message> implements Serializable
         }
     }
 
+    public void setCurrentPlayerActive(boolean active)
+    {
+        currentPlayer.setActive(active);
+
+        if(!active)
+            notify(new DisconnectedPlayerMessage(this, currentPlayer));
+    }
+
     public void setStartTimer(int timer)
     {
         startTimer = timer;
         notify(new UpdatedStartTimerMessage(this, startTimer));
+    }
+
+    public void setTurnTimer(int timer)
+    {
+        turnTimer = timer;
+        notify(new UpdatedTurnTimerMessage(this, startTimer));
     }
 
     /**
@@ -695,6 +710,14 @@ public class Model extends Observable <Message> implements Serializable
         notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
     }
 
+    public void reDrawDraftedDie()
+    {
+        Die temp = diceBag.drawDie();
+        diceBag.returnDie(draftedDie);
+        draftedDie = temp;
+        notify(new ChangedDraftedDieMessage(this, draftedDie, currentPlayer));
+    }
+
     /**
      * Method that moves the selected Die at the given position.
      * Then it notifies the View with the MovedDieMessage
@@ -759,6 +782,4 @@ public class Model extends Observable <Message> implements Serializable
     {
         return schemeCards;
     }
-
-
 }

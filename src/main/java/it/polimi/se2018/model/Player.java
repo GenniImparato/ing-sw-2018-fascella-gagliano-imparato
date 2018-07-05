@@ -22,6 +22,7 @@ public class Player implements Serializable
     private String                  nickname;
 
     private boolean                 ready;
+    private boolean                 active;
 
     private boolean                 schemeCardChosen = false;
     private int[]                   schemeCardIndices;
@@ -36,6 +37,7 @@ public class Player implements Serializable
         this.color = color;
         this.schemeCardIndices = new int[4];
         this.ready = false;
+        this.active = true;
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
         board = new Board();
@@ -56,6 +58,7 @@ public class Player implements Serializable
         this.ready = player.ready;
         this.schemeCardChosen = player.schemeCardChosen;
         this.schemeCardIndices = player.schemeCardIndices;
+        this.active = player.active;
     }
 
     public boolean hasChoosenSchemeCard()
@@ -162,5 +165,14 @@ public class Player implements Serializable
         score += favorTokens;
     }
 
+    public boolean isActive()
+    {
+        return active;
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }
 
 }

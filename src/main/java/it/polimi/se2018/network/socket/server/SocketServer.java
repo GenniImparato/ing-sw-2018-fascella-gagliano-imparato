@@ -1,4 +1,5 @@
 package it.polimi.se2018.network.socket.server;
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.exceptions.CannotCreateServerException;
 import it.polimi.se2018.network.server.Server;
 import it.polimi.se2018.network.server.VirtualView;
@@ -68,6 +69,21 @@ public class SocketServer
         {
             if(!virtualClient.isConnected())
                 removeClient(virtualClient);
+        }
+    }
+
+    public void checkActivePlayers()
+    {
+
+        for(VirtualView virtualClient : virtualClients)
+        {
+            for(Player player: server.getModel().getPlayers())
+            {
+                if(virtualClient.getAssociatedNickname() != null
+                        &&     !player.isActive()
+                        &&     player.getNickname().equals(virtualClient.getAssociatedNickname()))
+                    virtualClient.disconnect();
+            }
         }
     }
 }

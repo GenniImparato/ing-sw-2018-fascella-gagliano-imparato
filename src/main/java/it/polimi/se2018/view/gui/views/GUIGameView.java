@@ -379,7 +379,9 @@ public class GUIGameView extends GUIView
         {
             Player player = gui.getModel().getPlayers().get(i);
 
-            if (player.getNickname().equals(gui.getAssociatedPlayerNickname())  && !currentPlayer.getNickname().equals(gui.getAssociatedPlayerNickname()))
+            if(!player.isActive())
+                boardContainers.get(i).setIcon(new ImageIcon("resources/images/gameview/disconnected.png"));
+            else if (player.getNickname().equals(gui.getAssociatedPlayerNickname())  && !currentPlayer.getNickname().equals(gui.getAssociatedPlayerNickname()))
                 boardContainers.get(i).setIcon(new ImageIcon("resources/images/gameview/yourboard.png"));
             else if (player.getNickname().equals(gui.getAssociatedPlayerNickname()))
                 boardContainers.get(i).setIcon(new ImageIcon("resources/images/gameview/yourboardturn.png"));

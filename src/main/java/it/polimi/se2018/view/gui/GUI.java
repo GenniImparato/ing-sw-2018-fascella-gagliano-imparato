@@ -1,11 +1,9 @@
 package it.polimi.se2018.view.gui;
-import it.polimi.se2018.model.Die;
 import it.polimi.se2018.mvc_comunication.Message;
 import it.polimi.se2018.mvc_comunication.events.IncrementDraftedDieEvent;
 import it.polimi.se2018.utils.Color;
 import it.polimi.se2018.view.NotificationMessageParser;
 import it.polimi.se2018.view.View;
-import it.polimi.se2018.view.cli.views.CLIView;
 import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIIncrementDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
@@ -200,7 +198,7 @@ public class GUI extends View
     @Override
     public void showMenu()
     {
-
+        showView(new GUIMenuView(this));
     }
 
     @Override
@@ -271,7 +269,14 @@ public class GUI extends View
     @Override
     public void showReDrawDie()
     {
-        new GUIDrawDieDialog(this, new Die(Color.RED));
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                new GUIDrawDieDialog(thisElement, getModel().getDraftedDie());
+            }
+        }).start();
     }
 
     @Override

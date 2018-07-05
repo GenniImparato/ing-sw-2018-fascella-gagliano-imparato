@@ -102,7 +102,7 @@ public class GUIElementRoundCell extends JLabel
             if(!diceAtRound.get(0).isSameDie(guiDice.get(0).getDie()))
             {
                 popup.hide();
-                
+
                 remove(guiDice.get(0));
                 guiDice.remove(0);
                 guiDice.add(0, new GUIElementDie(diceAtRound.get(0), false, gui));

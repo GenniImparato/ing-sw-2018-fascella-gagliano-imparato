@@ -66,6 +66,7 @@ public class RMINetworkHandler extends NetworkHandler
     @Override
     public void disconnect()
     {
+        getView().showMenu();
         try
         {
             serverServices.removeClient(remoteClient);
