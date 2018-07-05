@@ -172,6 +172,11 @@ public class Player implements Serializable
         score += favorTokens;
     }
 
+    public void incrementScore(int score)
+    {
+        this.score += score;
+    }
+
     public boolean isActive()
     {
         return active;
