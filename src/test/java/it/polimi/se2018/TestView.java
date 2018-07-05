@@ -92,6 +92,11 @@ public class TestView extends View
     }
 
     @Override
+    public void showFinalScore() {
+
+    }
+
+    @Override
     public void disconnect() {    }
 
     @Override

@@ -233,4 +233,9 @@ public class CLIMessageParser implements MessageVisitor
     public void visit(UpdatedTurnTimerMessage message) {
 
     }
+
+    @Override
+    public void visit(EndGameMessage message) {
+
+    }
 }

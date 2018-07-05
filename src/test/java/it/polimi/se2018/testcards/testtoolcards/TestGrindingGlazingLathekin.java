@@ -22,7 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Class to test three Tool Card: "Grinding Stone", "Glazing Hammer", "Lathekin"
+ * Class used to test three Tool Card: "Grinding Stone", "Glazing Hammer", "Lathekin"
+ * @author carmelofascella
  */
 public class TestGrindingGlazingLathekin
 {
@@ -79,6 +80,10 @@ public class TestGrindingGlazingLathekin
 
     }
 
+    /**
+     * Test the use of the Tool Card "Grinding Stone".
+     * After the use of the card, the die is flipped and its value is the one on the opposite face.
+     */
     @Test
     public void useGrindigStone()
     {

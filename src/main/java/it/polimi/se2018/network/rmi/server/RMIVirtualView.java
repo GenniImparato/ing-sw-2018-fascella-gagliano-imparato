@@ -223,6 +223,19 @@ public class RMIVirtualView extends VirtualView
     }
 
     @Override
+    public void showFinalScore()
+    {
+        try
+        {
+            remoteclient.showFinalScore();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void notifyView(Message message)
     {
         try

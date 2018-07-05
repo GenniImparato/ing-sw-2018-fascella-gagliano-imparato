@@ -12,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
+/**
+ * Class used to test three Tool Card: "Flux Brush", "Lens Cutter" and "Flux Remover"
+ * @author carmelofascella
+ */
 public class TestFluxbLensFluxr
 {
     private Model model;
@@ -35,11 +38,13 @@ public class TestFluxbLensFluxr
         model.attach(view);
 
         view.notify(new AddPlayerEvent(view, "Player1"));
-        view.notify(new PlayerReadyEvent(view, "Player1",true));
-        view.notify(new SelectSchemeCardEvent(view,"Player1",1));
-
         view.notify(new AddPlayerEvent(view, "Player2"));
+
+
+        view.notify(new PlayerReadyEvent(view, "Player1",true));
         view.notify(new PlayerReadyEvent(view, "Player2",true));
+
+        view.notify(new SelectSchemeCardEvent(view,"Player1",1));
         view.notify(new SelectSchemeCardEvent(view,"Player2",1));
 
 
@@ -72,6 +77,12 @@ public class TestFluxbLensFluxr
 
     }
 
+    /**
+     * Test the use of the Tool Card "Lens Cutter".
+     * After two rounds, we use the tool card during the turn of the first player.
+     * The first die on the Draftpool is swapped with the first one on the Roundtrack,
+     * and this last one is added on the board.
+     */
     @Test
     public void testLensCutter()
     {
@@ -101,6 +112,34 @@ public class TestFluxbLensFluxr
 
         assertEquals(model.getPlayers().get(0).getBoard().getDie(0,0).getValue(), die0.getValue());
         assertEquals(model.getPlayers().get(0).getBoard().getDie(0,0).getColor(), die0.getColor());
+
+    }
+
+    /**
+     * Test the use of the Tool Card "FlushBrush".
+     * It drafts a Die and then this die is rolled.
+     * Then this Die is added on the Board.
+     */
+    @Test
+    public void testFlushBrush()
+    {
+        view.notify(new UseToolCardEvent(view, numCards[1]));
+
+        die0 = model.getDraftPool().getAllDice().get(0);
+
+        view.notify(new DraftDieEvent(view, 0));
+
+        die1 = model.getDraftedDie();
+
+
+        view.notify(new AddDieToBoardEvent(view,0,0));
+
+        assertEquals(die1.getValue(), model.getPlayers().get(0).getBoard().getDie(0,0).getValue());
+    }
+
+    @Test
+    public void testFlushRemover()
+    {
 
     }
 }

@@ -39,25 +39,27 @@ public class Controller implements Observer<Event>
     public  static final int            TOTAL_ROUNDS =                  10;
     public  static final int            MIN_PLAYERS =                   2;
 
-    private Model               model;
-    private ViewInterface       view;
+    private Model                       model;
+    private ViewInterface               view;
 
-    private EventVisitor        eventParser;
+    private EventVisitor                eventParser;
 
-    private PlayerTurnIterator  playerTurnIterator;
+    private PlayerTurnIterator          playerTurnIterator;
 
-    protected GameTimer         startTimer;
-    protected GameTimer         turnTimer;
+    protected GameTimer                 startTimer;
+    protected GameTimer                 turnTimer;
 
-    private List<ToolCard>      toolCards;
-    private ToolCard            currentToolCard;
+    private List<ToolCard>              toolCards;
+    private ToolCard                    currentToolCard;
 
-    private boolean             usingToolCard = false;
+    private List<PublicObjectiveCard>   publicCards;
 
-    private boolean             playerHasDrafted = false;
-    private boolean             playerUsedToolCard = false;
+    private boolean                     usingToolCard = false;
 
-    private int                 currentRound;
+    private boolean                     playerHasDrafted = false;
+    private boolean                     playerUsedToolCard = false;
+
+    private int                         currentRound;
 
 
     /**
@@ -271,11 +273,11 @@ public class Controller implements Observer<Event>
 
     private void selectRandomPublicCards()
     {
-        List<PublicObjectiveCard> randomCards = PublicObjectiveCard.getRandomCards(3);
+        publicCards = PublicObjectiveCard.getRandomCards(3);
 
         List<Card> modelCards = new ArrayList<>();
 
-        for(PublicObjectiveCard pubCard : randomCards)
+        for(PublicObjectiveCard pubCard : publicCards)
             modelCards.add(pubCard.generateCard());
 
         model.setPublicCards(modelCards);
@@ -516,7 +518,7 @@ public class Controller implements Observer<Event>
     {
         model.addLastDiceToRoundTrack();
 
-        if(model.getCurrentRound() < TOTAL_ROUNDS-1)
+        if(model.getCurrentRound() < 2)
         {
             try
             {
@@ -528,6 +530,13 @@ public class Controller implements Observer<Event>
 
             beginRound();
         }
+        else
+        {
+            score();
+            model.endGame();
+        }
+
+
     }
 
     /**
@@ -566,6 +575,22 @@ public class Controller implements Observer<Event>
     public boolean hasPlayerUsedToolCard()
     {
         return playerUsedToolCard;
+    }
+
+    public void score()
+    {
+        for(int i=0; i<model.getPlayers().size(); i++)
+        {
+            Player player = model.getPlayers().get(i);
+
+            for(int j=0; j<publicCards.size(); j++)
+            {
+                player.incrementScore(publicCards.get(j).score(player.getBoard()));
+            }
+
+            player.incrementPrivateScore();
+        }
+
     }
 }
 

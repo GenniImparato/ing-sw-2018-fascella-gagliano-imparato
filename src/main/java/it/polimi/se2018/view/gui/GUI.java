@@ -8,10 +8,7 @@ import it.polimi.se2018.view.gui.dialogs.GUIDrawDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIIncrementDieDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIOKDialog;
 import it.polimi.se2018.view.gui.dialogs.GUIYesNoDialog;
-import it.polimi.se2018.view.gui.views.GUIGameView;
-import it.polimi.se2018.view.gui.views.GUILobbyView;
-import it.polimi.se2018.view.gui.views.GUIMenuView;
-import it.polimi.se2018.view.gui.views.GUIView;
+import it.polimi.se2018.view.gui.views.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -292,6 +289,12 @@ public class GUI extends View
     {
         if(currentView!=null)
             showView(currentView);
+    }
+
+    @Override
+    public void showFinalScore()
+    {
+        showView(new GUIFinalScoreView(this));
     }
 
     @Override

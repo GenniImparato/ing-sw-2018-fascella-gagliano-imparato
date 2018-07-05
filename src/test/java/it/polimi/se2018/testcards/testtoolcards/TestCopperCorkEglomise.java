@@ -28,6 +28,8 @@ public class TestCopperCorkEglomise
     private View view;
     private Board board;
     private SagradaSchemeCardFile sagradaSchemeCardFile;
+    private SagradaSchemeCardFile secondSagradaSchemeCardFile;
+    private Board secondBoard;
     private int [] numCards;
 
     /**
@@ -46,19 +48,22 @@ public class TestCopperCorkEglomise
         model.attach(view);
 
         view.notify(new AddPlayerEvent(view, "Player1"));
-        view.notify(new PlayerReadyEvent(view, "Player1",true));
-        view.notify(new SelectSchemeCardEvent(view,"Player1",1));
-
         view.notify(new AddPlayerEvent(view, "Player2"));
-        view.notify(new PlayerReadyEvent(view, "Player2",true));
-        view.notify(new SelectSchemeCardEvent(view,"Player2",1));
 
+
+        view.notify(new PlayerReadyEvent(view, "Player1",true));
+        view.notify(new PlayerReadyEvent(view, "Player2",true));
+
+        view.notify(new SelectSchemeCardEvent(view,"Player1",1));
+        view.notify(new SelectSchemeCardEvent(view,"Player2",1));
 
 
         try                                             //try to open a known board
         {
             sagradaSchemeCardFile = new SagradaSchemeCardFile("resources/scheme_cards/Sun Catcher.sagradaschemecard");
             board = sagradaSchemeCardFile.generateBoard();
+
+
         }
         catch (Exception e)
         {
@@ -66,6 +71,9 @@ public class TestCopperCorkEglomise
         }
 
         model.getPlayers().get(0).setBoard(board);
+
+        assertTrue(model.isGameStarded());
+
 
         numCards = new int[3];
         
@@ -104,6 +112,8 @@ public class TestCopperCorkEglomise
 
         view.notify(new UseToolCardEvent(view, numCards[0]));           //use copper foil burnisher
 
+        assertEquals(numCards[0], model.getCurrentToolCardNumber());
+
         view.notify(new SelectDieFromBoardEvent(view,0,0));     //select a Die just added on the board
         view.notify(new MoveSelectedDieEvent(view, 0,2));       //and we add it in a position ignoring the value restriction
 
@@ -120,33 +130,42 @@ public class TestCopperCorkEglomise
     @Test
     public void useCorkBackedStraightedge()
     {
-        /*Die die = new Die(Color.RED);
-        die.setValue(4);
+        /*
+        Die die0 = new Die(Color.BLUE);
+
+        //System.out.println(die0.getValue());
+        //System.out.println(die0.getColor());
+        assertEquals(false, model.getPlayers().get(0).getBoard().getCell(0,0).getRestriction().isValue());
+        assertEquals(false, model.getPlayers().get(0).getBoard().getCell(0,0).getRestriction().isColor());
+
+        assertEquals(false, model.getPlayers().get(0).getBoard().getCell(2,0).getRestriction().isValue());
+        assertEquals(false, model.getPlayers().get(0).getBoard().getCell(2,0).getRestriction().isColor());
         try
         {
-            model.getPlayers().get(0).getBoard().addDie(die, 2,0,false,false,false);
+            model.getPlayers().get(0).getBoard().addDie(die0,0,0,false,false,false);
         }
         catch(ChangeModelStateException|ActionNotPossibleException e)
         {
-            fail();
+
         }
 
+        view.notify(new UseToolCardEvent(view, numCards[1]));
 
-        assertEquals(4, model.getPlayers().get(0).getBoard().getDie(2,0).getValue());
-
-        view.notify(new UseToolCardEvent(view, numCards[1]));           //use cork backed straightedge
         view.notify(new DraftDieEvent(view, 0));
-        int value = model.getDraftedDie().getValue();
-        System.out.println(value);
 
-        assertNotEquals(null, model.getDraftedDie());
+        Die die1 = model.getDraftedDie();
 
-        view.notify(new AddDieToBoardEvent(view, 0,0));     //add a die withouth respecting the adjacent restrictions
+        //System.out.println(die1.getValue());
+        //System.out.println(die1.getColor());
 
-        assertNotEquals(null, model.getPlayers().get(0).getBoard().getDie(0,0));
-        //assertEquals(value, model.getPlayers().get(0).getBoard().getDie(0,0).getValue());  */
+        view.notify(new AddDieToBoardEvent(view,3,3));
 
+        //System.out.println(model.getPlayers().get(0).getBoard().getDie(2,0).getValue());
+        //System.out.println(model.getPlayers().get(0).getBoard().getDie(2,0).getColor());
 
+        assertEquals(die1.getValue(), model.getPlayers().get(0).getBoard().getDie(3,3).getValue());
+
+        */
     }
 
     /**
@@ -173,6 +192,9 @@ public class TestCopperCorkEglomise
         view.notify(new UseToolCardEvent(view, numCards[2]));
 
         view.notify(new SelectDieFromBoardEvent(view,0,0));
+
+        assertEquals(model.getSelectedDie(), die);
+
         view.notify(new MoveSelectedDieEvent(view, 0,1));
 
         assertEquals(die.getValue(), model.getPlayers().get(0).getBoard().getDie(0,1).getValue());

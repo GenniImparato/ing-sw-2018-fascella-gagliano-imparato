@@ -1,6 +1,7 @@
 package it.polimi.se2018;
 import it.polimi.se2018.view.View;
 import it.polimi.se2018.view.gui.GUI;
+import it.polimi.se2018.view.gui.views.GUIFinalScoreView;
 
 
 public class App
@@ -11,6 +12,8 @@ public class App
         cli.start();*/
 
         View gui = new GUI();
+
+
 
 
     }

@@ -111,6 +111,12 @@ public class RMIClientServices implements RMIClientInterface
     }
 
     @Override
+    public void showFinalScore() throws RemoteException
+    {
+        handler.getView().showFinalScore();
+    }
+
+    @Override
     public void disconnect() throws RemoteException
     {
         handler.disconnect();
