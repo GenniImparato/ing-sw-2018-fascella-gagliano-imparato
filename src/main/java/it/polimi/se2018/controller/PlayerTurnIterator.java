@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class is used to manage the player turns.
+ */
 public class PlayerTurnIterator implements Iterator<Player>
 {
     private Controller                  controller;
@@ -16,13 +19,20 @@ public class PlayerTurnIterator implements Iterator<Player>
 
     private List<Integer>               turns ;                  //used to store the order of player's turns
 
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public PlayerTurnIterator(Controller controller)
     {
         this.controller = controller;
         turns = new ArrayList<>();
     }
 
-    //get the instance of the player that takes the turn next
+    /**
+     * Returns the instance of the player that takes the turn next
+     * @return instance of the player that takes the turn next
+     */
     public Player next()
     {
         Player ret=null;
@@ -47,24 +57,37 @@ public class PlayerTurnIterator implements Iterator<Player>
         return ret;
     }
 
-    //return true if there are still players on the queue
+    /**
+     * Returns true if there are still players on the queue
+     * @return true if there are still player on the queue, false otherwise
+     */
     public boolean hasNext()
     {
         return currentTurn < turns.size();
     }
 
-    //return the number of players in the model
+    /**
+     * Returns the number of players in the model
+     * @return number of the players in the model
+     */
     private int  getPlayerNum()
     {
         return controller.getModel().getPlayerNum();
     }
 
-    //return true if this is the last turn of the round
+    /**
+     * Returns true if this is the last turn of the round
+     * @return true if this is the last turn of the round, false otherwise
+     */
     public boolean isLastTurn()
     {
         return !hasNext();
     }
 
+    /**
+     * Tells if it's the second turn of the current player
+     * @return true if it's the second turn of the current player, false otherwise
+     */
     public boolean isCurrentPlayerSecondTurn()
     {
         int currentPlayer = turns.get(currentTurn-1);
@@ -77,6 +100,9 @@ public class PlayerTurnIterator implements Iterator<Player>
         return ret;
     }
 
+    /**
+     * Skips the current player second turn
+     */
     public void skipSecondPlayerTurn()
     {
         int currentPlayer = turns.get(currentTurn-1);
@@ -85,6 +111,7 @@ public class PlayerTurnIterator implements Iterator<Player>
             if(turns.get(i) == currentPlayer)
                 turns.remove(i);
     }
+
 
     private boolean isFirstNextCall()
     {
@@ -97,10 +124,10 @@ public class PlayerTurnIterator implements Iterator<Player>
             return false;
     }
 
-    //helper
-    //refresh the internal list with the correct queue of the players turns
-    //it's called at the beginning of the round
-    private void refreshPlayersTurns()
+    /**
+     * Refreshes the internal list with the correct queue of the players turns
+     */
+    private void refreshPlayersTurns()      //it's called at the beginning of the round
     {
         currentTurn = 0;
         turns.clear();
@@ -122,13 +149,17 @@ public class PlayerTurnIterator implements Iterator<Player>
             turns.add(iAnticlockwise);                       //add all the players to the turns list in anticlockwise mode
     }
 
-    //helper
+    /**
+     * Change the current turn
+     */
     private void incrementTurn()
     {
         currentTurn++;
     }
 
-    //helper
+    /**
+     * Change the first player of the round
+     */
     private void incrementFirstPlayer()
     {
         if(firstPlayer == getPlayerNum()-1)

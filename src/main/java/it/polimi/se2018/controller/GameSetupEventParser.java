@@ -8,15 +8,26 @@ import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.network.server.VirtualView;
 
+/**
+ * This class is used to represent the parser that parses the events when the game is setting up.
+ */
 public class GameSetupEventParser implements EventVisitor
 {
     private Controller controller;
 
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public GameSetupEventParser(Controller controller)
     {
         this.controller = controller;
     }
 
+    /**
+     * Parses the SelectSchemeCard event
+     * @param event SelectSchemeCard event to parse
+     */
     @Override
     public void visit(SelectSchemeCardEvent event)
     {
@@ -39,6 +50,10 @@ public class GameSetupEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the AddPlayer event
+     * @param event AddPlayer event to parse
+     */
     @Override
     public void visit(AddPlayerEvent event)
     {
@@ -47,6 +62,10 @@ public class GameSetupEventParser implements EventVisitor
         controller.getView().disconnect();
     }
 
+    /**
+     * Parses the ClientDisconnected event
+     * @param event ClientDisconnected event to parse
+     */
     @Override
     public void visit(ClientDisconnectedEvent event)
     {

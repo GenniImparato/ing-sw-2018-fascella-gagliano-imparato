@@ -5,11 +5,17 @@ import it.polimi.se2018.model.exceptions.ChangeModelStateException;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.network.server.VirtualView;
-
+/**
+ * This class is used to represent the parser that parses the events when the game is running.
+ */
 public class GameRunningEventParser implements EventVisitor
 {
     private Controller controller;
 
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public GameRunningEventParser(Controller controller)
     {
         this.controller = controller;
@@ -19,6 +25,10 @@ public class GameRunningEventParser implements EventVisitor
     public void visit(SelectSchemeCardEvent event) {
     }
 
+    /**
+     * Parses the AddPlayer event
+     * @param event AddPlayerEvent to parse
+     */
     @Override
     public void visit(AddPlayerEvent event)
     {
@@ -27,6 +37,10 @@ public class GameRunningEventParser implements EventVisitor
         controller.getView().disconnect();
     }
 
+    /**
+     * Parses the ClientDisconnected event
+     * @param event ClientDisconnectedEvent to parse
+     */
     @Override
     public void visit(ClientDisconnectedEvent event)
     {
@@ -50,6 +64,10 @@ public class GameRunningEventParser implements EventVisitor
 
     }
 
+    /**
+     * Parses the EndTurn event
+     * @param event EndTurnEvent to parse
+     */
     @Override
     public void visit(EndTurnEvent event) {
         controller.endPlayerTurn();
@@ -63,6 +81,10 @@ public class GameRunningEventParser implements EventVisitor
     public void visit(PlayerReadyEvent event) {
     }
 
+    /**
+     * Parses the DraftDie event
+     * @param event DraftDieEvent to parse
+     */
     @Override
     public void visit(DraftDieEvent event)
     {
@@ -86,6 +108,10 @@ public class GameRunningEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the AddDieToBoard event
+     * @param event AddDieToBoardEvent to parse
+     */
     @Override
     public void visit(AddDieToBoardEvent event) {
 
@@ -126,6 +152,10 @@ public class GameRunningEventParser implements EventVisitor
     {
     }
 
+    /**
+     * Parses the UseToolCard event
+     * @param event UseToolCardEvent to parse
+     */
     @Override
     public void visit(UseToolCardEvent event)
     {

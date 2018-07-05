@@ -11,6 +11,9 @@ import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Cell;
 import it.polimi.se2018.utils.Color;
 
+/**
+ * This class is used to manage the sagrada scheme cards files
+ */
 public class SagradaSchemeCardFile extends File
 {
     private int         difficulty;
@@ -18,6 +21,12 @@ public class SagradaSchemeCardFile extends File
     private Cell[][]    cellMatrix;
 
 
+    /**
+     * Constructor
+     * @param filename name of the file
+     * @throws InvalidFileException if the file is not valid
+     * @throws CannotReadFileException if the file cannot be read
+     */
     public SagradaSchemeCardFile(String filename) throws InvalidFileException, CannotReadFileException
     {
         super(filename);
@@ -30,7 +39,11 @@ public class SagradaSchemeCardFile extends File
         this. schemeName = getSchemeName(filename);
     }
 
-    //returns true if the file is valid, false if it's not
+    /**
+     * Checks if the file is valid
+     * @throws CannotReadFileException if the file cannot be read
+     * @throws InvalidFileException if the file is not vaild
+     */
     private void check() throws CannotReadFileException, InvalidFileException
     {
         try(Scanner scanner = new Scanner(this))
@@ -79,6 +92,10 @@ public class SagradaSchemeCardFile extends File
         }
     }
 
+    /**
+     * Reads the file
+     * @throws CannotReadFileException if file cannot be read
+     */
     private void read() throws CannotReadFileException
     {
         try (Scanner scanner = new Scanner(this ))
@@ -114,11 +131,20 @@ public class SagradaSchemeCardFile extends File
         }
     }
 
+    /**
+     * Returns the name of the scheme card
+     * @param  filename name of the file
+     * @return name of the scheme card
+     */
     private String getSchemeName(String filename)
     {
         return filename.replaceAll(".*[\\\\/]|\\.[^\\.]*$","");
     }
 
+    /**
+     * Returns the board generated (associated to a scheme card)
+     * @return board genereted (associated to a scheme card)
+     */
     public Board generateBoard()
     {
         return new Board(cellMatrix, schemeName, difficulty);
