@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This is the Model of the Game.
@@ -63,7 +64,7 @@ public class Model extends Observable <Message> implements Serializable
     public Model()
     {
         //init players array
-        players = new ArrayList<>();
+        players = new CopyOnWriteArrayList<>();
 
         //init dice bag, draft pool and round track
         diceBag = new DiceBag();
