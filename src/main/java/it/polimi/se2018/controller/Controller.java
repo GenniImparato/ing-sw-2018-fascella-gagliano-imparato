@@ -39,25 +39,27 @@ public class Controller implements Observer<Event>
     public  static final int            TOTAL_ROUNDS =                  10;
     public  static final int            MIN_PLAYERS =                   2;
 
-    private Model               model;
-    private ViewInterface       view;
+    private Model                       model;
+    private ViewInterface               view;
 
-    private EventVisitor        eventParser;
+    private EventVisitor                eventParser;
 
-    private PlayerTurnIterator  playerTurnIterator;
+    private PlayerTurnIterator          playerTurnIterator;
 
-    protected GameTimer         startTimer;
-    protected GameTimer         turnTimer;
+    protected GameTimer                 startTimer;
+    protected GameTimer                 turnTimer;
 
-    private List<ToolCard>      toolCards;
-    private ToolCard            currentToolCard;
+    private List<ToolCard>              toolCards;
+    private ToolCard                    currentToolCard;
 
-    private boolean             usingToolCard = false;
+    private List<PublicObjectiveCard>   publicCards;
 
-    private boolean             playerHasDrafted = false;
-    private boolean             playerUsedToolCard = false;
+    private boolean                     usingToolCard = false;
 
-    private int                 currentRound;
+    private boolean                     playerHasDrafted = false;
+    private boolean                     playerUsedToolCard = false;
+
+    private int                         currentRound;
 
 
     /**
@@ -263,11 +265,11 @@ public class Controller implements Observer<Event>
 
     private void selectRandomPublicCards()
     {
-        List<PublicObjectiveCard> randomCards = PublicObjectiveCard.getRandomCards(3);
+        publicCards = PublicObjectiveCard.getRandomCards(3);
 
         List<Card> modelCards = new ArrayList<>();
 
-        for(PublicObjectiveCard pubCard : randomCards)
+        for(PublicObjectiveCard pubCard : publicCards)
             modelCards.add(pubCard.generateCard());
 
         model.setPublicCards(modelCards);

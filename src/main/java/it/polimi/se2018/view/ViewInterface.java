@@ -23,6 +23,7 @@ public interface ViewInterface
      void showIncrementDie();
      void showSelectSameColorDie();
      void reShowCurrentView();
+     void showFinalScore();
 
      void disconnect();
 

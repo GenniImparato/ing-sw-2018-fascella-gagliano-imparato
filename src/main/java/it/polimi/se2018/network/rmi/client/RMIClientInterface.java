@@ -25,6 +25,7 @@ public interface RMIClientInterface extends Remote
     void reShowCurrentView()                throws RemoteException;
     void showSelectDieFromRoundTrack()      throws RemoteException;
     void showSelectSameColorDie()           throws RemoteException;
+    void showFinalScore()                   throws RemoteException;
 
     void disconnect()                       throws RemoteException;
 }
