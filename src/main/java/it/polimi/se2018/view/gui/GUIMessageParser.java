@@ -143,5 +143,16 @@ public class GUIMessageParser implements MessageVisitor
         gui.showNotification("Game starts in " + message.getTime() + " seconds!");
     }
 
+    @Override
+    public void visit(DisconnectedPlayerMessage message)
+    {
+        gui.reShowCurrentView();
+    }
+
+    @Override
+    public void visit(UpdatedTurnTimerMessage message)
+    {
+
+    }
 }
 

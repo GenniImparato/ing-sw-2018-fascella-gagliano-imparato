@@ -15,6 +15,7 @@ public class SocketClientRemover extends Thread
     {
         while(true)
         {
+            socketServer.checkActivePlayers();
             socketServer.checkClientConnections();
         }
     }

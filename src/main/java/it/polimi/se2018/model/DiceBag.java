@@ -66,4 +66,19 @@ public class DiceBag implements Serializable
 
         return ret;
     }
+
+    public Die drawDie()
+    {
+        Random random = new Random();
+        int index = random.nextInt(dice.size());
+        Die ret = dice.get(index);
+        dice.remove(index);
+
+        return ret;
+    }
+
+    public void returnDie(Die die)
+    {
+        dice.add(die);
+    }
 }

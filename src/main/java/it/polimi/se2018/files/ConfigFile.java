@@ -65,7 +65,8 @@ public class ConfigFile extends File
             {
                 if(scanner.next().equals(SERVER_TIMER))
                     serverTimer = scanner.nextInt();
-                else if(scanner.next().equals(TURN_TIMER))
+
+                if(scanner.next().equals(TURN_TIMER))
                     turnTimer = scanner.nextInt();
             }
         }

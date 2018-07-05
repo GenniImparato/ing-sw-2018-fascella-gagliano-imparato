@@ -31,6 +31,7 @@ public class NotificationMessageParser implements MessageVisitor
     private static final String         BEGUN_TURN_OTHER                    = " 's turn begun!";
     private static final String         MODIFIED_DIE_YOU                    = "Your changed a die to ";
     private static final String         MODIFIED_DIE_OTHER                  = " changed a die to ";
+    private static final String         DISCONNECTED                        = " has been disconnected from the game";
 
     private static final String         DIE_VALUE                           = " die with value ";
     private static final String         TO_THE_BOARD                        = " to the board!";
@@ -259,6 +260,22 @@ public class NotificationMessageParser implements MessageVisitor
 
     @Override
     public void visit(UpdatedStartTimerMessage message) {
+
+    }
+
+    @Override
+    public void visit(DisconnectedPlayerMessage message)
+    {
+        notification += view.getColorString(message.getPlayer().getColor())
+                + message.getPlayer().getNickname()
+                + view.getColorEndString()
+                + DISCONNECTED;
+
+        notification += "!";
+    }
+
+    @Override
+    public void visit(UpdatedTurnTimerMessage message) {
 
     }
 

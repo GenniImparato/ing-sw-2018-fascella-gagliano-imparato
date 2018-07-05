@@ -224,4 +224,13 @@ public class CLIMessageParser implements MessageVisitor
 
     }
 
+    @Override
+    public void visit(DisconnectedPlayerMessage message) {
+
+    }
+
+    @Override
+    public void visit(UpdatedTurnTimerMessage message) {
+
+    }
 }

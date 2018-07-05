@@ -36,6 +36,9 @@ public class PlayerTurnIterator implements Iterator<Player>
             refreshPlayersTurns();
         }
 
+        while(!controller.getModel().getPlayers().get(turns.get(currentTurn)).isActive())
+            currentTurn++;
+
         if(hasNext())
             ret = controller.getModel().getPlayers().get(turns.get(currentTurn));
 

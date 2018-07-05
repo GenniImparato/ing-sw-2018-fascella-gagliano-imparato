@@ -20,6 +20,7 @@ public interface RMIClientInterface extends Remote
     void showAddDie()                       throws RemoteException;
     void showSelectDieFromBoard()           throws RemoteException;
     void showMoveDie()                      throws RemoteException;
+    void showReDrawDie()                    throws RemoteException;
     void showIncrementDie()                 throws RemoteException;
     void reShowCurrentView()                throws RemoteException;
     void showSelectDieFromRoundTrack()      throws RemoteException;

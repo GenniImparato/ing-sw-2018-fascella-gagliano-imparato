@@ -123,8 +123,9 @@ public class SocketVirtualView extends VirtualView implements Runnable
     }
 
     @Override
-    public void showReDrawDie() {
-
+    public void showReDrawDie()
+    {
+        sendToClient(new NetworkMessage("showReDrawDie"));
     }
 
     @Override
@@ -142,13 +143,12 @@ public class SocketVirtualView extends VirtualView implements Runnable
     @Override
     public void showSelectSameColorDie()
     {
-            sendToClient(new NetworkMessage("showSelectSameColorDie"));
+        sendToClient(new NetworkMessage("showSelectSameColorDie"));
     }
 
     @Override
     public synchronized void reShowCurrentView()
     {
-
         sendToClient(new NetworkMessage("reShowCurrentView"));
     }
 

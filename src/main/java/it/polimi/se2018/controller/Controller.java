@@ -36,6 +36,7 @@ public class Controller implements Observer<Event>
     private static final String         CONFIG_FILE =                   "./resources/config.sagradaconfig";
     private static final int            MINIMUM_TOOL_CARDS_REQUIRED =   3 ;
     public  static final int            TOTAL_ROUNDS =                  10;
+    public  static final int            MIN_PLAYERS =                   2;
 
     private Model               model;
     private ViewInterface       view;
@@ -45,6 +46,7 @@ public class Controller implements Observer<Event>
     private PlayerTurnIterator  playerTurnIterator;
 
     protected GameTimer         startTimer;
+    protected GameTimer         turnTimer;
 
     private List<ToolCard>      toolCards;
     private ToolCard            currentToolCard;
@@ -93,6 +95,7 @@ public class Controller implements Observer<Event>
     public void update(Event event)
     {
         setView(event.getView());
+        turnTimer.reset();
         event.acceptVisitor(eventParser);
     }
 
@@ -216,6 +219,21 @@ public class Controller implements Observer<Event>
                     }
                 }
             };
+
+            turnTimer = new GameTimer(configFile.getTurnTimer())
+            {
+                @Override
+                public void timeUpdated()
+                {
+                    model.setTurnTimer(this.getTime());
+                    if(this.getTime() == 0)
+                    {
+                        model.setCurrentPlayerActive(false);
+                        turnTimer.stop();
+                        endPlayerTurn();
+                    }
+                }
+            };
         }
         catch(InvalidFileException|CannotReadFileException e)
         {
@@ -285,9 +303,12 @@ public class Controller implements Observer<Event>
 
     protected void startGameSetup() throws ChangeModelStateException
     {
-        startTimer.stop();
-        setEventParser(new GameSetupEventParser(this));
-        model.selectRandomSchemeCardsForPlayers();
+        if(getModel().getPlayerNum() >= MIN_PLAYERS)
+        {
+            startTimer.stop();
+            setEventParser(new GameSetupEventParser(this));
+            model.selectRandomSchemeCardsForPlayers();
+        }
     }
 
     protected void setPlayerReady(Player player, boolean ready)
@@ -299,6 +320,7 @@ public class Controller implements Observer<Event>
     {
         model.startGame();
         setEventParser(new GameRunningEventParser(this));
+        turnTimer.start();
         beginRound();
     }
 
@@ -373,6 +395,8 @@ public class Controller implements Observer<Event>
 
     protected void beginPlayerTurn()
     {
+        turnTimer.reset();
+        turnTimer.start();
         model.setCurrentPlayer(playerTurnIterator.next());
     }
 
