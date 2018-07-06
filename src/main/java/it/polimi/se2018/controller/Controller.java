@@ -59,8 +59,6 @@ public class Controller implements Observer<Event>
     private boolean                     playerHasDrafted = false;
     private boolean                     playerUsedToolCard = false;
 
-    private int                         currentRound;
-
 
     /**
      * Constructor that sets a default tool card directory
@@ -321,14 +319,21 @@ public class Controller implements Observer<Event>
         }
         else if(playerNum == 4)
         {
-            try
+            new Thread(new Runnable()
             {
-                startGameSetup();
-            }
-            catch(ChangeModelStateException e)
-            {
-                getView().showErrorMessage(e.getMessage());
-            }
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        startGameSetup();
+                    }
+                    catch(ChangeModelStateException e)
+                    {
+                        getView().showErrorMessage(e.getMessage());
+                    }
+                }
+            }).start();
         }
     }
 
