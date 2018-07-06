@@ -33,25 +33,24 @@ public class TestModel
      * and it has a dicebag, a draftpool and three Public Objective Cards
      */
     @Test
-    public void testBuilder()
+    public void testConstructor()
     {
         assertEquals(0, model.getPlayerNum());
         assertNotEquals(null, model.getDraftPool());
         assertNotEquals(null, model.getRoundTrack());
-        assertEquals(3, model.getPublicObjectiveCards().size());
     }
 
     /**
      * It tests the behaviour of a cloned model
      */
     @Test
-    public void testCloneBuilder()
+    public void testCloneConstructor()
     {
         assertEquals(model.getPlayerNum(), clonedModel.getPlayerNum());
         assertEquals(model.getDraftPool().getAllDice(), clonedModel.getDraftPool().getAllDice());
         assertEquals(model.getRoundTrack().getDiceAtRound(8), clonedModel.getRoundTrack().getDiceAtRound(8));
         assertEquals(model.getDiceBag().pullDice(5).size(), clonedModel.getDiceBag().pullDice(5).size());
-        assertEquals(model.getPublicObjectiveCards().size(), clonedModel.getPublicObjectiveCards().size());
+
     }
 
     /**
