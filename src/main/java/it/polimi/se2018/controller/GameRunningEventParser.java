@@ -87,10 +87,6 @@ public class GameRunningEventParser implements EventVisitor
     }
 
     @Override
-    public void visit(StartGameEvent event) {
-    }
-
-    @Override
     public void visit(PlayerReadyEvent event)
     {
     }

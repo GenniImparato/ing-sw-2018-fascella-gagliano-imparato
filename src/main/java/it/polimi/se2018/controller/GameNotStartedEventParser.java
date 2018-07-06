@@ -105,20 +105,6 @@ public class GameNotStartedEventParser implements EventVisitor
     {
     }
 
-    @Override
-    public void visit(StartGameEvent event)
-    {
-        try
-        {
-            controller.startGameSetup();
-        }
-        catch(ChangeModelStateException e)
-        {
-            controller.getView().showErrorMessage(e.getMessage());
-            System.exit(0);
-        }
-    }
-
     /**
      * Parses the PlayerReady event
      * @param event PlayerReadyEvent to parse

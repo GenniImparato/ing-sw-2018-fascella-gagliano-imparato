@@ -10,7 +10,6 @@ public interface EventVisitor
 {
     void visit(SelectSchemeCardEvent event);
     void visit(AddPlayerEvent event);
-    void visit(StartGameEvent event);
     void visit(PlayerReadyEvent event);
     void visit(DraftDieEvent event);
     void visit(SelectDieFromBoardEvent event);
