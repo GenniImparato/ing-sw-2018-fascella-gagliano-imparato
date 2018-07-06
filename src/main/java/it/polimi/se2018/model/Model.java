@@ -796,11 +796,6 @@ public class Model extends Observable <Message> implements Serializable
      * Getter of the 4 schemeCard that a player can choose
      * @return the array of the boards that the player can choose
      */
-    public List<Board> getSchemeCards()
-    {
-        return schemeCards;
-    }
-
     public void endGame()
     {
         notify(new EndGameMessage(this));

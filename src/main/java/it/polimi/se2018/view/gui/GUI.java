@@ -13,6 +13,9 @@ import it.polimi.se2018.view.gui.views.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class used to represent the GUI. This class contains overridden methods that call the showView() to show a particular view.
+ */
 public class GUI extends View
 {
     private transient GUIView                   currentView;
@@ -23,6 +26,9 @@ public class GUI extends View
     private transient JPanel                    glassPanel;
     private transient GUI                       thisElement;
 
+    /**
+     * Constructor. Creates the main window and sets the GUI Message Parser
+     */
     public GUI()
     {
         thisElement = this;
@@ -73,6 +79,9 @@ public class GUI extends View
         mainWindow.pack();
     }
 
+    /**
+     * Refreshes the main window
+     */
     public void refresh()
     {
         glassPanel.validate();
@@ -83,6 +92,10 @@ public class GUI extends View
         mainWindow.repaint();
     }
 
+    /**
+     * Show a view
+     * @param view
+     */
     public void showView(GUIView view)
     {
         this.currentView = view;

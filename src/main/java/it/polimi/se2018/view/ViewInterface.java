@@ -4,6 +4,9 @@ import it.polimi.se2018.mvc_comunication.Message;
 
 import java.util.Observer;
 
+/**
+ * Methods of this interface will show a view to the player
+ */
 public interface ViewInterface
 {
      void start();
