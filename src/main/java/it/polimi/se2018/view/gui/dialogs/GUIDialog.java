@@ -13,4 +13,10 @@ public abstract class GUIDialog extends JDialog
         super(gui.getMainWindow(), title, ModalityType.DOCUMENT_MODAL);
         this.gui = gui;
     }
+
+    public GUIDialog(String title)
+    {
+        super(null, title, ModalityType.DOCUMENT_MODAL);
+        this.gui = gui;
+    }
 }

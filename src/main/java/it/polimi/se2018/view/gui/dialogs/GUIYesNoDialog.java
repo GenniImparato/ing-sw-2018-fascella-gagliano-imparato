@@ -23,9 +23,21 @@ public class GUIYesNoDialog extends GUIDialog
         create(gui, message, YES_ICON_PATH, NO_ICON_PATH);
     }
 
+    public GUIYesNoDialog(String title, String message)
+    {
+        super(title);
+        create(gui, message, YES_ICON_PATH, NO_ICON_PATH);
+    }
+
     public GUIYesNoDialog(GUI gui, String title, String message, String yesIconPath, String noIconPath)
     {
         super(gui, title);
+        create(gui, message, yesIconPath, noIconPath);
+    }
+
+    public GUIYesNoDialog(String title, String message, String yesIconPath, String noIconPath)
+    {
+        super(title);
         create(gui, message, yesIconPath, noIconPath);
     }
 
@@ -100,7 +112,10 @@ public class GUIYesNoDialog extends GUIDialog
 
         validate();
         pack();
-        setLocationRelativeTo(gui.getMainWindow());
+        if(gui!= null)
+            setLocationRelativeTo(gui.getMainWindow());
+        else
+            setLocationRelativeTo(null);
         setVisible(true);
     }
 

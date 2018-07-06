@@ -21,8 +21,9 @@ public class CLIAddDieView extends CLIView
 
         Die draftedDie = cli.getModel().getDraftedDie();
 
-        cli.showMessage("Drafted die: (" + draftedDie.getColor().getConsoleString() + draftedDie.getColor() + Color.getResetConsoleString()
-                        + ", " + draftedDie.getValue() + ").");
+        if(draftedDie != null)
+            cli.showMessage("Drafted die: (" + draftedDie.getColor().getConsoleString() + draftedDie.getColor() + Color.getResetConsoleString()
+                            + ", " + draftedDie.getValue() + ").");
         cli.showMessage("Choose in which cell to add the die: ");
 
         cli.readInputFromUser();

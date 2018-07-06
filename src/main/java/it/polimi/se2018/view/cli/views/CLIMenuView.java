@@ -15,11 +15,13 @@ public class CLIMenuView extends CLIView
     {
         ASK_SERVER_CLIENT,
         ASK_CONNECTION_TYPE,
+        ASK_IP,
         ASK_NICKNAME
     }
 
     private CLIMenuState    state;
     private boolean         connectionType;
+    private String          ip;
 
     public CLIMenuView(CLI cli)
     {
@@ -41,6 +43,12 @@ public class CLIMenuView extends CLIView
             cli.showMessage("Select connection type:");
             cli.showMessage("1) Socket:");
             cli.showMessage("2) RMI:");
+
+            cli.readInputFromUser();
+        }
+        else if(state == CLIMenuState.ASK_IP)
+        {
+            cli.showMessage("Insert IP of the Server:");
 
             cli.readInputFromUser();
         }
@@ -84,13 +92,13 @@ public class CLIMenuView extends CLIView
         {
             if(input.equals("1"))
             {
-                state = CLIMenuState.ASK_NICKNAME;
+                state = CLIMenuState.ASK_IP;
                 connectionType = true;
                 cli.reShowCurrentView();
             }
             else if(input.equals("2"))
             {
-                state = CLIMenuState.ASK_NICKNAME;
+                state = CLIMenuState.ASK_IP;
                 connectionType = false;
                 cli.reShowCurrentView();
             }
@@ -100,6 +108,13 @@ public class CLIMenuView extends CLIView
                 cli.reShowCurrentView();
             }
         }
+        else if(state == CLIMenuState.ASK_IP)
+        {
+            state = CLIMenuState.ASK_NICKNAME;
+            ip = input;
+            cli.reShowCurrentView();
+        }
+
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.setAssociatedPlayerNickname(input);
@@ -107,9 +122,9 @@ public class CLIMenuView extends CLIView
             try
             {
                 if (connectionType)
-                    new SocketNetworkHandler("localhost", cli);
+                    new SocketNetworkHandler(ip, cli);
                 else
-                    new RMINetworkHandler("localhost", cli);
+                    new RMINetworkHandler(ip, cli);
             }
             catch(CannotConnectToServerException e)
             {

@@ -27,6 +27,7 @@ public class CLI extends View
     {
         parser = new CLIMessageParser(this);
         scanner = new Scanner(System.in);
+        start();
     }
 
     @Override
@@ -57,6 +58,9 @@ public class CLI extends View
     public void update(Message message)
     {
         setModel(message.getModel());
+
+        new NotificationMessageParser(message, this).showNotification();
+
         message.acceptVisitor(parser);
     }
 
