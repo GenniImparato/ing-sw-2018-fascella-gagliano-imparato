@@ -29,4 +29,5 @@ public interface MessageVisitor
     void visit(DisconnectedPlayerMessage message);
     void visit(UpdatedTurnTimerMessage message);
     void visit(EndGameMessage message);
+    void visit(ReconnectedPlayerMessage message);
 }

@@ -36,6 +36,7 @@ public class GUIRoundTrackPopup
 
     public void hide()
     {
-        popup.hide();
+        if(popup!=null)
+            popup.hide();
     }
 }

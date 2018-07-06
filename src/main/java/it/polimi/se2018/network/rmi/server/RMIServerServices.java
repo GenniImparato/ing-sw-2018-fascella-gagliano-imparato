@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.rmi.server;
 
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.mvc_comunication.Event;
 import it.polimi.se2018.mvc_comunication.events.AddPlayerEvent;
 import it.polimi.se2018.mvc_comunication.events.ClientDisconnectedEvent;
@@ -51,6 +52,8 @@ public class RMIServerServices extends UnicastRemoteObject implements RMIServerI
 
         clients.remove(removedClientIndex);
         virtualClients.remove(removedClientIndex);
+
+        System.out.println("Removed");
     }
 
     @Override
@@ -67,6 +70,21 @@ public class RMIServerServices extends UnicastRemoteObject implements RMIServerI
                 vView.setAssociatedNickname(((AddPlayerEvent)event).getNickname());
 
             vView.notify(event);
+        }
+    }
+
+    @Override
+    public synchronized void checkActivePlayers() throws RemoteException
+    {
+        for(VirtualView virtualClient : virtualClients)
+        {
+            for(Player player: server.getModel().getPlayers())
+            {
+                if(virtualClient.getAssociatedNickname() != null
+                        &&     !player.isActive()
+                        &&     player.getNickname().equals(virtualClient.getAssociatedNickname()))
+                    virtualClient.disconnect();
+            }
         }
     }
 }

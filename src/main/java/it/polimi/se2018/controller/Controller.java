@@ -449,8 +449,6 @@ public class Controller implements Observer<Event>
             score();
             model.endGame();
         }
-
-
     }
 
     protected ToolCardParameters getCurrentToolCardParameters()

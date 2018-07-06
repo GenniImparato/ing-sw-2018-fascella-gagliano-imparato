@@ -284,6 +284,18 @@ public class NotificationMessageParser implements MessageVisitor
 
     }
 
+    @Override
+    public void visit(ReconnectedPlayerMessage message)
+    {
+        if(message.getPlayer().getNickname().equals(view.getAssociatedPlayerNickname()))
+            notification += ADDED_PLAYER_YOU;
+        else
+            notification += view.getColorString(message.getPlayer().getColor())
+                    + message.getPlayer().getNickname()
+                    + view.getColorEndString()
+                    + ADDED_PLAYER_OTHER;
+    }
+
     public void showNotification()
     {
         if(!notification.equals(view.getStartNotificationString()+view.getEndNotificationString()))

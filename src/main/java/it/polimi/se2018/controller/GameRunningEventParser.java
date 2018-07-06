@@ -1,7 +1,9 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.exceptions.ActionNotPossibleException;
 import it.polimi.se2018.model.exceptions.ChangeModelStateException;
+import it.polimi.se2018.model.exceptions.NoElementException;
 import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.network.server.VirtualView;
@@ -22,9 +24,18 @@ public class GameRunningEventParser implements EventVisitor
     @Override
     public void visit(AddPlayerEvent event)
     {
-        controller.getView().showErrorMessage("Cannot join the game: already started! ");
-        controller.getView().showErrorMessage("Disconnected from the Server!");
-        controller.getView().disconnect();
+        try
+        {
+            Player player = controller.getModel().findPlayer(event.getNickname());
+            controller.getModel().setPlayerActive(player, true);
+
+        }
+        catch(NoElementException e)
+        {
+            controller.getView().showErrorMessage("Cannot join the game: already started! ");
+            controller.getView().showErrorMessage("Disconnected from the Server!");
+            controller.getView().disconnect();
+        }
     }
 
     @Override
@@ -41,12 +52,14 @@ public class GameRunningEventParser implements EventVisitor
     }
 
     @Override
-    public void visit(SelectSameColorDieEvent event) {
+    public void visit(SelectSameColorDieEvent event)
+    {
 
     }
 
     @Override
-    public void visit(ChooseDieEvent event) {
+    public void visit(ChooseDieEvent event)
+    {
 
     }
 
@@ -60,7 +73,8 @@ public class GameRunningEventParser implements EventVisitor
     }
 
     @Override
-    public void visit(PlayerReadyEvent event) {
+    public void visit(PlayerReadyEvent event)
+    {
     }
 
     @Override

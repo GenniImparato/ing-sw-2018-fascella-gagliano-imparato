@@ -160,5 +160,23 @@ public class GUIMessageParser implements MessageVisitor
     {
         gui.showFinalScore();
     }
+
+    @Override
+    public void visit(ReconnectedPlayerMessage message)
+    {
+        if(message.getPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+        {
+            gui.showView(new GUIGameView(gui));
+            gui.getMainWindow().pack();
+            gui.getMainWindow().setLocationRelativeTo(null);
+
+            if (gui.getModel().getCurrentPlayer().getNickname().equals(gui.getAssociatedPlayerNickname()))
+                gui.showTurn();
+            else
+                gui.showOtherPlayersTurn();
+        }
+        else
+            gui.reShowCurrentView();
+    }
 }
 

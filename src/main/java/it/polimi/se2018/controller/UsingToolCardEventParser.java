@@ -29,12 +29,14 @@ public class UsingToolCardEventParser implements EventVisitor
     {
         try
         {
-            controller.addNewPlayer(event.getNickname());
-            controller.getView().showLobby();
+            Player player = controller.getModel().findPlayer(event.getNickname());
+            controller.getModel().setPlayerActive(player, true);
+
         }
-        catch(ChangeModelStateException e)
+        catch(NoElementException e)
         {
-            controller.getView().showErrorMessage("Disconnected from the Server: " +e.getMessage());
+            controller.getView().showErrorMessage("Cannot join the game: already started! ");
+            controller.getView().showErrorMessage("Disconnected from the Server!");
             controller.getView().disconnect();
         }
     }

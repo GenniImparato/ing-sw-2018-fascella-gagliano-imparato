@@ -555,6 +555,19 @@ public class Model extends Observable <Message> implements Serializable
 
         if(!active)
             notify(new DisconnectedPlayerMessage(this, currentPlayer));
+        else
+            notify(new ReconnectedPlayerMessage(this, currentPlayer));
+
+    }
+
+    public void setPlayerActive(Player player, boolean active)
+    {
+        player.setActive(active);
+
+        if(!active)
+            notify(new DisconnectedPlayerMessage(this, player));
+        else
+            notify(new ReconnectedPlayerMessage(this, player));
     }
 
     public void setStartTimer(int timer)

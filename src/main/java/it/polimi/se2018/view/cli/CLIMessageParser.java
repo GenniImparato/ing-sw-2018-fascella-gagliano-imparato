@@ -238,4 +238,9 @@ public class CLIMessageParser implements MessageVisitor
     public void visit(EndGameMessage message) {
 
     }
+
+    @Override
+    public void visit(ReconnectedPlayerMessage message) {
+
+    }
 }

@@ -12,4 +12,5 @@ public interface RMIServerInterface extends Remote
     void addClient(RMIClientInterface client) throws RemoteException;
     void removeClient(RMIClientInterface client) throws RemoteException;
     void notifyController(RMIClientInterface client, Event event) throws RemoteException;
+    void checkActivePlayers() throws RemoteException;
 }

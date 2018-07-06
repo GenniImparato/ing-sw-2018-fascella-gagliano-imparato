@@ -17,6 +17,13 @@ public class SocketClientRemover extends Thread
         {
             socketServer.checkActivePlayers();
             socketServer.checkClientConnections();
+
+            try
+            {
+                Thread.sleep(200);
+            }
+            catch (InterruptedException e)
+            {}
         }
     }
 }

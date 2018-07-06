@@ -64,7 +64,6 @@ public class GUIMenuView extends GUIView
             public void actionPerformed(ActionEvent e)
             {
                 gui.showView(new GUIConnectionView(gui, true));
-
             }
 
         });

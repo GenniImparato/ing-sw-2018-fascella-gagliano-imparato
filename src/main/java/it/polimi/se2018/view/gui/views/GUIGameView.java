@@ -329,6 +329,7 @@ public class GUIGameView extends GUIView
 
     public void setOtherPlayersMode()
     {
+        disableAllSelections();
         actionLabel.setText("");
         endTurnButton.setEnabled(false);
 

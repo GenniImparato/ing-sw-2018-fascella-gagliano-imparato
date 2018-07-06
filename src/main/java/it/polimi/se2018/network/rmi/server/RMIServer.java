@@ -11,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 public class RMIServer
 {
     private Server server;
+    RMIServerInterface serverServices;
 
     private static final int PORT = 1099;
 
@@ -29,7 +30,8 @@ public class RMIServer
 
         try
         {
-            Naming.rebind("//localhost/RMIServer", new RMIServerServices(server));
+            serverServices = new RMIServerServices(server);
+            Naming.rebind("//localhost/RMIServer", serverServices);
 
         }
         catch (MalformedURLException e)
@@ -41,6 +43,20 @@ public class RMIServer
             throw new CannotCreateServerException(e.getMessage());
         }
 
+        new RMIClientRemover(this);
+    }
+
+
+    public void checkActivePlayers()
+    {
+        try
+        {
+            serverServices.checkActivePlayers();
+        }
+        catch(RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
