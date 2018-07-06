@@ -800,4 +800,9 @@ public class Model extends Observable <Message> implements Serializable
     {
         notify(new EndGameMessage(this));
     }
+
+    public List<Board> getSchemeCards()
+   {
+       return schemeCards;
+     }
 }
