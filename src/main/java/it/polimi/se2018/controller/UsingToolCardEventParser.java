@@ -10,20 +10,32 @@ import it.polimi.se2018.mvc_comunication.EventVisitor;
 import it.polimi.se2018.mvc_comunication.events.*;
 import it.polimi.se2018.network.server.VirtualView;
 
+/**
+ * This class is used to represent the parser that parses the event when a player is using a tool card.
+ */
 public class UsingToolCardEventParser implements EventVisitor
 {
     private Controller controller;
 
+    /**
+     * Constructor
+     * @param controller controller
+     */
     public UsingToolCardEventParser(Controller controller)
     {
         this.controller = controller;
     }
+
 
     @Override
     public void visit(SelectSchemeCardEvent event)
     {
     }
 
+    /**
+     * Parses the AddPlayer event
+     * @param event AddPlayerEvent that needs to be parsed
+     */
     @Override
     public void visit(AddPlayerEvent event)
     {
@@ -41,6 +53,10 @@ public class UsingToolCardEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses ClientDisconnected event
+     * @param event ClientDisconnectedEvent that needs to be parsed
+     */
     @Override
     public void visit(ClientDisconnectedEvent event)
     {
@@ -55,6 +71,10 @@ public class UsingToolCardEventParser implements EventVisitor
 
     }
 
+    /**
+     * Parses the SelectSameColorDie event
+     * @param event SelectSameColorDieEvent that needs to be parsed
+     */
     @Override
     public void visit(SelectSameColorDieEvent event)
     {
@@ -70,6 +90,10 @@ public class UsingToolCardEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the ChooseDie event
+     * @param event ChooseDieEvent that needs to be parsed
+     */
     @Override
     public void visit(ChooseDieEvent event)
     {
@@ -84,6 +108,7 @@ public class UsingToolCardEventParser implements EventVisitor
             controller.getView().reShowCurrentView();
         }
     }
+
 
     @Override
     public void visit(EndTurnEvent event)
@@ -100,6 +125,10 @@ public class UsingToolCardEventParser implements EventVisitor
     {
     }
 
+    /**
+     * Parses the DraftDie event
+     * @param event DraftDieEvent that needs to be parsed
+     */
     @Override
     public void visit(DraftDieEvent event)
     {
@@ -115,6 +144,10 @@ public class UsingToolCardEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the AddDieToBoard event
+     * @param event AddDieToBoardEvent that needs to be parsed
+     */
     @Override
     public void visit(AddDieToBoardEvent event)
     {
@@ -145,6 +178,10 @@ public class UsingToolCardEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the MoveSelectedDie event
+     * @param event MoveSelectedDieEvent that needs to be parsed
+     */
     @Override
     public void visit(MoveSelectedDieEvent event)
     {
@@ -161,6 +198,10 @@ public class UsingToolCardEventParser implements EventVisitor
         }
     }
 
+    /**
+     * Parses the SelectDieFromBoard event
+     * @param event SelectDieFromBoardEvent that needs to be parsed
+     */
     @Override
     public void visit(SelectDieFromBoardEvent event)
     {
@@ -182,6 +223,10 @@ public class UsingToolCardEventParser implements EventVisitor
 
     }
 
+    /**
+     * Parsesthe IncrementDraftedDieEvent
+     * @param event IncrementDraftedDieEvent that needs to be parsed
+     */
     @Override
     public void visit(IncrementDraftedDieEvent event)
     {

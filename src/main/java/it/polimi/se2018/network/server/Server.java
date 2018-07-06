@@ -9,6 +9,9 @@ import it.polimi.se2018.network.socket.server.SocketServer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * This is the class to represent the server of the game.
+ */
 public class Server
 {
     private SocketServer    socketServer;
@@ -18,6 +21,10 @@ public class Server
     private Controller      controller;
 
 
+    /**
+     * Constructor that creates a Server that can handle socket and rmi connections; creates the model and the controller
+     * @throws CannotCreateServerException if the server has already been created
+     */
     public Server() throws CannotCreateServerException
     {
         socketServer = new SocketServer(this);
@@ -26,14 +33,26 @@ public class Server
         controller = new Controller(model);
     }
 
+    /**
+     * Returns the model
+     * @return current model
+     */
     public Model getModel() {
         return model;
     }
 
+    /**
+     * Returns the controller
+     * @return controller
+     */
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * Returns the IP of the server
+     * @return IP of the server
+     */
     public String getIP()
     {
         try

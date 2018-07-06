@@ -8,6 +8,9 @@ import it.polimi.se2018.view.ViewInterface;
  */
 import java.io.Serializable;
 
+/**
+ * Class used to represent a generic event
+ */
 public abstract class Event implements EventVisitable, Serializable
 {
     private ViewInterface    view;

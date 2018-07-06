@@ -38,8 +38,7 @@ public class Player implements Serializable
         this.schemeCardIndices = new int[4];
         this.ready = false;
         this.active = true;
-
-        this.score= new Random().nextInt(100);
+        this.score=0;
 
         card = new PrivateObjectiveCard(Color.getRandomColor());
         board = new Board();

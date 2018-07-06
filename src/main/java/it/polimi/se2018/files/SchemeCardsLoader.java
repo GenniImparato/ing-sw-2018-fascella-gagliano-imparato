@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to load the scheme cards from file
+ */
 public class SchemeCardsLoader
 {
     private String          directoryPath;
@@ -18,6 +21,12 @@ public class SchemeCardsLoader
     private List<String>    schemeCardFileNames;
     private List<Board>     generatedBoards;
 
+    /**
+     * Constructor.
+     * @param directoryPath path of the directory of the files
+     * @param logger logger
+     * @throws LoadingFilesException if files cannot be loaded
+     */
     public SchemeCardsLoader(String directoryPath, Logger logger) throws LoadingFilesException
     {
         schemeCardFileNames = new ArrayList<>();
@@ -42,6 +51,10 @@ public class SchemeCardsLoader
         logger.logMessage("Generated " + generatedBoards.size() + " scheme boards.");
     }
 
+    /**
+     * Finds all the files in a directory
+     * @throws LoadingFilesException if files cannot be loaded
+     */
     private void findAllFilesInDirectory() throws LoadingFilesException
     {
         File directory = new File(directoryPath);
@@ -66,6 +79,9 @@ public class SchemeCardsLoader
         }
     }
 
+    /**
+     * Read all files that are found in the directory
+     */
     private void readAllFiles()
     {
         for(String filename : schemeCardFileNames)
@@ -99,6 +115,11 @@ public class SchemeCardsLoader
         }
     }
 
+    /**
+     * Tells if a file has a sagradaschemecard extension
+     * @param filename name of the file
+     * @return true if it's a sagradaschemecard file, false otherwise
+     */
     private boolean isSagradaSchemeCardFile(String filename)
     {
         String extension = "";
@@ -110,6 +131,10 @@ public class SchemeCardsLoader
         return extension.equals("sagradaschemecard");
     }
 
+    /**
+     * Return the list of scheme cards
+     * @return list of scheme cards
+     */
     public List<Board> getGeneratedBoards()
     {
         List<Board> retBoards = new ArrayList<>();
