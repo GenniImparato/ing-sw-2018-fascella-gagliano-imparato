@@ -518,7 +518,7 @@ public class Controller implements Observer<Event>
     {
         model.addLastDiceToRoundTrack();
 
-        if(model.getCurrentRound() < 2)
+        if(model.getCurrentRound() < TOTAL_ROUNDS-1)
         {
             try
             {
@@ -588,7 +588,7 @@ public class Controller implements Observer<Event>
                 player.incrementScore(publicCards.get(j).score(player.getBoard()));
             }
 
-            player.incrementPrivateScore();
+            //player.incrementPrivateScore();
         }
 
     }
