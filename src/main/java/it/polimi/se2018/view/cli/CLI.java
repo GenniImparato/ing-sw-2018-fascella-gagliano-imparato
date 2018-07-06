@@ -238,8 +238,9 @@ public class CLI extends View
     }
 
     @Override
-    public void showFinalScore() {
-
+    public void showFinalScore()
+    {
+        showView(new CLIFinalScoreView(this));
     }
 
     @Override

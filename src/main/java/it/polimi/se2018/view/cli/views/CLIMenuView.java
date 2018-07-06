@@ -114,7 +114,6 @@ public class CLIMenuView extends CLIView
             ip = input;
             cli.reShowCurrentView();
         }
-
         else if(state == CLIMenuState.ASK_NICKNAME)
         {
             cli.setAssociatedPlayerNickname(input);

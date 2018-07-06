@@ -38,7 +38,7 @@ public class CLIMessageParser implements MessageVisitor
     @Override
     public void visit(RemovedPlayerMessage message)
     {
-
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -47,8 +47,9 @@ public class CLIMessageParser implements MessageVisitor
     }
 
     @Override
-    public void visit(PlayerReadyMessage message) {
-
+    public void visit(PlayerReadyMessage message)
+    {
+        cli.reShowCurrentView();
     }
 
     @Override
@@ -145,7 +146,7 @@ public class CLIMessageParser implements MessageVisitor
     @Override
     public void visit(EndGameMessage message)
     {
-
+        cli.showFinalScore();
     }
 
     @Override

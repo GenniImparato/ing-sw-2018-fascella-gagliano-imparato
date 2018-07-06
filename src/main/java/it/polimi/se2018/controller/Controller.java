@@ -518,7 +518,7 @@ public class Controller implements Observer<Event>
     {
         model.addLastDiceToRoundTrack();
 
-        if(model.getCurrentRound() < TOTAL_ROUNDS-1)
+        if(model.getCurrentRound() < 2)
         {
             try
             {
