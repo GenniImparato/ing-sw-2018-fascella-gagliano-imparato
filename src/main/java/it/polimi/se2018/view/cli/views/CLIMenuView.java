@@ -125,14 +125,14 @@ public class CLIMenuView extends CLIView
                     new SocketNetworkHandler(ip, cli);
                 else
                     new RMINetworkHandler(ip, cli);
+
+                cli.notify(new AddPlayerEvent(cli, input));
             }
             catch(CannotConnectToServerException e)
             {
                 cli.showErrorMessage("Cannot connect to Server: " + e.getMessage());
                 state = CLIMenuState.ASK_SERVER_CLIENT;
             }
-
-            cli.notify(new AddPlayerEvent(cli, input));
         }
     }
 }
