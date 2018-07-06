@@ -57,9 +57,9 @@ public class GameRunningEventParser implements EventVisitor
     {
         try
         {
-            controller.removePlayer(event.getNickname());
+            controller.getModel().setPlayerActive(controller.getModel().findPlayer(event.getNickname()), false);
         }
-        catch (ChangeModelStateException e)
+        catch (NoElementException e)
         {
         }
 

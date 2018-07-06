@@ -12,13 +12,13 @@ import it.polimi.se2018.utils.Observer;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class SocketVirtualView extends VirtualView implements Runnable
 {
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private String associatedNickname;
 
     public SocketVirtualView(Socket clientSocket)
     {
@@ -52,7 +52,8 @@ public class SocketVirtualView extends VirtualView implements Runnable
         }
         catch(IOException|ClassNotFoundException e)
         {
-            e.printStackTrace();
+            connected = false;
+            notify(new ClientDisconnectedEvent(this, getAssociatedNickname()));
         }
     }
 
@@ -167,7 +168,7 @@ public class SocketVirtualView extends VirtualView implements Runnable
         }
         catch(IOException e)
         {
-            notify(new ClientDisconnectedEvent(this, associatedNickname));
+            connected = false;
         }
     }
 
@@ -199,6 +200,6 @@ public class SocketVirtualView extends VirtualView implements Runnable
     {
         connected = false;
         sendToClient(new NetworkMessage()); //send a disconnect message
-        notify(new ClientDisconnectedEvent(this, associatedNickname));
+        notify(new ClientDisconnectedEvent(this, getAssociatedNickname()));
     }
 }

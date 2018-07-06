@@ -73,7 +73,10 @@ public class SocketNetworkHandler extends NetworkHandler implements Runnable
                 NetworkMessage message = (NetworkMessage)in.readObject();
                 messageAnalyzer.analyzeMessage(message);
             }
-            catch (IOException|ClassNotFoundException e) {e.printStackTrace();}
+            catch (IOException|ClassNotFoundException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
